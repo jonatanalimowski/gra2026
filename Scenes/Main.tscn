@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://33vtsvg72ngb"]
+
+[ext_resource type="PackedScene" uid="uid://c2ooxaoermteu" path="res://Scenes/Player.tscn" id="2_kln2b"]
+[ext_resource type="Script" uid="uid://bvn42en1efted" path="res://Scripts/Misc/tempcamerascript.gd" id="4_pbw6q"]
+[ext_resource type="PackedScene" uid="uid://dtwdf4gml8oue" path="res://Scenes/UI.tscn" id="4_rgh2o"]
+[ext_resource type="PackedScene" uid="uid://ceweqec6x6pa" path="res://Scenes/BaseScenes/enemy_entity.tscn" id="5_pbw6q"]
+[ext_resource type="PackedScene" uid="uid://dd2dj60ofxu8y" path="res://Scenes/World/DungeonGenerator.tscn" id="7_jw32o"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Node" parent="." instance=ExtResource("7_jw32o")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" parent="CanvasLayer" instance=ExtResource("4_rgh2o")]
+offset_left = 1.0
+offset_top = -2.0
+offset_right = 1.0
+offset_bottom = -2.0
+
+[node name="Player" parent="." instance=ExtResource("2_kln2b")]
+position = Vector2(117, 66)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(0.2, 0.2)
+position_smoothing_enabled = true
+script = ExtResource("4_pbw6q")
+
+[node name="EnemyEntity" parent="." instance=ExtResource("5_pbw6q")]
+position = Vector2(258, 71)

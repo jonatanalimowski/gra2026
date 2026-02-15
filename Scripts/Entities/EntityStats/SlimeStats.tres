@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="EntityStats" load_steps=2 format=3 uid="uid://bxrici3518kl3"]
+
+[ext_resource type="Script" uid="uid://df20v0kdtj1rb" path="res://Scripts/Resources/EntityStats.gd" id="1_yncv2"]
+
+[resource]
+script = ExtResource("1_yncv2")
+movement_speed = 50.0
+attack_damage = 25.0
+metadata/_custom_type_script = "uid://df20v0kdtj1rb"

@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dktr26lveugty"]
+
+[ext_resource type="Script" uid="uid://chch4q7tclhk4" path="res://Scripts/Misc/ConnectorLocator.gd" id="1_asnag"]
+[ext_resource type="TileSet" uid="uid://d0cbsuev84gt8" path="res://Scripts/Resources/TileMap.tres" id="2_32n08"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_asnag")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 4, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 4, 0, 0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 4, 0, 0, 0, 2, 0, 0, 0, 0, 0, 1, 0, 4, 0, 0, 0)
+tile_set = ExtResource("2_32n08")
+
+[node name="UpConnector" type="Marker2D" parent="."]
+position = Vector2(32, 16)

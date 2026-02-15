@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="RoomData" load_steps=3 format=3 uid="uid://ckgxesttsjdmf"]
+
+[ext_resource type="PackedScene" uid="uid://bd637dr3fya3k" path="res://Scenes/World/RoomScenes/Room06.tscn" id="1_16uw6"]
+[ext_resource type="Script" uid="uid://bunwvwvryinco" path="res://Scripts/Resources/RoomData.gd" id="1_j1yq7"]
+
+[resource]
+script = ExtResource("1_j1yq7")
+room_scene = ExtResource("1_16uw6")
+has_right_connector = true
+is_dead_end = true
+metadata/_custom_type_script = "uid://bunwvwvryinco"

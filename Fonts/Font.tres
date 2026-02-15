@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://d2g2pr66fmdmk"]
+
+[ext_resource type="FontFile" uid="uid://dv16al0h2pcxi" path="res://Fonts/LowresPixel-Regular.otf" id="1_ker6o"]
+
+[resource]
+default_font = ExtResource("1_ker6o")
+default_font_size = 16
