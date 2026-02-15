@@ -19,6 +19,7 @@ config/icon="res://Sprites/icon.svg"
 
 NodeReferences="*res://Scripts/Global/NodeReferences.gd"
 Signals="*res://Scripts/Misc/signals.gd"
+DebugHelper="*res://debug_helper.gd"
 
 [display]
 

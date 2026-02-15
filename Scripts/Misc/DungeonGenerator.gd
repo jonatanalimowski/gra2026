@@ -28,14 +28,6 @@ var unhandled_corridors: Array
 func _ready() -> void:
 	SortRooms()
 	GenerateDungeon()
-	for room in rooms_to_cleanup:
-		print(str(room) + "to cleanup")
-	for room: Room in unhandled_rooms:
-		print(str(room) + "unhandled")
-		for connector in room.connectors:
-			if room.connectors[connector] != null:
-				print(connector + " " + str(room.occupied_connectors[connector]))
-		
 	CleanupDungeon()
 
 func InitialiseDict():
@@ -75,7 +67,7 @@ func GenerateDungeon():
 			GenerateConnectingRooms(corridor)
 
 func CleanupDungeon() -> void:
-	for corridor_instance: Room in unhandled_corridors:
+	for corridor_instance: Room in unhandled_corridors.duplicate():
 		unhandled_corridors.erase(corridor_instance)
 		
 		corridor_instance.LocateConnectors()
@@ -83,16 +75,16 @@ func CleanupDungeon() -> void:
 		ReplaceConnectorWithWall(corridor_instance, connector, true)
 		corridor_instance.queue_free()
 		
-	for room_instance: Room in unhandled_rooms:
+	for room_instance: Room in unhandled_rooms.duplicate():
 		unhandled_rooms.erase(room_instance)
 		
 		room_instance.LocateConnectors()
 		for connector in room_instance.GetAllUnoccupiedConnectors():
 			ReplaceConnectorWithWall(room_instance, opposite_connector[connector], false)
 	
-	for room_instance: Room in rooms_to_cleanup:
+	for room_instance: Room in rooms_to_cleanup.duplicate():
 		if room_instance != null:
-			unhandled_rooms.erase(room_instance)
+			rooms_to_cleanup.erase(room_instance)
 			
 			room_instance.LocateConnectors()
 			for connector in room_instance.GetAllUnoccupiedConnectors():
