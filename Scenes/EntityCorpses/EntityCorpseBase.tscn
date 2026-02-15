@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://tp2mxe65f0lq"]
+
+[ext_resource type="Script" uid="uid://dcea3q81072ot" path="res://Scripts/Entities/EntityMisc/EntityCorpse.gd" id="1_b6yct"]
+[ext_resource type="SpriteFrames" uid="uid://5uwujdm0yexg" path="res://Scripts/Resources/SpriteFrames/SlimeSpriteFrames.tres" id="2_yifu5"]
+
+[node name="EntityCorpseBase" type="Node2D"]
+script = ExtResource("1_b6yct")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_yifu5")
+animation = &"die"

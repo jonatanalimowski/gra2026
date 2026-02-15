@@ -6,6 +6,7 @@ class_name Entity
 @onready var brain = $Brain
 @onready var melee_range = $Area2D
 @export var stats: EntityStats
+@export var corpse_scene: PackedScene
 
 func _ready() -> void:
 	stats.current_health = stats.max_health
@@ -45,17 +46,15 @@ func TakeDamage(amount: float) -> void:
 		Die()
 	else:
 		stats.current_health -= amount
-		sprite.play("take_damage")
-		await sprite.animation_finished
+		GlobalMethods.FlashSprite(sprite)
 		sprite.play("idle")
 
 func Die() -> void:
-	#DisableCollisions()
-	#sprite.play("die")
-	
+	DisableCollisions()
+	var corpse: EntityCorpse = corpse_scene.instantiate()
+	get_parent().add_child(corpse)
+	corpse.SpawnCorpse(self.global_position, sprite.sprite_frames) 
 	queue_free()
-	#sprite.play("die")
-	#sprite.animation_finished.connect(queue_free)
 
 func DisableCollisions() -> void:
 	if $Area2D/CollisionShape2D:

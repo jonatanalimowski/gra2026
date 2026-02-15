@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=4 uid="uid://bmsn14o8omkt0"]
 
-[ext_resource type="Script" uid="uid://chch4q7tclhk4" path="res://Scripts/Misc/ConnectorLocator.gd" id="1_jrj6f"]
+[ext_resource type="Script" uid="uid://chch4q7tclhk4" path="res://Scripts/Worldgen/ConnectorLocator.gd" id="1_jrj6f"]
 [ext_resource type="TileSet" uid="uid://d0cbsuev84gt8" path="res://Scripts/Resources/TileMap.tres" id="2_8ja5l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jrj6f"]

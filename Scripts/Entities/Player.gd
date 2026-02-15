@@ -35,6 +35,7 @@ func TakeDamage(amount: float) -> void:
 	if stats.current_health - amount <= 0:
 		Die()
 	else:
+		GlobalMethods.FlashSprite(sprite)
 		stats.current_health -= amount
 	UpdateDebugUI("player_health", "HP " + str(stats.current_health))
 

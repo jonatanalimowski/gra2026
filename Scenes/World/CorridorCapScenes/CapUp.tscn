@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://buiisprydmtke"]
 
-[ext_resource type="Script" uid="uid://chch4q7tclhk4" path="res://Scripts/Misc/ConnectorLocator.gd" id="1_0e8e5"]
+[ext_resource type="Script" uid="uid://chch4q7tclhk4" path="res://Scripts/Worldgen/ConnectorLocator.gd" id="1_0e8e5"]
 [ext_resource type="TileSet" uid="uid://d0cbsuev84gt8" path="res://Scripts/Resources/TileMap.tres" id="2_5rmpn"]
 
 [node name="Node2D" type="Node2D"]

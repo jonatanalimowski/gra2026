@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://dd2dj60ofxu8y"]
 
-[ext_resource type="Script" uid="uid://dyiiowbww84rr" path="res://Scripts/Misc/DungeonGenerator.gd" id="1_t5130"]
+[ext_resource type="Script" uid="uid://dyiiowbww84rr" path="res://Scripts/Worldgen/DungeonGenerator.gd" id="1_t5130"]
 [ext_resource type="Script" uid="uid://bunwvwvryinco" path="res://Scripts/Resources/RoomData.gd" id="2_3mp6b"]
 [ext_resource type="PackedScene" uid="uid://bmsn14o8omkt0" path="res://Scenes/World/RoomScenes/TestCorridorLeftRight.tscn" id="2_lx4j7"]
 [ext_resource type="Resource" uid="uid://dsak4ibm7i1r1" path="res://Scenes/World/RoomData/TestRoomData.tres" id="3_ifs7l"]

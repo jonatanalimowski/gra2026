@@ -18,8 +18,9 @@ config/icon="res://Sprites/icon.svg"
 [autoload]
 
 NodeReferences="*res://Scripts/Global/NodeReferences.gd"
-Signals="*res://Scripts/Misc/signals.gd"
-DebugHelper="*res://debug_helper.gd"
+Signals="*res://Scripts/Global/signals.gd"
+DebugHelper="*res://Scripts/Global/debug_helper.gd"
+GlobalMethods="*res://Scripts/Global/global_methods.gd"
 
 [display]
 
