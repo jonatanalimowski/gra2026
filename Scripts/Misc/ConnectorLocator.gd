@@ -33,3 +33,10 @@ func GetFirstOccupiedConnector():
 		if connectors[connector] != null && occupied_connectors[connector] == true:
 			return connector
 	return null
+
+func GetAllUnoccupiedConnectors():
+	var unocuppied_connectors: Array[String]
+	for connector in connectors:
+		if connectors[connector] != null && occupied_connectors[connector] == false:
+			unocuppied_connectors.append(connector)
+	return unocuppied_connectors

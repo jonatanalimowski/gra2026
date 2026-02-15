@@ -21,12 +21,22 @@ var rooms_with_right_connectors: Array[PackedScene]
 @export var starter_room: PackedScene
 
 var generation_iterations: int = 3
+var rooms_to_cleanup: Array
 var unhandled_rooms: Array
 var unhandled_corridors: Array
 
 func _ready() -> void:
 	SortRooms()
 	GenerateDungeon()
+	for room in rooms_to_cleanup:
+		print(str(room) + "to cleanup")
+	for room: Room in unhandled_rooms:
+		print(str(room) + "unhandled")
+		for connector in room.connectors:
+			if room.connectors[connector] != null:
+				print(connector + " " + str(room.occupied_connectors[connector]))
+		
+	CleanupDungeon()
 
 func InitialiseDict():
 	fitting_rooms_for_connector = {
@@ -48,6 +58,7 @@ func SortRooms():
 			rooms_with_right_connectors.append(room.room_scene)
 	InitialiseDict()
 
+
 func GenerateDungeon():
 	var starter_room_instance = starter_room.instantiate()
 	starter_room_instance.global_position = Vector2.ZERO
@@ -62,7 +73,6 @@ func GenerateDungeon():
 		for corridor in corridors_to_process:
 			#print("ITERACJA NR " + str(i) + " " + str(corridor))
 			GenerateConnectingRooms(corridor)
-	CleanupDungeon()
 
 func CleanupDungeon() -> void:
 	for corridor_instance: Room in unhandled_corridors:
@@ -70,9 +80,24 @@ func CleanupDungeon() -> void:
 		
 		corridor_instance.LocateConnectors()
 		var connector = corridor_instance.GetFirstOccupiedConnector()
-		ReplaceCorridorWithWall(corridor_instance, connector)
+		ReplaceConnectorWithWall(corridor_instance, connector, true)
 		corridor_instance.queue_free()
 		
+	for room_instance: Room in unhandled_rooms:
+		unhandled_rooms.erase(room_instance)
+		
+		room_instance.LocateConnectors()
+		for connector in room_instance.GetAllUnoccupiedConnectors():
+			ReplaceConnectorWithWall(room_instance, opposite_connector[connector], false)
+	
+	for room_instance: Room in rooms_to_cleanup:
+		if room_instance != null:
+			unhandled_rooms.erase(room_instance)
+			
+			room_instance.LocateConnectors()
+			for connector in room_instance.GetAllUnoccupiedConnectors():
+				ReplaceConnectorWithWall(room_instance, opposite_connector[connector], false)
+
 func GenerateConnectingCorridors(room_instance: Room):
 	if room_instance in unhandled_rooms:
 		unhandled_rooms.erase(room_instance)
@@ -97,7 +122,7 @@ func GenerateConnectingCorridors(room_instance: Room):
 				fitting_corridor_instance.occupied_connectors[opposite_connector[connector]] = true
 				unhandled_corridors.append(fitting_corridor_instance)
 			else:
-				room_instance.occupied_connectors[connector] = true
+				rooms_to_cleanup.append(room_instance)
 				fitting_corridor_instance.queue_free()
 
 func GenerateConnectingRooms(corridor_instance: Room):
@@ -123,7 +148,7 @@ func GenerateConnectingRooms(corridor_instance: Room):
 				unhandled_rooms.append(fitting_room_instance)
 			else:
 				# if there is no space for a room, remove corridor and place a wall on the room exit.
-				ReplaceCorridorWithWall(corridor_instance, opposite_connector[connector])
+				ReplaceConnectorWithWall(corridor_instance, opposite_connector[connector], true)
 				corridor_instance.queue_free()
 				fitting_room_instance.queue_free()
 
@@ -148,7 +173,7 @@ func GetFittingRoom(connector: String):
 	var fitting_room = fitting_rooms_list.pick_random()
 	return fitting_room
 
-func ReplaceCorridorWithWall(corridor_instance: Node2D, connector: String) -> void:
+func ReplaceConnectorWithWall(room_instance: Node2D, connector: String, is_corridor: bool) -> void:
 	var fitting_cap: Room
 	match connector:
 		"UpConnector":
@@ -160,13 +185,18 @@ func ReplaceCorridorWithWall(corridor_instance: Node2D, connector: String) -> vo
 		"RightConnector":
 			fitting_cap = corridor_caps["CapLeft"].instantiate()
 		_:
-			print("Something went wrong in corridor-cap replacement")
+			print("Something went wrong in connector-wall replacement")
 			return
 	fitting_cap.LocateConnectors()
 	var cap_connector = fitting_cap.GetFirstConnector()
+	var cap_pos
 	if cap_connector != null:
-		var difference_vector = corridor_instance.connectors[connector].global_position - fitting_cap.connectors[connector].global_position
-		var cap_pos = fitting_cap.global_position + difference_vector
+		if is_corridor:
+			var difference_vector = room_instance.connectors[connector].global_position - fitting_cap.connectors[connector].global_position
+			cap_pos = fitting_cap.global_position + difference_vector
+		else:
+			var difference_vector = room_instance.connectors[opposite_connector[connector]].global_position - fitting_cap.connectors[connector].global_position
+			cap_pos = fitting_cap.global_position + difference_vector
 		fitting_cap.global_position = cap_pos
 		add_child(fitting_cap)
 	else:
