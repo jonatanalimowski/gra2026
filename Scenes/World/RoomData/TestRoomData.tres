@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="RoomData" load_steps=3 format=3 uid="uid://dsak4ibm7i1r1"]
 
-[ext_resource type="PackedScene" uid="uid://dgr70w1jjgqja" path="res://Scenes/World/RoomScenes/TestRoom.tscn" id="1_k311i"]
+[ext_resource type="PackedScene" uid="uid://dgr70w1jjgqja" path="res://Scenes/World/RoomScenes/BeginningRoom.tscn" id="1_k311i"]
 [ext_resource type="Script" uid="uid://bunwvwvryinco" path="res://Scripts/Resources/RoomData.gd" id="1_va80q"]
 
 [resource]

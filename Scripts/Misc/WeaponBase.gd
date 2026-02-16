@@ -10,6 +10,7 @@ func Shoot(direction: Vector2, spawn_pos: Vector2):
 		for i in stats.shot_count:
 			if stats.shots_left > 0:
 				var instantiated_projectile = projectile.instantiate() as BaseProjectile
+				instantiated_projectile.stats.damage = stats.damage
 				instantiated_projectile.global_position = spawn_pos
 				var rotated_dir = direction.rotated(deg_to_rad(randf_range(-stats.firing_offset, stats.firing_offset)))
 				instantiated_projectile.rotation = rotated_dir.angle() + PI/2

@@ -50,7 +50,6 @@ func SortRooms():
 			rooms_with_right_connectors.append(room.room_scene)
 	InitialiseDict()
 
-
 func GenerateDungeon():
 	var starter_room_instance = starter_room.instantiate()
 	starter_room_instance.global_position = Vector2.ZERO

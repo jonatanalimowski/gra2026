@@ -7,5 +7,6 @@ class_name WeaponStats
 @export var reload_time: int = 2
 @export var shot_count: int = 1
 @export var firing_offset: float = 10 #inaccuracy in angles
+@export var damage = 25
 
 var shots_left: int = 1

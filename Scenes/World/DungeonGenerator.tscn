@@ -3,14 +3,14 @@
 [ext_resource type="Script" uid="uid://dyiiowbww84rr" path="res://Scripts/Worldgen/DungeonGenerator.gd" id="1_t5130"]
 [ext_resource type="Script" uid="uid://bunwvwvryinco" path="res://Scripts/Resources/RoomData.gd" id="2_3mp6b"]
 [ext_resource type="PackedScene" uid="uid://bmsn14o8omkt0" path="res://Scenes/World/RoomScenes/TestCorridorLeftRight.tscn" id="2_lx4j7"]
-[ext_resource type="Resource" uid="uid://dsak4ibm7i1r1" path="res://Scenes/World/RoomData/TestRoomData.tres" id="3_ifs7l"]
 [ext_resource type="PackedScene" uid="uid://i6kj6nv4ngio" path="res://Scenes/World/RoomScenes/TestCorridorUpDown.tscn" id="3_k8k4m"]
 [ext_resource type="Resource" uid="uid://cl46qe0b77mst" path="res://Scenes/World/RoomData/Room01Data.tres" id="4_ifs7l"]
-[ext_resource type="PackedScene" uid="uid://dgr70w1jjgqja" path="res://Scenes/World/RoomScenes/TestRoom.tscn" id="4_k8k4m"]
+[ext_resource type="PackedScene" uid="uid://dgr70w1jjgqja" path="res://Scenes/World/RoomScenes/BeginningRoom.tscn" id="4_k8k4m"]
 [ext_resource type="Resource" uid="uid://byf2y8m8vow1k" path="res://Scenes/World/RoomData/Room02Data.tres" id="5_p6l3m"]
 [ext_resource type="Resource" uid="uid://tlg8p00kbdsw" path="res://Scenes/World/RoomData/Room03Data.tres" id="6_yvq0b"]
 [ext_resource type="Resource" uid="uid://c3jyxhhd5vnow" path="res://Scenes/World/RoomData/Room04Data.tres" id="7_yvq0b"]
 [ext_resource type="Resource" uid="uid://bxsn1k6cddujk" path="res://Scenes/World/RoomData/Room05Data.tres" id="8_uxy68"]
+[ext_resource type="Resource" uid="uid://12elfmv8og66" path="res://Scenes/World/RoomData/Room07Data.tres" id="9_g4ht2"]
 [ext_resource type="Resource" uid="uid://ckgxesttsjdmf" path="res://Scenes/World/RoomData/Room06Data.tres" id="9_jgs1n"]
 [ext_resource type="PackedScene" uid="uid://buiisprydmtke" path="res://Scenes/World/CorridorCapScenes/CapUp.tscn" id="12_g4ht2"]
 [ext_resource type="PackedScene" uid="uid://dktr26lveugty" path="res://Scenes/World/CorridorCapScenes/CapDown.tscn" id="13_0s438"]
@@ -19,7 +19,7 @@
 
 [node name="Node" type="Node2D"]
 script = ExtResource("1_t5130")
-rooms = Array[ExtResource("2_3mp6b")]([ExtResource("3_ifs7l"), ExtResource("4_ifs7l"), ExtResource("5_p6l3m"), ExtResource("6_yvq0b"), ExtResource("7_yvq0b"), ExtResource("8_uxy68"), ExtResource("9_jgs1n")])
+rooms = Array[ExtResource("2_3mp6b")]([ExtResource("4_ifs7l"), ExtResource("5_p6l3m"), ExtResource("6_yvq0b"), ExtResource("7_yvq0b"), ExtResource("8_uxy68"), ExtResource("9_jgs1n"), ExtResource("9_g4ht2")])
 left_right_corridors = Array[PackedScene]([ExtResource("2_lx4j7")])
 up_down_corridors = Array[PackedScene]([ExtResource("3_k8k4m")])
 corridor_caps = Dictionary[String, PackedScene]({

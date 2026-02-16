@@ -7,15 +7,17 @@ class_name Entity
 @onready var melee_range = $Area2D
 @export var stats: EntityStats
 @export var corpse_scene: PackedScene
+var is_dead: bool = false
 
 func _ready() -> void:
+	stats = stats.duplicate()
 	stats.current_health = stats.max_health
 	melee_range.body_entered.connect(_on_body_entered)
 	sprite.play("idle")
 	add_to_group("enemy")
 
 func _on_body_entered(body: Node2D) -> void:
-	if body.has_method("TakeDamage"):
+	if body.has_method("TakeDamage") and body.is_in_group("player"):
 		body.TakeDamage(stats.attack_damage)
 
 func _physics_process(delta: float) -> void:
@@ -50,11 +52,14 @@ func TakeDamage(amount: float) -> void:
 		sprite.play("idle")
 
 func Die() -> void:
-	DisableCollisions()
-	var corpse: EntityCorpse = corpse_scene.instantiate()
-	get_parent().add_child(corpse)
-	corpse.SpawnCorpse(self.global_position, sprite.sprite_frames) 
-	queue_free()
+	if is_dead == false:
+		is_dead = true
+		DisableCollisions()
+		var corpse: EntityCorpse = corpse_scene.instantiate()
+		get_parent().add_child(corpse)
+		corpse.SpawnCorpse(self.global_position, sprite.sprite_frames) 
+		Signals.enemy_killed.emit()
+		queue_free()
 
 func DisableCollisions() -> void:
 	if $Area2D/CollisionShape2D:
