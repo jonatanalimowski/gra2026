@@ -24,6 +24,7 @@ GlobalMethods="*res://Scripts/Global/global_methods.gd"
 
 [display]
 
+window/size/mode=3
 window/stretch/mode="canvas_items"
 
 [gui]

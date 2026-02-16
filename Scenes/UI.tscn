@@ -1,7 +1,38 @@
-[gd_scene load_steps=3 format=3 uid="uid://dtwdf4gml8oue"]
+[gd_scene load_steps=14 format=3 uid="uid://dtwdf4gml8oue"]
 
 [ext_resource type="Theme" uid="uid://d2g2pr66fmdmk" path="res://Fonts/Font.tres" id="1_nxvpl"]
 [ext_resource type="Script" uid="uid://dt5inydsxhw3e" path="res://Scripts/UI/debug_ui.gd" id="1_w371h"]
+[ext_resource type="Script" uid="uid://c0pcntrsog7c4" path="res://Scripts/UI/HUD.gd" id="3_48q88"]
+[ext_resource type="Texture2D" uid="uid://cgw1hba11t1cp" path="res://Sprites/UI/Pack1/bars.png" id="3_dewlx"]
+[ext_resource type="Texture2D" uid="uid://d1yn33s7btbdp" path="res://Sprites/UI/Pack2/Main_tiles.png" id="4_qwshj"]
+[ext_resource type="Texture2D" uid="uid://cxpgwcbtjgnhi" path="res://Sprites/Exotic Swords.png" id="5_48q88"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xjg7p"]
+atlas = ExtResource("4_qwshj")
+region = Rect2(203, 155, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mg6lk"]
+atlas = ExtResource("5_48q88")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wunin"]
+atlas = ExtResource("5_48q88")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hfhsn"]
+atlas = ExtResource("3_dewlx")
+region = Rect2(15, 25, 270, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qwshj"]
+atlas = SubResource("AtlasTexture_hfhsn")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_48q88"]
+atlas = ExtResource("3_dewlx")
+region = Rect2(15, 225, 270, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j04uc"]
+atlas = ExtResource("3_dewlx")
+region = Rect2(15, 325, 270, 50)
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -13,6 +44,7 @@ grow_vertical = 2
 theme = ExtResource("1_nxvpl")
 
 [node name="DebugUi" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,3 +68,166 @@ layout_mode = 2
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "HP"
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("3_48q88")
+
+[node name="WeaponSlots" type="MarginContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -66.0
+offset_top = -36.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(2, 2)
+pivot_offset = Vector2(66, 36)
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/WeaponSlots"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="PrimaryWeapon" type="TextureRect" parent="HUD/WeaponSlots/HBoxContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_xjg7p")
+stretch_mode = 4
+
+[node name="WeaponTexture" type="TextureRect" parent="HUD/WeaponSlots/HBoxContainer/PrimaryWeapon"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_mg6lk")
+
+[node name="SecondaryWeapon" type="TextureRect" parent="HUD/WeaponSlots/HBoxContainer"]
+self_modulate = Color(0.50928617, 0.50928617, 0.50928617, 1)
+layout_mode = 2
+texture = SubResource("AtlasTexture_xjg7p")
+stretch_mode = 4
+
+[node name="WeaponTexture" type="TextureRect" parent="HUD/WeaponSlots/HBoxContainer/SecondaryWeapon"]
+self_modulate = Color(0.50928617, 0.50928617, 0.50928617, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_wunin")
+
+[node name="PlayerStatistics" type="MarginContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.25
+anchor_bottom = 0.25
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/PlayerStatistics"]
+layout_mode = 2
+
+[node name="Playerstats" type="Label" parent="HUD/PlayerStatistics/VBoxContainer"]
+layout_mode = 2
+text = "Player Speed: 120
+Dash Cooldown: 2s
+Dash Speed: 360
+etc etc"
+
+[node name="WeaponStats" type="Label" parent="HUD/PlayerStatistics/VBoxContainer"]
+layout_mode = 2
+text = "Weapon Damage: 25
+Weapon Fire Rate: 4
+Projectiles: 4"
+
+[node name="PlayerBars" type="MarginContainer" parent="HUD"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -135.0
+offset_top = -50.0
+offset_right = 135.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.7, 0.7)
+pivot_offset = Vector2(135, 104)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/PlayerBars"]
+layout_mode = 2
+
+[node name="Healthbar" type="TextureProgressBar" parent="HUD/PlayerBars/VBoxContainer"]
+layout_mode = 2
+value = 75.0
+texture_under = SubResource("AtlasTexture_qwshj")
+texture_progress = SubResource("AtlasTexture_48q88")
+
+[node name="Label" type="Label" parent="HUD/PlayerBars/VBoxContainer/Healthbar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -8.5
+offset_right = 20.0
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 16
+text = "450/600"
+
+[node name="ManaBar" type="TextureProgressBar" parent="HUD/PlayerBars/VBoxContainer"]
+layout_mode = 2
+value = 100.0
+texture_under = SubResource("AtlasTexture_qwshj")
+texture_progress = SubResource("AtlasTexture_j04uc")
+
+[node name="Label" type="Label" parent="HUD/PlayerBars/VBoxContainer/ManaBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -8.5
+offset_right = 20.0
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 16
+text = "100/100"

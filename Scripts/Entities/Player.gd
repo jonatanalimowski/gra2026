@@ -27,6 +27,8 @@ func _ready() -> void:
 	add_to_group("player")
 	NodeReferences.player = self
 	EquipWeapon()
+	Signals.player_ready.emit(self)
+	Signals.player_health_changed.emit(stats.current_health, stats.max_health)
 
 func _exit_tree() -> void:
 	NodeReferences.player = null
@@ -37,7 +39,7 @@ func TakeDamage(amount: float) -> void:
 	else:
 		GlobalMethods.FlashSprite(sprite)
 		stats.current_health -= amount
-	UpdateDebugUI("player_health", "HP " + str(stats.current_health))
+		Signals.player_health_changed.emit(stats.current_health, stats.max_health)
 
 func Die() -> void:
 	get_tree().reload_current_scene()
