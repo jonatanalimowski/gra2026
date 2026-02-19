@@ -157,18 +157,11 @@ grow_vertical = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/PlayerStatistics"]
 layout_mode = 2
 
-[node name="Playerstats" type="Label" parent="HUD/PlayerStatistics/VBoxContainer"]
+[node name="Playerstats" type="VBoxContainer" parent="HUD/PlayerStatistics/VBoxContainer"]
 layout_mode = 2
-text = "Player Speed: 120
-Dash Cooldown: 2s
-Dash Speed: 360
-etc etc"
 
-[node name="WeaponStats" type="Label" parent="HUD/PlayerStatistics/VBoxContainer"]
+[node name="Weaponstats" type="VBoxContainer" parent="HUD/PlayerStatistics/VBoxContainer"]
 layout_mode = 2
-text = "Weapon Damage: 25
-Weapon Fire Rate: 4
-Projectiles: 4"
 
 [node name="PlayerBars" type="MarginContainer" parent="HUD"]
 layout_mode = 1

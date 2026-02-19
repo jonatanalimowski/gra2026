@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpnp5qlqunojs"]
+
+[ext_resource type="Script" uid="uid://b1y18iccr4np2" path="res://Scripts/Misc/WeaponBase.gd" id="1_acqol"]
+[ext_resource type="PackedScene" uid="uid://ds3gjwt7bjoi8" path="res://Scenes/ProjectileScenes/TestProjectile.tscn" id="2_h31mj"]
+[ext_resource type="Resource" uid="uid://hdcr1yc0uops" path="res://Scripts/Projectiles/WeaponStats/SecondaryWeaponStats.tres" id="3_1t158"]
+
+[node name="WeaponSecondary" type="Node"]
+script = ExtResource("1_acqol")
+projectile = ExtResource("2_h31mj")
+stats = ExtResource("3_1t158")

@@ -1,10 +1,9 @@
-[gd_scene load_steps=25 format=3 uid="uid://c2ooxaoermteu"]
+[gd_scene load_steps=24 format=3 uid="uid://c2ooxaoermteu"]
 
 [ext_resource type="Script" uid="uid://d22ugsnpvbate" path="res://Scripts/Entities/Player.gd" id="1_kyqiw"]
 [ext_resource type="Script" uid="uid://c0vo06wjioddm" path="res://Scripts/Resources/PlayerStats.gd" id="2_dewec"]
 [ext_resource type="PackedScene" uid="uid://cafoknk2ycw7p" path="res://Scenes/Weapons/WeaponPrimary.tscn" id="3_dewec"]
 [ext_resource type="Texture2D" uid="uid://c8iwtcvsg0pbq" path="res://Sprites/character_base_16x16.png" id="3_gntrk"]
-[ext_resource type="PackedScene" uid="uid://cpnp5qlqunojs" path="res://Scenes/Weapons/WeaponSecondary.tscn" id="4_5ixxa"]
 
 [sub_resource type="Resource" id="Resource_5ixxa"]
 script = ExtResource("2_dewec")
@@ -153,8 +152,7 @@ height = 16.0
 collision_mask = 2
 script = ExtResource("1_kyqiw")
 stats = SubResource("Resource_5ixxa")
-primary_weapon_scene = ExtResource("3_dewec")
-secondary_weapon_scene = ExtResource("4_5ixxa")
+weapon_scene = ExtResource("3_dewec")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -1.1920929e-07)
@@ -166,7 +164,3 @@ shape = SubResource("CapsuleShape2D_e80uo")
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(5, 2)
-
-[node name="WeaponSlot1" type="Node" parent="."]
-
-[node name="WeaponSlot2" type="Node" parent="."]

@@ -4,12 +4,18 @@ class_name PlayerStats
 @export var max_health: float = 100.0
 @export var movement_speed: float = 100.0
 @export var acceleration: float = 3000.0
-@export var dash_distance: float = 100.0
-@export var dash_speed: float = 350.0
-@export var dash_acceleration: float = 500.0
-@export var dash_duration: float = 0.1
+@export var dash_distance: float = 25.0
+@export var dash_speed: float = 300.0
 @export var dash_cooldown: float = 1.0
 @export var friction: float = 5000.0
 @export var attack_damage: float = 10.0
 
+const STAT_IGNORE_IN_DISPLAY = ["friction", "acceleration"]
 var current_health: float
+
+func update_stat(stat_name: String, value: float) -> void:
+	if stat_name in self:
+		set(stat_name, value)
+		Signals.player_stat_changed.emit(stat_name, value)
+	else:
+		print("NO STAT CALLED: " + stat_name)

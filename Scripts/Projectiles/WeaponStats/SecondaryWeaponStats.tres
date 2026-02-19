@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WeaponStats" load_steps=2 format=3 uid="uid://hdcr1yc0uops"]
+
+[ext_resource type="Script" uid="uid://d3083cslvd71d" path="res://Scripts/Resources/BaseWeaponStats.gd" id="1_m8wob"]
+
+[resource]
+script = ExtResource("1_m8wob")
+fire_rate = 1.0
+firing_offset = 5.0
+damage = 75
+metadata/_custom_type_script = "uid://d3083cslvd71d"
