@@ -10,7 +10,7 @@ class_name PlayerStats
 @export var friction: float = 5000.0
 @export var attack_damage: float = 10.0
 
-const STAT_IGNORE_IN_DISPLAY = ["friction", "acceleration"]
+const STAT_IGNORE_IN_DISPLAY = ["friction", "acceleration", "current_health"]
 var current_health: float
 
 func update_stat(stat_name: String, value: float) -> void:

@@ -23,10 +23,12 @@ func SetWeaponInSlot(weapon_slot: weapon_slots, weapon: PackedScene):
 	if weapon_slot == weapon_slots.PRIMARY:
 		if slot1_weapon == null:
 			slot1_weapon = weapon.instantiate() as Weapon
+			slot1_weapon.stats.current_slot = 1
 			weapon_slot1.add_child(slot1_weapon)
 	else:
 		if slot2_weapon == null:
 			slot2_weapon = weapon.instantiate() as Weapon
+			slot2_weapon.stats.current_slot = 2
 			weapon_slot2.add_child(slot2_weapon)
 
 func EquipWeapon(weapon_slot: weapon_slots):

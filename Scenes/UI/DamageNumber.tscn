@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1u713r0een05"]
+
+[ext_resource type="Script" uid="uid://b2125abgwdpxq" path="res://Scripts/UI/damage_number.gd" id="1_ksswl"]
+[ext_resource type="Theme" uid="uid://d2g2pr66fmdmk" path="res://Fonts/Font.tres" id="2_rhsbb"]
+
+[node name="DamageNumber" type="Marker2D"]
+script = ExtResource("1_ksswl")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -12.0
+offset_right = 20.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(20, 12)
+theme = ExtResource("2_rhsbb")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+text = "50"
+horizontal_alignment = 1
+vertical_alignment = 1

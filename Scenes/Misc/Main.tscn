@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://33vtsvg72ngb"]
 
-[ext_resource type="PackedScene" uid="uid://c2ooxaoermteu" path="res://Scenes/Player.tscn" id="2_kln2b"]
+[ext_resource type="PackedScene" uid="uid://c2ooxaoermteu" path="res://Scenes/Misc/Player.tscn" id="2_kln2b"]
 [ext_resource type="Script" uid="uid://bvn42en1efted" path="res://Scripts/Misc/tempcamerascript.gd" id="4_pbw6q"]
-[ext_resource type="PackedScene" uid="uid://dtwdf4gml8oue" path="res://Scenes/UI.tscn" id="4_rgh2o"]
+[ext_resource type="PackedScene" uid="uid://dtwdf4gml8oue" path="res://Scenes/UI/UI.tscn" id="4_rgh2o"]
 [ext_resource type="PackedScene" uid="uid://dd2dj60ofxu8y" path="res://Scenes/World/DungeonGenerator.tscn" id="7_jw32o"]
 
 [node name="Node2D" type="Node2D"]

@@ -10,8 +10,8 @@ class_name WeaponStats
 @export var damage = 25
 
 var shots_left: int = 1
-
-const STAT_IGNORE_IN_DISPLAY = ["has_magazine", "shots_in_chamber"]
+var current_slot: int = 1
+const STAT_IGNORE_IN_DISPLAY = ["has_magazine", "shots_in_chamber", "current_slot"]
 
 func GetStatsAsDict() -> Dictionary[String, float]:
 	var stats_dict = {}
@@ -29,6 +29,6 @@ func GetStatsAsDict() -> Dictionary[String, float]:
 func update_stat(stat_name: String, value: float) -> void:
 	if stat_name in self:
 		set(stat_name, value)
-		Signals.weapon_stat_changed.emit(stat_name, value)
+		Signals.weapon_stat_changed.emit(stat_name, value, current_slot)
 	else:
 		print("NO STAT CALLED: " + stat_name)

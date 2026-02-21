@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="gra2026"
-run/main_scene="uid://33vtsvg72ngb"
+run/main_scene="uid://ybhv6ni4yy0p"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://Sprites/icon.svg"
 

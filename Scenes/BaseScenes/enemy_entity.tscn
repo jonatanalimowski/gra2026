@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://ceweqec6x6pa"]
+[gd_scene load_steps=9 format=3 uid="uid://ceweqec6x6pa"]
 
 [ext_resource type="Script" uid="uid://cpdiqwgu4xekk" path="res://Scripts/Entities/EntityMisc/EntityBase.gd" id="1_k415t"]
 [ext_resource type="Resource" uid="uid://bxrici3518kl3" path="res://Scripts/Entities/EntityStats/SlimeStats.tres" id="2_s367j"]
 [ext_resource type="SpriteFrames" uid="uid://5uwujdm0yexg" path="res://Scripts/Resources/SpriteFrames/SlimeSpriteFrames.tres" id="3_d20lv"]
 [ext_resource type="PackedScene" uid="uid://tp2mxe65f0lq" path="res://Scenes/EntityCorpses/EntityCorpseBase.tscn" id="3_lf4cp"]
+[ext_resource type="PackedScene" uid="uid://b1u713r0een05" path="res://Scenes/UI/DamageNumber.tscn" id="4_pb6g0"]
 [ext_resource type="Script" uid="uid://da5ee26iwoxo3" path="res://Scripts/Entities/EntityAIs/SlimeAI.gd" id="4_s367j"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s367j"]
@@ -18,6 +19,7 @@ collision_mask = 6
 script = ExtResource("1_k415t")
 stats = ExtResource("2_s367j")
 corpse_scene = ExtResource("3_lf4cp")
+damage_number_scene = ExtResource("4_pb6g0")
 
 [node name="Area2D" type="Area2D" parent="."]
 
@@ -37,6 +39,7 @@ animation = &"moving"
 script = ExtResource("4_s367j")
 
 [node name="Control" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchor_left = 0.5
 anchor_right = 0.5

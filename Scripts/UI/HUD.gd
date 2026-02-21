@@ -22,6 +22,7 @@ func ConnectSignals() -> void:
 	Signals.player_health_changed.connect(UpdateHealth)
 	Signals.player_stat_changed.connect(UpdatePlayerStatistics)
 	Signals.player_weapon_changed.connect(_on_player_weapon_changed)
+	Signals.weapon_stat_changed.connect(UpdateWeaponStatistics)
 
 func _on_player_weapon_changed(weapon_slot: int):
 	if weapon_slot == 1:
@@ -70,9 +71,9 @@ func UpdatePlayerStatistics(stat_name: String, value: float):
 		var display_name = stat_name.capitalize().replace("_", " ")
 		label.text = "%s: %.1f" % [display_name, value]
 
-func UpdateWeaponStatistics(stat_name: String, value: float, weapon_number: int): #1 primary , 2 secondary
+func UpdateWeaponStatistics(stat_name: String, value: float, slot_number: int): #1 primary , 2 secondary
 	var stats_dict
-	if weapon_number == 1:
+	if slot_number == 1:
 		stats_dict = primary_weapon_stats_dict
 	else:
 		stats_dict = secondary_weapon_stats_dict

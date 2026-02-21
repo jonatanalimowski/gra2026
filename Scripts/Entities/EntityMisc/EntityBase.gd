@@ -7,6 +7,8 @@ class_name Entity
 @onready var melee_range = $Area2D
 @export var stats: EntityStats
 @export var corpse_scene: PackedScene
+@export var damage_number_scene: PackedScene
+
 var is_dead: bool = false
 
 func _ready() -> void:
@@ -43,6 +45,9 @@ func Stop():
 	sprite.play("idle")
 
 func TakeDamage(amount: float) -> void:
+	if is_dead:
+		return
+	
 	if stats.current_health - amount <= 0:
 		stats.current_health = 0
 		Die()
@@ -50,6 +55,12 @@ func TakeDamage(amount: float) -> void:
 		stats.current_health -= amount
 		GlobalMethods.FlashSprite(sprite)
 		sprite.play("idle")
+	
+	#spawning damage number
+	if damage_number_scene:
+		var dmg_num = damage_number_scene.instantiate()
+		get_tree().current_scene.add_child(dmg_num)
+		dmg_num.display(amount, global_position)
 
 func Die() -> void:
 	if is_dead == false:
