@@ -22,6 +22,7 @@ tile_set = ExtResource("2_s1cf7")
 position = Vector2(160, 320)
 
 [node name="Area2D" type="Area2D" parent="."]
+visible = false
 position = Vector2(-1, -1)
 collision_layer = 128
 collision_mask = 128
@@ -43,6 +44,7 @@ position = Vector2(237, 234)
 position = Vector2(96, 233)
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionArea"]
 position = Vector2(160, 253.375)

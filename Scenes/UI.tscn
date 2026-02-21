@@ -123,13 +123,11 @@ grow_vertical = 2
 texture = SubResource("AtlasTexture_mg6lk")
 
 [node name="SecondaryWeapon" type="TextureRect" parent="HUD/WeaponSlots/HBoxContainer"]
-self_modulate = Color(0.50928617, 0.50928617, 0.50928617, 1)
 layout_mode = 2
 texture = SubResource("AtlasTexture_xjg7p")
 stretch_mode = 4
 
 [node name="WeaponTexture" type="TextureRect" parent="HUD/WeaponSlots/HBoxContainer/SecondaryWeapon"]
-self_modulate = Color(0.50928617, 0.50928617, 0.50928617, 1)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -147,12 +145,13 @@ texture = SubResource("AtlasTexture_wunin")
 [node name="PlayerStatistics" type="MarginContainer" parent="HUD"]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.25
-anchor_bottom = 0.25
+anchor_top = 0.37
+anchor_bottom = 0.37
 offset_top = -20.0
 offset_right = 40.0
 offset_bottom = 20.0
 grow_vertical = 2
+pivot_offset = Vector2(0, 20)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/PlayerStatistics"]
 layout_mode = 2
@@ -160,7 +159,10 @@ layout_mode = 2
 [node name="Playerstats" type="VBoxContainer" parent="HUD/PlayerStatistics/VBoxContainer"]
 layout_mode = 2
 
-[node name="Weaponstats" type="VBoxContainer" parent="HUD/PlayerStatistics/VBoxContainer"]
+[node name="PrimaryWpnStats" type="VBoxContainer" parent="HUD/PlayerStatistics/VBoxContainer"]
+layout_mode = 2
+
+[node name="SecondaryWpnStats" type="VBoxContainer" parent="HUD/PlayerStatistics/VBoxContainer"]
 layout_mode = 2
 
 [node name="PlayerBars" type="MarginContainer" parent="HUD"]

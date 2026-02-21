@@ -31,8 +31,10 @@ func SetWeaponInSlot(weapon_slot: weapon_slots, weapon: PackedScene):
 
 func EquipWeapon(weapon_slot: weapon_slots):
 	if weapon_slot == weapon_slots.PRIMARY:
+		Signals.player_weapon_changed.emit(1)
 		current_weapon = slot1_weapon
 	else:
+		Signals.player_weapon_changed.emit(2)
 		current_weapon = slot2_weapon
 
 #TEMP
