@@ -1,10 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://cafoknk2ycw7p"]
+[gd_scene load_steps=6 format=3 uid="uid://cafoknk2ycw7p"]
 
 [ext_resource type="Script" uid="uid://b1y18iccr4np2" path="res://Scripts/Misc/WeaponBase.gd" id="1_8128t"]
 [ext_resource type="PackedScene" uid="uid://ds3gjwt7bjoi8" path="res://Scenes/ProjectileScenes/TestProjectile.tscn" id="2_4nlnx"]
 [ext_resource type="Resource" uid="uid://ea1icwm6cdae" path="res://Scripts/Projectiles/WeaponStats/PrimaryWeaponStats.tres" id="3_ss1c0"]
+[ext_resource type="Texture2D" uid="uid://cxpgwcbtjgnhi" path="res://Sprites/Exotic Swords.png" id="4_4nlnx"]
 
-[node name="Weapon" type="Node"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_4nlnx"]
+atlas = ExtResource("4_4nlnx")
+region = Rect2(0, 0, 16, 16)
+
+[node name="Weapon" type="Node2D"]
 script = ExtResource("1_8128t")
 projectile = ExtResource("2_4nlnx")
 stats = ExtResource("3_ss1c0")
+icon = SubResource("AtlasTexture_4nlnx")

@@ -11,11 +11,20 @@ const GRAY: Color = Color(0.3, 0.3, 0.3, 1.0)
 
 var player_stats_dict: Dictionary[String, Label]
 var primary_weapon_stats_dict: Dictionary[String, Label]
-var secondary_weapon_stats_dict:Dictionary[String, Label]
+var secondary_weapon_stats_dict: Dictionary[String, Label]
+var detailed_stats_dict: Dictionary[String, Label]
 
 #ugly ass ui code
 func _ready() -> void:
 	ConnectSignals()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("Tab"):
+		ToggleDetailedStats()
+
+func ToggleDetailedStats() -> void:
+	for stat_name in detailed_stats_dict:
+		detailed_stats_dict[stat_name].visible = !detailed_stats_dict[stat_name].visible
 
 func ConnectSignals() -> void:
 	Signals.player_ready.connect(_on_player_ready)
@@ -54,6 +63,7 @@ func _on_player_ready(player_node: CharacterBody2D):
 	InitialisePlayerStats()
 	InitialisePrimaryWeaponStats()
 	InitialiseSecondaryWeaponStats()
+	ToggleDetailedStats()
 
 func FixPlayerReference() -> void:
 	if player == null:
@@ -97,6 +107,9 @@ func InitialisePlayerStats():
 			if prop.type in [TYPE_FLOAT, TYPE_INT]:
 				var value = player.stats.get(prop.name) 
 				AddStatLabel(prop.name, value, player_stats, player_stats_dict)
+				if prop.name in player.stats.STAT_DETAILED:
+					detailed_stats_dict[prop.name] = player_stats_dict[prop.name]
+				
 
 func InitialisePrimaryWeaponStats():
 	for child in primary_weapon_stats.get_children():
@@ -111,7 +124,11 @@ func InitialisePrimaryWeaponStats():
 			
 			if prop.type in [TYPE_FLOAT, TYPE_INT]:
 				var value = player.slot1_weapon.stats.get(prop.name) 
-				AddStatLabel(prop.name, value, primary_weapon_stats, primary_weapon_stats_dict)
+				var prop_name = "pw_" + prop.name
+				AddStatLabel(prop_name, value, primary_weapon_stats, primary_weapon_stats_dict)
+				if prop.name in player.slot1_weapon.stats.STAT_DETAILED:
+					detailed_stats_dict[prop_name] = primary_weapon_stats_dict[prop_name]
+					print("added stat for primary weapon to detailed dict stat name: " + prop_name)
 
 func InitialiseSecondaryWeaponStats():
 	for child in secondary_weapon_stats.get_children():
@@ -125,13 +142,16 @@ func InitialiseSecondaryWeaponStats():
 				continue
 			
 			if prop.type in [TYPE_FLOAT, TYPE_INT]:
-				var value = player.slot2_weapon.stats.get(prop.name) 
-				AddStatLabel(prop.name, value, secondary_weapon_stats, secondary_weapon_stats_dict)
+				var value = player.slot2_weapon.stats.get(prop.name)
+				var prop_name = "sw_" + prop.name
+				AddStatLabel(prop_name, value, secondary_weapon_stats, secondary_weapon_stats_dict)
+				if prop.name in player.slot2_weapon.stats.STAT_DETAILED:
+					detailed_stats_dict[prop_name] = secondary_weapon_stats_dict[prop_name]
 
 func AddStatLabel(stat_name: String, value: float, parent_node: Control, stat_dictionary: Dictionary):
 	var label = Label.new()
 	parent_node.add_child(label)
 	
 	stat_dictionary[stat_name] = label
-	var display_name = stat_name.capitalize().replace("_", " ")
+	var display_name = stat_name.replace("pw_", "").replace("sw_", "").capitalize().replace("_", " ")
 	label.text = "%s: %.1f" % [display_name, value]

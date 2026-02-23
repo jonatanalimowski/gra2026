@@ -2,7 +2,10 @@ extends Node
 class_name Weapon
 
 @export var projectile: PackedScene
-@export var stats: WeaponStats 
+@export var stats: WeaponStats
+@export var name_text: String = "Unnamed Weapon"
+@export var description_text: String = "A weapon made for attacking your enemies" 
+@export var icon: Texture2D
 var can_shoot: bool = true
 
 func Shoot(direction: Vector2, spawn_pos: Vector2):

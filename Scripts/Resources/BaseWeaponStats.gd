@@ -11,14 +11,14 @@ class_name WeaponStats
 
 var shots_left: int = 1
 var current_slot: int = 1
-const STAT_IGNORE_IN_DISPLAY = ["has_magazine", "shots_in_chamber", "current_slot"]
+const STAT_IGNORE_IN_DISPLAY = ["has_magazine", "shots_in_chamber", "current_slot", "shots_left"]
+const STAT_DETAILED = ["reload_time", "firing_inaccuracy"]
 
 func GetStatsAsDict() -> Dictionary[String, float]:
 	var stats_dict = {}
 	var properties = get_property_list()
 	
 	for prop in properties:
-		# bit operations on property flags that i dont quite understand
 		if prop.usage & PROPERTY_USAGE_SCRIPT_VARIABLE:
 			if prop.name in STAT_IGNORE_IN_DISPLAY:
 				continue
