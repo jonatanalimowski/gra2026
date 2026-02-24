@@ -1,0 +1,17 @@
+[gd_scene load_steps=6 format=3 uid="uid://vslnxx2pparc"]
+
+[ext_resource type="Script" uid="uid://b1y18iccr4np2" path="res://Scripts/Misc/WeaponBase.gd" id="1_xi7wa"]
+[ext_resource type="PackedScene" uid="uid://snmuhf7avlcw" path="res://Scenes/ProjectileScenes/ProjectileGreenStar.tscn" id="2_xi7wa"]
+[ext_resource type="Resource" uid="uid://bb08ik3i4w8re" path="res://Scripts/Projectiles/WeaponStats/SecondaryWeapon2Stats.tres" id="3_5r6jc"]
+[ext_resource type="Texture2D" uid="uid://bqfsopl255qmi" path="res://Sprites/Wands-original.png" id="4_ypg1d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkbuf"]
+atlas = ExtResource("4_ypg1d")
+region = Rect2(127, 7, 17, 24)
+
+[node name="WeaponSecondary" type="Node2D"]
+script = ExtResource("1_xi7wa")
+projectile = ExtResource("2_xi7wa")
+stats = ExtResource("3_5r6jc")
+name_text = "Green Shuriken Wand"
+icon = SubResource("AtlasTexture_nkbuf")

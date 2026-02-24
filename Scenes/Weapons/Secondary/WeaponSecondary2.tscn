@@ -1,0 +1,17 @@
+[gd_scene load_steps=6 format=3 uid="uid://c1mtn0sl5lsv0"]
+
+[ext_resource type="Script" uid="uid://b1y18iccr4np2" path="res://Scripts/Misc/WeaponBase.gd" id="1_qxr5i"]
+[ext_resource type="PackedScene" uid="uid://6h8hktw1m71n" path="res://Scenes/ProjectileScenes/ProjectileBlueBlinker.tscn" id="2_qxr5i"]
+[ext_resource type="Resource" uid="uid://bb08ik3i4w8re" path="res://Scripts/Projectiles/WeaponStats/SecondaryWeapon2Stats.tres" id="3_ir2ul"]
+[ext_resource type="Texture2D" uid="uid://bqfsopl255qmi" path="res://Sprites/Wands-original.png" id="4_lngvg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h31mj"]
+atlas = ExtResource("4_lngvg")
+region = Rect2(40, 43, 15, 21)
+
+[node name="WeaponSecondary" type="Node2D"]
+script = ExtResource("1_qxr5i")
+projectile = ExtResource("2_qxr5i")
+stats = ExtResource("3_ir2ul")
+name_text = "Blue Blinker Wand"
+icon = SubResource("AtlasTexture_h31mj")

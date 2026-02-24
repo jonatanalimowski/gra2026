@@ -6,6 +6,9 @@ class_name ChoiceCard
 @onready var element_icon: TextureRect = $TextureRect/TextureRect
 @onready var button: TextureButton = $TextureRect/TextureButton
 
+signal card_chosen(card)
+
+var content_scene
 var content # a weapon or a perk
 
 func _ready() -> void:
@@ -21,7 +24,7 @@ func _ready() -> void:
 		SetIcon(PlaceholderTexture2D.new())
 
 func _on_button_pressed():
-	pass
+	card_chosen.emit(content_scene)
 
 func SetName(text: String) -> void:
 	name_label.text = text

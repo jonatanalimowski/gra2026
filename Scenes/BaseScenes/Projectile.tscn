@@ -31,8 +31,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xh6v2"]
-radius = 3.0
-height = 22.0
+radius = 4.0
+height = 8.0
 
 [node name="Area2D" type="Area2D"]
 collision_layer = 4

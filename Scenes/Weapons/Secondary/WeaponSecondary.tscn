@@ -1,0 +1,17 @@
+[gd_scene load_steps=6 format=3 uid="uid://cpnp5qlqunojs"]
+
+[ext_resource type="Script" uid="uid://b1y18iccr4np2" path="res://Scripts/Misc/WeaponBase.gd" id="1_kgg5b"]
+[ext_resource type="PackedScene" uid="uid://dryqdy6fr0n6x" path="res://Scenes/ProjectileScenes/ProjectilePurpleSaw.tscn" id="2_7i1mr"]
+[ext_resource type="Resource" uid="uid://hdcr1yc0uops" path="res://Scripts/Projectiles/WeaponStats/SecondaryWeaponStats.tres" id="3_xdxoa"]
+[ext_resource type="Texture2D" uid="uid://bqfsopl255qmi" path="res://Sprites/Wands-original.png" id="4_d0y1y"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h31mj"]
+atlas = ExtResource("4_d0y1y")
+region = Rect2(40, 43, 15, 21)
+
+[node name="WeaponSecondary" type="Node2D"]
+script = ExtResource("1_kgg5b")
+projectile = ExtResource("2_7i1mr")
+stats = ExtResource("3_xdxoa")
+name_text = "Purple Saw Staff"
+icon = SubResource("AtlasTexture_h31mj")

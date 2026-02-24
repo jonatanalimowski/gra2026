@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3 uid="uid://ds3gjwt7bjoi8"]
+
+[ext_resource type="PackedScene" uid="uid://cotn5ohfxidx5" path="res://Scenes/BaseScenes/Projectile.tscn" id="1_vfxkf"]
+[ext_resource type="Resource" uid="uid://6wu5kdxd25bj" path="res://Scripts/Projectiles/ProjectileStats/ProjectileFlameStarStats.tres" id="2_yqpoi"]
+[ext_resource type="Texture2D" uid="uid://ertg0dxgn14i" path="res://Sprites/Fire Effect and Bullet 16x16.png" id="3_utmk3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s0pnv"]
+atlas = ExtResource("3_utmk3")
+region = Rect2(304, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nhme1"]
+atlas = ExtResource("3_utmk3")
+region = Rect2(320, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gvogf"]
+atlas = ExtResource("3_utmk3")
+region = Rect2(336, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_odujw"]
+atlas = ExtResource("3_utmk3")
+region = Rect2(352, 48, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6uoff"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s0pnv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nhme1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gvogf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_odujw")
+}],
+"loop": true,
+"name": &"moving",
+"speed": 16.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[node name="Area2D" instance=ExtResource("1_vfxkf")]
+stats = ExtResource("2_yqpoi")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_6uoff")
+frame = 0
+frame_progress = 0.17860831

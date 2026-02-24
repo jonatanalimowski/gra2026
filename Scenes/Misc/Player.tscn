@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://d22ugsnpvbate" path="res://Scripts/Entities/Player.gd" id="1_kyqiw"]
 [ext_resource type="Script" uid="uid://c0vo06wjioddm" path="res://Scripts/Resources/PlayerStats.gd" id="2_dewec"]
-[ext_resource type="PackedScene" uid="uid://cafoknk2ycw7p" path="res://Scenes/Weapons/WeaponPrimary.tscn" id="3_dewec"]
+[ext_resource type="PackedScene" uid="uid://cafoknk2ycw7p" path="res://Scenes/Weapons/Primary/WeaponPrimary.tscn" id="3_dewec"]
 [ext_resource type="Texture2D" uid="uid://c8iwtcvsg0pbq" path="res://Sprites/character_base_16x16.png" id="3_gntrk"]
-[ext_resource type="PackedScene" uid="uid://cpnp5qlqunojs" path="res://Scenes/Weapons/WeaponSecondary.tscn" id="4_5ixxa"]
+[ext_resource type="PackedScene" uid="uid://cpnp5qlqunojs" path="res://Scenes/Weapons/Secondary/WeaponSecondary.tscn" id="4_5ixxa"]
 
 [sub_resource type="Resource" id="Resource_5ixxa"]
 script = ExtResource("2_dewec")
@@ -165,7 +165,6 @@ animation = &"walk_up"
 shape = SubResource("CapsuleShape2D_e80uo")
 
 [node name="Marker2D" type="Marker2D" parent="."]
-position = Vector2(5, 2)
 
 [node name="WeaponSlot1" type="Node" parent="."]
 

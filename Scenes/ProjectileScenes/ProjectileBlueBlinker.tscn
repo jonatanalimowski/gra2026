@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://6h8hktw1m71n"]
+
+[ext_resource type="PackedScene" uid="uid://cotn5ohfxidx5" path="res://Scenes/BaseScenes/Projectile.tscn" id="1_vw75e"]
+[ext_resource type="Resource" uid="uid://dw2wg8xg52rqw" path="res://Scripts/Projectiles/ProjectileStats/ProjectileBlueBlinkerStats.tres" id="2_room6"]
+[ext_resource type="Texture2D" uid="uid://cnltaocsicnue" path="res://Sprites/Water Effect and Bullet 16x16.png" id="3_4nt8j"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e1x6w"]
+atlas = ExtResource("3_4nt8j")
+region = Rect2(480, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jksn5"]
+atlas = ExtResource("3_4nt8j")
+region = Rect2(496, 128, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6uoff"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e1x6w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jksn5")
+}],
+"loop": true,
+"name": &"moving",
+"speed": 12.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[node name="Area2D" instance=ExtResource("1_vw75e")]
+stats = ExtResource("2_room6")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+rotation = 0.0
+sprite_frames = SubResource("SpriteFrames_6uoff")
+frame = 0
+frame_progress = 0.36464852

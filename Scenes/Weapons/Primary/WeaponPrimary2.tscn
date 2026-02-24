@@ -1,0 +1,17 @@
+[gd_scene load_steps=6 format=3 uid="uid://c7at6yxhywx4c"]
+
+[ext_resource type="Script" uid="uid://b1y18iccr4np2" path="res://Scripts/Misc/WeaponBase.gd" id="1_brdgf"]
+[ext_resource type="PackedScene" uid="uid://cr6uptlahgd7e" path="res://Scenes/ProjectileScenes/ProjectileFlameShuriken.tscn" id="2_brdgf"]
+[ext_resource type="Resource" uid="uid://boobxv32p2jam" path="res://Scripts/Projectiles/WeaponStats/PrimaryWeapon2Stats.tres" id="3_brdgf"]
+[ext_resource type="Texture2D" uid="uid://bqfsopl255qmi" path="res://Sprites/Wands-original.png" id="4_wfyh3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pmncl"]
+atlas = ExtResource("4_wfyh3")
+region = Rect2(2, 74, 15, 25)
+
+[node name="Weapon" type="Node2D"]
+script = ExtResource("1_brdgf")
+projectile = ExtResource("2_brdgf")
+stats = ExtResource("3_brdgf")
+name_text = "Flame shuriken wand"
+icon = SubResource("AtlasTexture_pmncl")

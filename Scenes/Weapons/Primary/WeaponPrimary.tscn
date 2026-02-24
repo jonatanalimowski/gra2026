@@ -1,0 +1,17 @@
+[gd_scene load_steps=6 format=3 uid="uid://cafoknk2ycw7p"]
+
+[ext_resource type="Script" uid="uid://b1y18iccr4np2" path="res://Scripts/Misc/WeaponBase.gd" id="1_tmovi"]
+[ext_resource type="PackedScene" uid="uid://ds3gjwt7bjoi8" path="res://Scenes/ProjectileScenes/ProjectileFlameStar.tscn" id="2_rbnp7"]
+[ext_resource type="Resource" uid="uid://ea1icwm6cdae" path="res://Scripts/Projectiles/WeaponStats/PrimaryWeaponStats.tres" id="3_r63t6"]
+[ext_resource type="Texture2D" uid="uid://bqfsopl255qmi" path="res://Sprites/Wands-original.png" id="4_epkka"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ss1c0"]
+atlas = ExtResource("4_epkka")
+region = Rect2(79, 72, 17, 25)
+
+[node name="Weapon" type="Node2D"]
+script = ExtResource("1_tmovi")
+projectile = ExtResource("2_rbnp7")
+stats = ExtResource("3_r63t6")
+name_text = "Flame Star Wand"
+icon = SubResource("AtlasTexture_ss1c0")

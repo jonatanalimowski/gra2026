@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://bjfjmv4ebf1dt"]
+
+[ext_resource type="PackedScene" uid="uid://cotn5ohfxidx5" path="res://Scenes/BaseScenes/Projectile.tscn" id="1_b3hdj"]
+[ext_resource type="Resource" uid="uid://6wu5kdxd25bj" path="res://Scripts/Projectiles/ProjectileStats/ProjectileFlameStarStats.tres" id="2_s1bqc"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6uoff"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"moving",
+"speed": 16.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[node name="Area2D" instance=ExtResource("1_b3hdj")]
+stats = ExtResource("2_s1bqc")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+rotation = 0.0
+sprite_frames = SubResource("SpriteFrames_6uoff")
+frame = 0
+frame_progress = 0.12835842

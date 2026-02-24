@@ -6,8 +6,8 @@ const GRAY: Color = Color(0.3, 0.3, 0.3, 1.0)
 @onready var player_stats: VBoxContainer = $PlayerStatistics/VBoxContainer/Playerstats
 @onready var primary_weapon_stats: VBoxContainer = $PlayerStatistics/VBoxContainer/PrimaryWpnStats
 @onready var secondary_weapon_stats: VBoxContainer = $PlayerStatistics/VBoxContainer/SecondaryWpnStats
-@onready var primary_weapon_slot: TextureRect = $WeaponSlots/HBoxContainer/PrimaryWeapon
-@onready var secondary_weapon_slot: TextureRect = $WeaponSlots/HBoxContainer/SecondaryWeapon
+@onready var primary_weapon_slot: TextureRect = $WeaponSlots/HBoxContainer/PrimaryWeapon/WeaponTexture
+@onready var secondary_weapon_slot: TextureRect = $WeaponSlots/HBoxContainer/SecondaryWeapon/WeaponTexture
 
 var player_stats_dict: Dictionary[String, Label]
 var primary_weapon_stats_dict: Dictionary[String, Label]
@@ -112,6 +112,8 @@ func InitialisePlayerStats():
 				
 
 func InitialisePrimaryWeaponStats():
+	primary_weapon_slot.texture = player.slot1_weapon.icon
+	
 	for child in primary_weapon_stats.get_children():
 		child.queue_free()
 	primary_weapon_stats_dict.clear()
@@ -131,6 +133,8 @@ func InitialisePrimaryWeaponStats():
 					print("added stat for primary weapon to detailed dict stat name: " + prop_name)
 
 func InitialiseSecondaryWeaponStats():
+	secondary_weapon_slot.texture = player.slot2_weapon.icon
+	
 	for child in secondary_weapon_stats.get_children():
 		child.queue_free()
 	secondary_weapon_stats_dict.clear()

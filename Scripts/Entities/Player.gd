@@ -50,6 +50,8 @@ func UpdateDebugUI(key : String, text : String) -> void:
 	Signals.debug_ui_updated.emit({key : label})
 
 func _ready() -> void:
+	primary_weapon_scene = NodeReferences.chosen_primary
+	secondary_weapon_scene = NodeReferences.chosen_secondary
 	stats.update_stat("current_health", stats.max_health)
 	UpdateDebugUI("player_health", "HP " + str(stats.current_health))
 	add_to_group("player")
