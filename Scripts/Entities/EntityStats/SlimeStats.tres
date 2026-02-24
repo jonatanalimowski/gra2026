@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("1_yncv2")
-movement_speed = 50.0
+movement_speed = 75.0
 attack_damage = 25.0
 metadata/_custom_type_script = "uid://df20v0kdtj1rb"

@@ -49,3 +49,7 @@ rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_6l4d6")
 frame = 3
 frame_progress = 0.7667733
+
+[node name="RayCast2D" parent="." index="2"]
+position = Vector2(0, 6)
+target_position = Vector2(0, -29)

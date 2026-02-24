@@ -36,12 +36,19 @@ tile_set = ExtResource("2_6bi0d")
 [node name="SpawnMarkers" type="Node2D" parent="."]
 
 [node name="Marker2D" type="Marker2D" parent="SpawnMarkers"]
-position = Vector2(171, 288)
+position = Vector2(169, 282)
 
 [node name="Marker2D2" type="Marker2D" parent="SpawnMarkers"]
-position = Vector2(116, 216)
+position = Vector2(103, 279)
+
+[node name="Marker2D3" type="Marker2D" parent="SpawnMarkers"]
+position = Vector2(168, 214)
+
+[node name="Marker2D4" type="Marker2D" parent="SpawnMarkers"]
+position = Vector2(103, 214)
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionArea"]
 position = Vector2(158, 248)

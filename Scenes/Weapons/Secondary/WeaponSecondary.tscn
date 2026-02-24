@@ -1,17 +1,38 @@
-[gd_scene load_steps=6 format=3 uid="uid://cpnp5qlqunojs"]
+[gd_scene load_steps=9 format=3 uid="uid://cpnp5qlqunojs"]
 
 [ext_resource type="Script" uid="uid://b1y18iccr4np2" path="res://Scripts/Misc/WeaponBase.gd" id="1_kgg5b"]
 [ext_resource type="PackedScene" uid="uid://dryqdy6fr0n6x" path="res://Scenes/ProjectileScenes/ProjectilePurpleSaw.tscn" id="2_7i1mr"]
 [ext_resource type="Resource" uid="uid://hdcr1yc0uops" path="res://Scripts/Projectiles/WeaponStats/SecondaryWeaponStats.tres" id="3_xdxoa"]
-[ext_resource type="Texture2D" uid="uid://bqfsopl255qmi" path="res://Sprites/Wands-original.png" id="4_d0y1y"]
+[ext_resource type="Texture2D" uid="uid://cckenj4w3la12" path="res://Sprites/wands_alternative.png" id="4_kgg5b"]
+[ext_resource type="Script" uid="uid://ctj7yhugph7mx" path="res://Scripts/Resources/WeaponPerk.gd" id="5_7i1mr"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_h31mj"]
-atlas = ExtResource("4_d0y1y")
-region = Rect2(40, 43, 15, 21)
+[sub_resource type="AtlasTexture" id="AtlasTexture_7i1mr"]
+atlas = ExtResource("4_kgg5b")
+region = Rect2(91, 41, 15, 23)
+
+[sub_resource type="Resource" id="Resource_xdxoa"]
+script = ExtResource("5_7i1mr")
+type = 1
+effect_id = "bounce_walls"
+effect_count = 2
+metadata/_custom_type_script = "uid://ctj7yhugph7mx"
+
+[sub_resource type="Resource" id="Resource_d0y1y"]
+script = ExtResource("5_7i1mr")
+type = 1
+effect_id = "pierce"
+effect_count = 1
+metadata/_custom_type_script = "uid://ctj7yhugph7mx"
 
 [node name="WeaponSecondary" type="Node2D"]
 script = ExtResource("1_kgg5b")
 projectile = ExtResource("2_7i1mr")
 stats = ExtResource("3_xdxoa")
 name_text = "Purple Saw Staff"
-icon = SubResource("AtlasTexture_h31mj")
+icon = SubResource("AtlasTexture_7i1mr")
+greater_perks = Dictionary[String, ExtResource("5_7i1mr")]({
+"bounce_walls": SubResource("Resource_xdxoa"),
+"pierce": SubResource("Resource_d0y1y"),
+"projectile+1": null,
+"ricochet": null
+})

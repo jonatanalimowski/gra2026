@@ -52,3 +52,6 @@ stats = ExtResource("2_yqpoi")
 sprite_frames = SubResource("SpriteFrames_6uoff")
 frame = 0
 frame_progress = 0.17860831
+
+[node name="RayCast2D" parent="." index="2"]
+position = Vector2(0, 5)

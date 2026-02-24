@@ -43,6 +43,9 @@ position = Vector2(237, 234)
 [node name="Marker2D2" type="Marker2D" parent="SpawnMarkers"]
 position = Vector2(96, 233)
 
+[node name="Marker2D3" type="Marker2D" parent="SpawnMarkers"]
+position = Vector2(166, 231)
+
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
 visible = false
 

@@ -65,4 +65,9 @@ stats = ExtResource("2_tfsxn")
 [node name="AnimatedSprite2D" parent="." index="0"]
 rotation = 0.0
 sprite_frames = SubResource("SpriteFrames_6uoff")
+frame = 0
 frame_progress = 0.2592385
+
+[node name="RayCast2D" parent="." index="2"]
+position = Vector2(0, 6)
+target_position = Vector2(0, -18)

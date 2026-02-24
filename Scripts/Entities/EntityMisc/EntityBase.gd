@@ -25,9 +25,9 @@ func _on_body_entered(body: Node2D) -> void:
 func _physics_process(delta: float) -> void:
 	move_and_slide()
 
-func _process(delta: float) -> void:
-	if stats:
-		hp_label.text = str(stats.current_health) + "/" + str(stats.max_health)
+#func _process(delta: float) -> void:
+	#if stats:
+		#hp_label.text = str(stats.current_health) + "/" + str(stats.max_health)
 
 #func Shoot()
 
@@ -35,10 +35,12 @@ func Move(direction: Vector2):
 	velocity = direction * stats.movement_speed
 	sprite.play("moving")
 
-func Jump(direction: Vector2, duration: float):
-	get_tree().create_timer(duration).timeout.connect(Stop)
-	velocity = direction * stats.movement_speed
+func Jump(direction: Vector2, duration: float, move_speed = stats.movement_speed):
+	velocity = direction * move_speed
 	sprite.play("moving")
+	
+	var t = get_tree().create_timer(duration)
+	t.timeout.connect(func(): if not is_dead: Stop())
 
 func Stop():
 	velocity = Vector2.ZERO

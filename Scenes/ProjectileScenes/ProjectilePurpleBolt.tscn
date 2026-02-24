@@ -37,4 +37,9 @@ stats = ExtResource("2_q56sl")
 [node name="AnimatedSprite2D" parent="." index="0"]
 rotation = -1.5707964
 sprite_frames = SubResource("SpriteFrames_6uoff")
+frame = 0
 frame_progress = 0.73479706
+
+[node name="RayCast2D" parent="." index="2"]
+position = Vector2(0, 5)
+target_position = Vector2(0, -19)

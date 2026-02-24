@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_osk0h")
-fire_rate = 2.0
-shot_count = 3
+fire_rate = 1.5
+shot_count = 10
 firing_inaccuracy = 20.0
-damage = 40
+damage = 10
 metadata/_custom_type_script = "uid://d3083cslvd71d"

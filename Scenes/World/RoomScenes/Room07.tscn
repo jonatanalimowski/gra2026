@@ -31,6 +31,7 @@ position = Vector2(320, 160)
 position = Vector2(160, 320)
 
 [node name="Area2D" type="Area2D" parent="."]
+visible = false
 collision_layer = 128
 collision_mask = 128
 
@@ -45,21 +46,31 @@ tile_set = ExtResource("2_5q2es")
 [node name="SpawnMarkers" type="Node2D" parent="."]
 
 [node name="Marker2D" type="Marker2D" parent="SpawnMarkers"]
-position = Vector2(186, 88)
+position = Vector2(165, 232)
 
 [node name="Marker2D2" type="Marker2D" parent="SpawnMarkers"]
-position = Vector2(88, 205)
+position = Vector2(104, 214)
 
 [node name="Marker2D3" type="Marker2D" parent="SpawnMarkers"]
-position = Vector2(96, 113)
+position = Vector2(77, 152)
 
 [node name="Marker2D4" type="Marker2D" parent="SpawnMarkers"]
-position = Vector2(225, 185)
+position = Vector2(240, 154)
 
 [node name="Marker2D5" type="Marker2D" parent="SpawnMarkers"]
-position = Vector2(250, 244)
+position = Vector2(225, 209)
+
+[node name="Marker2D6" type="Marker2D" parent="SpawnMarkers"]
+position = Vector2(100, 98)
+
+[node name="Marker2D7" type="Marker2D" parent="SpawnMarkers"]
+position = Vector2(161, 78)
+
+[node name="Marker2D8" type="Marker2D" parent="SpawnMarkers"]
+position = Vector2(222, 100)
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionArea"]
 position = Vector2(159, 159.5)
