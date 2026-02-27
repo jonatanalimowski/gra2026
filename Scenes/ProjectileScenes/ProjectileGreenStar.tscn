@@ -49,11 +49,15 @@ animations = [{
 stats = ExtResource("2_i81qs")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
+position = Vector2(0, -8)
 rotation = 0.0
 sprite_frames = SubResource("SpriteFrames_6uoff")
 frame = 0
 frame_progress = 0.10412589
 
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0, -8)
+
 [node name="RayCast2D" parent="." index="2"]
-position = Vector2(0, 6)
-target_position = Vector2(0, -18)
+position = Vector2(0, -8)
+target_position = Vector2(0, -80)

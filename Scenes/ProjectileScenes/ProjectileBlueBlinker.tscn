@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://6h8hktw1m71n"]
+[gd_scene load_steps=8 format=3 uid="uid://6h8hktw1m71n"]
 
-[ext_resource type="PackedScene" uid="uid://cotn5ohfxidx5" path="res://Scenes/BaseScenes/Projectile.tscn" id="1_vw75e"]
+[ext_resource type="Script" uid="uid://c46h00xyytalo" path="res://Scripts/Projectiles/Projectile.gd" id="1_vw75e"]
 [ext_resource type="Resource" uid="uid://dw2wg8xg52rqw" path="res://Scripts/Projectiles/ProjectileStats/ProjectileBlueBlinkerStats.tres" id="2_room6"]
 [ext_resource type="Texture2D" uid="uid://cnltaocsicnue" path="res://Sprites/Water Effect and Bullet 16x16.png" id="3_4nt8j"]
 
@@ -31,15 +31,23 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Area2D" instance=ExtResource("1_vw75e")]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xh6v2"]
+radius = 3.0
+height = 12.0
+
+[node name="Area2D" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_vw75e")
 stats = ExtResource("2_room6")
 
-[node name="AnimatedSprite2D" parent="." index="0"]
-rotation = 0.0
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -7)
+scale = Vector2(0.99999994, 0.99999994)
 sprite_frames = SubResource("SpriteFrames_6uoff")
-frame = 0
+animation = &"moving"
 frame_progress = 0.36464852
 
-[node name="RayCast2D" parent="." index="2"]
-position = Vector2(0, 5)
-target_position = Vector2(0, -20)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("CapsuleShape2D_xh6v2")

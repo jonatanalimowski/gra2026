@@ -1,4 +1,4 @@
-extends Area2D
+extends CharacterBody2D
 class_name BaseProjectile
 
 # Collisions
@@ -9,7 +9,6 @@ const LAYER_ENEMY = 8
 
 # Projectile params
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var raycast: RayCast2D = $RayCast2D
 @export var stats: ProjectileStats
 
 # Perks
@@ -30,8 +29,6 @@ var ricochet_count: int = 0
 func _ready() -> void:
 	SetupCollisions()
 	SetUpPerks()
-	body_entered.connect(_on_body_entered)
-	area_entered.connect(_on_area_entered)
 	sprite.play("moving")
 	get_tree().create_timer(stats.lifetime).timeout.connect(queue_free)
 
@@ -51,26 +48,27 @@ func SetUpPerks():
 				continue
 
 func SetupCollisions():
-	raycast.hit_from_inside = true
 	collision_layer = LAYER_PROJECTILE
 	collision_mask = 0
 	collision_mask |= LAYER_WORLD
-	raycast.collision_mask = 0
-	raycast.collision_mask |= LAYER_WORLD
 	if stats.current_team == stats.team.PLAYER:
-		raycast.collision_mask |= LAYER_ENEMY
 		collision_mask |= LAYER_ENEMY
 	elif stats.current_team == stats.team.ENEMY:
 		collision_mask |= LAYER_PLAYER
-		raycast.collision_mask |= LAYER_PLAYER
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	ProcessProjectileMovement(delta)
+	var collision = move_and_collide(direction * stats.speed * delta)
+	if collision:
+		HandleCollision(collision)
 
 func ProcessProjectileMovement(delta: float):
 	position += direction*stats.speed*delta
 
-func _on_body_entered(body: Node2D) -> void:
+
+func HandleCollision(collision: KinematicCollision2D) -> void:
+	var body = collision.get_collider()
+	
 	if body.has_method("TakeDamage"):
 		if pierce_count > 0:
 			body.TakeDamage(stats.damage)
@@ -88,17 +86,12 @@ func _on_body_entered(body: Node2D) -> void:
 	elif ("collision_layer" in body and body.collision_layer == LAYER_WORLD) or body is TileMapLayer:
 		if wall_bounces > 0:
 			# calculates bounce direction
-			raycast.force_raycast_update()
-			var normal = raycast.get_collision_normal()
-			if normal == Vector2.ZERO:
-				direction = -direction
-			else:
-				direction = direction.bounce(normal)
-				rotation = direction.angle() + PI/2
-			
-			# rest
+			var normal = collision.get_normal()
+			direction = direction.bounce(normal)
+			rotation = direction.angle() + PI/2
 			wall_bounces -= 1
 			return
+			
 		queue_free()
 
 func _on_area_entered(area: Area2D) -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cr6uptlahgd7e"]
+[gd_scene load_steps=11 format=3 uid="uid://cpwe8wwql1nb4"]
 
 [ext_resource type="PackedScene" uid="uid://cotn5ohfxidx5" path="res://Scenes/BaseScenes/Projectile.tscn" id="1_tfsxn"]
 [ext_resource type="Resource" uid="uid://dur2xpx42i8mc" path="res://Scripts/Projectiles/ProjectileStats/ProjectileFlameShurikenStats.tres" id="2_tfsxn"]
@@ -63,11 +63,11 @@ animations = [{
 stats = ExtResource("2_tfsxn")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
+position = Vector2(0, -6)
 rotation = 0.0
 sprite_frames = SubResource("SpriteFrames_6uoff")
 frame = 0
 frame_progress = 0.2592385
 
-[node name="RayCast2D" parent="." index="2"]
-position = Vector2(0, 6)
-target_position = Vector2(0, -18)
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0, -6)

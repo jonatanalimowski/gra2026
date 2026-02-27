@@ -31,10 +31,10 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xh6v2"]
-radius = 4.0
-height = 16.0
+radius = 2.0
+height = 12.0
 
-[node name="Area2D" type="Area2D"]
+[node name="CharacterBody2D" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_e7peq")
@@ -42,6 +42,7 @@ stats = SubResource("Resource_3rnyv")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 rotation = -0.7853982
+scale = Vector2(0.99999994, 0.99999994)
 sprite_frames = SubResource("SpriteFrames_3rnyv")
 animation = &"moving"
 frame = 1
@@ -49,7 +50,3 @@ frame_progress = 0.8598112
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_xh6v2")
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-target_position = Vector2(0, -16)
-collision_mask = 7
