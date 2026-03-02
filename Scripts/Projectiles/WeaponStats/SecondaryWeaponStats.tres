@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_m8wob")
-fire_rate = 3.0
-firing_inaccuracy = 60.0
+fire_rate = 0.1
+firing_inaccuracy = 5.0
 damage = 100
 metadata/_custom_type_script = "uid://d3083cslvd71d"

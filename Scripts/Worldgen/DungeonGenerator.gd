@@ -1,10 +1,17 @@
 extends Node2D
+class_name DungeonGenerator
 
 var opposite_connector: Dictionary = {
 	"UpConnector": "DownConnector",
 	"LeftConnector": "RightConnector",
 	"RightConnector": "LeftConnector",
 	"DownConnector": "UpConnector"
+}
+
+enum DungeonType
+{
+	TYPE1,
+	TYPE2
 }
 
 var fitting_rooms_for_connector: Dictionary
@@ -19,11 +26,14 @@ var rooms_with_right_connectors: Array[PackedScene]
 @export var up_down_corridors: Array[PackedScene]
 @export var corridor_caps: Dictionary[String, PackedScene]
 @export var starter_room: PackedScene
+@export var boss_rooms: Dictionary[DungeonType, PackedScene]
+
 
 var generation_iterations: int = 3
 var rooms_to_cleanup: Array
 var unhandled_rooms: Array
 var unhandled_corridors: Array
+var generated_rooms = 0
 
 func _ready() -> void:
 	SortRooms()
@@ -64,6 +74,7 @@ func GenerateDungeon():
 		for corridor in corridors_to_process:
 			#print("ITERACJA NR " + str(i) + " " + str(corridor))
 			GenerateConnectingRooms(corridor)
+	Signals.world_generated.emit(generated_rooms)
 
 func CleanupDungeon() -> void:
 	for corridor_instance: Room in unhandled_corridors.duplicate():
@@ -132,11 +143,13 @@ func GenerateConnectingRooms(corridor_instance: Room):
 			var room_pos = fitting_room_instance.global_position + difference_vector
 			fitting_room_instance.global_position = room_pos
 			if IsRoomFree(fitting_room_instance, room_pos):
+				# on succesful room generation
 				add_child(fitting_room_instance)
 				
 				corridor_instance.occupied_connectors[connector] = true
 				fitting_room_instance.occupied_connectors[opposite_connector[connector]] = true
 				unhandled_rooms.append(fitting_room_instance)
+				generated_rooms += 1
 			else:
 				# if there is no space for a room, remove corridor and place a wall on the room exit.
 				ReplaceConnectorWithWall(corridor_instance, opposite_connector[connector], true)
@@ -192,3 +205,15 @@ func ReplaceConnectorWithWall(room_instance: Node2D, connector: String, is_corri
 		add_child(fitting_cap)
 	else:
 		return
+
+func GenerateBossRoom() -> EnemyRoom:
+	# TEMPORARY
+	var room_instance: EnemyRoom = boss_rooms[DungeonType.TYPE1].instantiate()
+	room_instance.global_position = Vector2.ZERO
+	room_instance.LocateConnectors()
+	for connector in room_instance.connectors:
+		if room_instance.connectors[connector] != null:
+			ReplaceConnectorWithWall(room_instance, connector, false)
+	
+	return room_instance
+	

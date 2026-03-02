@@ -47,6 +47,7 @@ func DisableDoors() -> void:
 	doors.visible = false
 
 func _on_body_entered(body: Node2D) -> void:
+	# on first player detection
 	if is_room_cleared == false and body.is_in_group("player") and is_room_active == false:
 		is_room_active = true
 		SpawnEnemies()
@@ -56,6 +57,9 @@ func _on_room_cleared() -> void:
 	is_room_cleared = true
 	is_room_active = false
 	DisableDoors()
+	Signals.room_cleared.emit()
+	if WorldManager.total_rooms - WorldManager.cleared_rooms == 0:
+		Signals.all_rooms_cleared.emit()
 	#SpawnLoot()?
 
 func SpawnEnemies() -> void:

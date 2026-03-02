@@ -21,6 +21,7 @@ NodeReferences="*res://Scripts/Global/NodeReferences.gd"
 Signals="*res://Scripts/Global/signals.gd"
 DebugHelper="*res://Scripts/Global/debug_helper.gd"
 GlobalMethods="*res://Scripts/Global/global_methods.gd"
+WorldManager="*res://Scripts/Worldgen/WorldManager.gd"
 
 [display]
 

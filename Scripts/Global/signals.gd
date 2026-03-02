@@ -7,3 +7,6 @@ signal enemy_killed()
 signal player_stat_changed(stat_name: String, value: float, is_detailed: bool)
 signal player_weapon_changed(slot_number: int)
 signal weapon_stat_changed(stat_name: String, value: float, slot_number: int, is_detailed: bool)
+signal room_cleared
+signal world_generated(room_amount: int)
+signal all_rooms_cleared
