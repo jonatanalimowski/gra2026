@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://33vtsvg72ngb"]
+[gd_scene load_steps=6 format=3 uid="uid://33vtsvg72ngb"]
 
 [ext_resource type="PackedScene" uid="uid://c2ooxaoermteu" path="res://Scenes/Misc/Player.tscn" id="2_kln2b"]
+[ext_resource type="PackedScene" uid="uid://l2o5ok5dkahg" path="res://Scenes/World/RoomScenes/Room07.tscn" id="2_oq60g"]
 [ext_resource type="Script" uid="uid://bvn42en1efted" path="res://Scripts/Misc/tempcamerascript.gd" id="4_pbw6q"]
 [ext_resource type="PackedScene" uid="uid://dtwdf4gml8oue" path="res://Scenes/UI/UI.tscn" id="4_rgh2o"]
 [ext_resource type="PackedScene" uid="uid://dd2dj60ofxu8y" path="res://Scenes/World/DungeonGenerator.tscn" id="7_jw32o"]
@@ -8,6 +9,9 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="Node" parent="." instance=ExtResource("7_jw32o")]
+boss_rooms = Dictionary[int, PackedScene]({
+0: ExtResource("2_oq60g")
+})
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

@@ -62,6 +62,10 @@ func _on_room_cleared() -> void:
 		Signals.all_rooms_cleared.emit()
 	#SpawnLoot()?
 
+#
+#func _on_dungeon_cleared() -> void:
+	#pass
+
 func SpawnEnemies() -> void:
 	for spawnpoint in enemy_spawn_markers:
 		var enemy = enemy_table.pick_random().instantiate()

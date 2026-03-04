@@ -30,4 +30,6 @@ corridor_caps = Dictionary[String, PackedScene]({
 "CapUp": ExtResource("12_g4ht2")
 })
 starter_room = ExtResource("4_k8k4m")
-boss_rooms = Array[PackedScene]([ExtResource("17_0s438")])
+boss_rooms = Dictionary[int, PackedScene]({
+0: ExtResource("17_0s438")
+})

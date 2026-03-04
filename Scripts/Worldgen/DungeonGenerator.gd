@@ -26,20 +26,39 @@ var rooms_with_right_connectors: Array[PackedScene]
 @export var up_down_corridors: Array[PackedScene]
 @export var corridor_caps: Dictionary[String, PackedScene]
 @export var starter_room: PackedScene
-@export var boss_rooms: Dictionary[DungeonType, PackedScene]
+@export var boss_rooms: Array[PackedScene]
 
 
-var generation_iterations: int = 3
+var generation_iterations: int = 1
 var rooms_to_cleanup: Array
 var unhandled_rooms: Array
 var unhandled_corridors: Array
 var generated_rooms = 0
+var all_rooms: Array[EnemyRoom]
 
 func _ready() -> void:
+	ConnectSignals()
 	SortRooms()
 	GenerateDungeon()
 	CleanupDungeon()
 
+func ConnectSignals():
+	Signals.all_rooms_cleared.connect(_on_dungeon_cleared)
+
+func _on_dungeon_cleared():
+	if NodeReferences.player:
+		FreeAllRooms()
+		var boss_room = GenerateBossRoom()
+		add_child(boss_room)
+		var p = NodeReferences.player
+		p.global_position = boss_room.player_spawn.global_position
+	else:
+		print("Player missing for boss spawn")
+
+func FreeAllRooms():
+	for child in get_children():
+		child.queue_free()
+	
 func InitialiseDict():
 	fitting_rooms_for_connector = {
 		"UpConnector": rooms_with_up_connectors,
@@ -191,6 +210,7 @@ func ReplaceConnectorWithWall(room_instance: Node2D, connector: String, is_corri
 		_:
 			print("Something went wrong in connector-wall replacement")
 			return
+
 	fitting_cap.LocateConnectors()
 	var cap_connector = fitting_cap.GetFirstConnector()
 	var cap_pos
@@ -203,12 +223,13 @@ func ReplaceConnectorWithWall(room_instance: Node2D, connector: String, is_corri
 			cap_pos = fitting_cap.global_position + difference_vector
 		fitting_cap.global_position = cap_pos
 		add_child(fitting_cap)
+		fitting_cap.z_index = 1
 	else:
 		return
 
-func GenerateBossRoom() -> EnemyRoom:
+func GenerateBossRoom() -> BossRoom:
 	# TEMPORARY
-	var room_instance: EnemyRoom = boss_rooms[DungeonType.TYPE1].instantiate()
+	var room_instance = boss_rooms[DungeonType.TYPE1].instantiate() as BossRoom
 	room_instance.global_position = Vector2.ZERO
 	room_instance.LocateConnectors()
 	for connector in room_instance.connectors:

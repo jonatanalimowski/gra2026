@@ -150,6 +150,7 @@ radius = 4.0
 height = 16.0
 
 [node name="Node2D" type="CharacterBody2D"]
+z_index = 5
 collision_mask = 2
 script = ExtResource("1_kyqiw")
 stats = SubResource("Resource_5ixxa")

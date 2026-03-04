@@ -63,7 +63,6 @@ func _ready() -> void:
 	NodeReferences.player = self
 	Signals.player_ready.emit(self)
 	Signals.player_health_changed.emit(stats.current_health, stats.max_health)
-	
 
 func _exit_tree() -> void:
 	NodeReferences.player = null

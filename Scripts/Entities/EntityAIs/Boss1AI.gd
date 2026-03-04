@@ -1,12 +1,13 @@
 extends Node
-class_name SlimeAI
+class_name Boss1AI
 
 @onready var ParentEntity: Entity = get_parent()
 var timer: float = 0.0
 var jump_frequency: float = 0.5
 var jump_frequency_variation: float
-var jump_duration: float = 0.5
-var movement_direction_offset: float = 45.0
+var jump_duration: float = 1
+var movement_direction_offset: float = 30.0
+
 #Move()
 #Stop()
 #TakeDamage()
@@ -15,10 +16,11 @@ var movement_direction_offset: float = 45.0
 enum State { NORMAL_JUMP, SUPER_JUMP, IDLE }
 var state: State = State.IDLE
 var jump_counter = 0
-var jumps_between_super = 3
+var jumps_between_super = 2
 
 func _ready() -> void:
-	jump_frequency_variation = randf_range(-0.5, 0.5)
+	jump_frequency_variation = randf_range(-0.1, 0.1)
+	ParentEntity.scale = Vector2(3,3)
 
 func _process(delta: float) -> void:
 	if not ParentEntity: return
@@ -29,13 +31,13 @@ func _process(delta: float) -> void:
 
 func execute_behavior() -> void:
 	timer = 0.0
-	jump_frequency_variation = randf_range(0, 1)
+	jump_frequency_variation = randf_range(0, 0.5)
 	
 	if jump_counter == jumps_between_super and state == State.NORMAL_JUMP:
 		state = State.SUPER_JUMP
 	
 	if jump_counter == jumps_between_super and state == State.IDLE:
-		GlobalMethods.FlashSprite(ParentEntity.sprite, 0.6, Color.AQUAMARINE)
+		GlobalMethods.FlashSprite(ParentEntity.sprite, 0.75, Color.ORANGE)
 	
 	match state:
 		State.NORMAL_JUMP:

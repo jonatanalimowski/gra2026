@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=3 uid="uid://psk1gxpjdcsj"]
+
+[ext_resource type="Script" uid="uid://cpdiqwgu4xekk" path="res://Scripts/Entities/EntityMisc/EntityBase.gd" id="1_7ll3w"]
+[ext_resource type="Resource" uid="uid://wmb1ajd4hvfc" path="res://Scripts/Entities/EntityStats/Boss1Stats.tres" id="2_2l8j5"]
+[ext_resource type="PackedScene" uid="uid://tp2mxe65f0lq" path="res://Scenes/EntityCorpses/EntityCorpseBase.tscn" id="3_sk3a8"]
+[ext_resource type="PackedScene" uid="uid://b1u713r0een05" path="res://Scenes/UI/DamageNumber.tscn" id="4_ojtkd"]
+[ext_resource type="SpriteFrames" uid="uid://5uwujdm0yexg" path="res://Scripts/Resources/SpriteFrames/SlimeSpriteFrames.tres" id="5_7q2qc"]
+[ext_resource type="Script" uid="uid://by1dmgh8gdetc" path="res://Scripts/Entities/EntityAIs/Boss1AI.gd" id="6_2l8j5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s367j"]
+radius = 5.0990195
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0dqb0"]
+radius = 6.0827627
+
+[node name="EnemyEntity" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 6
+script = ExtResource("1_7ll3w")
+stats = ExtResource("2_2l8j5")
+corpse_scene = ExtResource("3_sk3a8")
+damage_number_scene = ExtResource("4_ojtkd")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_s367j")
+debug_color = Color(0.7946726, 0.3546824, 0.6140199, 0.41960785)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_0dqb0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -3)
+sprite_frames = ExtResource("5_7q2qc")
+animation = &"moving"
+
+[node name="Brain" type="Node" parent="."]
+script = ExtResource("6_2l8j5")
+
+[node name="Control" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HpLabel" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = -12.0
+offset_top = -15.0
+offset_right = 477.0
+offset_bottom = 163.66667
+scale = Vector2(0.05, 0.05)
+theme_override_font_sizes/font_size = 128
+text = "100/100"
+vertical_alignment = 1
