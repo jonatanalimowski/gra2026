@@ -8,7 +8,7 @@ class_name Entity
 @export var stats: EntityStats
 @export var corpse_scene: PackedScene
 @export var damage_number_scene: PackedScene
-
+var is_boss = false
 var is_dead: bool = false
 
 func _ready() -> void:
@@ -53,6 +53,7 @@ func TakeDamage(amount: float) -> void:
 	if stats.current_health - amount <= 0:
 		stats.current_health = 0
 		Die()
+
 	else:
 		stats.current_health -= amount
 		GlobalMethods.FlashSprite(sprite)
@@ -63,9 +64,15 @@ func TakeDamage(amount: float) -> void:
 		var dmg_num = damage_number_scene.instantiate()
 		get_tree().current_scene.add_child(dmg_num)
 		dmg_num.display(amount, global_position)
+	
+	if is_boss:
+		Signals.boss_health_changed.emit(stats.current_health, stats.max_health)
 
 func Die() -> void:
 	if is_dead == false:
+		if is_boss:
+			Signals.boss_defeated.emit()
+			
 		is_dead = true
 		DisableCollisions()
 		var corpse: EntityCorpse = corpse_scene.instantiate()

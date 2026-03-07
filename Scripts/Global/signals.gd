@@ -10,3 +10,6 @@ signal weapon_stat_changed(stat_name: String, value: float, slot_number: int, is
 signal room_cleared
 signal world_generated(room_amount: int)
 signal all_rooms_cleared
+signal boss_spawned(hp_value: int)
+signal boss_health_changed(new_current: int, new_max: int)
+signal boss_defeated

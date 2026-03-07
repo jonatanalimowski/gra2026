@@ -8,7 +8,9 @@ const GRAY: Color = Color(0.3, 0.3, 0.3, 1.0)
 @onready var secondary_weapon_stats: VBoxContainer = $PlayerStatistics/VBoxContainer/SecondaryWpnStats
 @onready var primary_weapon_slot: TextureRect = $WeaponSlots/HBoxContainer/PrimaryWeapon/WeaponTexture
 @onready var secondary_weapon_slot: TextureRect = $WeaponSlots/HBoxContainer/SecondaryWeapon/WeaponTexture
-
+@onready var boss_hp_bar: TextureProgressBar = $BossBar/Healthbar
+@onready var boss_hp_text: Label = $BossBar/Healthbar/Label
+@onready var boss_ui = $BossBar
 var player_stats_dict: Dictionary[String, Label]
 var primary_weapon_stats_dict: Dictionary[String, Label]
 var secondary_weapon_stats_dict: Dictionary[String, Label]
@@ -17,6 +19,7 @@ var detailed_stats_dict: Dictionary[String, Label]
 #ugly ass ui code
 func _ready() -> void:
 	ConnectSignals()
+	boss_ui.visible = false
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("Tab"):
@@ -32,6 +35,9 @@ func ConnectSignals() -> void:
 	Signals.player_stat_changed.connect(UpdatePlayerStatistics)
 	Signals.player_weapon_changed.connect(_on_player_weapon_changed)
 	Signals.weapon_stat_changed.connect(UpdateWeaponStatistics)
+	Signals.boss_spawned.connect(_on_boss_spawned)
+	Signals.boss_health_changed.connect(UpdateBossHP)
+	Signals.boss_defeated.connect(_on_boss_deafeated)
 
 func _on_player_weapon_changed(weapon_slot: int):
 	if weapon_slot == 1:
@@ -159,3 +165,21 @@ func AddStatLabel(stat_name: String, value: float, parent_node: Control, stat_di
 	stat_dictionary[stat_name] = label
 	var display_name = stat_name.replace("pw_", "").replace("sw_", "").capitalize().replace("_", " ")
 	label.text = "%s: %.1f" % [display_name, value]
+
+func UpdateBossHP(new_current, new_max):
+	print("UPDATEBOSSHP")
+	boss_hp_bar.max_value = new_max
+	boss_hp_bar.value = new_current
+	boss_hp_text.text = str(new_current) + "/" + str(new_max)
+
+func _on_boss_spawned(hp_value):
+	print("BOSSSPAWNED")
+	boss_ui.visible = true
+	boss_hp_bar.max_value = hp_value
+	boss_hp_bar.value = hp_value
+	hp_text.text = str(hp_value) + "/" + str(hp_value)
+
+func _on_boss_deafeated():
+	boss_ui.visible = false
+	boss_hp_bar.visible = false
+	boss_hp_text.visible = false
