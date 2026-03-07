@@ -167,17 +167,15 @@ func AddStatLabel(stat_name: String, value: float, parent_node: Control, stat_di
 	label.text = "%s: %.1f" % [display_name, value]
 
 func UpdateBossHP(new_current, new_max):
-	print("UPDATEBOSSHP")
 	boss_hp_bar.max_value = new_max
 	boss_hp_bar.value = new_current
 	boss_hp_text.text = str(new_current) + "/" + str(new_max)
 
 func _on_boss_spawned(hp_value):
-	print("BOSSSPAWNED")
 	boss_ui.visible = true
 	boss_hp_bar.max_value = hp_value
 	boss_hp_bar.value = hp_value
-	hp_text.text = str(hp_value) + "/" + str(hp_value)
+	boss_hp_text.text = str(hp_value) + "/" + str(hp_value)
 
 func _on_boss_deafeated():
 	boss_ui.visible = false

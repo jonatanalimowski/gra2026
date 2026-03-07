@@ -4,6 +4,7 @@
 [ext_resource type="SpriteFrames" uid="uid://5uwujdm0yexg" path="res://Scripts/Resources/SpriteFrames/SlimeSpriteFrames.tres" id="2_yifu5"]
 
 [node name="EntityCorpseBase" type="Node2D"]
+z_index = 1
 script = ExtResource("1_b6yct")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

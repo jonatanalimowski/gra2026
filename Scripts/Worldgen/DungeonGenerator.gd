@@ -137,6 +137,7 @@ func GenerateConnectingCorridors(room_instance: Room):
 			var corridor_pos = fitting_corridor_instance.global_position + difference_vector
 			fitting_corridor_instance.global_position = corridor_pos
 			if IsRoomFree(fitting_corridor_instance, corridor_pos):
+				fitting_corridor_instance.z_index = -1
 				add_child(fitting_corridor_instance)
 				
 				room_instance.occupied_connectors[connector] = true
@@ -163,6 +164,7 @@ func GenerateConnectingRooms(corridor_instance: Room):
 			fitting_room_instance.global_position = room_pos
 			if IsRoomFree(fitting_room_instance, room_pos):
 				# on succesful room generation
+				fitting_room_instance.z_index = -1
 				add_child(fitting_room_instance)
 				
 				corridor_instance.occupied_connectors[connector] = true

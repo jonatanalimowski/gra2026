@@ -18,6 +18,7 @@ enum player_state {MOVING, DASHING}
 enum weapon_slots {PRIMARY, SECONDARY}
 var current_state: player_state = player_state.MOVING
 var is_invulnerable: bool = false
+var can_shoot = true
 
 func SetWeaponInSlot(weapon_slot: weapon_slots, weapon: PackedScene):
 	if weapon_slot == weapon_slots.PRIMARY:
@@ -38,6 +39,9 @@ func EquipWeapon(weapon_slot: weapon_slots):
 	else:
 		Signals.player_weapon_changed.emit(2)
 		current_weapon = slot2_weapon
+	can_shoot = false
+	get_tree().create_timer(stats.weapon_equip_time).timeout.connect(func(): can_shoot = true)
+
 
 #TEMP
 func UnequipCurrentWeapon():
@@ -65,7 +69,7 @@ func _ready() -> void:
 	Signals.player_health_changed.emit(stats.current_health, stats.max_health)
 	
 	# spawns boss on game start
-	Signals.all_rooms_cleared.emit()
+	#Signals.all_rooms_cleared.emit()
 
 func _exit_tree() -> void:
 	NodeReferences.player = null
@@ -143,7 +147,7 @@ func UpdateMovingAnimation():
 		sprite.stop()
 
 func HandleShooting() -> void:
-	if current_weapon:
+	if current_weapon and can_shoot:
 		var dir = (get_global_mouse_position() - global_position).normalized()
 		var pos = muzzle.global_position
 		current_weapon.Shoot(dir, pos)

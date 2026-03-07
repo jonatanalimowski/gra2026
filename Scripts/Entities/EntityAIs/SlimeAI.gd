@@ -18,7 +18,7 @@ var jump_counter = 0
 var jumps_between_super = 3
 
 func _ready() -> void:
-	jump_frequency_variation = randf_range(-0.5, 0.5)
+	jump_frequency_variation = randf_range(0, 0.5)
 
 func _process(delta: float) -> void:
 	if not ParentEntity: return
@@ -53,7 +53,7 @@ func execute_behavior() -> void:
 			jump_counter = 0
 
 func get_direction_to_player(with_random_offset: bool = true) -> Vector2:
-	if not NodeReferences.player:
+	if not ParentEntity.CanSeePlayer():
 		return Vector2.from_angle(randf() * TAU)
 	
 	var dir = ParentEntity.global_position.direction_to(NodeReferences.player.global_position)

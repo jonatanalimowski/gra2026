@@ -1,6 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://cpwe8wwql1nb4"]
+[gd_scene load_steps=12 format=3 uid="uid://cpwe8wwql1nb4"]
 
-[ext_resource type="PackedScene" uid="uid://cotn5ohfxidx5" path="res://Scenes/BaseScenes/Projectile.tscn" id="1_tfsxn"]
+[ext_resource type="Script" uid="uid://c46h00xyytalo" path="res://Scripts/Projectiles/Projectile.gd" id="1_tfsxn"]
 [ext_resource type="Resource" uid="uid://dur2xpx42i8mc" path="res://Scripts/Projectiles/ProjectileStats/ProjectileFlameShurikenStats.tres" id="2_tfsxn"]
 [ext_resource type="Texture2D" uid="uid://ertg0dxgn14i" path="res://Sprites/Fire Effect and Bullet 16x16.png" id="3_2y5xa"]
 
@@ -59,15 +59,24 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Area2D" instance=ExtResource("1_tfsxn")]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xh6v2"]
+radius = 2.0
+height = 12.0
+
+[node name="Area2D" type="CharacterBody2D"]
+z_index = 2
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_tfsxn")
 stats = ExtResource("2_tfsxn")
 
-[node name="AnimatedSprite2D" parent="." index="0"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -6)
-rotation = 0.0
+scale = Vector2(0.99999994, 0.99999994)
 sprite_frames = SubResource("SpriteFrames_6uoff")
-frame = 0
+animation = &"moving"
 frame_progress = 0.2592385
 
-[node name="CollisionShape2D" parent="." index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -6)
+shape = SubResource("CapsuleShape2D_xh6v2")

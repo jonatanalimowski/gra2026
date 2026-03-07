@@ -31,6 +31,7 @@ func _ready() -> void:
 	SetUpPerks()
 	sprite.play("moving")
 	get_tree().create_timer(stats.lifetime).timeout.connect(queue_free)
+	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 
 func SetUpPerks():
 	for id in greater_perks:

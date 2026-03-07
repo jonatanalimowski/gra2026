@@ -86,3 +86,16 @@ func DisableCollisions() -> void:
 		$Area2D/CollisionShape2D.set_deferred("disabled", true)
 	if $CollisionShape2D:
 		$CollisionShape2D.set_deferred("disabled", true)
+
+func CanSeePlayer() -> bool:
+	var p = NodeReferences.player
+	if p:
+		var space_state = get_world_2d().direct_space_state
+		var query = PhysicsRayQueryParameters2D.create(global_position, p.global_position)
+		query.exclude = [get_rid()]
+		query.collision_mask = 3
+		
+		var result = space_state.intersect_ray(query)
+		if result:
+			return result.collider.is_in_group("player")
+	return false

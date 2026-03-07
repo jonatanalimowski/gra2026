@@ -8,8 +8,9 @@ class_name PlayerStats
 @export var dash_speed: float = 300.0
 @export var dash_cooldown: float = 1.0
 @export var friction: float = 5000.0
+@export var weapon_equip_time: float = 0.4
 
-const STAT_IGNORE_IN_DISPLAY = ["friction", "acceleration", "current_health", "max_health"]
+const STAT_IGNORE_IN_DISPLAY = ["friction", "acceleration", "current_health", "max_health", "weapon_equip_time"]
 const STAT_DETAILED = ["dash_distance", "dash_speed", "dash_cooldown"]
 
 var current_health: float

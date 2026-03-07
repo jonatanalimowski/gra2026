@@ -6,7 +6,7 @@ var timer: float = 0.0
 var jump_frequency: float = 0.5
 var jump_frequency_variation: float
 var jump_duration: float = 1
-var movement_direction_offset: float = 30.0
+var movement_direction_offset: float = 45
 
 #Move()
 #Stop()
@@ -19,19 +19,17 @@ var jump_counter = 0
 var jumps_between_super = 2
 
 func _ready() -> void:
-	jump_frequency_variation = randf_range(-0.1, 0.1)
 	ParentEntity.scale = Vector2(3,3)
 
 func _process(delta: float) -> void:
 	if not ParentEntity: return
 	
 	timer += delta
-	if timer >= jump_frequency + jump_frequency_variation:
+	if timer >= jump_frequency:
 		execute_behavior()
 
 func execute_behavior() -> void:
 	timer = 0.0
-	jump_frequency_variation = randf_range(0, 0.5)
 	
 	if jump_counter == jumps_between_super and state == State.NORMAL_JUMP:
 		state = State.SUPER_JUMP
