@@ -20,7 +20,7 @@ func _ready() -> void:
 		SetIcon(content.icon)
 	else:
 		SetName("Missing Name")
-		SetDescription("Missing description, what a bummer :(")
+		SetDescription("Missing description")
 		SetIcon(PlaceholderTexture2D.new())
 
 func _on_button_pressed():
