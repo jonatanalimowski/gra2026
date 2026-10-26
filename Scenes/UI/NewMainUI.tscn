@@ -20,6 +20,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_n8glr")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -30,15 +32,18 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 80
+theme_override_constants/separation = 40
 
 [node name="Forge" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_stretch_ratio = 0.3
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/Forge"]
+custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture = ExtResource("2_76qkg")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/Forge"]
 layout_mode = 2
@@ -51,8 +56,11 @@ horizontal_alignment = 1
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/Start"]
+custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture = ExtResource("2_76qkg")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/Start"]
 layout_mode = 2
@@ -66,8 +74,11 @@ vertical_alignment = 1
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/SkillTree"]
+custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture = ExtResource("2_76qkg")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="RichTextLabel" type="RichTextLabel" parent="HBoxContainer/SkillTree"]
 layout_mode = 2

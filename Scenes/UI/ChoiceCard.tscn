@@ -23,19 +23,23 @@ atlas = ExtResource("1_d37f7")
 region = Rect2(162, 469, 43, 13)
 
 [node name="ChoiceCard" type="Control"]
-custom_minimum_size = Vector2(300, 450)
+custom_minimum_size = Vector2(196, 298)
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_54dwx")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
-offset_right = 300.0
-offset_bottom = 450.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = SubResource("AtlasTexture_54dwx")
+expand_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="TextureRect"]
-custom_minimum_size = Vector2(128, 128)
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -54,9 +58,9 @@ anchor_left = 0.5
 anchor_top = 0.85
 anchor_right = 0.5
 anchor_bottom = 0.85
-offset_left = -130.0
-offset_top = -160.0
-offset_right = 130.0
+offset_left = -80.0
+offset_top = -150.0
+offset_right = 80.0
 grow_horizontal = 2
 grow_vertical = 0
 
@@ -76,8 +80,6 @@ layout_mode = 2
 theme = ExtResource("3_54dwx")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_constants/shadow_outline_size = 4
 theme_override_font_sizes/font_size = 20
 text = "Pomarancza Mocy"
 horizontal_alignment = 1
@@ -96,7 +98,7 @@ layout_mode = 2
 theme = ExtResource("3_54dwx")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
+theme_override_constants/shadow_offset_x = 0
 text = "Pewnie nalezala do czyjegos ogrodu, szkoda ze musiala zostac zerwana.
 
 Smakuje jak zwykla pomarancza"
@@ -114,7 +116,7 @@ offset_top = -14.0
 offset_right = 21.5
 grow_horizontal = 2
 grow_vertical = 0
-scale = Vector2(3, 3)
+scale = Vector2(2, 2)
 pivot_offset = Vector2(21.5, 7)
 texture_normal = SubResource("AtlasTexture_rh26s")
 texture_hover = SubResource("AtlasTexture_81ujg")

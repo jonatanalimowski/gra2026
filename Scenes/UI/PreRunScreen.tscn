@@ -30,6 +30,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_6wyvx")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 1
@@ -59,7 +61,7 @@ theme_override_constants/margin_bottom = 10
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 40
+theme_override_constants/separation = 12
 
 [node name="ChoiceCard" parent="UI/MarginContainer/HBoxContainer" instance=ExtResource("2_ts5e7")]
 layout_mode = 2

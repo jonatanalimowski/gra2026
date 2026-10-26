@@ -66,7 +66,7 @@ layout_mode = 2
 
 [node name="HpLabel" type="Label" parent="DebugUi/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 20
 text = "HP"
 
 [node name="HUD" type="Control" parent="."]
@@ -90,7 +90,7 @@ offset_left = -66.0
 offset_top = -36.0
 grow_horizontal = 0
 grow_vertical = 0
-scale = Vector2(2, 2)
+scale = Vector2(1, 1)
 pivot_offset = Vector2(66, 36)
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
@@ -158,7 +158,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="HUD/PlayerStatistics/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 10
 text = "Player Stats:"
 
 [node name="Playerstats" type="VBoxContainer" parent="HUD/PlayerStatistics/VBoxContainer"]
@@ -166,7 +166,7 @@ layout_mode = 2
 
 [node name="Label2" type="Label" parent="HUD/PlayerStatistics/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 10
 text = "
 Wand Stats:"
 
@@ -188,7 +188,7 @@ offset_top = -50.0
 offset_right = 135.0
 grow_horizontal = 2
 grow_vertical = 0
-scale = Vector2(0.7, 0.7)
+scale = Vector2(0.5, 0.5)
 pivot_offset = Vector2(135, 104)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/PlayerBars"]
@@ -213,7 +213,7 @@ offset_right = 20.0
 offset_bottom = 8.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 20
 text = "450/600"
 
 [node name="ManaBar" type="TextureProgressBar" parent="HUD/PlayerBars/VBoxContainer"]
@@ -235,7 +235,7 @@ offset_right = 20.0
 offset_bottom = 8.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 20
 text = "100/100"
 
 [node name="BossBar" type="MarginContainer" parent="HUD"]
@@ -268,5 +268,5 @@ offset_right = 20.0
 offset_bottom = 8.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 10
 text = "450/600"
