@@ -2,7 +2,7 @@ extends Resource
 class_name PlayerStats
 
 @export var max_health: float = 100.0
-@export var movement_speed: float = 100.0
+@export var movement_speed: float = 1000.0
 @export var acceleration: float = 3000.0
 @export var dash_distance: float = 25.0
 @export var dash_speed: float = 300.0

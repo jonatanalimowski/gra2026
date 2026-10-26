@@ -8,6 +8,7 @@
 
 [sub_resource type="Resource" id="Resource_5ixxa"]
 script = ExtResource("2_dewec")
+movement_speed = 120.0
 metadata/_custom_type_script = "uid://c0vo06wjioddm"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dewec"]
