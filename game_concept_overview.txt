@@ -1,0 +1,39 @@
+==================================================
+PROJECT: ARCANE ROGUE (Working Title)
+GENRE: Top-Down Action Roguelite (Magical / Dark Fantasy)
+==================================================
+
+1. OVERVIEW & CORE LOOP
+- Fast-paced, top-down spellcasting combat.
+- Core Loop: Prepare loadout in Hub -> Enter dungeon run -> Defeat monsters and bosses -> Gather materials and XP -> Unlock meta-progress -> Repeat.
+
+2. PRE-RUN LOADOUT
+- Wand & Elements:
+  * Left Click: Basic spell attack (projectiles, lasers, spread shots).
+  * Right Click: Heavy active spell with cooldown (explosions, shockwaves, summons).
+  * Runes: Elemental modifiers attached to wands (e.g., Burn, Ricochet, Split, Chain Lightning).
+- Defensive & Utility Gear:
+  * Armor: Modifies base stats, defense, and playstyle (e.g., Mage Robes, Plate Mail).
+  * Rings & Amulets: Trigger and passive effects (e.g., Vampirism, critical strikes, material find).
+  * Scroll (Dash under Shift): Mobility options like classic dash, teleport (Blink), or decoy clone.
+
+3. META-PROGRESSION & CRAFTING
+- The Forge:
+  * Craft and upgrade wands and equipment using resources gathered during runs.
+  * Unlock new equipment variations permanently.
+- Global Skill Tree:
+  * Mastery graph to unlock run-modifying perks (e.g., better forge yields, extra rune slots, starting resources).
+
+4. IN-RUN GAMEPLAY
+- Dungeon Progression: Clean rooms, fight waves of enemies, and face a boss at the end of each floor.
+- In-Run Upgrades:
+  * Choose-1-of-3 temporary blessings/buffs after encounters (e.g., vampiric projectiles, elemental procs).
+  * Altar of Power: Temporary or floor-long stat upgrades.
+  * Material drops for the Forge.
+
+5. USER INTERFACE (UI) STRUCTURE
+- Main Hub: Navigation portal to Run, Forge, and Skill Tree.
+- Loadout Screen: Grid-based equipment setup for Wands, Runes, Armor, Accessories, and Dash.
+- Forge Screen: Material counters, side-by-side stat comparisons, and upgrade button.
+- Skill Tree Screen: Constellation node map with unlock states (locked, available, unlocked).
+- In-Game HUD: Health/Mana bars, ability cooldowns, mini-op, and mid-run upgrade selection overlay.
