@@ -2,14 +2,14 @@
 
 [ext_resource type="Texture2D" uid="uid://cw5jyrfnds2e8" path="res://Sprites/menu_background.png" id="1_6wyvx"]
 [ext_resource type="Script" uid="uid://d0e744afx76eu" path="res://Scripts/UI/pre_run_screen.gd" id="1_etodu"]
+[ext_resource type="Script" path="res://Scripts/Resources/Items/WandData.gd" id="10_wanddata"]
 [ext_resource type="PackedScene" uid="uid://qaxenbbv1xph" path="res://Scenes/UI/ChoiceCard.tscn" id="2_ts5e7"]
-[ext_resource type="PackedScene" uid="uid://cafoknk2ycw7p" path="res://Scenes/Weapons/Primary/WeaponPrimary.tscn" id="3_nncsk"]
-[ext_resource type="PackedScene" uid="uid://c7at6yxhywx4c" path="res://Scenes/Weapons/Primary/WeaponPrimary2.tscn" id="4_pr2pg"]
-[ext_resource type="PackedScene" uid="uid://c045u1vwxgoay" path="res://Scenes/Weapons/Primary/WeaponPrimary3.tscn" id="5_ss8yl"]
-[ext_resource type="PackedScene" uid="uid://cpnp5qlqunojs" path="res://Scenes/Weapons/Secondary/WeaponSecondary.tscn" id="6_gnl3x"]
-[ext_resource type="PackedScene" uid="uid://c1mtn0sl5lsv0" path="res://Scenes/Weapons/Secondary/WeaponSecondary2.tscn" id="7_2yyjg"]
-[ext_resource type="PackedScene" uid="uid://vslnxx2pparc" path="res://Scenes/Weapons/Secondary/WeaponSecondary3.tscn" id="8_fvo8v"]
-[ext_resource type="PackedScene" uid="uid://33vtsvg72ngb" path="res://Scenes/Misc/Main.tscn" id="9_pr2pg"]
+[ext_resource type="Resource" path="res://Data/Wands/FlameStarWand.tres" id="3_FlameStarWand"]
+[ext_resource type="Resource" path="res://Data/Wands/FlameShurikenWand.tres" id="4_FlameShurikenWand"]
+[ext_resource type="Resource" path="res://Data/Wands/PurpleBoltWand.tres" id="5_PurpleBoltWand"]
+[ext_resource type="Resource" path="res://Data/Wands/PurpleSawStaff.tres" id="6_PurpleSawStaff"]
+[ext_resource type="Resource" path="res://Data/Wands/BlueBlinkerWand.tres" id="7_BlueBlinkerWand"]
+[ext_resource type="Resource" path="res://Data/Wands/GreenShurikenWand.tres" id="8_GreenShurikenWand"]
 
 [node name="PreRunScreen" type="Control"]
 layout_mode = 3
@@ -20,9 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_etodu")
 choice_card_scene = ExtResource("2_ts5e7")
-primary_weapons = Array[PackedScene]([ExtResource("3_nncsk"), ExtResource("4_pr2pg"), ExtResource("5_ss8yl")])
-secondary_weapons = Array[PackedScene]([ExtResource("6_gnl3x"), ExtResource("7_2yyjg"), ExtResource("8_fvo8v")])
-start_scene = ExtResource("9_pr2pg")
+wands = Array[ExtResource("10_wanddata")]([ExtResource("3_FlameStarWand"), ExtResource("4_FlameShurikenWand"), ExtResource("5_PurpleBoltWand"), ExtResource("6_PurpleSawStaff"), ExtResource("7_BlueBlinkerWand"), ExtResource("8_GreenShurikenWand")])
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1

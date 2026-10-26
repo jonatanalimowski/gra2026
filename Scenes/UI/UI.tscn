@@ -79,7 +79,7 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("3_48q88")
 
-[node name="WeaponSlots" type="MarginContainer" parent="HUD"]
+[node name="SpellSlots" type="MarginContainer" parent="HUD"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
@@ -97,17 +97,17 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HUD/WeaponSlots"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/SpellSlots"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="PrimaryWeapon" type="TextureRect" parent="HUD/WeaponSlots/HBoxContainer"]
+[node name="PrimarySpell" type="TextureRect" parent="HUD/SpellSlots/HBoxContainer"]
 layout_mode = 2
 texture = SubResource("AtlasTexture_xjg7p")
 stretch_mode = 4
 
-[node name="WeaponTexture" type="TextureRect" parent="HUD/WeaponSlots/HBoxContainer/PrimaryWeapon"]
+[node name="SpellTexture" type="TextureRect" parent="HUD/SpellSlots/HBoxContainer/PrimarySpell"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -122,12 +122,12 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_mg6lk")
 
-[node name="SecondaryWeapon" type="TextureRect" parent="HUD/WeaponSlots/HBoxContainer"]
+[node name="HeavySpell" type="TextureRect" parent="HUD/SpellSlots/HBoxContainer"]
 layout_mode = 2
 texture = SubResource("AtlasTexture_xjg7p")
 stretch_mode = 4
 
-[node name="WeaponTexture" type="TextureRect" parent="HUD/WeaponSlots/HBoxContainer/SecondaryWeapon"]
+[node name="SpellTexture" type="TextureRect" parent="HUD/SpellSlots/HBoxContainer/HeavySpell"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -168,12 +168,12 @@ layout_mode = 2
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "
-Weapon Stats:"
+Wand Stats:"
 
-[node name="PrimaryWpnStats" type="VBoxContainer" parent="HUD/PlayerStatistics/VBoxContainer"]
+[node name="PrimarySpellStats" type="VBoxContainer" parent="HUD/PlayerStatistics/VBoxContainer"]
 layout_mode = 2
 
-[node name="SecondaryWpnStats" type="VBoxContainer" parent="HUD/PlayerStatistics/VBoxContainer"]
+[node name="HeavySpellStats" type="VBoxContainer" parent="HUD/PlayerStatistics/VBoxContainer"]
 layout_mode = 2
 
 [node name="PlayerBars" type="MarginContainer" parent="HUD"]

@@ -2,99 +2,91 @@ extends CharacterBody2D
 class_name Player
 @onready var sprite = $AnimatedSprite2D
 @onready var muzzle = $Marker2D
-@onready var weapon_slot1 = $WeaponSlot1
-@onready var weapon_slot2 = $WeaponSlot2
-@export var stats: PlayerStats
-@export var primary_weapon_scene: PackedScene
-@export var secondary_weapon_scene: PackedScene
+@export var base_stats: PlayerStats
+# used when Main.tscn is started straight from the editor, without picking a wand first
+@export var fallback_wand: WandData
 
-var current_weapon: Weapon
-var slot1_weapon: Weapon
-var slot2_weapon: Weapon
+var stats: StatBlock
+var health: Health
+var wand: Wand
+var mobility: MobilityAbility
+# effects from equipment and blessings, added to every spell cast
+var effects: Array[Effect] = []
+
 var can_dash: bool = true
-var dash_direction: Vector2 = Vector2.ZERO
+var dash_velocity: Vector2 = Vector2.ZERO
 var input: Vector2
 enum player_state {MOVING, DASHING}
-enum weapon_slots {PRIMARY, SECONDARY}
 var current_state: player_state = player_state.MOVING
 var is_invulnerable: bool = false
-var can_shoot = true
-
-func SetWeaponInSlot(weapon_slot: weapon_slots, weapon: PackedScene):
-	if weapon_slot == weapon_slots.PRIMARY:
-		if slot1_weapon == null:
-			slot1_weapon = weapon.instantiate() as Weapon
-			slot1_weapon.stats.current_slot = 1
-			weapon_slot1.add_child(slot1_weapon)
-	else:
-		if slot2_weapon == null:
-			slot2_weapon = weapon.instantiate() as Weapon
-			slot2_weapon.stats.current_slot = 2
-			weapon_slot2.add_child(slot2_weapon)
-
-func EquipWeapon(weapon_slot: weapon_slots):
-	if weapon_slot == weapon_slots.PRIMARY:
-		Signals.player_weapon_changed.emit(1)
-		current_weapon = slot1_weapon
-	else:
-		Signals.player_weapon_changed.emit(2)
-		current_weapon = slot2_weapon
-	can_shoot = false
-	get_tree().create_timer(stats.weapon_equip_time).timeout.connect(func(): can_shoot = true)
-
-
-#TEMP
-func UnequipCurrentWeapon():
-	if current_weapon:
-		current_weapon = null
-
-func UpdateDebugUI(key : String, text : String) -> void:
-	var label: Label = Label.new()
-	label.text = text
-	Signals.debug_ui_updated.emit({key : label})
+var is_dead: bool = false
 
 func _ready() -> void:
-	primary_weapon_scene = NodeReferences.chosen_primary
-	secondary_weapon_scene = NodeReferences.chosen_secondary
-	stats.update_stat("current_health", stats.max_health)
-	UpdateDebugUI("player_health", "HP " + str(stats.current_health))
 	add_to_group("player")
-	
-	SetWeaponInSlot(weapon_slots.PRIMARY, primary_weapon_scene)
-	SetWeaponInSlot(weapon_slots.SECONDARY, secondary_weapon_scene)
-	EquipWeapon(weapon_slots.PRIMARY)
-	
+	stats = StatBlock.FromResource(base_stats)
+	ApplyLoadout(RunState.loadout)
+
+	health = Health.new(stats.GetStat(&"max_health"))
+	health.changed.connect(func(current, maximum): Signals.player_health_changed.emit(current, maximum))
+	health.died.connect(Die)
+	stats.stat_changed.connect(_on_stat_changed)
+
 	NodeReferences.player = self
 	Signals.player_ready.emit(self)
-	Signals.player_health_changed.emit(stats.current_health, stats.max_health)
-	
-	# spawns boss on game start
-	#Signals.all_rooms_cleared.emit()
+	Signals.player_health_changed.emit(health.current, health.maximum)
+
+func ApplyLoadout(loadout: Loadout) -> void:
+	if loadout == null:
+		loadout = Loadout.new()
+
+	for item in loadout.GetEquipment():
+		for modifier in item.player_modifiers:
+			stats.AddModifier(modifier, item)
+		effects.append_array(item.effects)
+
+	# run-wide buffs (blessings, altars)
+	for modifier in RunState.player_modifiers:
+		stats.AddModifier(modifier, RunState)
+	effects.append_array(RunState.effects)
+
+	if loadout.scroll and loadout.scroll.ability:
+		mobility = loadout.scroll.ability
+	else:
+		mobility = DashAbility.new()
+
+	wand = Wand.new()
+	wand.name = "Wand"
+	add_child(wand)
+	wand.Setup(loadout.wand if loadout.wand else fallback_wand)
+
+func _on_stat_changed(stat_name: StringName, value: float) -> void:
+	if stat_name == &"max_health":
+		health.SetMaximum(value)
 
 func _exit_tree() -> void:
 	NodeReferences.player = null
 
-func TakeDamage(amount: float) -> void:
-	if is_invulnerable == false:
-		if stats.current_health - amount <= 0:
-			Die()
-		else:
-			GlobalMethods.FlashSprite(sprite)
-			stats.update_stat("current_health", stats.current_health - amount)
-			Signals.player_health_changed.emit(stats.current_health, stats.max_health)
+func TakeDamage(info: DamageInfo) -> void:
+	if is_invulnerable or is_dead:
+		return
+
+	health.Damage(info.amount)
+	if not is_dead:
+		GlobalMethods.FlashSprite(sprite)
 
 func Die() -> void:
-	get_tree().reload_current_scene()
+	if is_dead:
+		return
+	is_dead = true
+	Signals.player_died.emit()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("Weapon1"):
-		EquipWeapon(weapon_slots.PRIMARY)
-	if event.is_action_pressed("Weapon2"):
-		EquipWeapon(weapon_slots.SECONDARY)
+	if event.is_action_pressed("RightMouse"):
+		CastSpell(false)
 	if event.is_action_pressed("Dash") and current_state == player_state.MOVING and can_dash:
-		StartDash()
+		UseMobility()
 	if event.is_action_pressed("Restart"):
-		Die()
+		GameFlow.RestartRun()
 
 func GetMovementInput():
 	input.x = Input.get_action_strength("Right") - Input.get_action_strength("Left")
@@ -103,7 +95,7 @@ func GetMovementInput():
 
 func _process(delta: float) -> void:
 	if Input.is_action_pressed("LeftMouse"):
-		HandleShooting()
+		CastSpell(true)
 
 func _physics_process(delta: float) -> void:
 	match current_state:
@@ -113,18 +105,19 @@ func _physics_process(delta: float) -> void:
 		player_state.DASHING:
 			HandleDashState()
 
-func StartDash() -> void:
-	var dash_duration = stats.dash_distance / stats.dash_speed
+func UseMobility() -> void:
 	can_dash = false
-	dash_direction = GetMovementInput()
-	
-	get_tree().create_timer(dash_duration).timeout.connect(EndDash)
-	get_tree().create_timer(stats.dash_cooldown).timeout.connect(func(): can_dash = true)
-	MakeInvulnerable(dash_duration)
+	get_tree().create_timer(mobility.cooldown).timeout.connect(func(): can_dash = true)
+	mobility.Activate(self, GetMovementInput())
+
+# moves the player with a fixed velocity for a while, ignoring input. used by DashAbility
+func StartDash(velocity_during_dash: Vector2, duration: float) -> void:
+	dash_velocity = velocity_during_dash
 	current_state = player_state.DASHING
+	get_tree().create_timer(duration).timeout.connect(EndDash)
 
 func HandleDashState() -> void:
-	velocity = dash_direction * stats.dash_speed
+	velocity = dash_velocity
 	move_and_slide()
 
 func EndDash() -> void:
@@ -146,18 +139,23 @@ func UpdateMovingAnimation():
 	else:
 		sprite.stop()
 
-func HandleShooting() -> void:
-	if current_weapon and can_shoot:
-		var dir = (get_global_mouse_position() - global_position).normalized()
-		var pos = muzzle.global_position
-		current_weapon.Shoot(dir, pos)
+func CastSpell(is_primary: bool) -> void:
+	if is_dead:
+		return
+
+	var dir = (get_global_mouse_position() - global_position).normalized()
+	var pos = muzzle.global_position
+	if is_primary:
+		wand.CastPrimary(self, dir, pos, effects)
+	else:
+		wand.CastHeavy(self, dir, pos, effects)
 
 func HandleMoveState(delta: float) -> void:
 	var direction = GetMovementInput()
 	if direction != Vector2.ZERO:
-		velocity = velocity.move_toward(direction * stats.movement_speed, delta*stats.acceleration)
+		velocity = velocity.move_toward(direction * stats.GetStat(&"movement_speed"), delta * stats.GetStat(&"acceleration"))
 	else:
-		velocity = velocity.move_toward(Vector2.ZERO, delta*stats.friction)
+		velocity = velocity.move_toward(Vector2.ZERO, delta * stats.GetStat(&"friction"))
 	move_and_slide()
 
 func MakeInvulnerable(seconds: float) -> void:

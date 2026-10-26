@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="WandData" load_steps=11 format=3 uid="uid://dgn6t1kdp3dki"]
+
+[ext_resource type="Script" uid="uid://jt1r0vubh4cb" path="res://Scripts/Resources/Items/WandData.gd" id="1_wand"]
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/Effect.gd" id="2_ny78c"]
+[ext_resource type="Script" uid="uid://bqwypd1uvt6ft" path="res://Scripts/Resources/Items/SpellData.gd" id="2_spell"]
+[ext_resource type="PackedScene" uid="uid://dryqdy6fr0n6x" path="res://Scenes/ProjectileScenes/ProjectilePurpleSaw.tscn" id="3_projectile"]
+[ext_resource type="Texture2D" uid="uid://cckenj4w3la12" path="res://Sprites/wands_alternative.png" id="4_tex"]
+[ext_resource type="Script" uid="uid://bqmfbqnscq3kp" path="res://Scripts/Resources/Items/RuneData.gd" id="5_rune"]
+[ext_resource type="Resource" uid="uid://d3mu1bvlu4axf" path="res://Data/Runes/BounceRune.tres" id="6_BounceRune"]
+[ext_resource type="Resource" uid="uid://qalmqmhbympj" path="res://Data/Runes/PierceRune.tres" id="7_PierceRune"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icon"]
+atlas = ExtResource("4_tex")
+region = Rect2(91, 41, 15, 23)
+
+[sub_resource type="Resource" id="Resource_primary_spell"]
+script = ExtResource("2_spell")
+projectile_scene = ExtResource("3_projectile")
+damage = 100.0
+cooldown = 0.1
+spread = 5.0
+
+[resource]
+script = ExtResource("1_wand")
+primary_spell = SubResource("Resource_primary_spell")
+runes = Array[ExtResource("5_rune")]([ExtResource("6_BounceRune"), ExtResource("7_PierceRune")])
+id = &"purple_saw_staff"
+display_name = "Purple Saw Staff"
+description = "A weapon made for attacking your enemies"
+icon = SubResource("AtlasTexture_icon")

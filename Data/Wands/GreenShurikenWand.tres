@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="WandData" load_steps=9 format=3 uid="uid://cbdxiev6ptlcm"]
+
+[ext_resource type="Script" uid="uid://jt1r0vubh4cb" path="res://Scripts/Resources/Items/WandData.gd" id="1_wand"]
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/Effect.gd" id="2_cvu1q"]
+[ext_resource type="Script" uid="uid://bqwypd1uvt6ft" path="res://Scripts/Resources/Items/SpellData.gd" id="2_spell"]
+[ext_resource type="PackedScene" uid="uid://snmuhf7avlcw" path="res://Scenes/ProjectileScenes/ProjectileGreenStar.tscn" id="3_projectile"]
+[ext_resource type="Texture2D" uid="uid://bqfsopl255qmi" path="res://Sprites/Wands-original.png" id="4_tex"]
+[ext_resource type="Script" uid="uid://bqmfbqnscq3kp" path="res://Scripts/Resources/Items/RuneData.gd" id="5_rnf0u"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icon"]
+atlas = ExtResource("4_tex")
+region = Rect2(127, 7, 17, 24)
+
+[sub_resource type="Resource" id="Resource_primary_spell"]
+script = ExtResource("2_spell")
+projectile_scene = ExtResource("3_projectile")
+
+[resource]
+script = ExtResource("1_wand")
+primary_spell = SubResource("Resource_primary_spell")
+id = &"green_shuriken_wand"
+display_name = "Green Shuriken Wand"
+description = "A weapon made for attacking your enemies"
+icon = SubResource("AtlasTexture_icon")

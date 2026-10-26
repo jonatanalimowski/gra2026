@@ -29,23 +29,30 @@ var rooms_with_right_connectors: Array[PackedScene]
 @export var boss_rooms: Array[PackedScene]
 
 
-var generation_iterations: int = 1
+var generation_iterations: int = 3
 var rooms_to_cleanup: Array
 var unhandled_rooms: Array
 var unhandled_corridors: Array
 var generated_rooms = 0
-var all_rooms: Array[EnemyRoom]
+var rooms_left_to_clear: int = 0
 
 func _ready() -> void:
-	ConnectSignals()
 	SortRooms()
 	GenerateDungeon()
 	CleanupDungeon()
+	
+	if rooms_left_to_clear == 0:
+		# nothing to clear (every room failed to generate), go straight to the boss
+		StartBossFight.call_deferred()
 
-func ConnectSignals():
-	Signals.all_rooms_cleared.connect(_on_dungeon_cleared)
+func _on_room_cleared(_room: EnemyRoom) -> void:
+	rooms_left_to_clear -= 1
+	print("Rooms left: " + str(rooms_left_to_clear))
+	if rooms_left_to_clear == 0:
+		Signals.all_rooms_cleared.emit()
+		StartBossFight()
 
-func _on_dungeon_cleared():
+func StartBossFight():
 	if NodeReferences.player:
 		FreeAllRooms()
 		var boss_room = GenerateBossRoom()
@@ -84,14 +91,14 @@ func GenerateDungeon():
 	starter_room_instance.global_position = Vector2.ZERO
 	add_child(starter_room_instance)
 	unhandled_rooms.append(starter_room_instance)
+	
 	for i in range(generation_iterations):
 		var rooms_to_process = unhandled_rooms.duplicate()
 		for room in rooms_to_process:
-			#print("ITERACJA NR " + str(i) + " " + str(room))
 			GenerateConnectingCorridors(room)
+			
 		var corridors_to_process = unhandled_corridors.duplicate()
 		for corridor in corridors_to_process:
-			#print("ITERACJA NR " + str(i) + " " + str(corridor))
 			GenerateConnectingRooms(corridor)
 	Signals.world_generated.emit(generated_rooms)
 
@@ -171,6 +178,9 @@ func GenerateConnectingRooms(corridor_instance: Room):
 				fitting_room_instance.occupied_connectors[opposite_connector[connector]] = true
 				unhandled_rooms.append(fitting_room_instance)
 				generated_rooms += 1
+				if fitting_room_instance is EnemyRoom:
+					fitting_room_instance.cleared.connect(_on_room_cleared)
+					rooms_left_to_clear += 1
 			else:
 				# if there is no space for a room, remove corridor and place a wall on the room exit.
 				ReplaceConnectorWithWall(corridor_instance, opposite_connector[connector], true)

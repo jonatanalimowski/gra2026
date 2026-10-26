@@ -5,7 +5,7 @@
 [ext_resource type="SpriteFrames" uid="uid://5uwujdm0yexg" path="res://Scripts/Resources/SpriteFrames/SlimeSpriteFrames.tres" id="3_d20lv"]
 [ext_resource type="PackedScene" uid="uid://tp2mxe65f0lq" path="res://Scenes/EntityCorpses/EntityCorpseBase.tscn" id="3_lf4cp"]
 [ext_resource type="PackedScene" uid="uid://b1u713r0een05" path="res://Scenes/UI/DamageNumber.tscn" id="4_pb6g0"]
-[ext_resource type="Script" uid="uid://da5ee26iwoxo3" path="res://Scripts/Entities/EntityAIs/SlimeAI.gd" id="4_s367j"]
+[ext_resource type="Script" uid="uid://da5ee26iwoxo3" path="res://Scripts/Entities/EntityAIs/JumperAI.gd" id="4_s367j"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s367j"]
 radius = 5.0990195
@@ -18,7 +18,7 @@ z_index = 2
 collision_layer = 8
 collision_mask = 2
 script = ExtResource("1_k415t")
-stats = ExtResource("2_s367j")
+base_stats = ExtResource("2_s367j")
 corpse_scene = ExtResource("3_lf4cp")
 damage_number_scene = ExtResource("4_pb6g0")
 

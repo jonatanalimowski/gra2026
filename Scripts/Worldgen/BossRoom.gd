@@ -6,12 +6,12 @@ class_name BossRoom
 var time_before_boss: float = 2.0
 
 func _ready() -> void:
-	SpawnBoss()
+	# a timer connection instead of await, so nothing runs if the room is freed before it fires
+	get_tree().create_timer(time_before_boss).timeout.connect(SpawnBoss)
 
 func SpawnBoss():
-	await get_tree().create_timer(time_before_boss).timeout
 	var boss = possible_bosses.pick_random().instantiate() as Entity
 	add_child(boss)
 	boss.global_position = player_spawn.global_position
 	boss.is_boss = true
-	Signals.boss_spawned.emit(boss.stats.max_health)
+	Signals.boss_spawned.emit(boss.health.maximum)

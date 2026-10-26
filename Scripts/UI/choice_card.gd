@@ -8,15 +8,14 @@ class_name ChoiceCard
 
 signal card_chosen(card)
 
-var content_scene
-var content # a weapon or a perk
+var content: ItemData # a wand now, later blessings/runes/etc.
 
 func _ready() -> void:
 	button.pressed.connect(_on_button_pressed)
 	
 	if content:
-		SetName(content.name_text)
-		SetDescription(content.description_text)
+		SetName(content.display_name)
+		SetDescription(content.description)
 		SetIcon(content.icon)
 	else:
 		SetName("Missing Name")
@@ -24,7 +23,7 @@ func _ready() -> void:
 		SetIcon(PlaceholderTexture2D.new())
 
 func _on_button_pressed():
-	card_chosen.emit(content_scene)
+	card_chosen.emit(content)
 
 func SetName(text: String) -> void:
 	name_label.text = text

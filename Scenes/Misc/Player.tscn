@@ -2,9 +2,8 @@
 
 [ext_resource type="Script" uid="uid://d22ugsnpvbate" path="res://Scripts/Entities/Player.gd" id="1_kyqiw"]
 [ext_resource type="Script" uid="uid://c0vo06wjioddm" path="res://Scripts/Resources/PlayerStats.gd" id="2_dewec"]
-[ext_resource type="PackedScene" uid="uid://cafoknk2ycw7p" path="res://Scenes/Weapons/Primary/WeaponPrimary.tscn" id="3_dewec"]
 [ext_resource type="Texture2D" uid="uid://c8iwtcvsg0pbq" path="res://Sprites/character_base_16x16.png" id="3_gntrk"]
-[ext_resource type="PackedScene" uid="uid://cpnp5qlqunojs" path="res://Scenes/Weapons/Secondary/WeaponSecondary.tscn" id="4_5ixxa"]
+[ext_resource type="Resource" path="res://Data/Wands/FlameStarWand.tres" id="4_wand"]
 
 [sub_resource type="Resource" id="Resource_5ixxa"]
 script = ExtResource("2_dewec")
@@ -154,9 +153,8 @@ height = 16.0
 z_index = 5
 collision_mask = 2
 script = ExtResource("1_kyqiw")
-stats = SubResource("Resource_5ixxa")
-primary_weapon_scene = ExtResource("3_dewec")
-secondary_weapon_scene = ExtResource("4_5ixxa")
+base_stats = SubResource("Resource_5ixxa")
+fallback_wand = ExtResource("4_wand")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -1.1920929e-07)
@@ -167,7 +165,3 @@ animation = &"walk_up"
 shape = SubResource("CapsuleShape2D_e80uo")
 
 [node name="Marker2D" type="Marker2D" parent="."]
-
-[node name="WeaponSlot1" type="Node" parent="."]
-
-[node name="WeaponSlot2" type="Node" parent="."]

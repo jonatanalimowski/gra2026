@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://tp2mxe65f0lq" path="res://Scenes/EntityCorpses/EntityCorpseBase.tscn" id="3_sk3a8"]
 [ext_resource type="PackedScene" uid="uid://b1u713r0een05" path="res://Scenes/UI/DamageNumber.tscn" id="4_ojtkd"]
 [ext_resource type="SpriteFrames" uid="uid://5uwujdm0yexg" path="res://Scripts/Resources/SpriteFrames/SlimeSpriteFrames.tres" id="5_7q2qc"]
-[ext_resource type="Script" uid="uid://by1dmgh8gdetc" path="res://Scripts/Entities/EntityAIs/Boss1AI.gd" id="6_2l8j5"]
+[ext_resource type="Script" uid="uid://da5ee26iwoxo3" path="res://Scripts/Entities/EntityAIs/JumperAI.gd" id="6_2l8j5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s367j"]
 radius = 5.0990195
@@ -15,10 +15,11 @@ radius = 6.0827627
 
 [node name="EnemyEntity" type="CharacterBody2D"]
 z_index = 2
+scale = Vector2(3, 3)
 collision_layer = 8
 collision_mask = 2
 script = ExtResource("1_7ll3w")
-stats = ExtResource("2_2l8j5")
+base_stats = ExtResource("2_2l8j5")
 corpse_scene = ExtResource("3_sk3a8")
 damage_number_scene = ExtResource("4_ojtkd")
 
@@ -38,6 +39,12 @@ animation = &"moving"
 
 [node name="Brain" type="Node" parent="."]
 script = ExtResource("6_2l8j5")
+max_frequency_variation = 0.0
+jump_duration = 1.0
+jumps_between_super = 2
+telegraph_color = Color(1, 0.64705884, 0, 1)
+telegraph_duration = 0.75
+needs_line_of_sight = false
 
 [node name="Control" type="Control" parent="."]
 visible = false
