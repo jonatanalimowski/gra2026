@@ -7,17 +7,23 @@ extends Node
 var loadout: Loadout
 var floor_number: int = 1
 var is_run_active: bool = false
+# every floor layout comes from this. kept on Ctrl+R, so a restart replays the same floors
+var run_seed: int = randi()
 
 # run-wide buffs picked up during the run (blessings, altars). the player applies these on spawn
 var player_modifiers: Array[StatModifier] = []
 var effects: Array[Effect] = []
 
-func Begin(new_loadout: Loadout) -> void:
+func Begin(new_loadout: Loadout, seed_value: int = 0) -> void:
 	loadout = new_loadout
+	run_seed = seed_value if seed_value != 0 else randi()
 	floor_number = 1
 	player_modifiers.clear()
 	effects.clear()
 	is_run_active = true
+
+func GetFloorSeed() -> int:
+	return hash([run_seed, floor_number])
 
 func Finish(_victory: bool) -> void:
 	# TODO: hand collected materials/xp over to MetaProgress here

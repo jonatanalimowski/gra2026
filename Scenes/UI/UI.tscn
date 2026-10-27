@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cgw1hba11t1cp" path="res://Sprites/UI/Pack1/bars.png" id="3_dewlx"]
 [ext_resource type="Texture2D" uid="uid://d1yn33s7btbdp" path="res://Sprites/UI/Pack2/Main_tiles.png" id="4_qwshj"]
 [ext_resource type="Texture2D" uid="uid://cxpgwcbtjgnhi" path="res://Sprites/Exotic Swords.png" id="5_48q88"]
+[ext_resource type="Script" path="res://Scripts/UI/Minimap.gd" id="9_minimap"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xjg7p"]
 atlas = ExtResource("4_qwshj")
@@ -270,3 +271,16 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 10
 text = "450/600"
+
+[node name="Minimap" type="Control" parent="HUD"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -124.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = 86.0
+grow_horizontal = 0
+mouse_filter = 2
+script = ExtResource("9_minimap")

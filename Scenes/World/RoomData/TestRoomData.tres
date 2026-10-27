@@ -6,8 +6,4 @@
 [resource]
 script = ExtResource("1_va80q")
 room_scene = ExtResource("1_k311i")
-has_up_connector = true
-has_down_connector = true
-has_left_connector = true
-has_right_connector = true
 metadata/_custom_type_script = "uid://bunwvwvryinco"

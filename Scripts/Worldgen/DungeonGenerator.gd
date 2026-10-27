@@ -1,252 +1,363 @@
 extends Node2D
 class_name DungeonGenerator
 
-var opposite_connector: Dictionary = {
+# builds a floor in two steps:
+# 1. layout - plain data (LayoutPiece rects + connectors). overlap checks are exact and instant,
+#    so a bad layout is simply thrown away and retried
+# 2. build - instantiates every piece and caps the connectors nothing was attached to
+# shape of a floor: start -> main path of combat rooms -> boss room, plus short side branches
+# with reward rooms at their ends, plus a loop here and there
+
+const OPPOSITE: Dictionary[String, String] = {
 	"UpConnector": "DownConnector",
+	"DownConnector": "UpConnector",
 	"LeftConnector": "RightConnector",
-	"RightConnector": "LeftConnector",
-	"DownConnector": "UpConnector"
+	"RightConnector": "LeftConnector"
 }
-
-enum DungeonType
-{
-	TYPE1,
-	TYPE2
+const DIRECTION: Dictionary[String, Vector2] = {
+	"UpConnector": Vector2.UP,
+	"DownConnector": Vector2.DOWN,
+	"LeftConnector": Vector2.LEFT,
+	"RightConnector": Vector2.RIGHT
 }
-
-var fitting_rooms_for_connector: Dictionary
-var rooms_with_up_connectors: Array[PackedScene]
-var rooms_with_down_connectors: Array[PackedScene]
-var rooms_with_left_connectors: Array[PackedScene]
-var rooms_with_right_connectors: Array[PackedScene]
+# which cap closes an unused connector
+const CAP_FOR_CONNECTOR: Dictionary[String, String] = {
+	"UpConnector": "CapUp",
+	"DownConnector": "CapDown",
+	"LeftConnector": "CapLeft",
+	"RightConnector": "CapRight"
+}
 
 @export var rooms: Array[RoomData]
-
-@export var left_right_corridors: Array[PackedScene]
-@export var up_down_corridors: Array[PackedScene]
+# straight and L-shaped, any scene with exactly two connectors
+@export var corridors: Array[PackedScene]
 @export var corridor_caps: Dictionary[String, PackedScene]
 @export var starter_room: PackedScene
 @export var boss_rooms: Array[PackedScene]
 
+@export_group("Layout")
+# rooms per floor, not counting start and boss. one more for every floor after the first
+@export var min_rooms: int = 6
+@export var max_rooms: int = 9
+# share of those rooms on the main path, the rest go into side branches
+@export_range(0.0, 1.0) var main_path_share: float = 0.6
+@export var max_branch_length: int = 2
+# chance to attach a room straight to the previous one, without a corridor
+@export_range(0.0, 1.0) var direct_connection_chance: float = 0.1
+@export var max_loops: int = 2
+@export var max_attempts: int = 50
+# non-zero = always generate this exact floor (for debugging a layout)
+@export var debug_seed: int = 0
 
-var generation_iterations: int = 3
-var rooms_to_cleanup: Array
-var unhandled_rooms: Array
-var unhandled_corridors: Array
-var generated_rooms = 0
+var rng := RandomNumberGenerator.new()
+var shapes: Dictionary[PackedScene, RoomShape] = {}
+var layout: Array[LayoutPiece] = []
+var placed_per_room: Dictionary[RoomData, int] = {}
 var rooms_left_to_clear: int = 0
 
 func _ready() -> void:
-	SortRooms()
-	GenerateDungeon()
-	CleanupDungeon()
-	
-	if rooms_left_to_clear == 0:
-		# nothing to clear (every room failed to generate), go straight to the boss
-		StartBossFight.call_deferred()
+	rng.seed = debug_seed if debug_seed != 0 else RunState.GetFloorSeed()
+	print("Floor seed: ", rng.seed)
+
+	var success = false
+	for attempt in max_attempts:
+		if TryLayout():
+			success = true
+			break
+	if not success:
+		push_error("Dungeon layout failed %d times, building the last attempt" % max_attempts)
+
+	Build()
+	# deferred, so the HUD (ready after this node) is listening
+	Signals.world_generated.emit.call_deferred(layout)
 
 func _on_room_cleared(_room: EnemyRoom) -> void:
 	rooms_left_to_clear -= 1
 	print("Rooms left: " + str(rooms_left_to_clear))
 	if rooms_left_to_clear == 0:
 		Signals.all_rooms_cleared.emit()
-		StartBossFight()
 
-func StartBossFight():
-	if NodeReferences.player:
-		FreeAllRooms()
-		var boss_room = GenerateBossRoom()
-		add_child(boss_room)
-		var p = NodeReferences.player
-		p.global_position = boss_room.player_spawn.global_position
-	else:
-		print("Player missing for boss spawn")
+#region layout
 
-func FreeAllRooms():
-	for child in get_children():
-		child.queue_free()
-	
-func InitialiseDict():
-	fitting_rooms_for_connector = {
-		"UpConnector": rooms_with_up_connectors,
-		"LeftConnector": rooms_with_left_connectors,
-		"RightConnector": rooms_with_right_connectors,
-		"DownConnector": rooms_with_down_connectors
-	}
+func TryLayout() -> bool:
+	layout.clear()
+	placed_per_room.clear()
 
-func SortRooms():
-	for room in rooms:
-		if room.has_up_connector:
-			rooms_with_up_connectors.append(room.room_scene)
-		if room.has_down_connector:
-			rooms_with_down_connectors.append(room.room_scene)
-		if room.has_left_connector:
-			rooms_with_left_connectors.append(room.room_scene)
-		if room.has_right_connector:
-			rooms_with_right_connectors.append(room.room_scene)
-	InitialiseDict()
+	var target = rng.randi_range(min_rooms, max_rooms) + RunState.floor_number - 1
+	var main_length = maxi(1, roundi(target * main_path_share))
 
-func GenerateDungeon():
-	var starter_room_instance = starter_room.instantiate()
-	starter_room_instance.global_position = Vector2.ZERO
-	add_child(starter_room_instance)
-	unhandled_rooms.append(starter_room_instance)
-	
-	for i in range(generation_iterations):
-		var rooms_to_process = unhandled_rooms.duplicate()
-		for room in rooms_to_process:
-			GenerateConnectingCorridors(room)
-			
-		var corridors_to_process = unhandled_corridors.duplicate()
-		for corridor in corridors_to_process:
-			GenerateConnectingRooms(corridor)
-	Signals.world_generated.emit(generated_rooms)
+	var start = AddPiece(LayoutPiece.Kind.START, GetShape(starter_room), null, Vector2.ZERO)
 
-func CleanupDungeon() -> void:
-	for corridor_instance: Room in unhandled_corridors.duplicate():
-		unhandled_corridors.erase(corridor_instance)
-		
-		corridor_instance.LocateConnectors()
-		var connector = corridor_instance.GetFirstOccupiedConnector()
-		ReplaceConnectorWithWall(corridor_instance, connector, true)
-		corridor_instance.queue_free()
-		
-	for room_instance: Room in unhandled_rooms.duplicate():
-		unhandled_rooms.erase(room_instance)
-		
-		room_instance.LocateConnectors()
-		for connector in room_instance.GetAllUnoccupiedConnectors():
-			ReplaceConnectorWithWall(room_instance, opposite_connector[connector], false)
-	
-	for room_instance: Room in rooms_to_cleanup.duplicate():
-		if room_instance != null:
-			rooms_to_cleanup.erase(room_instance)
-			
-			room_instance.LocateConnectors()
-			for connector in room_instance.GetAllUnoccupiedConnectors():
-				ReplaceConnectorWithWall(room_instance, opposite_connector[connector], false)
+	# main path, every room needs a second connector to carry on
+	var tip = start
+	for i in main_length:
+		tip = Extend(tip, PickRooms(tip.depth + 1, true, false))
+		if tip == null:
+			return false
+		tip.on_main_path = true
 
-func GenerateConnectingCorridors(room_instance: Room):
-	if room_instance in unhandled_rooms:
-		unhandled_rooms.erase(room_instance)
-	
-	room_instance.LocateConnectors()
-	for connector in room_instance.connectors:
-		if room_instance.connectors[connector] and room_instance.occupied_connectors[connector] == false:
-			var fitting_corridor_instance: Room
-			if connector == "LeftConnector" or connector == "RightConnector":
-				fitting_corridor_instance = left_right_corridors.pick_random().instantiate()
-			else:
-				fitting_corridor_instance = up_down_corridors.pick_random().instantiate()
-			
-			fitting_corridor_instance.LocateConnectors()
-			var difference_vector = room_instance.connectors[connector].global_position - fitting_corridor_instance.connectors[opposite_connector[connector]].global_position
-			var corridor_pos = fitting_corridor_instance.global_position + difference_vector
-			fitting_corridor_instance.global_position = corridor_pos
-			if IsRoomFree(fitting_corridor_instance, corridor_pos):
-				fitting_corridor_instance.z_index = -1
-				add_child(fitting_corridor_instance)
-				
-				room_instance.occupied_connectors[connector] = true
-				fitting_corridor_instance.occupied_connectors[opposite_connector[connector]] = true
-				unhandled_corridors.append(fitting_corridor_instance)
-			else:
-				rooms_to_cleanup.append(room_instance)
-				fitting_corridor_instance.queue_free()
+	var boss_shapes: Array[RoomShape] = []
+	for scene in boss_rooms:
+		boss_shapes.append(GetShape(scene))
+	var boss = Extend(tip, boss_shapes, LayoutPiece.Kind.BOSS)
+	if boss == null:
+		return false
+	boss.on_main_path = true
 
-func GenerateConnectingRooms(corridor_instance: Room):
-	#A corridor can only have 2 exits - left/right or up/down, otherwise might break.
-	if corridor_instance in unhandled_corridors:
-		unhandled_corridors.erase(corridor_instance)
-	
-	corridor_instance.LocateConnectors()
-	for connector in corridor_instance.connectors:
-		if corridor_instance.connectors[connector] and corridor_instance.occupied_connectors[connector] == false:
-			var fitting_room_instance: Room
-			fitting_room_instance = GetFittingRoom(connector).instantiate()
-			fitting_room_instance.LocateConnectors()
-			
-			var difference_vector = corridor_instance.connectors[connector].global_position - fitting_room_instance.connectors[opposite_connector[connector]].global_position
-			var room_pos = fitting_room_instance.global_position + difference_vector
-			fitting_room_instance.global_position = room_pos
-			if IsRoomFree(fitting_room_instance, room_pos):
-				# on succesful room generation
-				fitting_room_instance.z_index = -1
-				add_child(fitting_room_instance)
-				
-				corridor_instance.occupied_connectors[connector] = true
-				fitting_room_instance.occupied_connectors[opposite_connector[connector]] = true
-				unhandled_rooms.append(fitting_room_instance)
-				generated_rooms += 1
-				if fitting_room_instance is EnemyRoom:
-					fitting_room_instance.cleared.connect(_on_room_cleared)
-					rooms_left_to_clear += 1
-			else:
-				# if there is no space for a room, remove corridor and place a wall on the room exit.
-				ReplaceConnectorWithWall(corridor_instance, opposite_connector[connector], true)
-				corridor_instance.queue_free()
-				fitting_room_instance.queue_free()
+	AddBranches(target - main_length)
+	AddLoops()
+	return true
 
-func IsRoomFree(room_instance: Node2D, target_pos: Vector2) -> bool:
-	var area = room_instance.get_node("Area2D")
-	var collision_shape = area.get_node("CollisionShape2D")
-	
-	var query = PhysicsShapeQueryParameters2D.new()
-	query.shape = collision_shape.shape
-	query.transform = Transform2D(0, target_pos + collision_shape.position)
-	query.collision_mask = 128
-	query.collide_with_areas = true
-	query.collide_with_bodies = false
-	
-	var space_state = get_world_2d().direct_space_state
-	var results = space_state.intersect_shape(query)
-	
-	return results.size() == 0
+# grows side branches off the main path, one room at a time from a frontier of rooms with free connectors
+func AddBranches(rooms_to_add: int) -> void:
+	var frontier: Array[LayoutPiece] = []
+	for piece in layout:
+		if (piece.on_main_path and piece.kind != LayoutPiece.Kind.BOSS) or piece.kind == LayoutPiece.Kind.START:
+			frontier.append(piece)
 
-func GetFittingRoom(connector: String):
-	var fitting_rooms_list = fitting_rooms_for_connector[opposite_connector[connector]]
-	var fitting_room = fitting_rooms_list.pick_random()
-	return fitting_room
+	while rooms_to_add > 0 and not frontier.is_empty():
+		var root: LayoutPiece = frontier.pop_at(rng.randi() % frontier.size())
+		var length = mini(rng.randi_range(1, max_branch_length), rooms_to_add)
+		var tip = root
+		for i in length:
+			# the last room of a branch is where the rewards go
+			var is_branch_end = i == length - 1
+			var next = Extend(tip, PickRooms(tip.depth + 1, not is_branch_end, is_branch_end))
+			if next == null:
+				break
+			rooms_to_add -= 1
+			tip = next
 
-func ReplaceConnectorWithWall(room_instance: Node2D, connector: String, is_corridor: bool) -> void:
-	var fitting_cap: Room
-	match connector:
-		"UpConnector":
-			fitting_cap = corridor_caps["CapDown"].instantiate()
-		"DownConnector":
-			fitting_cap = corridor_caps["CapUp"].instantiate()
-		"LeftConnector":
-			fitting_cap = corridor_caps["CapRight"].instantiate()
-		"RightConnector":
-			fitting_cap = corridor_caps["CapLeft"].instantiate()
-		_:
-			print("Something went wrong in connector-wall replacement")
-			return
+		# a root that grew a branch can try another one later
+		if tip != root and not root.open_connectors.is_empty():
+			frontier.append(root)
 
-	fitting_cap.LocateConnectors()
-	var cap_connector = fitting_cap.GetFirstConnector()
-	var cap_pos
-	if cap_connector != null:
-		if is_corridor:
-			var difference_vector = room_instance.connectors[connector].global_position - fitting_cap.connectors[connector].global_position
-			cap_pos = fitting_cap.global_position + difference_vector
+# joins two free connectors that face each other, directly or with a straight corridor that fits the gap exactly
+func AddLoops() -> void:
+	var loops = 0
+	for a in layout:
+		if not CanLoop(a):
+			continue
+		for connector in a.open_connectors.duplicate():
+			if loops >= max_loops:
+				return
+			var other_side = OPPOSITE[connector]
+			var from_pos = a.GetConnectorPosition(connector)
+			for b in layout:
+				if b == a or not CanLoop(b) or b.index in a.neighbours or not b.open_connectors.has(other_side):
+					continue
+
+				var gap = b.GetConnectorPosition(other_side) - from_pos
+				if gap == Vector2.ZERO:
+					Link(a, connector, b, other_side)
+					loops += 1
+					break
+				if not gap.normalized().is_equal_approx(DIRECTION[connector]):
+					continue
+
+				var corridor = FindStraightCorridor(connector, gap)
+				if corridor:
+					var corridor_pos = from_pos - corridor.connectors[other_side]
+					if IsFree(corridor, corridor_pos):
+						var piece = AddPiece(LayoutPiece.Kind.CORRIDOR, corridor, null, corridor_pos)
+						Link(a, connector, piece, other_side)
+						Link(piece, connector, b, other_side)
+						loops += 1
+						break
+
+func CanLoop(piece: LayoutPiece) -> bool:
+	# the boss room keeps a single entrance
+	return piece.IsRoom() and piece.kind != LayoutPiece.Kind.BOSS
+
+func FindStraightCorridor(connector: String, gap: Vector2) -> RoomShape:
+	for scene in corridors:
+		var corridor = GetShape(scene)
+		if corridor.connectors.has(connector) and corridor.connectors.has(OPPOSITE[connector]):
+			if corridor.connectors[connector] - corridor.connectors[OPPOSITE[connector]] == gap:
+				return corridor
+	return null
+
+# attaches the first candidate that fits to a free connector of `from`, through a corridor or directly.
+# returns the new room, or null when nothing fits anywhere
+func Extend(from: LayoutPiece, candidates: Array[RoomShape], kind := LayoutPiece.Kind.ROOM) -> LayoutPiece:
+	var exits = from.open_connectors.duplicate()
+	Shuffle(exits)
+	for exit in exits:
+		var exit_pos = from.GetConnectorPosition(exit)
+		for corridor in PickCorridors(exit):
+			var corridor_pos: Vector2
+			var corridor_exit = exit
+			var door_pos = exit_pos
+			if corridor:
+				corridor_pos = exit_pos - corridor.connectors[OPPOSITE[exit]]
+				if not IsFree(corridor, corridor_pos):
+					continue
+				corridor_exit = GetOtherConnector(corridor, OPPOSITE[exit])
+				door_pos = corridor_pos + corridor.connectors[corridor_exit]
+
+			var entry = OPPOSITE[corridor_exit]
+			for shape in candidates:
+				if not shape.connectors.has(entry):
+					continue
+				var room_pos = door_pos - shape.connectors[entry]
+				if not IsFree(shape, room_pos):
+					continue
+				if corridor and Overlaps(shape, room_pos, corridor, corridor_pos):
+					continue
+
+				var room = AddPiece(kind, shape, DataForShape(shape), room_pos)
+				room.depth = from.depth + 1
+				if corridor:
+					var piece = AddPiece(LayoutPiece.Kind.CORRIDOR, corridor, null, corridor_pos)
+					piece.depth = from.depth
+					Link(from, exit, piece, OPPOSITE[exit])
+					Link(piece, corridor_exit, room, entry)
+				else:
+					Link(from, exit, room, entry)
+				if room.data:
+					placed_per_room[room.data] = placed_per_room.get(room.data, 0) + 1
+				return room
+	return null
+
+# candidate rooms in weighted random order.
+# main path / mid-branch rooms are combat rooms with a way on, branch ends prefer reward rooms
+func PickRooms(depth: int, needs_exit: bool, is_branch_end: bool) -> Array[RoomShape]:
+	var rewards: Array[RoomData] = []
+	var fights: Array[RoomData] = []
+	var dead_ends: Array[RoomData] = []
+	for data in rooms:
+		if depth < data.min_depth:
+			continue
+		if data.max_per_floor > 0 and placed_per_room.get(data, 0) >= data.max_per_floor:
+			continue
+		var shape = GetShape(data.room_scene)
+		if needs_exit and shape.connectors.size() < 2:
+			continue
+		if data.room_type != RoomData.RoomType.COMBAT:
+			if is_branch_end:
+				rewards.append(data)
+		elif is_branch_end and shape.connectors.size() == 1:
+			dead_ends.append(data)
 		else:
-			var difference_vector = room_instance.connectors[opposite_connector[connector]].global_position - fitting_cap.connectors[connector].global_position
-			cap_pos = fitting_cap.global_position + difference_vector
-		fitting_cap.global_position = cap_pos
-		add_child(fitting_cap)
-		fitting_cap.z_index = 1
-	else:
-		return
+			fights.append(data)
 
-func GenerateBossRoom() -> BossRoom:
-	# TEMPORARY
-	var room_instance = boss_rooms[DungeonType.TYPE1].instantiate() as BossRoom
-	room_instance.global_position = Vector2.ZERO
-	room_instance.LocateConnectors()
-	for connector in room_instance.connectors:
-		if room_instance.connectors[connector] != null:
-			ReplaceConnectorWithWall(room_instance, connector, false)
-	
-	return room_instance
-	
+	# branch ends: rewards first, then dead ends (they close a branch off cleanly), then the rest
+	var ordered = WeightedShuffle(rewards)
+	ordered.append_array(WeightedShuffle(dead_ends))
+	ordered.append_array(WeightedShuffle(fights))
+
+	var result: Array[RoomShape] = []
+	for data in ordered:
+		result.append(GetShape(data.room_scene))
+	return result
+
+# corridors that can start at this exit, in random order. null = connect directly
+func PickCorridors(exit: String) -> Array:
+	var result: Array = []
+	for scene in corridors:
+		var corridor = GetShape(scene)
+		if corridor.connectors.has(OPPOSITE[exit]):
+			result.append(corridor)
+	Shuffle(result)
+	# a direct connection is mostly the fallback, now and then the first choice
+	if rng.randf() < direct_connection_chance:
+		result.push_front(null)
+	else:
+		result.push_back(null)
+	return result
+
+func AddPiece(kind: LayoutPiece.Kind, shape: RoomShape, data: RoomData, pos: Vector2) -> LayoutPiece:
+	var piece = LayoutPiece.new(layout.size(), kind, shape, data, pos)
+	layout.append(piece)
+	return piece
+
+func Link(a: LayoutPiece, a_connector: String, b: LayoutPiece, b_connector: String) -> void:
+	a.open_connectors.erase(a_connector)
+	b.open_connectors.erase(b_connector)
+	a.neighbours.append(b.index)
+	b.neighbours.append(a.index)
+
+func IsFree(shape: RoomShape, pos: Vector2) -> bool:
+	for piece in layout:
+		for rect in piece.rects:
+			for own in shape.rects:
+				# shrunk a bit, pieces always touch at their connectors
+				if Rect2(own.position + pos, own.size).grow(-1.0).intersects(rect):
+					return false
+	return true
+
+func Overlaps(a: RoomShape, a_pos: Vector2, b: RoomShape, b_pos: Vector2) -> bool:
+	for rect_a in a.rects:
+		for rect_b in b.rects:
+			if Rect2(rect_a.position + a_pos, rect_a.size).grow(-1.0).intersects(Rect2(rect_b.position + b_pos, rect_b.size)):
+				return true
+	return false
+
+func GetOtherConnector(shape: RoomShape, connector: String) -> String:
+	for other in shape.connectors:
+		if other != connector:
+			return other
+	return connector
+
+func GetShape(scene: PackedScene) -> RoomShape:
+	if not shapes.has(scene):
+		shapes[scene] = RoomShape.FromScene(scene)
+	return shapes[scene]
+
+func DataForShape(shape: RoomShape) -> RoomData:
+	for data in rooms:
+		if data.room_scene == shape.scene:
+			return data
+	return null
+
+# seeded versions of shuffle/pick_random, so a seed always gives the same floor
+func Shuffle(array: Array) -> void:
+	for i in range(array.size() - 1, 0, -1):
+		var j = rng.randi_range(0, i)
+		var temp = array[i]
+		array[i] = array[j]
+		array[j] = temp
+
+func WeightedShuffle(candidates: Array[RoomData]) -> Array[RoomData]:
+	var pool = candidates.duplicate()
+	var result: Array[RoomData] = []
+	while not pool.is_empty():
+		var total = 0.0
+		for data in pool:
+			total += data.weight
+		var roll = rng.randf() * total
+		var picked = pool.size() - 1
+		for i in pool.size():
+			roll -= pool[i].weight
+			if roll <= 0.0:
+				picked = i
+				break
+		result.append(pool.pop_at(picked))
+	return result
+
+#endregion
+
+#region build
+
+func Build() -> void:
+	for piece in layout:
+		var instance = piece.shape.scene.instantiate()
+		instance.position = piece.position
+		instance.z_index = -1
+		add_child(instance)
+
+		if instance is EnemyRoom and not instance is BossRoom:
+			instance.cleared.connect(_on_room_cleared)
+			rooms_left_to_clear += 1
+
+		for connector in piece.open_connectors:
+			AddCap(piece, connector)
+
+func AddCap(piece: LayoutPiece, connector: String) -> void:
+	var cap_scene = corridor_caps[CAP_FOR_CONNECTOR[connector]]
+	var cap = cap_scene.instantiate()
+	cap.position = piece.GetConnectorPosition(connector) - GetShape(cap_scene).connectors[OPPOSITE[connector]]
+	cap.z_index = 1
+	add_child(cap)
+
+#endregion

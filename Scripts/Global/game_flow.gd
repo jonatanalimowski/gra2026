@@ -14,13 +14,13 @@ func GoToMainMenu() -> void:
 func GoToLoadout() -> void:
 	get_tree().change_scene_to_file(LOADOUT_SCENE)
 
-func StartRun(loadout: Loadout) -> void:
-	RunState.Begin(loadout)
+func StartRun(loadout: Loadout, run_seed: int = 0) -> void:
+	RunState.Begin(loadout, run_seed)
 	get_tree().change_scene_to_file(RUN_SCENE)
 
-# same loadout, fresh run (Ctrl+R)
+# same loadout and same dungeon, fresh run (Ctrl+R)
 func RestartRun() -> void:
-	StartRun(RunState.loadout)
+	StartRun(RunState.loadout, RunState.run_seed)
 
 func EndRun(victory: bool) -> void:
 	RunState.Finish(victory)
