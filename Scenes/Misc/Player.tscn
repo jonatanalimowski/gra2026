@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d22ugsnpvbate" path="res://Scripts/Entities/Player.gd" id="1_kyqiw"]
 [ext_resource type="Script" uid="uid://c0vo06wjioddm" path="res://Scripts/Resources/PlayerStats.gd" id="2_dewec"]
-[ext_resource type="Texture2D" uid="uid://bi8va0tan5ovh" path="res://assets/new_assets/player_cyberrumor_Mage/Animated_Mage_Character.png" id="4_p20vm"]
+[ext_resource type="Texture2D" uid="uid://bi8va0tan5ovh" path="res://assets/packs/characters/cyberrumor_Mage/Animated_Mage_Character.png" id="4_p20vm"]
 [ext_resource type="Resource" uid="uid://bb3pyna1othvh" path="res://Data/Wands/FlameStarWand.tres" id="4_wand"]
 
 [sub_resource type="Resource" id="Resource_5ixxa"]

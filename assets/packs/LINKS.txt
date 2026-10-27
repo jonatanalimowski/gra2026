@@ -1,0 +1,46 @@
+NEW ASSETS - sources and links
+==============================
+Folders here = downloaded free / name-your-price packs (paid $0).
+Check each page's license before shipping. CC-BY packs need a credits screen.
+
+DOWNLOADED
+----------
+tiles_0x72_DungeonTilesetII     https://0x72.itch.io/dungeontileset-ii                          CC0, 16x16, heroes/demons/undead/orcs. top pick
+tiles_Anokolisa_PixelCrawler    https://anokolisa.itch.io/free-pixel-art-asset-pack-topdown-tileset-rpg-16x16-sprites   16x16, 3 heroes, 8 enemies, 50 weapons
+tiles_TinyPixelDev_DarkDungeon  https://tinypixeldev.itch.io/dark-dungeon-pixel-horror-tileset  CC0, 16x16, dark/horror top-down
+player_sassion_Mage             https://sassion.itch.io/mage-16-bit                             16x16 mage, idle/walk/attack, no credit needed
+player_cyberrumor_Mage          https://cyberrumor.itch.io/animated-mage-character              16x16 mage walk/run 4 dirs (prototype)
+enemies_Tastygraph_Monsters     https://tastygraph.itch.io/roguelike-spritesheet-july-freebie   public domain: cultists, skeletons, draugr, lich
+ui_FreeGameAssets_BasicRPG      https://free-game-assets.itch.io/free-basic-pixel-art-ui-for-rpg     HP/mana bars, slots, equipment windows
+vfx_FreeGameAssets_Magic        https://free-game-assets.itch.io/free-pixel-magic-sprite-effects-pack blink, laser, heal, starfall, aura + icons
+(manual) sfx TheSoundrack     https://thesoundrack.itch.io/freemagicspellsfx                  free per-element spell SFX - auto download failed, grab it in the browser
+                                (skip the ~1 GB "Magic Spell Full Pack" rar, the per-element packs are enough)
+
+NOT DOWNLOADED (paid or no $0 option) - buy manually
+----------------------------------------------------
+Player
+  16x16 Top Down Mage (FlandreScarlet64)   https://flandrescarlet64.itch.io/16x16-16-bits-top-down-mage-character
+
+Enemies
+  Fantasy RPG 16x16 Skeleton Animations ($1)  https://thepixelgame.itch.io/fantasy-rpg-16x16-skeleton-animations
+
+UI (dark fantasy, replaces assets/ui/Pack2)
+  Mini Dark-Fantasy UI set ($1.19, CC-BY 4.0)  https://finnmercury.itch.io/pixel-souls-like-gui
+  Dark Pixel UI ($9.99)                        https://poneti.itch.io/dark-pixel-ui
+
+VFX
+  Gothicvania Magic Pack 4 ($5)               https://ansimuz.itch.io/gothicvania-magic-pack-4
+  Spell effects collection (browse)           https://itch.io/c/1960015/spell-effects
+
+Tiles (paid expansions, same style as Pixel Crawler free pack)
+  Pixel Crawler Forge / Library / Cemetery... https://anokolisa.itch.io
+
+Audio
+  Dark Spell SFX ($2.99)                      https://gravity-sound.itch.io/dark-spell-sfx
+  Dungeon Synth Music Pack ($9)               https://cool-cat-game-studio.itch.io/dungeon-synth-music-pack
+
+SUGGESTED COMBO
+---------------
+Base: DungeonTileset II (or Pixel Crawler) -> player: sassion mage -> enemies/boss: Tastygraph cultists + lich
+-> UI: Finnmercury -> VFX: free magic pack -> SFX: TheSoundrack per-element packs.
+Stick to one base pack so palettes/outlines match.

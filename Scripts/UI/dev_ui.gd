@@ -13,8 +13,23 @@ func _ready() -> void:
 	invincible_button.focus_mode = Control.FOCUS_NONE
 	infinite_floors_button.focus_mode = Control.FOCUS_NONE
 
+	# one-shot actions, built here so the scene doesn't need editing for each new cheat
+	var vbox = $PanelContainer/MarginContainer/VBoxContainer
+	AddActionButton(vbox, "Altar offer (F7)", _on_altar_offer_pressed)
+
+func AddActionButton(parent: Node, text: String, callback: Callable) -> void:
+	var button = Button.new()
+	button.text = text
+	button.focus_mode = Control.FOCUS_NONE
+	button.pressed.connect(callback)
+	parent.add_child(button)
+
 func _on_invincible_toggled(on: bool) -> void:
 	DevTools.invincible = on
 
 func _on_infinite_floors_toggled(on: bool) -> void:
 	DevTools.infinite_floors = on
+
+func _on_altar_offer_pressed() -> void:
+	if NodeReferences.player and not get_tree().paused:
+		DevTools.OpenPactChoice()

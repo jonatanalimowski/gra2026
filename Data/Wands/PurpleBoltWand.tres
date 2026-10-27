@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="WandData" load_steps=9 format=3 uid="uid://betivdmm3g1es"]
 
 [ext_resource type="Script" uid="uid://jt1r0vubh4cb" path="res://Scripts/Resources/Items/WandData.gd" id="1_wand"]
-[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/Effect.gd" id="2_cvitr"]
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="2_cvitr"]
 [ext_resource type="Script" uid="uid://bqwypd1uvt6ft" path="res://Scripts/Resources/Items/SpellData.gd" id="2_spell"]
 [ext_resource type="PackedScene" uid="uid://nx2msofl3li3" path="res://Scenes/ProjectileScenes/ProjectilePurpleBolt.tscn" id="3_projectile"]
-[ext_resource type="Texture2D" uid="uid://cckenj4w3la12" path="res://Sprites/wands_alternative.png" id="4_tex"]
+[ext_resource type="Texture2D" uid="uid://cckenj4w3la12" path="res://assets/items/wands_alternative.png" id="4_tex"]
 [ext_resource type="Script" uid="uid://bqmfbqnscq3kp" path="res://Scripts/Resources/Items/RuneData.gd" id="5_3tu32"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_icon"]

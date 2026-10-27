@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dd2dj60ofxu8y"]
+[gd_scene load_steps=19 format=3 uid="uid://dd2dj60ofxu8y"]
 
 [ext_resource type="Script" uid="uid://dyiiowbww84rr" path="res://Scripts/Worldgen/DungeonGenerator.gd" id="1_t5130"]
 [ext_resource type="Script" uid="uid://bunwvwvryinco" path="res://Scripts/Resources/RoomData.gd" id="2_3mp6b"]
@@ -27,9 +27,10 @@
 [ext_resource type="PackedScene" path="res://Scenes/World/CorridorScenes/CorridorRightDown.tscn" id="c6_corr"]
 [ext_resource type="PackedScene" path="res://Scenes/World/CorridorScenes/CorridorRightUp.tscn" id="c7_corr"]
 [ext_resource type="Resource" path="res://Scenes/World/RoomData/SanctuaryData.tres" id="s1_sanct"]
+[ext_resource type="Resource" path="res://Scenes/World/RoomData/AltarRoomData.tres" id="s2_altar"]
 [node name="Node" type="Node2D"]
 script = ExtResource("1_t5130")
-rooms = Array[ExtResource("2_3mp6b")]([ExtResource("4_ifs7l"), ExtResource("5_p6l3m"), ExtResource("6_yvq0b"), ExtResource("7_yvq0b"), ExtResource("8_uxy68"), ExtResource("9_jgs1n"), ExtResource("9_g4ht2"), ExtResource("s1_sanct")])
+rooms = Array[ExtResource("2_3mp6b")]([ExtResource("4_ifs7l"), ExtResource("5_p6l3m"), ExtResource("6_yvq0b"), ExtResource("7_yvq0b"), ExtResource("8_uxy68"), ExtResource("9_jgs1n"), ExtResource("9_g4ht2"), ExtResource("s1_sanct"), ExtResource("s2_altar")])
 corridors = Array[PackedScene]([ExtResource("2_lx4j7"), ExtResource("3_k8k4m"), ExtResource("c0_corr"), ExtResource("c1_corr"), ExtResource("c2_corr"), ExtResource("c3_corr"), ExtResource("c4_corr"), ExtResource("c5_corr"), ExtResource("c6_corr"), ExtResource("c7_corr")])
 corridor_caps = Dictionary[String, PackedScene]({
 "CapDown": ExtResource("13_0s438"),

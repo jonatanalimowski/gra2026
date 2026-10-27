@@ -5,5 +5,4 @@
 [resource]
 script = ExtResource("1_aywat")
 speed = 490.0
-current_team = 0
 metadata/_custom_type_script = "uid://dd3ckxrxbtloq"

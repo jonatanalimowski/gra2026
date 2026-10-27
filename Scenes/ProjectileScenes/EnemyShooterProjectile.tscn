@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://du1088esivdqm"]
+
+[ext_resource type="PackedScene" uid="uid://bjfjmv4ebf1dt" path="res://Scenes/ProjectileScenes/Projectile.tscn" id="1_1d6sl"]
+[ext_resource type="Resource" uid="uid://bt5d4ypd1x1lb" path="res://Scripts/Projectiles/ProjectileStats/EnemyShooterProjectileStats.tres" id="2_oa7vs"]
+[ext_resource type="Texture2D" uid="uid://ertg0dxgn14i" path="res://assets/projectiles/Fire Effect and Bullet 16x16.png" id="2_pgovy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oa7vs"]
+atlas = ExtResource("2_pgovy")
+region = Rect2(224, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ohxp6"]
+atlas = ExtResource("2_pgovy")
+region = Rect2(240, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_c4wny"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oa7vs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ohxp6")
+}],
+"loop": true,
+"name": &"moving",
+"speed": 8.0
+}]
+
+[node name="Area2D" instance=ExtResource("1_1d6sl")]
+stats = ExtResource("2_oa7vs")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+position = Vector2(0, -4.7683716e-07)
+rotation = -3.1415927
+sprite_frames = SubResource("SpriteFrames_c4wny")
+frame_progress = 0.04868231
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0, -4)

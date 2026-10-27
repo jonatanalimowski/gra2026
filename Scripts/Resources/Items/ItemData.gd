@@ -7,3 +7,7 @@ class_name ItemData
 @export var display_name: String = "Unnamed Item"
 @export_multiline var description: String = ""
 @export var icon: Texture2D
+
+# card text. override when the text is built from other fields (AltarPact = buff + curse)
+func GetDescription() -> String:
+	return description

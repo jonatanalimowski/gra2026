@@ -4,9 +4,9 @@
 [ext_resource type="Resource" uid="uid://st4ps7pi21r7" path="res://Scripts/Entities/EntityStats/SkeletonStats.tres" id="2_5fsqs"]
 [ext_resource type="PackedScene" uid="uid://tp2mxe65f0lq" path="res://Scenes/EntityCorpses/EntityCorpseBase.tscn" id="3_gjesp"]
 [ext_resource type="PackedScene" uid="uid://b1u713r0een05" path="res://Scenes/UI/DamageNumber.tscn" id="4_vuqrd"]
-[ext_resource type="Texture2D" uid="uid://cyqpefj2jgx62" path="res://assets/new_assets/tiles_Anokolisa_PixelCrawler/Pixel Crawler - Free Pack 2.11/Pixel Crawler - Free Pack/Entities/Mobs/Skeleton Crew/Skeleton - Base/Death/Death-Sheet.png" id="5_5fsqs"]
-[ext_resource type="Texture2D" uid="uid://41e7xh01rjv8" path="res://assets/new_assets/tiles_Anokolisa_PixelCrawler/Pixel Crawler - Free Pack 2.11/Pixel Crawler - Free Pack/Entities/Mobs/Skeleton Crew/Skeleton - Base/Idle/Idle-Sheet.png" id="6_gjesp"]
-[ext_resource type="Texture2D" uid="uid://dfero48kwwok0" path="res://assets/new_assets/tiles_Anokolisa_PixelCrawler/Pixel Crawler - Free Pack 2.11/Pixel Crawler - Free Pack/Entities/Mobs/Skeleton Crew/Skeleton - Base/Run/Run-Sheet.png" id="7_bx4m0"]
+[ext_resource type="Texture2D" uid="uid://cyqpefj2jgx62" path="res://assets/packs/tilesets/Anokolisa_PixelCrawler/Pixel Crawler - Free Pack 2.11/Pixel Crawler - Free Pack/Entities/Mobs/Skeleton Crew/Skeleton - Base/Death/Death-Sheet.png" id="5_5fsqs"]
+[ext_resource type="Texture2D" uid="uid://41e7xh01rjv8" path="res://assets/packs/tilesets/Anokolisa_PixelCrawler/Pixel Crawler - Free Pack 2.11/Pixel Crawler - Free Pack/Entities/Mobs/Skeleton Crew/Skeleton - Base/Idle/Idle-Sheet.png" id="6_gjesp"]
+[ext_resource type="Texture2D" uid="uid://dfero48kwwok0" path="res://assets/packs/tilesets/Anokolisa_PixelCrawler/Pixel Crawler - Free Pack 2.11/Pixel Crawler - Free Pack/Entities/Mobs/Skeleton Crew/Skeleton - Base/Run/Run-Sheet.png" id="7_bx4m0"]
 [ext_resource type="Script" uid="uid://dw038hkgnyld3" path="res://Scripts/Entities/EntityAIs/SkeletonAI.gd" id="8_lasn7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s367j"]

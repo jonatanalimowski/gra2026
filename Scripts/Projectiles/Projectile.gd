@@ -11,8 +11,11 @@ const LAYER_ENEMY = 8
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @export var stats: ProjectileStats # shared resource, read only
 
+enum Team {PLAYER, ENEMY}
+
 # set by whoever spawns the projectile (see SpellCaster)
 var caster: Node2D
+var team: Team = Team.ENEMY # decides what it can hit, see SetupCollisions
 var damage: float = -1.0 # -1 = use stats.damage
 var effects: Array[Effect] = []
 
@@ -37,9 +40,9 @@ func SetupCollisions():
 	collision_layer = LAYER_PROJECTILE
 	collision_mask = 0
 	collision_mask |= LAYER_WORLD
-	if stats.current_team == stats.team.PLAYER:
+	if team == Team.PLAYER:
 		collision_mask |= LAYER_ENEMY
-	elif stats.current_team == stats.team.ENEMY:
+	elif team == Team.ENEMY:
 		collision_mask |= LAYER_PLAYER
 
 func SetDirection(new_direction: Vector2) -> void:

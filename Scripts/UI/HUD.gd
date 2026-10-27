@@ -10,11 +10,16 @@ const GRAY: Color = Color(0.3, 0.3, 0.3, 1.0)
 @onready var boss_hp_bar: TextureProgressBar = $BossBar/Healthbar
 @onready var boss_hp_text: Label = $BossBar/Healthbar/Label
 @onready var boss_ui = $BossBar
+@onready var stats_column: VBoxContainer = $PlayerStatistics/VBoxContainer
+var pact_list: VBoxContainer
 var detailed_stat_labels: Array[Label] = []
 
 func _ready() -> void:
 	ConnectSignals()
 	boss_ui.visible = false
+	pact_list = VBoxContainer.new()
+	stats_column.add_child(pact_list)
+	UpdatePacts()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("Tab"):
@@ -30,6 +35,7 @@ func ConnectSignals() -> void:
 	Signals.boss_spawned.connect(_on_boss_spawned)
 	Signals.boss_health_changed.connect(UpdateBossHP)
 	Signals.boss_defeated.connect(_on_boss_deafeated)
+	RunState.pact_added.connect(_on_pact_added)
 
 func _on_player_ready(player: Player):
 	detailed_stat_labels.clear()
@@ -91,5 +97,29 @@ func _on_boss_spawned(hp_value):
 
 func _on_boss_deafeated():
 	boss_ui.visible = false
+	pact_list = VBoxContainer.new()
+	stats_column.add_child(pact_list)
+	UpdatePacts()
 	boss_hp_bar.visible = false
 	boss_hp_text.visible = false
+
+func _on_pact_added(_pact: AltarPact) -> void:
+	UpdatePacts()
+
+# taken altar pacts, hover a name for buff + curse text
+func UpdatePacts() -> void:
+	for child in pact_list.get_children():
+		child.queue_free()
+	if RunState.pacts.is_empty():
+		return
+
+	var header = Label.new()
+	header.text = "Pacts:"
+	pact_list.add_child(header)
+	for pact in RunState.pacts:
+		var label = Label.new()
+		label.text = pact.display_name
+		label.tooltip_text = pact.GetDescription()
+		label.mouse_filter = Control.MOUSE_FILTER_STOP
+		label.modulate = Color(1, 0.6, 0.9)
+		pact_list.add_child(label)

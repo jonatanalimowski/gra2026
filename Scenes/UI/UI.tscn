@@ -3,9 +3,9 @@
 [ext_resource type="Theme" uid="uid://d2g2pr66fmdmk" path="res://Fonts/Font.tres" id="1_nxvpl"]
 [ext_resource type="Script" uid="uid://dt5inydsxhw3e" path="res://Scripts/UI/debug_ui.gd" id="1_w371h"]
 [ext_resource type="Script" uid="uid://c0pcntrsog7c4" path="res://Scripts/UI/HUD.gd" id="3_48q88"]
-[ext_resource type="Texture2D" uid="uid://d1yn33s7btbdp" path="res://Sprites/UI/Pack2/Main_tiles.png" id="4_qwshj"]
-[ext_resource type="Texture2D" uid="uid://cxpgwcbtjgnhi" path="res://Sprites/Exotic Swords.png" id="5_48q88"]
-[ext_resource type="Texture2D" uid="uid://bk1qf8hetnvtd" path="res://assets/new_assets/DarkAgesUi_v1.0/32x32-Tilesheet.png" id="6_jevvu"]
+[ext_resource type="Texture2D" uid="uid://d1yn33s7btbdp" path="res://assets/ui/Pack2/Main_tiles.png" id="4_qwshj"]
+[ext_resource type="Texture2D" uid="uid://cxpgwcbtjgnhi" path="res://assets/items/Exotic Swords.png" id="5_48q88"]
+[ext_resource type="Texture2D" uid="uid://bk1qf8hetnvtd" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-Tilesheet.png" id="6_jevvu"]
 [ext_resource type="Script" uid="uid://cgm1isyr8rgx6" path="res://Scripts/UI/Minimap.gd" id="9_minimap"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xjg7p"]

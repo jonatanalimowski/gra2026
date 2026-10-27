@@ -30,6 +30,7 @@ func _ready() -> void:
 	health.changed.connect(func(current, maximum): Signals.player_health_changed.emit(current, maximum))
 	health.died.connect(Die)
 	stats.stat_changed.connect(_on_stat_changed)
+	RunState.pact_added.connect(ApplyPact)
 
 	NodeReferences.player = self
 	Signals.player_ready.emit(self)
@@ -48,6 +49,8 @@ func ApplyLoadout(loadout: Loadout) -> void:
 	for modifier in RunState.player_modifiers:
 		stats.AddModifier(modifier, RunState)
 	effects.append_array(RunState.effects)
+	for e in RunState.run_effects:
+		e.OnAdded(self)
 
 	if loadout.scroll and loadout.scroll.ability:
 		mobility = loadout.scroll.ability
@@ -58,6 +61,14 @@ func ApplyLoadout(loadout: Loadout) -> void:
 	wand.name = "Wand"
 	add_child(wand)
 	wand.Setup(loadout.wand if loadout.wand else fallback_wand)
+
+func ApplyPact(pact: AltarPact) -> void:
+	for modifier in pact.player_modifiers + pact.curse_player_modifiers:
+		stats.AddModifier(modifier, RunState)
+	effects.append_array(pact.effects)
+	effects.append_array(pact.curse_effects)
+	for e in pact.run_effects + pact.curse_run_effects:
+		e.OnAdded(self)
 
 func _on_stat_changed(stat_name: StringName, value: float) -> void:
 	if stat_name == &"max_health":
@@ -71,6 +82,7 @@ func TakeDamage(info: DamageInfo) -> void:
 		return
 
 	health.Damage(info.amount)
+	Signals.player_damaged.emit(info)
 	if not is_dead:
 		GlobalMethods.FlashSprite(sprite)
 

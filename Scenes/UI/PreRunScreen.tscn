@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://d3cdkvwcg6df8"]
 
-[ext_resource type="Texture2D" uid="uid://cw5jyrfnds2e8" path="res://Sprites/menu_background.png" id="1_6wyvx"]
+[ext_resource type="Texture2D" uid="uid://cw5jyrfnds2e8" path="res://assets/ui/menu_background.png" id="1_6wyvx"]
 [ext_resource type="Script" uid="uid://d0e744afx76eu" path="res://Scripts/UI/pre_run_screen.gd" id="1_etodu"]
 [ext_resource type="Script" path="res://Scripts/Resources/Items/WandData.gd" id="10_wanddata"]
 [ext_resource type="PackedScene" uid="uid://qaxenbbv1xph" path="res://Scenes/UI/ChoiceCard.tscn" id="2_ts5e7"]

@@ -1,0 +1,85 @@
+[gd_scene load_steps=13 format=3 uid="uid://dhpf3x35g6lp7"]
+
+[ext_resource type="Script" uid="uid://bb6y5g5khs8kr" path="res://Scripts/Combat/Explosion.gd" id="1_expl"]
+[ext_resource type="Texture2D" uid="uid://d0vbbap7wd5bf" path="res://assets/packs/vfx/FreeGameAssets_Magic/free-pixel-magic-sprite-effects-pack/1 Magic/9.png" id="2_wmicf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_expl"]
+radius = 48.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3db3e"]
+atlas = ExtResource("2_wmicf")
+region = Rect2(0, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fyfwe"]
+atlas = ExtResource("2_wmicf")
+region = Rect2(72, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1c06i"]
+atlas = ExtResource("2_wmicf")
+region = Rect2(144, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s2cwm"]
+atlas = ExtResource("2_wmicf")
+region = Rect2(216, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_21sr4"]
+atlas = ExtResource("2_wmicf")
+region = Rect2(288, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tggsa"]
+atlas = ExtResource("2_wmicf")
+region = Rect2(360, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eg38d"]
+atlas = ExtResource("2_wmicf")
+region = Rect2(432, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n2ncq"]
+atlas = ExtResource("2_wmicf")
+region = Rect2(504, 0, 72, 72)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_expl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3db3e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fyfwe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1c06i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s2cwm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_21sr4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tggsa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eg38d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n2ncq")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 16.0
+}]
+
+[node name="Explosion" type="Area2D"]
+z_index = 1
+script = ExtResource("1_expl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_expl")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_expl")
+animation = &"explode"
+frame = 7
+frame_progress = 1.0
+offset = Vector2(0, -24)

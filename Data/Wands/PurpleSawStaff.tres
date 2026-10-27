@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="WandData" load_steps=11 format=3 uid="uid://dgn6t1kdp3dki"]
 
 [ext_resource type="Script" uid="uid://jt1r0vubh4cb" path="res://Scripts/Resources/Items/WandData.gd" id="1_wand"]
-[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/Effect.gd" id="2_ny78c"]
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="2_ny78c"]
 [ext_resource type="Script" uid="uid://bqwypd1uvt6ft" path="res://Scripts/Resources/Items/SpellData.gd" id="2_spell"]
 [ext_resource type="PackedScene" uid="uid://dryqdy6fr0n6x" path="res://Scenes/ProjectileScenes/ProjectilePurpleSaw.tscn" id="3_projectile"]
-[ext_resource type="Texture2D" uid="uid://cckenj4w3la12" path="res://Sprites/wands_alternative.png" id="4_tex"]
+[ext_resource type="Texture2D" uid="uid://cckenj4w3la12" path="res://assets/items/wands_alternative.png" id="4_tex"]
 [ext_resource type="Script" uid="uid://bqmfbqnscq3kp" path="res://Scripts/Resources/Items/RuneData.gd" id="5_rune"]
 [ext_resource type="Resource" uid="uid://d3mu1bvlu4axf" path="res://Data/Runes/BounceRune.tres" id="6_BounceRune"]
 [ext_resource type="Resource" uid="uid://qalmqmhbympj" path="res://Data/Runes/PierceRune.tres" id="7_PierceRune"]

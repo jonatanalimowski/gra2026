@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="RuneData" load_steps=6 format=3 uid="uid://qalmqmhbympj"]
 
 [ext_resource type="Script" uid="uid://bqmfbqnscq3kp" path="res://Scripts/Resources/Items/RuneData.gd" id="1_rune"]
-[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/Effect.gd" id="2_effect"]
-[ext_resource type="Script" uid="uid://dn0lngx6fw341" path="res://Scripts/Combat/Effects/PierceEffect.gd" id="3_PierceEffect"]
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="2_effect"]
+[ext_resource type="Script" uid="uid://dn0lngx6fw341" path="res://Scripts/Combat/Effects/ProjectileEffects/PierceEffect.gd" id="3_PierceEffect"]
 [ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="4_vfmco"]
 
 [sub_resource type="Resource" id="Resource_effect"]

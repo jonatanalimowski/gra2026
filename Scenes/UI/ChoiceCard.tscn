@@ -1,9 +1,9 @@
 [gd_scene load_steps=10 format=3 uid="uid://qaxenbbv1xph"]
 
-[ext_resource type="Texture2D" uid="uid://bnswsll7m2dks" path="res://Sprites/UI/Pack2/Settings.png" id="1_14r21"]
+[ext_resource type="Texture2D" uid="uid://bnswsll7m2dks" path="res://assets/ui/Pack2/Settings.png" id="1_14r21"]
 [ext_resource type="Script" uid="uid://gb0obnx4votr" path="res://Scripts/UI/choice_card.gd" id="1_54dwx"]
-[ext_resource type="Texture2D" uid="uid://bus2k6nrycfcc" path="res://Sprites/UI/Pack2/Buttons.png" id="1_d37f7"]
-[ext_resource type="Texture2D" uid="uid://cxpgwcbtjgnhi" path="res://Sprites/Exotic Swords.png" id="2_d37f7"]
+[ext_resource type="Texture2D" uid="uid://bus2k6nrycfcc" path="res://assets/ui/Pack2/Buttons.png" id="1_d37f7"]
+[ext_resource type="Texture2D" uid="uid://cxpgwcbtjgnhi" path="res://assets/items/Exotic Swords.png" id="2_d37f7"]
 [ext_resource type="Theme" uid="uid://d2g2pr66fmdmk" path="res://Fonts/Font.tres" id="3_54dwx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_54dwx"]

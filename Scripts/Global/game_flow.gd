@@ -24,9 +24,9 @@ func NextFloor() -> void:
 	RunState.floor_number += 1
 	get_tree().change_scene_to_file(RUN_SCENE)
 
-# same loadout and same dungeon, fresh run (Ctrl+R)
-func RestartRun() -> void:
-	StartRun(RunState.loadout, RunState.run_seed)
+# same loadout, fresh run (Ctrl+R). new dungeon unless same_seed
+func RestartRun(same_seed: bool = false) -> void:
+	StartRun(RunState.loadout, RunState.run_seed if same_seed else 0)
 
 func EndRun(victory: bool) -> void:
 	RunState.Finish(victory)

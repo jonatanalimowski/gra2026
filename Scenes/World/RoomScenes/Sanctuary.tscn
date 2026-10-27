@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/Worldgen/RestRoom.gd" id="1_rest"]
 [ext_resource type="TileSet" uid="uid://d0cbsuev84gt8" path="res://Scripts/Resources/TileMap.tres" id="2_tiles"]
-[ext_resource type="Texture2D" uid="uid://cefly2yxifcsc" path="res://Sprites/tileset_gray.png" id="3_atlas"]
+[ext_resource type="Texture2D" uid="uid://cefly2yxifcsc" path="res://assets/tilesets/tileset_gray.png" id="3_atlas"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_room"]
 size = Vector2(286, 254)

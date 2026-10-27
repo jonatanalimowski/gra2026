@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="AltarPact" load_steps=7 format=3 uid="uid://dpcfyfds7u8dl"]
+
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="1_jjyca"]
+[ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_pact"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_mod"]
+[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="3_0cjd6"]
+
+[sub_resource type="Resource" id="Resource_enemyhp"]
+script = ExtResource("2_mod")
+stat = &"max_health"
+multiplier = 1.3
+
+[sub_resource type="Resource" id="Resource_speed"]
+script = ExtResource("2_mod")
+stat = &"movement_speed"
+multiplier = 1.25
+
+[resource]
+script = ExtResource("1_pact")
+buff_description = "+25% movement speed."
+player_modifiers = Array[ExtResource("2_mod")]([SubResource("Resource_speed")])
+curse_description = "Enemies have +30% health."
+enemy_modifiers = Array[ExtResource("2_mod")]([SubResource("Resource_enemyhp")])
+id = &"pact_swiftness"
+display_name = "Hunter's Haste"

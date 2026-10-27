@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c46h00xyytalo" path="res://Scripts/Projectiles/Projectile.gd" id="1_vw75e"]
 [ext_resource type="Resource" uid="uid://dw2wg8xg52rqw" path="res://Scripts/Projectiles/ProjectileStats/ProjectileBlueBlinkerStats.tres" id="2_room6"]
-[ext_resource type="Texture2D" uid="uid://cnltaocsicnue" path="res://Sprites/Water Effect and Bullet 16x16.png" id="3_4nt8j"]
+[ext_resource type="Texture2D" uid="uid://cnltaocsicnue" path="res://assets/projectiles/Water Effect and Bullet 16x16.png" id="3_4nt8j"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e1x6w"]
 atlas = ExtResource("3_4nt8j")

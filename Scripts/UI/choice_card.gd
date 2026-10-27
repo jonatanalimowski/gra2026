@@ -15,7 +15,7 @@ func _ready() -> void:
 	
 	if content:
 		SetName(content.display_name)
-		SetDescription(content.description)
+		SetDescription(content.GetDescription())
 		SetIcon(content.icon)
 	else:
 		SetName("Missing Name")

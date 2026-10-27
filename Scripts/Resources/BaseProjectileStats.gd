@@ -1,9 +1,8 @@
 extends Resource
 class_name ProjectileStats
 
-enum team {PLAYER, ENEMY}
+# team is not here: it's set per projectile by whoever fires it (see BaseProjectile.team)
 @export var damage: float = 25.0
 @export var speed: float = 1.0
 @export var lifetime: float = 5.0
 @export var knockback_force: float = 120.0
-@export var current_team: team = team.ENEMY

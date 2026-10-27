@@ -21,6 +21,11 @@ signal died(entity: Entity)
 # hitstun: brain is paused this long after a push, then can't be stunned again for hitstun_cooldown
 @export var hitstun_duration: float = 0.15
 @export var hitstun_cooldown: float = 0.6
+# optional ranged attack, the brain decides when to call Shoot(). fired from a "Muzzle" Marker2D if there is one
+@export var spell: SpellData
+# extra projectile effects added to every shot (elites, curses)
+@export var effects: Array[Effect] = []
+var spell_caster: SpellCaster
 var stats: StatBlock
 var health: Health
 var is_boss = false
@@ -30,18 +35,26 @@ var move_velocity: Vector2 = Vector2.ZERO # what the brain wants
 var knockback_velocity: Vector2 = Vector2.ZERO # what hits did to us
 var hitstun_timer: float = 0.0
 var hitstun_immunity_timer: float = 0.0
+var last_hit: DamageInfo
 
 func _ready() -> void:
 	stats = StatBlock.FromResource(base_stats)
+	# altar curses (enemies +hp etc.), before Health so max_health includes them
+	for modifier in RunState.enemy_modifiers:
+		stats.AddModifier(modifier, RunState)
 	health = Health.new(stats.GetStat(&"max_health"))
 	health.changed.connect(_on_health_changed)
 	health.died.connect(Die)
+	if spell:
+		spell_caster = SpellCaster.new(spell, [])
 	sprite.play("idle")
 	add_to_group("enemy")
 
 func _physics_process(delta: float) -> void:
 	hitstun_timer -= delta
 	hitstun_immunity_timer -= delta
+	if spell_caster:
+		spell_caster.Tick(delta)
 	velocity = move_velocity + knockback_velocity
 	move_and_slide()
 	knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, knockback_friction * delta)
@@ -62,7 +75,15 @@ func HandleContactDamage(delta: float) -> void:
 	#if stats:
 		#hp_label.text = str(health.current) + "/" + str(health.maximum)
 
-#func Shoot()
+# casts `spell` towards direction. false = no spell, on cooldown or dead
+func Shoot(direction: Vector2) -> bool:
+	if not spell_caster or is_dead:
+		return false
+	var spawn_pos = $Muzzle.global_position if has_node("Muzzle") else global_position
+	return spell_caster.TryCast(self, direction, spawn_pos, effects)
+
+func CanShoot() -> bool:
+	return spell_caster != null and spell_caster.IsReady() and not is_dead
 
 func Move(direction: Vector2):
 	move_velocity = direction * stats.GetStat(&"movement_speed")
@@ -83,7 +104,10 @@ func TakeDamage(info: DamageInfo) -> void:
 	if is_dead:
 		return
 
+	# before Damage, a lethal hit calls Die() from inside it
+	last_hit = info
 	health.Damage(info.amount)
+
 	if not is_dead:
 		GlobalMethods.FlashSprite(sprite)
 		sprite.play("idle")
@@ -126,7 +150,7 @@ func Die() -> void:
 	get_parent().add_child(corpse)
 	corpse.SpawnCorpse(self.global_position, sprite, death_offset if override_death_offset else sprite.offset, scale)
 	died.emit(self)
-	Signals.enemy_killed.emit(self)
+	Signals.enemy_killed.emit(self, last_hit)
 	if is_boss:
 		Signals.boss_defeated.emit()
 	queue_free()
