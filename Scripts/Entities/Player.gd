@@ -67,7 +67,7 @@ func _exit_tree() -> void:
 	NodeReferences.player = null
 
 func TakeDamage(info: DamageInfo) -> void:
-	if is_invulnerable or is_dead:
+	if is_invulnerable or is_dead or DevTools.invincible:
 		return
 
 	health.Damage(info.amount)

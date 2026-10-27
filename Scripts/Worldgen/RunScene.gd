@@ -13,7 +13,10 @@ func _on_boss_defeated() -> void:
 	get_tree().create_timer(delay_after_boss).timeout.connect(_on_victory_delay_finished)
 
 func _on_victory_delay_finished() -> void:
-	GameFlow.EndRun(true)
+	if DevTools.infinite_floors:
+		GameFlow.NextFloor()
+	else:
+		GameFlow.EndRun(true)
 
 func _on_player_died() -> void:
 	GameFlow.EndRun(false)

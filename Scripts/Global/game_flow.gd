@@ -18,6 +18,12 @@ func StartRun(loadout: Loadout, run_seed: int = 0) -> void:
 	RunState.Begin(loadout, run_seed)
 	get_tree().change_scene_to_file(RUN_SCENE)
 
+# reloads the run scene with floor_number + 1. the player re-applies RunState.loadout and the
+# run-wide buffs in _ready, and the generator gets a new floor seed
+func NextFloor() -> void:
+	RunState.floor_number += 1
+	get_tree().change_scene_to_file(RUN_SCENE)
+
 # same loadout and same dungeon, fresh run (Ctrl+R)
 func RestartRun() -> void:
 	StartRun(RunState.loadout, RunState.run_seed)

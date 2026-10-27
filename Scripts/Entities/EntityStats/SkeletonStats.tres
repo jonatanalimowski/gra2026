@@ -4,7 +4,8 @@
 
 [resource]
 script = ExtResource("1_25udv")
-max_health = 50.0
-movement_speed = 70.0
+max_health = 75.0
+movement_speed = 35.0
 attack_damage = 20.0
+knockback_resistance = 0.25
 metadata/_custom_type_script = "uid://df20v0kdtj1rb"
