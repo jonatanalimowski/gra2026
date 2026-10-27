@@ -128,8 +128,10 @@ func UpdateMovingAnimation():
 	if velocity.length() > 0.01:
 		if (abs(velocity.x) > abs(velocity.y)):
 			if velocity.x > 0:
+				sprite.flip_h = true
 				sprite.play("walk_right")
 			else:
+				sprite.flip_h = false
 				sprite.play("walk_left")
 		else:
 			if velocity.y > 0:

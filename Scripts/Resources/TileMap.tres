@@ -1,6 +1,6 @@
 [gd_resource type="TileSet" load_steps=3 format=3 uid="uid://d0cbsuev84gt8"]
 
-[ext_resource type="Texture2D" uid="uid://cefly2yxifcsc" path="res://Sprites/tileset_gray.png" id="1_o1k3q"]
+[ext_resource type="Texture2D" uid="uid://d0lhbol5mi0nh" path="res://Sprites/tileset_dungeon.png" id="1_o1k3q"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pp47w"]
 resource_name = "World"
@@ -101,6 +101,8 @@ texture = ExtResource("1_o1k3q")
 11:4/0 = 0
 12:4/0 = 0
 13:4/0 = 0
+14:1/0 = 0
+14:2/0 = 0
 
 [resource]
 physics_layer_0/collision_layer = 2

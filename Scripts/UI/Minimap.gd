@@ -3,8 +3,8 @@ class_name Minimap
 
 # map of the floor, centred on the player. fog of war: a room shows up as an outline once you've been
 # in a neighbouring room or corridor, and gets filled in once you've been inside it
-const BACKGROUND = Color(0.05, 0.05, 0.1, 0.6)
-const FRAME = Color(0.55, 0.6, 0.75, 0.9)
+const BACKGROUND = Color(0.071, 0.052, 0.035, 0.6)
+const FRAME = Color(0.501, 0.416, 0.134, 0.9)
 const SEEN = Color(0.45, 0.5, 0.65, 0.9)
 const VISITED = Color(0.35, 0.4, 0.55, 0.9)
 const CURRENT = Color(0.6, 0.66, 0.8, 1.0)
@@ -86,4 +86,4 @@ func _draw() -> void:
 			draw_circle(marker, 2.0, ROOM_TYPE_COLORS[type])
 
 	draw_circle(centre, 1.5, PLAYER)
-	draw_rect(Rect2(Vector2.ZERO, size), FRAME, false, 1.0)
+	#draw_rect(Rect2(Vector2.ZERO, size), FRAME, false, 1.0)

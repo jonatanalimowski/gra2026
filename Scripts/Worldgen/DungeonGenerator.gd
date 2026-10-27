@@ -27,6 +27,11 @@ const CAP_FOR_CONNECTOR: Dictionary[String, String] = {
 	"LeftConnector": "CapLeft",
 	"RightConnector": "CapRight"
 }
+# atlas cells of the world tileset: plain floor gets swapped for a cracked variant now and then
+const PLAIN_FLOOR: Array[Vector2i] = [Vector2i(1, 1), Vector2i(1, 2), Vector2i(1, 3)]
+const FLOOR_VARIANTS: Array[Vector2i] = [
+	Vector2i(2, 1), Vector2i(2, 2), Vector2i(14, 1), Vector2i(14, 2), Vector2i(4, 2), Vector2i(5, 2), Vector2i(3, 2)
+]
 
 @export var rooms: Array[RoomData]
 # straight and L-shaped, any scene with exactly two connectors
@@ -48,6 +53,7 @@ const CAP_FOR_CONNECTOR: Dictionary[String, String] = {
 @export var max_attempts: int = 50
 # non-zero = always generate this exact floor (for debugging a layout)
 @export var debug_seed: int = 0
+@export_range(0.0, 1.0) var floor_variant_chance: float = 0.15
 
 var rng := RandomNumberGenerator.new()
 var shapes: Dictionary[PackedScene, RoomShape] = {}
@@ -345,6 +351,7 @@ func Build() -> void:
 		instance.position = piece.position
 		instance.z_index = -1
 		add_child(instance)
+		VaryFloor(instance, hash([rng.seed, piece.position]))
 
 		if instance is EnemyRoom and not instance is BossRoom:
 			instance.cleared.connect(_on_room_cleared)
@@ -359,5 +366,15 @@ func AddCap(piece: LayoutPiece, connector: String) -> void:
 	cap.position = piece.GetConnectorPosition(connector) - GetShape(cap_scene).connectors[OPPOSITE[connector]]
 	cap.z_index = 1
 	add_child(cap)
+
+# own rng per room so it never shifts the layout rng (same seed = same floor)
+func VaryFloor(room: Node, room_seed: int) -> void:
+	var floor_rng := RandomNumberGenerator.new()
+	floor_rng.seed = room_seed
+	for layer: TileMapLayer in room.find_children("*", "TileMapLayer", true, false):
+		for cell in layer.get_used_cells():
+			if layer.get_cell_atlas_coords(cell) in PLAIN_FLOOR and floor_rng.randf() < floor_variant_chance:
+				var variant = FLOOR_VARIANTS[floor_rng.randi() % FLOOR_VARIANTS.size()]
+				layer.set_cell(cell, layer.get_cell_source_id(cell), variant)
 
 #endregion

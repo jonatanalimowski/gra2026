@@ -1,7 +1,7 @@
 extends Control
 const GRAY: Color = Color(0.3, 0.3, 0.3, 1.0)
 @onready var hp_bar: TextureProgressBar = $PlayerBars/VBoxContainer/Healthbar
-@onready var hp_text: Label = $PlayerBars/VBoxContainer/Healthbar/Label
+#@onready var hp_text: Label = $PlayerBars/VBoxContainer/Healthbar/Label
 @onready var player_stats: VBoxContainer = $PlayerStatistics/VBoxContainer/Playerstats
 @onready var primary_spell_stats: VBoxContainer = $PlayerStatistics/VBoxContainer/PrimarySpellStats
 @onready var heavy_spell_stats: VBoxContainer = $PlayerStatistics/VBoxContainer/HeavySpellStats
@@ -76,7 +76,7 @@ func SetStatLabel(label: Label, stat_name: String, value: float) -> void:
 func UpdateHealth(new_current: int, new_max: int):
 	hp_bar.max_value = new_max
 	hp_bar.value = new_current
-	hp_text.text = str(new_current) + "/" + str(new_max)
+	#hp_text.text = str(new_current) + "/" + str(new_max)
 
 func UpdateBossHP(new_current, new_max):
 	boss_hp_bar.max_value = new_max

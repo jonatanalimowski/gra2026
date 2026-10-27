@@ -12,6 +12,9 @@ signal died(entity: Entity)
 @export var damage_number_scene: PackedScene
 # how often touching the player deals damage
 @export var contact_damage_interval: float = 1.0
+# death anim frames can be a different size than idle/moving, override the sprite offset to realign them
+@export var override_death_offset: bool = false
+@export var death_offset: Vector2 = Vector2.ZERO
 var stats: StatBlock
 var health: Health
 var is_boss = false
@@ -89,7 +92,7 @@ func Die() -> void:
 	DisableCollisions()
 	var corpse: EntityCorpse = corpse_scene.instantiate()
 	get_parent().add_child(corpse)
-	corpse.SpawnCorpse(self.global_position, sprite.sprite_frames)
+	corpse.SpawnCorpse(self.global_position, sprite, death_offset if override_death_offset else sprite.offset)
 	died.emit(self)
 	Signals.enemy_killed.emit(self)
 	if is_boss:
