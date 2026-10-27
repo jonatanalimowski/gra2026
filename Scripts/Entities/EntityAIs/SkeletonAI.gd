@@ -24,12 +24,20 @@ var cooldown: float = 0.0
 var orbit_direction: float = 1.0 # 1 = counter clockwise, -1 = clockwise
 var wander_direction: Vector2 = Vector2.ZERO
 var charge_direction: Vector2 = Vector2.ZERO
+# added while charging so hits can't push or stun it
+var unstoppable_mod: StatModifier
 
 func _ready() -> void:
 	orbit_direction = [-1.0, 1.0].pick_random()
+	unstoppable_mod = StatModifier.new()
+	unstoppable_mod.stat = &"knockback_resistance"
+	unstoppable_mod.flat = 1.0
 
 func _process(delta: float) -> void:
 	if not ParentEntity or ParentEntity.is_dead: return
+	if ParentEntity.IsStunned():
+		UpdateFacing()
+		return
 
 	cooldown -= delta
 	state_timer -= delta
@@ -42,6 +50,7 @@ func _process(delta: float) -> void:
 		State.CHARGE:
 			if state_timer <= 0:
 				state = State.CIRCLE
+				ParentEntity.stats.RemoveModifiersFrom(self)
 				cooldown = charge_cooldown
 
 	UpdateFacing()
@@ -85,6 +94,7 @@ func StartCharge() -> void:
 	if NodeReferences.player:
 		charge_direction = ParentEntity.global_position.direction_to(NodeReferences.player.global_position)
 	var move_speed = ParentEntity.stats.GetStat(&"movement_speed")
+	ParentEntity.stats.AddModifier(unstoppable_mod, self)
 	ParentEntity.Jump(charge_direction, charge_duration, move_speed * charge_speed_multiplier)
 
 func IsBehindPlayer() -> bool:
@@ -99,7 +109,7 @@ func CanFindPlayer() -> bool:
 	return ParentEntity.CanSeePlayer() if needs_line_of_sight else true
 
 func UpdateFacing() -> void:
-	var vx = ParentEntity.velocity.x
+	var vx = ParentEntity.move_velocity.x
 	if vx < -0.01:
 		ParentEntity.sprite.flip_h = true
 	elif vx > 0.01:

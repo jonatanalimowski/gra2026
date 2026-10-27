@@ -6,6 +6,7 @@ class_name DamageInfo
 var amount: float
 var source: Node2D # who caused the damage (the player for player spells, the enemy for melee)
 var is_critical: bool = false
+var knockback: Vector2 = Vector2.ZERO # direction * force, zero = no push
 var element: StringName = &""
 
 func _init(damage_amount: float, damage_source: Node2D = null) -> void:

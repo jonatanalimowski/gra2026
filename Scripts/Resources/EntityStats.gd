@@ -6,3 +6,4 @@ class_name EntityStats
 @export var movement_speed: float = 200.0
 @export var acceleration: float = 2.0
 @export var attack_damage: float = 10.0
+@export var knockback_resistance: float = 0.0 # 0 = full push, 1 = immune

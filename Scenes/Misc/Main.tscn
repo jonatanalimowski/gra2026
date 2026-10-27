@@ -24,7 +24,7 @@ offset_bottom = -2.0
 position = Vector2(117, 66)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-zoom = Vector2(1.85, 1.85)
+zoom = Vector2(2, 2)
 position_smoothing_enabled = true
-position_smoothing_speed = 15.0
+position_smoothing_speed = 10.0
 script = ExtResource("4_pbw6q")

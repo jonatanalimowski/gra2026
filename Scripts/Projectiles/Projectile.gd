@@ -56,6 +56,7 @@ func HandleCollision(collision: KinematicCollision2D) -> void:
 
 	if body.has_method("TakeDamage"):
 		var info = DamageInfo.new(damage, caster)
+		info.knockback = direction * stats.knockback_force
 		for effect in effects:
 			effect.ModifyDamage(self, info)
 		body.TakeDamage(info)

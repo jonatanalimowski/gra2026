@@ -15,11 +15,21 @@ signal died(entity: Entity)
 # death anim frames can be a different size than idle/moving, override the sprite offset to realign them
 @export var override_death_offset: bool = false
 @export var death_offset: Vector2 = Vector2.ZERO
+# knockback: how fast a push dies out and the fastest it can stack up to
+@export var knockback_friction: float = 900.0
+@export var max_knockback_speed: float = 300.0
+# hitstun: brain is paused this long after a push, then can't be stunned again for hitstun_cooldown
+@export var hitstun_duration: float = 0.15
+@export var hitstun_cooldown: float = 0.6
 var stats: StatBlock
 var health: Health
 var is_boss = false
 var is_dead: bool = false
 var contact_damage_cooldown: float = 0.0
+var move_velocity: Vector2 = Vector2.ZERO # what the brain wants
+var knockback_velocity: Vector2 = Vector2.ZERO # what hits did to us
+var hitstun_timer: float = 0.0
+var hitstun_immunity_timer: float = 0.0
 
 func _ready() -> void:
 	stats = StatBlock.FromResource(base_stats)
@@ -30,7 +40,11 @@ func _ready() -> void:
 	add_to_group("enemy")
 
 func _physics_process(delta: float) -> void:
+	hitstun_timer -= delta
+	hitstun_immunity_timer -= delta
+	velocity = move_velocity + knockback_velocity
 	move_and_slide()
+	knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, knockback_friction * delta)
 	HandleContactDamage(delta)
 
 func HandleContactDamage(delta: float) -> void:
@@ -51,18 +65,18 @@ func HandleContactDamage(delta: float) -> void:
 #func Shoot()
 
 func Move(direction: Vector2):
-	velocity = direction * stats.GetStat(&"movement_speed")
+	move_velocity = direction * stats.GetStat(&"movement_speed")
 	sprite.play("moving")
 
 func Jump(direction: Vector2, duration: float, move_speed: float):
-	velocity = direction * move_speed
+	move_velocity = direction * move_speed
 	sprite.play("moving")
 
 	var t = get_tree().create_timer(duration)
 	t.timeout.connect(func(): if not is_dead: Stop())
 
 func Stop():
-	velocity = Vector2.ZERO
+	move_velocity = Vector2.ZERO
 	sprite.play("idle")
 
 func TakeDamage(info: DamageInfo) -> void:
@@ -73,12 +87,30 @@ func TakeDamage(info: DamageInfo) -> void:
 	if not is_dead:
 		GlobalMethods.FlashSprite(sprite)
 		sprite.play("idle")
+		ApplyKnockback(info.knockback)
 
 	#spawning damage number
 	if damage_number_scene:
 		var dmg_num = damage_number_scene.instantiate()
 		get_tree().current_scene.add_child(dmg_num)
 		dmg_num.display(info.amount, global_position, info.is_critical)
+
+# resistance 1 or more = unstoppable (bosses, skeleton charge), no push and no hitstun
+func ApplyKnockback(knockback: Vector2) -> void:
+	var resist = clampf(stats.GetStat(&"knockback_resistance"), 0.0, 1.0)
+	if knockback == Vector2.ZERO or resist >= 1.0:
+		return
+
+	knockback_velocity = (knockback_velocity + knockback * (1.0 - resist)).limit_length(max_knockback_speed)
+
+	# one stun per window, so a fast fire rate can't keep the enemy frozen
+	if hitstun_immunity_timer <= 0:
+		hitstun_timer = hitstun_duration
+		hitstun_immunity_timer = hitstun_duration + hitstun_cooldown
+		Stop()
+
+func IsStunned() -> bool:
+	return hitstun_timer > 0
 
 func _on_health_changed(current: float, maximum: float) -> void:
 	if is_boss:

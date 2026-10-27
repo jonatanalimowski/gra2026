@@ -32,7 +32,7 @@ func _ready() -> void:
 	jump_frequency_variation = randf_range(0, max_frequency_variation)
 
 func _process(delta: float) -> void:
-	if not ParentEntity: return
+	if not ParentEntity or ParentEntity.IsStunned(): return
 
 	timer += delta
 	if timer >= jump_frequency + jump_frequency_variation:
