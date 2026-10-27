@@ -92,7 +92,7 @@ func Die() -> void:
 	DisableCollisions()
 	var corpse: EntityCorpse = corpse_scene.instantiate()
 	get_parent().add_child(corpse)
-	corpse.SpawnCorpse(self.global_position, sprite, death_offset if override_death_offset else sprite.offset)
+	corpse.SpawnCorpse(self.global_position, sprite, death_offset if override_death_offset else sprite.offset, scale)
 	died.emit(self)
 	Signals.enemy_killed.emit(self)
 	if is_boss:

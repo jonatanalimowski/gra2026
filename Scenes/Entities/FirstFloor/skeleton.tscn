@@ -10,10 +10,9 @@
 [ext_resource type="Script" uid="uid://dw038hkgnyld3" path="res://Scripts/Entities/EntityAIs/SkeletonAI.gd" id="8_lasn7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s367j"]
-radius = 5.0990195
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0dqb0"]
-radius = 6.0827627
+radius = 13.333333
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3w1vq"]
 atlas = ExtResource("5_5fsqs")
@@ -168,6 +167,7 @@ script = ExtResource("1_shnyf")
 base_stats = ExtResource("2_5fsqs")
 corpse_scene = ExtResource("3_gjesp")
 damage_number_scene = ExtResource("4_vuqrd")
+contact_damage_interval = null
 override_death_offset = true
 death_offset = Vector2(-16, -48)
 
