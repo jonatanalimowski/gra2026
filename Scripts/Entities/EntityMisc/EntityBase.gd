@@ -39,12 +39,16 @@ var last_hit: DamageInfo
 
 func _ready() -> void:
 	stats = StatBlock.FromResource(base_stats)
-	# altar curses (enemies +hp etc.), before Health so max_health includes them
-	for modifier in RunState.enemy_modifiers:
-		stats.AddModifier(modifier, RunState)
+	# pact/oath enemy modifiers (enemies +hp etc.), before Health so max_health includes them
+	for half in RunState.halves:
+		ApplyRunHalf(half)
 	health = Health.new(stats.GetStat(&"max_health"))
 	health.changed.connect(_on_health_changed)
 	health.died.connect(Die)
+	stats.stat_changed.connect(_on_stat_changed)
+	# live enemies follow pacts taken / curses cleansed mid-room
+	RunState.half_added.connect(ApplyRunHalf)
+	RunState.half_removed.connect(_on_run_half_removed)
 	if spell:
 		spell_caster = SpellCaster.new(spell, [])
 	sprite.play("idle")
@@ -135,6 +139,17 @@ func ApplyKnockback(knockback: Vector2) -> void:
 
 func IsStunned() -> bool:
 	return hitstun_timer > 0
+
+func ApplyRunHalf(half: PactHalf) -> void:
+	for modifier in half.enemy_modifiers:
+		stats.AddModifier(modifier, half)
+
+func _on_run_half_removed(half: PactHalf) -> void:
+	stats.RemoveModifiersFrom(half)
+
+func _on_stat_changed(stat_name: StringName, value: float) -> void:
+	if stat_name == &"max_health":
+		health.SetMaximum(value)
 
 func _on_health_changed(current: float, maximum: float) -> void:
 	if is_boss:

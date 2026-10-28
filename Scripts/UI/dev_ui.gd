@@ -16,6 +16,7 @@ func _ready() -> void:
 	# one-shot actions, built here so the scene doesn't need editing for each new cheat
 	var vbox = %ButtonList
 	AddActionButton(vbox, "Altar offer (F7)", _on_altar_offer_pressed)
+	AddActionButton(vbox, "Cleanse curses", _on_cleanse_curses_pressed)
 
 func AddActionButton(parent: Node, text: String, callback: Callable) -> void:
 	var button = Button.new()
@@ -33,3 +34,7 @@ func _on_infinite_floors_toggled(on: bool) -> void:
 func _on_altar_offer_pressed() -> void:
 	if NodeReferences.player and not get_tree().paused:
 		DevTools.OpenPactChoice()
+
+func _on_cleanse_curses_pressed() -> void:
+	for curse in RunState.GetActiveCurses():
+		RunState.CleanseCurse(curse)

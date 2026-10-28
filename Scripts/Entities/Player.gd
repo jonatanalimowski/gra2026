@@ -30,7 +30,8 @@ func _ready() -> void:
 	health.changed.connect(func(current, maximum): Signals.player_health_changed.emit(current, maximum))
 	health.died.connect(Die)
 	stats.stat_changed.connect(_on_stat_changed)
-	RunState.pact_added.connect(ApplyPact)
+	RunState.half_added.connect(ApplyHalf)
+	RunState.half_removed.connect(RemoveHalf)
 
 	NodeReferences.player = self
 	Signals.player_ready.emit(self)
@@ -45,13 +46,6 @@ func ApplyLoadout(loadout: Loadout) -> void:
 			stats.AddModifier(modifier, item)
 		effects.append_array(item.effects)
 
-	# run-wide buffs (blessings, altars)
-	for modifier in RunState.player_modifiers:
-		stats.AddModifier(modifier, RunState)
-	effects.append_array(RunState.effects)
-	for e in RunState.run_effects:
-		e.OnAdded(self)
-
 	if loadout.scroll and loadout.scroll.ability:
 		mobility = loadout.scroll.ability
 	else:
@@ -62,13 +56,29 @@ func ApplyLoadout(loadout: Loadout) -> void:
 	add_child(wand)
 	wand.Setup(loadout.wand if loadout.wand else fallback_wand)
 
-func ApplyPact(pact: AltarPact) -> void:
-	for modifier in pact.player_modifiers + pact.curse_player_modifiers:
-		stats.AddModifier(modifier, RunState)
-	effects.append_array(pact.effects)
-	effects.append_array(pact.curse_effects)
-	for e in pact.run_effects + pact.curse_run_effects:
+	# run-wide blessings/curses (pacts, oaths). after the wand, halves can modify its spells
+	for half in RunState.halves:
+		ApplyHalf(half)
+
+# the half is the modifier source, so RemoveHalf takes back exactly what it gave
+func ApplyHalf(half: PactHalf) -> void:
+	for modifier in half.player_modifiers:
+		stats.AddModifier(modifier, half)
+	for caster in wand.GetCasters():
+		for modifier in half.spell_modifiers:
+			caster.stats.AddModifier(modifier, half)
+	effects.append_array(half.effects)
+	for e in half.run_effects:
 		e.OnAdded(self)
+
+func RemoveHalf(half: PactHalf) -> void:
+	stats.RemoveModifiersFrom(half)
+	for caster in wand.GetCasters():
+		caster.stats.RemoveModifiersFrom(half)
+	for e in half.effects:
+		effects.erase(e)
+	for e in half.run_effects:
+		e.OnRemoved(self)
 
 func _on_stat_changed(stat_name: StringName, value: float) -> void:
 	if stat_name == &"max_health":

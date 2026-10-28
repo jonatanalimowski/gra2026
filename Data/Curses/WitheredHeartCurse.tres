@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Curse" load_steps=6 format=3 uid="uid://dakqfbe1men1r"]
+
+[ext_resource type="Script" path="res://Scripts/Altars/Curse.gd" id="1_half"]
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="1_ifkqa"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_mod"]
+[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="3_mf51e"]
+
+[sub_resource type="Resource" id="Resource_halfhp"]
+script = ExtResource("2_mod")
+stat = &"max_health"
+multiplier = 0.5
+
+[resource]
+script = ExtResource("1_half")
+display_name = "Withered Heart"
+description = "Your max health is halved."
+player_modifiers = Array[ExtResource("2_mod")]([SubResource("Resource_halfhp")])

@@ -19,6 +19,14 @@ func Setup(wand_data: WandData) -> void:
 	if data.heavy_spell:
 		heavy = SpellCaster.new(data.heavy_spell, runes)
 
+func GetCasters() -> Array[SpellCaster]:
+	var casters: Array[SpellCaster] = []
+	if primary:
+		casters.append(primary)
+	if heavy:
+		casters.append(heavy)
+	return casters
+
 func _process(delta: float) -> void:
 	if primary:
 		primary.Tick(delta)

@@ -36,6 +36,7 @@ func ConnectSignals() -> void:
 	Signals.boss_health_changed.connect(UpdateBossHP)
 	Signals.boss_defeated.connect(_on_boss_deafeated)
 	RunState.pact_added.connect(_on_pact_added)
+	RunState.curse_cleansed.connect(func(_curse): UpdatePacts())
 
 func _on_player_ready(player: Player):
 	detailed_stat_labels.clear()
@@ -118,7 +119,8 @@ func UpdatePacts() -> void:
 	pact_list.add_child(header)
 	for pact in RunState.pacts:
 		var row = HBoxContainer.new()
-		row.tooltip_text = pact.GetDescription()
+		var broken = pact.curse and pact.curse in RunState.cleansed_curses
+		row.tooltip_text = pact.GetDescription() + ("\n(curse broken)" if broken else "")
 		row.mouse_filter = Control.MOUSE_FILTER_STOP
 		for icon in pact.GetTagIcons():
 			var rect = TextureRect.new()
@@ -128,8 +130,9 @@ func UpdatePacts() -> void:
 			rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			row.add_child(rect)
 		var label = Label.new()
+		# a broken curse leaves just the blessing, shown in the buff color
 		label.text = pact.display_name
-		label.modulate = Color(1, 0.6, 0.9)
+		label.modulate = AltarPact.BUFF_COLOR if broken else Color(1, 0.6, 0.9)
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		row.add_child(label)
 		pact_list.add_child(row)

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Curse" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Altars/Curse.gd" id="1_half"]
+
+[resource]
+script = ExtResource("1_half")
+display_name = "Reckless Blast"
+description = "Explosions from defeated monsters hurt you too."
+flags = Array[StringName]([&"kill_explosions_hit_player"])

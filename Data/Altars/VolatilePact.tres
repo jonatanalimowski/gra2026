@@ -1,21 +1,12 @@
-[gd_resource type="Resource" script_class="AltarPact" load_steps=8 format=3 uid="uid://dh4p70lmjigmo"]
+[gd_resource type="Resource" script_class="AltarPact" load_steps=4 format=3 uid="uid://dh4p70lmjigmo"]
 
 [ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_pact"]
-[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="1_sjl3k"]
-[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_6kh0s"]
-[ext_resource type="Script" uid="uid://cxsgc8u3x6jj3" path="res://Scripts/Combat/Effects/RunEffects/ExplodeOnKillEffect.gd" id="2_explode"]
-[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="3_j2tfu"]
-[ext_resource type="PackedScene" uid="uid://dhpf3x35g6lp7" path="res://Scenes/Combat/Explosion.tscn" id="3_scene"]
-
-[sub_resource type="Resource" id="Resource_explode"]
-script = ExtResource("2_explode")
-explosion_scene = ExtResource("3_scene")
+[ext_resource type="Resource" path="res://Data/Blessings/VolatileDeadBlessing.tres" id="2_blessing"]
+[ext_resource type="Resource" path="res://Data/Curses/RecklessBlastCurse.tres" id="3_curse"]
 
 [resource]
 script = ExtResource("1_pact")
-buff_type = 2
-buff_description = "Defeated monsters have a 25% chance to explode, damaging other monsters."
-run_effects = Array[ExtResource("3_j2tfu")]([SubResource("Resource_explode")])
-curse_description = "The explosions hurt you too."
+blessing = ExtResource("2_blessing")
+curse = ExtResource("3_curse")
 id = &"pact_volatile"
 display_name = "Volatile Dead"
