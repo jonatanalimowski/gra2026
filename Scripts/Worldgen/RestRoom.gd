@@ -25,7 +25,7 @@ func _on_shrine_body_entered(body: Node2D) -> void:
 		return
 
 	is_used = true
-	player.health.Heal(player.health.maximum * heal_share)
+	player.health.Heal(player.health.maximum * heal_share, false)
 	GlobalMethods.FlashSprite(player.sprite, 0.4, Color.GREEN)
 
 	bob_tween.kill()

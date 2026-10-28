@@ -57,8 +57,15 @@ func _physics_process(delta: float) -> void:
 func HandleCollision(collision: KinematicCollision2D) -> void:
 	var body = collision.get_collider()
 
+	# dodged (e.g. player dashing): fly through instead of disappearing
+	if body.has_method("IsDodging") and body.IsDodging():
+		add_collision_exception_with(body)
+		return
+
 	if body.has_method("TakeDamage"):
-		var info = DamageInfo.new(damage, caster)
+		# caster may have died while the projectile was in flight
+		var source = caster if is_instance_valid(caster) else null
+		var info = DamageInfo.new(damage, source)
 		info.knockback = direction * stats.knockback_force
 		for effect in effects:
 			effect.ModifyDamage(self, info)

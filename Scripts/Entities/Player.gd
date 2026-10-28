@@ -121,6 +121,7 @@ func UseMobility() -> void:
 	can_dash = false
 	get_tree().create_timer(mobility.cooldown).timeout.connect(func(): can_dash = true)
 	mobility.Activate(self, GetMovementInput())
+	GlobalMethods.FlashSprite(sprite, 0.3, Color(0.4, 0.4, 0.4, 0.3))
 
 # moves the player with a fixed velocity for a while, ignoring input. used by DashAbility
 func StartDash(velocity_during_dash: Vector2, duration: float) -> void:
@@ -171,6 +172,10 @@ func HandleMoveState(delta: float) -> void:
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, delta * stats.GetStat(&"friction"))
 	move_and_slide()
+
+# projectiles pass through instead of hitting, see BaseProjectile.HandleCollision
+func IsDodging() -> bool:
+	return is_invulnerable
 
 func MakeInvulnerable(seconds: float) -> void:
 	is_invulnerable = true
