@@ -78,7 +78,7 @@ func BuildStatList(container: VBoxContainer, stats: StatBlock) -> void:
 	)
 
 func SetStatLabel(label: Label, stat_name: String, value: float) -> void:
-	label.text = "%s: %.1f" % [stat_name.capitalize(), value]
+	label.text = StatBlock.FormatStat(stat_name, value)
 
 func UpdateHealth(new_current: int, new_max: int):
 	hp_bar.max_value = new_max

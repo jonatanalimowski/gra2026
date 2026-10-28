@@ -47,6 +47,19 @@ func HasStat(stat_name: StringName) -> bool:
 func GetStatNames() -> Array:
 	return _base.keys()
 
+# current values without hidden stats, in declaration order (for tooltips/cards)
+func GetDisplayStats() -> Dictionary[StringName, float]:
+	var result: Dictionary[StringName, float] = {}
+	for stat_name in _base:
+		if stat_name not in hidden_stats:
+			result[stat_name] = GetStat(stat_name)
+	return result
+
+# "Shot Count: 2", "Cooldown: 0.5" - shared by the HUD and tooltips
+static func FormatStat(stat_name: String, value: float) -> String:
+	var value_text = str(int(value)) if is_equal_approx(value, roundf(value)) else "%.1f" % value
+	return "%s: %s" % [stat_name.capitalize(), value_text]
+
 func AddModifier(modifier: StatModifier, source: Object) -> void:
 	_modifiers.append({ "modifier": modifier, "source": source })
 	stat_changed.emit(modifier.stat, GetStat(modifier.stat))

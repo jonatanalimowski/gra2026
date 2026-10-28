@@ -1,0 +1,71 @@
+[gd_scene load_steps=4 format=3 uid="uid://cb5p4rrqmjw2n"]
+
+[ext_resource type="Script" uid="uid://dnk12ifws3sif" path="res://Scripts/UI/stats_overlay.gd" id="1_w55x7"]
+[ext_resource type="PackedScene" uid="uid://cob8fnuxgoe28" path="res://Scenes/UI/StatsCard.tscn" id="2_s1ltu"]
+[ext_resource type="Theme" uid="uid://d2g2pr66fmdmk" path="res://Fonts/Font.tres" id="3_s3i6r"]
+
+[node name="StatsOverlay" type="CanvasLayer"]
+layer = 60
+script = ExtResource("1_w55x7")
+stats_card_scene = ExtResource("2_s1ltu")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_s3i6r")
+
+[node name="Dim" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.6
+anchor_right = 0.5
+anchor_bottom = 0.6
+offset_left = -102.0
+offset_top = -100.0
+offset_right = 101.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="Root/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+text = "Choose"
+horizontal_alignment = 1
+
+[node name="Stats" type="HBoxContainer" parent="Root/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Root/VBoxContainer/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "sadadsasdasad"
+fit_content = true
+
+[node name="LeaveButton" type="Button" parent="Root/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 0
+text = "Leave"

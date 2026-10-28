@@ -7,3 +7,6 @@ class_name ProjectileStats
 @export var lifetime: float = 5.0
 @export var knockback_force: float = 120.0
 @export var motion: ProjectileMotion # empty = straight line
+
+# damage is replaced by the spell's damage when a wand fires it
+const STAT_IGNORE_IN_DISPLAY = ["damage"]

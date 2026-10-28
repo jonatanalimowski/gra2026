@@ -18,3 +18,8 @@ func GetRichDescription() -> String:
 
 func GetTagIcons() -> Array[Texture2D]:
 	return []
+
+# stats for tooltips, grouped by section title: { "Wand": { rune_slots: 2 }, "Primary": {...} }
+# empty = item has no stats to show
+func GetDisplayStats() -> Dictionary[String, Dictionary]:
+	return {}
