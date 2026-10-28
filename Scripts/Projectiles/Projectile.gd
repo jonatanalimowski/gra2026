@@ -21,6 +21,9 @@ var effects: Array[Effect] = []
 
 # per-projectile data for effects, e.g. bounces left. key = the effect resource
 var effect_state: Dictionary = {}
+# true once an effect kept the projectile alive during the current hit, so a second
+# keep-alive effect (pierce + ricochet) doesn't also spend a charge on the same hit
+var survived_hit: bool = false
 
 # Variables
 var direction: Vector2 = Vector2.UP
@@ -71,15 +74,21 @@ func HandleCollision(collision: KinematicCollision2D) -> void:
 			effect.ModifyDamage(self, info)
 		body.TakeDamage(info)
 
+		# every effect gets the hook (explosions, lifesteal...), even after one kept us alive
+		survived_hit = false
 		for effect in effects:
 			if effect.OnHitTarget(self, body, info):
-				# survived the hit, don't collide with the same body again next frame
-				add_collision_exception_with(body)
-				return
+				survived_hit = true
+		if survived_hit:
+			# don't collide with the same body again next frame
+			add_collision_exception_with(body)
+			return
 		queue_free()
 
 	elif ("collision_layer" in body and body.collision_layer == LAYER_WORLD) or body is TileMapLayer:
+		survived_hit = false
 		for effect in effects:
 			if effect.OnHitWall(self, collision):
-				return
-		queue_free()
+				survived_hit = true
+		if not survived_hit:
+			queue_free()

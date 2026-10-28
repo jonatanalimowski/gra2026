@@ -27,10 +27,9 @@ func OnHitWall(projectile: BaseProjectile, _collision: KinematicCollision2D) -> 
 	return false
 
 func SpawnExplosion(projectile: BaseProjectile) -> void:
+	# explosive shots blow up on every contact (each bounce / pierce)
 	if not projectile.effect_state.get(self, false):
 		return
-	# only once, even if the projectile survives the hit (pierce)
-	projectile.effect_state[self] = false
 
 	var dmg = explosion_damage
 	if override_explosion_damage_with_projectile_damage:

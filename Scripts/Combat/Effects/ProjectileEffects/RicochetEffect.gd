@@ -9,7 +9,7 @@ func OnProjectileSpawned(projectile: BaseProjectile) -> void:
 	projectile.effect_state[self] = ricochets
 
 func OnHitTarget(projectile: BaseProjectile, _target: Node2D, _info: DamageInfo) -> bool:
-	if projectile.effect_state[self] <= 0:
+	if projectile.survived_hit or projectile.effect_state[self] <= 0:
 		return false
 
 	projectile.effect_state[self] -= 1
