@@ -50,10 +50,15 @@ func SpawnEnemies() -> void:
 	for spawnpoint in enemy_spawn_markers:
 		var enemy: Entity = enemy_table.pick_random().instantiate()
 		enemy.global_position = spawnpoint.global_position
-		enemy.died.connect(_on_enemy_died)
 		get_parent().add_child(enemy)
-		enemies_left += 1
+		RegisterEnemy(enemy)
 
 	# a room without spawn markers would otherwise stay locked forever
 	if enemies_left == 0:
 		_on_room_cleared()
+
+# summoned enemies register too, so the doors stay shut until they're dead
+func RegisterEnemy(enemy: Entity) -> void:
+	enemy.died.connect(_on_enemy_died)
+	enemy.summoned.connect(RegisterEnemy)
+	enemies_left += 1

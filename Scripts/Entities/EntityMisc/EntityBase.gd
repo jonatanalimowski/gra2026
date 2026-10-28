@@ -2,6 +2,8 @@ extends CharacterBody2D
 class_name Entity
 
 signal died(entity: Entity)
+# a brain spawned another enemy (SpawnMinion), the room counts it too
+signal summoned(minion: Entity)
 
 @onready var hp_label: Label = $Control/HpLabel
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -90,6 +92,12 @@ func Shoot(direction: Vector2) -> bool:
 		return false
 	var spawn_pos = $Muzzle.global_position if has_node("Muzzle") else global_position
 	return spell_caster.TryCast(self, direction, spawn_pos, effects)
+
+# adds an enemy next to this one (same parent as the room's enemies)
+func SpawnMinion(minion: Entity, pos: Vector2) -> void:
+	minion.global_position = pos
+	get_parent().add_child(minion)
+	summoned.emit(minion)
 
 func CanShoot() -> bool:
 	return spell_caster != null and spell_caster.IsReady() and not is_dead and spawn_shoot_timer <= 0

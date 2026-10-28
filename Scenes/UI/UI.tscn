@@ -204,7 +204,7 @@ offset_left = -47.0
 offset_right = 47.0
 offset_bottom = 36.0
 grow_horizontal = 2
-scale = Vector2(1.2, 1.2)
+scale = Vector2(1.5, 1.5)
 pivot_offset = Vector2(47, 0)
 
 [node name="PanelContainer" type="PanelContainer" parent="HUD/PlayerBars"]
