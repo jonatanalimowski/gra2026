@@ -5,7 +5,7 @@ extends Control
 @export var choice_card_scene: PackedScene
 @export var wands: Array[WandData]
 
-@onready var choice_card_container: HBoxContainer = $UI/MarginContainer/HBoxContainer
+@onready var choice_card_container: HBoxContainer = %CardRow
 var cards_amount: int = 3
 
 func _ready() -> void:

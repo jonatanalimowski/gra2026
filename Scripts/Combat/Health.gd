@@ -21,11 +21,15 @@ func Damage(amount: float) -> void:
 	if current <= 0:
 		died.emit()
 
-func Heal(amount: float) -> void:
+func Heal(amount: float, is_percentage: bool) -> void:
 	if IsDead():
 		return
-
-	current = min(current + amount, maximum)
+	
+	var new = amount
+	if is_percentage:
+		new = maximum*(amount/100)
+		
+	current = min(current + new, maximum)
 	changed.emit(current, maximum)
 
 # keeps the same health percentage when max health changes (e.g. armor equipped mid-run)

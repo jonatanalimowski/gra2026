@@ -1,0 +1,63 @@
+[gd_resource type="Theme" load_steps=12 format=3 uid="uid://cixt07vew57f"]
+
+[ext_resource type="Texture2D" uid="uid://k7ja5acwr47c" path="res://assets/ui/InUse/buttons.png" id="1_f1n3m"]
+[ext_resource type="FontFile" uid="uid://dv16al0h2pcxi" path="res://Fonts/LowresPixel-Regular.otf" id="2_font"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_disabled"]
+atlas = ExtResource("1_f1n3m")
+region = Rect2(285, 0, 95, 20)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_disabled"]
+texture = SubResource("AtlasTexture_disabled")
+texture_margin_left = 8.0
+texture_margin_top = 3.0
+texture_margin_right = 13.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_focus"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hover"]
+atlas = ExtResource("1_f1n3m")
+region = Rect2(95, 0, 95, 20)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hover"]
+texture = SubResource("AtlasTexture_hover")
+texture_margin_left = 8.0
+texture_margin_top = 3.0
+texture_margin_right = 13.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_normal"]
+atlas = ExtResource("1_f1n3m")
+region = Rect2(0, 0, 95, 20)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_normal"]
+texture = SubResource("AtlasTexture_normal")
+texture_margin_left = 8.0
+texture_margin_top = 3.0
+texture_margin_right = 13.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pressed"]
+atlas = ExtResource("1_f1n3m")
+region = Rect2(190, 0, 95, 20)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pressed"]
+texture = SubResource("AtlasTexture_pressed")
+texture_margin_left = 8.0
+texture_margin_top = 3.0
+texture_margin_right = 13.0
+texture_margin_bottom = 4.0
+
+[resource]
+default_font = ExtResource("2_font")
+default_font_size = 10
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 1
+Button/styles/disabled = SubResource("StyleBoxTexture_disabled")
+Button/styles/focus = SubResource("StyleBoxEmpty_focus")
+Button/styles/hover = SubResource("StyleBoxTexture_hover")
+Button/styles/normal = SubResource("StyleBoxTexture_normal")
+Button/styles/pressed = SubResource("StyleBoxTexture_pressed")
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 2

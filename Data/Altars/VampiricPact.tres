@@ -13,11 +13,12 @@ multiplier = 0.5
 
 [sub_resource type="Resource" id="Resource_vamp"]
 script = ExtResource("2_vamp")
+heal_amount = 5.0
 
 [resource]
 script = ExtResource("1_pact")
 buff_type = 1
-buff_description = "Your spells have a 15% chance to be vampiric, healing you for 3 HP on hit."
+buff_description = "Your spells have a 15% chance to be vampiric, healing you for 10% HP on hit."
 effects = Array[ExtResource("1_38k4o")]([SubResource("Resource_vamp")])
 curse_description = "Your max health is halved."
 curse_player_modifiers = Array[ExtResource("3_mod")]([SubResource("Resource_halfhp")])

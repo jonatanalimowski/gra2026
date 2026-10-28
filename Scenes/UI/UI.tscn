@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://dtwdf4gml8oue"]
 
-[ext_resource type="Theme" uid="uid://d2g2pr66fmdmk" path="res://Fonts/Font.tres" id="1_nxvpl"]
+[ext_resource type="Theme" uid="uid://cixt07vew57f" path="res://Data/UI/main_theme.tres" id="1_jevvu"]
 [ext_resource type="Script" uid="uid://dt5inydsxhw3e" path="res://Scripts/UI/debug_ui.gd" id="1_w371h"]
 [ext_resource type="Script" uid="uid://c0pcntrsog7c4" path="res://Scripts/UI/HUD.gd" id="3_48q88"]
 [ext_resource type="Texture2D" uid="uid://d1yn33s7btbdp" path="res://assets/ui/Pack2/Main_tiles.png" id="4_qwshj"]
@@ -52,10 +52,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_nxvpl")
+theme = ExtResource("1_jevvu")
 
 [node name="DebugUi" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -66,16 +65,25 @@ script = ExtResource("1_w371h")
 
 [node name="MarginContainer" type="MarginContainer" parent="DebugUi"]
 layout_mode = 1
-offset_right = 40.0
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.14
+anchor_right = 0.5
+anchor_bottom = 0.14
+offset_left = -21.5
+offset_right = 21.5
 offset_bottom = 40.0
+grow_horizontal = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="DebugUi/MarginContainer"]
+[node name="DebugList" type="VBoxContainer" parent="DebugUi/MarginContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HpLabel" type="Label" parent="DebugUi/MarginContainer/VBoxContainer"]
+[node name="HpLabel" type="Label" parent="DebugUi/MarginContainer/DebugList"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "HP"
@@ -85,8 +93,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -2.0
-offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
@@ -119,7 +125,8 @@ layout_mode = 2
 texture = SubResource("AtlasTexture_xjg7p")
 stretch_mode = 4
 
-[node name="SpellTexture" type="TextureRect" parent="HUD/SpellSlots/HBoxContainer/PrimarySpell"]
+[node name="PrimarySpellTexture" type="TextureRect" parent="HUD/SpellSlots/HBoxContainer/PrimarySpell"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -139,7 +146,8 @@ layout_mode = 2
 texture = SubResource("AtlasTexture_xjg7p")
 stretch_mode = 4
 
-[node name="SpellTexture" type="TextureRect" parent="HUD/SpellSlots/HBoxContainer/HeavySpell"]
+[node name="HeavySpellTexture" type="TextureRect" parent="HUD/SpellSlots/HBoxContainer/HeavySpell"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -165,27 +173,31 @@ offset_bottom = 20.0
 grow_vertical = 2
 pivot_offset = Vector2(0, 20)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/PlayerStatistics"]
+[node name="StatsColumn" type="VBoxContainer" parent="HUD/PlayerStatistics"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HUD/PlayerStatistics/VBoxContainer"]
+[node name="Label" type="Label" parent="HUD/PlayerStatistics/StatsColumn"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Player Stats:"
 
-[node name="Playerstats" type="VBoxContainer" parent="HUD/PlayerStatistics/VBoxContainer"]
+[node name="Playerstats" type="VBoxContainer" parent="HUD/PlayerStatistics/StatsColumn"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="HUD/PlayerStatistics/VBoxContainer"]
+[node name="Label2" type="Label" parent="HUD/PlayerStatistics/StatsColumn"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "
 Wand Stats:"
 
-[node name="PrimarySpellStats" type="VBoxContainer" parent="HUD/PlayerStatistics/VBoxContainer"]
+[node name="PrimarySpellStats" type="VBoxContainer" parent="HUD/PlayerStatistics/StatsColumn"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HeavySpellStats" type="VBoxContainer" parent="HUD/PlayerStatistics/VBoxContainer"]
+[node name="HeavySpellStats" type="VBoxContainer" parent="HUD/PlayerStatistics/StatsColumn"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="PlayerBars" type="MarginContainer" parent="HUD"]
@@ -193,30 +205,40 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -51.0
-offset_right = 51.0
-offset_bottom = 53.0
+offset_left = -47.0
+offset_right = 47.0
+offset_bottom = 36.0
 grow_horizontal = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_bottom = 8
+scale = Vector2(1.2, 1.2)
+pivot_offset = Vector2(47, 0)
 
 [node name="PanelContainer" type="PanelContainer" parent="HUD/PlayerBars"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/PlayerBars"]
+[node name="MarginContainer" type="MarginContainer" parent="HUD/PlayerBars/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/PlayerBars/PanelContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_vertical = 0
 theme_override_constants/separation = 2
 
-[node name="Healthbar" type="TextureProgressBar" parent="HUD/PlayerBars/VBoxContainer"]
+[node name="PlayerHealthbar" type="TextureProgressBar" parent="HUD/PlayerBars/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 value = 100.0
 texture_under = SubResource("AtlasTexture_w8wei")
 texture_progress = SubResource("AtlasTexture_8wlyu")
 texture_progress_offset = Vector2(1, 1)
 
-[node name="ManaBar" type="TextureProgressBar" parent="HUD/PlayerBars/VBoxContainer"]
+[node name="ManaBar" type="TextureProgressBar" parent="HUD/PlayerBars/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 value = 100.0
 texture_under = SubResource("AtlasTexture_w8wei")
@@ -224,6 +246,7 @@ texture_progress = SubResource("AtlasTexture_y85ht")
 texture_progress_offset = Vector2(1, 1)
 
 [node name="BossBar" type="MarginContainer" parent="HUD"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchors_preset = 5
@@ -234,13 +257,15 @@ offset_right = 20.0
 offset_bottom = 40.0
 grow_horizontal = 2
 
-[node name="Healthbar" type="TextureProgressBar" parent="HUD/BossBar"]
+[node name="BossHealthbar" type="TextureProgressBar" parent="HUD/BossBar"]
+unique_name_in_owner = true
 layout_mode = 2
 value = 75.0
 texture_under = SubResource("AtlasTexture_qwshj")
 texture_progress = SubResource("AtlasTexture_48q88")
 
-[node name="Label" type="Label" parent="HUD/BossBar/Healthbar"]
+[node name="BossHpLabel" type="Label" parent="HUD/BossBar/BossHealthbar"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

@@ -1,6 +1,6 @@
 extends Control
-@onready var start_button = $MarginContainer/VBoxContainer/Start
-@onready var quit_button = $MarginContainer/VBoxContainer/Quit
+@onready var start_button = %Start
+@onready var quit_button = %Quit
 
 func _ready() -> void:
 	ConnectSignals()

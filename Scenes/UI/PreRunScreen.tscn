@@ -59,15 +59,16 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/MarginContainer"]
+[node name="CardRow" type="HBoxContainer" parent="UI/MarginContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="ChoiceCard" parent="UI/MarginContainer/HBoxContainer" instance=ExtResource("2_ts5e7")]
+[node name="ChoiceCard" parent="UI/MarginContainer/CardRow" instance=ExtResource("2_ts5e7")]
 layout_mode = 2
 
-[node name="ChoiceCard2" parent="UI/MarginContainer/HBoxContainer" instance=ExtResource("2_ts5e7")]
+[node name="ChoiceCard2" parent="UI/MarginContainer/CardRow" instance=ExtResource("2_ts5e7")]
 layout_mode = 2
 
-[node name="ChoiceCard3" parent="UI/MarginContainer/HBoxContainer" instance=ExtResource("2_ts5e7")]
+[node name="ChoiceCard3" parent="UI/MarginContainer/CardRow" instance=ExtResource("2_ts5e7")]
 layout_mode = 2

@@ -74,10 +74,12 @@ position = Vector2(144, 128)
 shape = SubResource("CircleShape2D_shrine")
 
 [node name="Sprite" type="Sprite2D" parent="Altar"]
+unique_name_in_owner = true
 modulate = Color(1, 0.55, 0.9, 1)
 texture = ExtResource("4_skull")
 
 [node name="Prompt" type="Label" parent="Altar"]
+unique_name_in_owner = true
 offset_left = -20.0
 offset_top = -28.0
 offset_right = 20.0

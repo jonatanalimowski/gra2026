@@ -1,16 +1,16 @@
 extends Control
 const GRAY: Color = Color(0.3, 0.3, 0.3, 1.0)
-@onready var hp_bar: TextureProgressBar = $PlayerBars/VBoxContainer/Healthbar
-#@onready var hp_text: Label = $PlayerBars/VBoxContainer/Healthbar/Label
-@onready var player_stats: VBoxContainer = $PlayerStatistics/VBoxContainer/Playerstats
-@onready var primary_spell_stats: VBoxContainer = $PlayerStatistics/VBoxContainer/PrimarySpellStats
-@onready var heavy_spell_stats: VBoxContainer = $PlayerStatistics/VBoxContainer/HeavySpellStats
-@onready var primary_spell_slot: TextureRect = $SpellSlots/HBoxContainer/PrimarySpell/SpellTexture
-@onready var heavy_spell_slot: TextureRect = $SpellSlots/HBoxContainer/HeavySpell/SpellTexture
-@onready var boss_hp_bar: TextureProgressBar = $BossBar/Healthbar
-@onready var boss_hp_text: Label = $BossBar/Healthbar/Label
-@onready var boss_ui = $BossBar
-@onready var stats_column: VBoxContainer = $PlayerStatistics/VBoxContainer
+@onready var hp_bar: TextureProgressBar = %PlayerHealthbar
+#@onready var hp_text: Label = %PlayerHealthbar/Label
+@onready var player_stats: VBoxContainer = %Playerstats
+@onready var primary_spell_stats: VBoxContainer = %PrimarySpellStats
+@onready var heavy_spell_stats: VBoxContainer = %HeavySpellStats
+@onready var primary_spell_slot: TextureRect = %PrimarySpellTexture
+@onready var heavy_spell_slot: TextureRect = %HeavySpellTexture
+@onready var boss_hp_bar: TextureProgressBar = %BossHealthbar
+@onready var boss_hp_text: Label = %BossHpLabel
+@onready var boss_ui = %BossBar
+@onready var stats_column: VBoxContainer = %StatsColumn
 var pact_list: VBoxContainer
 var detailed_stat_labels: Array[Label] = []
 

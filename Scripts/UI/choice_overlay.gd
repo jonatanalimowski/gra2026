@@ -8,9 +8,9 @@ class_name ChoiceOverlay
 #   overlay.chosen.connect(_on_chosen)
 #   overlay.Open("Altar of Pacts", offers, true)
 @export var choice_card_scene: PackedScene
-@onready var title_label: Label = $Root/VBoxContainer/Title
-@onready var card_container: HBoxContainer = $Root/VBoxContainer/Cards
-@onready var leave_button: Button = $Root/VBoxContainer/LeaveButton
+@onready var title_label: Label = %Title
+@onready var card_container: HBoxContainer = %Cards
+@onready var leave_button: Button = %LeaveButton
 
 signal chosen(item: ItemData) # null = left without choosing
 

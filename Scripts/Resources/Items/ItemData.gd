@@ -12,5 +12,9 @@ class_name ItemData
 func GetDescription() -> String:
 	return description
 
+# same text with bbcode (colors etc.) for RichTextLabels. tooltips use the plain one
+func GetRichDescription() -> String:
+	return GetDescription()
+
 func GetTagIcons() -> Array[Texture2D]:
 	return []

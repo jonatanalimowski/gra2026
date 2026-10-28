@@ -4,7 +4,7 @@ class_name RestRoom
 # a quiet room at the end of a side branch. stepping onto the shrine heals the player once
 @export_range(0.0, 1.0) var heal_share: float = 0.5
 @onready var shrine: Area2D = $Shrine
-@onready var shrine_sprite: Sprite2D = $Shrine/Heart
+@onready var shrine_sprite: Sprite2D = %Heart
 var is_used: bool = false
 var bob_tween: Tween
 

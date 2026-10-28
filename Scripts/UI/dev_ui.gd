@@ -1,8 +1,8 @@
 extends Control
 
 # cheat toggles, shown/hidden by the DevTools autoload
-@onready var invincible_button: CheckButton = $PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InvincibleButton
-@onready var infinite_floors_button: CheckButton = $PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/InfiniteFloorsButton
+@onready var invincible_button: CheckButton = %InvincibleButton
+@onready var infinite_floors_button: CheckButton = %InfiniteFloorsButton
 
 func _ready() -> void:
 	invincible_button.button_pressed = DevTools.invincible
@@ -14,7 +14,7 @@ func _ready() -> void:
 	infinite_floors_button.focus_mode = Control.FOCUS_NONE
 
 	# one-shot actions, built here so the scene doesn't need editing for each new cheat
-	var vbox = $PanelContainer/MarginContainer/VBoxContainer
+	var vbox = %ButtonList
 	AddActionButton(vbox, "Altar offer (F7)", _on_altar_offer_pressed)
 
 func AddActionButton(parent: Node, text: String, callback: Callable) -> void:

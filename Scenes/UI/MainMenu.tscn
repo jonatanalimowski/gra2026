@@ -62,11 +62,13 @@ pivot_offset = Vector2(28, 14)
 layout_mode = 2
 
 [node name="Start" type="TextureButton" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_72sra")
 texture_hover = SubResource("AtlasTexture_t6w0q")
 
 [node name="Quit" type="TextureButton" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_mjmdf")
 texture_hover = SubResource("AtlasTexture_k8um8")

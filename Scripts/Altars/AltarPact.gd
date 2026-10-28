@@ -24,5 +24,12 @@ class_name AltarPact
 func GetDescription() -> String:
 	return "%s\n\nCURSE: %s" % [buff_description, curse_description]
 
+const BUFF_COLOR = Color(0.7, 1.0, 0.7)
+const CURSE_COLOR = Color(1.0, 0.7, 0.7)
+
+func GetRichDescription() -> String:
+	return "[color=#%s]%s[/color]\n\n[color=#%s]CURSE: %s[/color]" % [
+		BUFF_COLOR.to_html(false), buff_description, CURSE_COLOR.to_html(false), curse_description]
+
 func GetTagIcons() -> Array[Texture2D]:
 	return [PactType.GetIcon(buff_type)]

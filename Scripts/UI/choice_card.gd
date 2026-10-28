@@ -1,10 +1,10 @@
 extends Control
 class_name ChoiceCard
 
-@onready var name_label: Label = $TextureRect/VBoxContainer/NameDescription/Name
-@onready var description_label: Label = $TextureRect/VBoxContainer/NameDescription/Description
-@onready var element_icon: TextureRect = $TextureRect/TextureRect
-@onready var button: TextureButton = $TextureRect/TextureButton
+@onready var name_label: Label = %Name
+@onready var description_label: RichTextLabel = %Description
+@onready var element_icon: TextureRect = %ElementIcon
+@onready var button: Button = %TextureButton
 
 signal card_chosen(card)
 
@@ -15,7 +15,7 @@ func _ready() -> void:
 	
 	if content:
 		SetName(content.display_name)
-		SetDescription(content.GetDescription())
+		SetDescription(content.GetRichDescription())
 		# pacts show their type icon, everything else its own icon
 		var tag_icons = content.GetTagIcons()
 		SetIcon(tag_icons[0] if not tag_icons.is_empty() else content.icon)
