@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Blessing" load_steps=7 format=3 uid="uid://bc2tss3mcdtaq"]
 
-[ext_resource type="Script" path="res://Scripts/Altars/Blessing.gd" id="1_half"]
+[ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="1_half"]
 [ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="2_effect"]
 [ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="3_jcjvg"]
 [ext_resource type="Script" uid="uid://chto3f4m8ssea" path="res://Scripts/Combat/Effects/ProjectileEffects/VampirismEffect.gd" id="3_vamp"]

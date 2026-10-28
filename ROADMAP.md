@@ -36,6 +36,7 @@
 
 **Combat**
 - 6 wands with LMB primary spells; runes: Bounce, Pierce (+ Ricochet, Vampiric effects)
+- Projectile paths (motions): straight, sine (Blue Blinker), random wiggle
 - Shift dash with invulnerability frames (projectiles fly through)
 - Knockback, hitstun with stun immunity window, crits, damage numbers
 - Enemies: Slime (jumper), Skeleton (circles you, telegraphed charge from behind), Shooter; 1 Boss

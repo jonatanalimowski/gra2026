@@ -25,6 +25,8 @@ signal died(entity: Entity)
 @export var spell: SpellData
 # extra projectile effects added to every shot (elites, curses)
 @export var effects: Array[Effect] = []
+# can't shoot this long after spawning, so a room doesn't open with a volley
+@export var spawn_shoot_delay: float = 1.0
 var spell_caster: SpellCaster
 var stats: StatBlock
 var health: Health
@@ -35,6 +37,7 @@ var move_velocity: Vector2 = Vector2.ZERO # what the brain wants
 var knockback_velocity: Vector2 = Vector2.ZERO # what hits did to us
 var hitstun_timer: float = 0.0
 var hitstun_immunity_timer: float = 0.0
+var spawn_shoot_timer: float = 0.0
 var last_hit: DamageInfo
 
 func _ready() -> void:
@@ -51,12 +54,14 @@ func _ready() -> void:
 	RunState.half_removed.connect(_on_run_half_removed)
 	if spell:
 		spell_caster = SpellCaster.new(spell, [])
+	spawn_shoot_timer = spawn_shoot_delay
 	sprite.play("idle")
 	add_to_group("enemy")
 
 func _physics_process(delta: float) -> void:
 	hitstun_timer -= delta
 	hitstun_immunity_timer -= delta
+	spawn_shoot_timer -= delta
 	if spell_caster:
 		spell_caster.Tick(delta)
 	velocity = move_velocity + knockback_velocity
@@ -81,13 +86,13 @@ func HandleContactDamage(delta: float) -> void:
 
 # casts `spell` towards direction. false = no spell, on cooldown or dead
 func Shoot(direction: Vector2) -> bool:
-	if not spell_caster or is_dead:
+	if not spell_caster or is_dead or spawn_shoot_timer > 0:
 		return false
 	var spawn_pos = $Muzzle.global_position if has_node("Muzzle") else global_position
 	return spell_caster.TryCast(self, direction, spawn_pos, effects)
 
 func CanShoot() -> bool:
-	return spell_caster != null and spell_caster.IsReady() and not is_dead
+	return spell_caster != null and spell_caster.IsReady() and not is_dead and spawn_shoot_timer <= 0
 
 func Move(direction: Vector2):
 	move_velocity = direction * stats.GetStat(&"movement_speed")

@@ -18,6 +18,8 @@ var caster: Node2D
 var team: Team = Team.ENEMY # decides what it can hit, see SetupCollisions
 var damage: float = -1.0 # -1 = use stats.damage
 var effects: Array[Effect] = []
+var motion: ProjectileMotion # null = stats.motion, set by the spawner to override the path
+var motion_state: Dictionary = {} # per-projectile values the motion rolls in OnSpawned
 
 # per-projectile data for effects, e.g. bounces left. key = the effect resource
 var effect_state: Dictionary = {}
@@ -26,11 +28,15 @@ var effect_state: Dictionary = {}
 var survived_hit: bool = false
 
 # Variables
-var direction: Vector2 = Vector2.UP
+var direction: Vector2 = Vector2.UP # base heading, motions build their path around it
+var age: float = 0.0 # seconds alive, motions use it to compute the path
 
 func _ready() -> void:
 	if damage < 0:
 		damage = stats.damage
+	if motion == null:
+		motion = stats.motion if stats.motion else ProjectileMotion.new()
+	motion.OnSpawned(self)
 	SetupCollisions()
 	sprite.play("moving")
 	get_tree().create_timer(stats.lifetime).timeout.connect(queue_free)
@@ -53,7 +59,12 @@ func SetDirection(new_direction: Vector2) -> void:
 	rotation = direction.angle() + PI/2
 
 func _physics_process(delta: float) -> void:
-	var collision = move_and_collide(direction * stats.speed * delta)
+	age += delta
+	var move_velocity = motion.GetVelocity(self, delta)
+	# face where it's actually going (curved paths)
+	if move_velocity != Vector2.ZERO:
+		rotation = move_velocity.angle() + PI/2
+	var collision = move_and_collide(move_velocity * delta)
 	if collision:
 		HandleCollision(collision)
 

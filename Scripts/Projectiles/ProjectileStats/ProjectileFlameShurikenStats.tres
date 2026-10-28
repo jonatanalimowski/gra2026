@@ -1,8 +1,16 @@
-[gd_resource type="Resource" script_class="ProjectileStats" load_steps=2 format=3 uid="uid://dur2xpx42i8mc"]
+[gd_resource type="Resource" script_class="ProjectileStats" load_steps=4 format=3 uid="uid://dur2xpx42i8mc"]
 
+[ext_resource type="Script" uid="uid://do08ktggya6vl" path="res://Scripts/Projectiles/Motions/RandomMotion.gd" id="1_5s42c"]
 [ext_resource type="Script" uid="uid://dd3ckxrxbtloq" path="res://Scripts/Resources/BaseProjectileStats.gd" id="1_aywat"]
+
+[sub_resource type="Resource" id="Resource_vng2x"]
+script = ExtResource("1_5s42c")
+strength = 25.0
+max_frequency = 4.0
+metadata/_custom_type_script = "uid://do08ktggya6vl"
 
 [resource]
 script = ExtResource("1_aywat")
-speed = 490.0
+speed = 300.0
+motion = SubResource("Resource_vng2x")
 metadata/_custom_type_script = "uid://dd3ckxrxbtloq"

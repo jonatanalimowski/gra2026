@@ -8,9 +8,9 @@ class_name SkeletonAI
 @export var orbit_radius_correction: float = 0.6 # how hard it pulls back to the orbit radius
 @export var orbit_switch_chance: float = 0.2 # chance per second to change circling direction
 @export var behind_angle: float = 110.0 # min angle between player's aim and the skeleton to count as behind
-@export var charge_range: float = 120.0
-@export var charge_speed_multiplier: float = 3.0
-@export var charge_duration: float = 0.5
+@export var charge_range: float = 480.0
+@export var charge_speed_multiplier: float = 4.0
+@export var charge_duration: float = 1.5
 @export var charge_cooldown: float = 1.5
 @export var telegraph_color: Color = Color.AQUAMARINE
 @export var telegraph_duration: float = 0.4

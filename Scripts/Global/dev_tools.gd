@@ -26,7 +26,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if layer and event.is_action_pressed("DevMenu"):
 		layer.visible = not layer.visible
 		get_viewport().set_input_as_handled()
-	# altar anywhere: 3 random pacts from Data/Altars, for testing without walking to one
+	# altar anywhere: random pacts from Data/Altars, for testing without walking to one
 	if layer and event.is_action_pressed("DevPacts") and NodeReferences.player and not get_tree().paused:
 		get_viewport().set_input_as_handled()
 		OpenPactChoice()
@@ -39,7 +39,7 @@ func OpenPactChoice() -> void:
 			pool.append(pact)
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
-	var offers = AltarRoom.RollOffers(pool, 3, rng)
+	var offers = AltarRoom.RollOffers(pool, RunState.GetPactOfferCount(AltarRoom.BASE_OFFER_COUNT), rng)
 	if offers.is_empty():
 		return
 

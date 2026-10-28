@@ -104,6 +104,10 @@ func Begin(new_loadout: Loadout, seed_value: int = 0) -> void:
 	run_effect_state.clear()
 	is_run_active = true
 
+# base comes from the altar, bonuses from wherever they live (meta now, run blessings later)
+func GetPactOfferCount(base: int) -> int:
+	return base + MetaProgress.altar_offer_bonus
+
 func GetFloorSeed() -> int:
 	return hash([run_seed, floor_number])
 

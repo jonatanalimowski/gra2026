@@ -6,3 +6,4 @@ class_name ProjectileStats
 @export var speed: float = 1.0
 @export var lifetime: float = 5.0
 @export var knockback_force: float = 120.0
+@export var motion: ProjectileMotion # empty = straight line

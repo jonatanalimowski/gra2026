@@ -71,6 +71,7 @@ Status: ✅ in the game · 🛠 partly there · 💭 planned (see `ROADMAP.md`).
 | **Stat block** ✅ | Runtime stats copied from a resource, so the `.tres` is never changed. | `StatBlock` |
 | **Stat modifier** ✅ | A flat + multiplier change to one stat. It's added together with a **source** and removed by that source. A pact half is its own source. | `StatModifier`, `AddModifier` / `RemoveModifiersFrom` |
 | **Effect** ✅ | A projectile hook (on spawn, on hit, on wall, modify damage). | `Effect` |
+| **Motion** ✅ | The path a projectile flies: straight, sine, random wiggle. One per projectile, set on its stats. | `ProjectileMotion`, `SineMotion`, `RandomMotion` |
 | **Run effect** ✅ | An event hook for the whole run (on kill, on hit taken, on room cleared). Gets `OnAdded` / `OnRemoved` when its half comes and goes. | `RunEffect` |
 | **Damage info** ✅ | Everything about one hit: amount, source, crit, element, knockback. | `DamageInfo` |
 | **Item** ✅ | Anything with a name, icon and description that can be shown on a choice card. | `ItemData` |
