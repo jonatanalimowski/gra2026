@@ -59,6 +59,7 @@ func ApplyLoadout(loadout: Loadout) -> void:
 	# run-wide blessings/curses (pacts, oaths). after the wand, halves can modify its spells
 	for half in RunState.halves:
 		ApplyHalf(half)
+	DevTools.ApplyDamageCheat(self)
 
 # the half is the modifier source, so RemoveHalf takes back exactly what it gave
 func ApplyHalf(half: PactHalf) -> void:

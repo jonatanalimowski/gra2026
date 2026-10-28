@@ -9,8 +9,19 @@ const PACTS_DIR = "res://Data/Altars/"
 var invincible: bool = false
 # killing the boss generates the next floor instead of ending the run
 var infinite_floors: bool = true
+# x10 damage on every player spell, as a modifier on the wand casters (source = DevTools)
+var x10damage: bool = false:
+	set(value):
+		x10damage = value
+		if is_instance_valid(NodeReferences.player):
+			ApplyDamageCheat(NodeReferences.player)
+var damage_cheat_mod: StatModifier = StatModifier.new()
 
 var layer: CanvasLayer
+
+func _init() -> void:
+	damage_cheat_mod.stat = &"damage"
+	damage_cheat_mod.multiplier = 10.0
 
 func _ready() -> void:
 	if not OS.is_debug_build():
@@ -47,3 +58,10 @@ func OpenPactChoice() -> void:
 	get_tree().current_scene.add_child(overlay)
 	overlay.chosen.connect(func(pact): if pact: RunState.AddPact(pact))
 	overlay.Open("Altar of Pacts (dev)", offers, true)
+
+# also called by Player.ApplyLoadout, the wand is rebuilt every floor/restart
+func ApplyDamageCheat(player: Player) -> void:
+	for caster in player.wand.GetCasters():
+		caster.stats.RemoveModifiersFrom(self)
+		if x10damage:
+			caster.stats.AddModifier(damage_cheat_mod, self)

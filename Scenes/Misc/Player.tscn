@@ -151,6 +151,7 @@ sprite_frames = SubResource("SpriteFrames_ur7jp")
 animation = &"walk_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
 shape = SubResource("CapsuleShape2D_e80uo")
 
 [node name="Marker2D" type="Marker2D" parent="."]

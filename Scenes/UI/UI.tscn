@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dtwdf4gml8oue"]
+[gd_scene load_steps=16 format=3 uid="uid://dtwdf4gml8oue"]
 
 [ext_resource type="Theme" uid="uid://cixt07vew57f" path="res://Data/UI/main_theme.tres" id="1_jevvu"]
 [ext_resource type="Script" uid="uid://dt5inydsxhw3e" path="res://Scripts/UI/debug_ui.gd" id="1_w371h"]
@@ -32,18 +32,13 @@ region = Rect2(198, 168, 83, 12)
 atlas = ExtResource("6_jevvu")
 region = Rect2(295, 136, 83, 12)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hfhsn"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jevvu"]
 atlas = ExtResource("6_jevvu")
-region = Rect2(197, 135, 87, 15)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qwshj"]
-atlas = SubResource("AtlasTexture_hfhsn")
+region = Rect2(197, 142, 86, 8)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nqsl3"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_48q88"]
-atlas = SubResource("AtlasTexture_nqsl3")
-region = Rect2(15, 225, 270, 50)
+atlas = ExtResource("6_jevvu")
+region = Rect2(294, 175, 83, 5)
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -247,39 +242,40 @@ texture_progress_offset = Vector2(1, 1)
 
 [node name="BossBar" type="MarginContainer" parent="HUD"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = 7
 anchor_left = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 40.0
+anchor_bottom = 1.0
+offset_left = -43.0
+offset_top = 6.5400085
+offset_right = 43.0
+offset_bottom = 38.54001
 grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(2, 2)
+pivot_offset = Vector2(43, 32)
 
-[node name="BossHealthbar" type="TextureProgressBar" parent="HUD/BossBar"]
-unique_name_in_owner = true
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/BossBar"]
 layout_mode = 2
-value = 75.0
-texture_under = SubResource("AtlasTexture_qwshj")
-texture_progress = SubResource("AtlasTexture_48q88")
 
-[node name="BossHpLabel" type="Label" parent="HUD/BossBar/BossHealthbar"]
+[node name="BossHpLabel" type="Label" parent="HUD/BossBar/VBoxContainer"]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -8.5
-offset_right = 20.0
-offset_bottom = 8.5
-grow_horizontal = 2
-grow_vertical = 2
+visible = false
+layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "450/600"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="BossHpBar" type="TextureProgressBar" parent="HUD/BossBar/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 50.0
+texture_under = SubResource("AtlasTexture_jevvu")
+texture_progress = SubResource("AtlasTexture_nqsl3")
+texture_progress_offset = Vector2(1, 1)
 
 [node name="Minimap" type="Control" parent="HUD"]
 layout_mode = 1
