@@ -38,6 +38,9 @@ func TryCast(caster: Node2D, direction: Vector2, spawn_pos: Vector2, extra_effec
 		# same spell can be fired by either side, the caster decides what it hits
 		projectile.team = BaseProjectile.Team.PLAYER if caster.is_in_group("player") else BaseProjectile.Team.ENEMY
 		projectile.damage = stats.GetStat(&"damage")
+		projectile.speed_multiplier = stats.GetStat(&"projectile_speed")
+		projectile.crit_chance = stats.GetStat(&"crit_chance")
+		projectile.crit_multiplier = stats.GetStat(&"crit_multiplier")
 		projectile.effects = all_effects
 		projectile.global_position = spawn_pos
 		projectile.SetDirection(direction.rotated(deg_to_rad(randf_range(-spread, spread))))

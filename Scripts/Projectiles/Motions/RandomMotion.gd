@@ -22,7 +22,7 @@ func OnSpawned(projectile: BaseProjectile) -> void:
 	projectile.motion_state.waves = waves
 
 func GetVelocity(projectile: BaseProjectile, _delta: float) -> Vector2:
-	var forward = projectile.direction * projectile.stats.speed
+	var forward = projectile.direction * projectile.GetSpeed()
 	# derivative of sum(amp * sin(w * age + phase)), so the side offset is that sum
 	var side_speed := 0.0
 	for wave in projectile.motion_state.waves:

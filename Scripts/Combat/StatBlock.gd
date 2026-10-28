@@ -55,8 +55,16 @@ func GetDisplayStats() -> Dictionary[StringName, float]:
 			result[stat_name] = GetStat(stat_name)
 	return result
 
+# stats stored as fractions/multipliers, shown as "Crit Chance: 10%" / "Crit Multiplier: x2"
+const PERCENT_STATS = ["crit_chance", "projectile_speed"]
+const MULTIPLIER_STATS = ["crit_multiplier"]
+
 # "Shot Count: 2", "Cooldown: 0.5" - shared by the HUD and tooltips
 static func FormatStat(stat_name: String, value: float) -> String:
+	if stat_name in PERCENT_STATS:
+		return "%s: %d%%" % [stat_name.capitalize(), roundi(value * 100)]
+	if stat_name in MULTIPLIER_STATS:
+		return "%s: x%s" % [stat_name.capitalize(), str(snappedf(value, 0.01))]
 	var value_text = str(int(value)) if is_equal_approx(value, roundf(value)) else "%.1f" % value
 	return "%s: %s" % [stat_name.capitalize(), value_text]
 

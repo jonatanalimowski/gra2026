@@ -44,6 +44,8 @@ var last_hit: DamageInfo
 
 func _ready() -> void:
 	stats = StatBlock.FromResource(base_stats)
+	if spell:
+		spell_caster = SpellCaster.new(spell, [])
 	# pact/oath enemy modifiers (enemies +hp etc.), before Health so max_health includes them
 	for half in RunState.halves:
 		ApplyRunHalf(half)
@@ -54,8 +56,6 @@ func _ready() -> void:
 	# live enemies follow pacts taken / curses cleansed mid-room
 	RunState.half_added.connect(ApplyRunHalf)
 	RunState.half_removed.connect(_on_run_half_removed)
-	if spell:
-		spell_caster = SpellCaster.new(spell, [])
 	spawn_shoot_timer = spawn_shoot_delay
 	sprite.play("idle")
 	add_to_group("enemy")
@@ -153,12 +153,19 @@ func ApplyKnockback(knockback: Vector2) -> void:
 func IsStunned() -> bool:
 	return hitstun_timer > 0
 
+# a modifier goes to whichever block has its stat: max_health -> the enemy,
+# projectile_speed -> its spell (so curses can buff enemy shots too)
 func ApplyRunHalf(half: PactHalf) -> void:
 	for modifier in half.enemy_modifiers:
-		stats.AddModifier(modifier, half)
+		if spell_caster and spell_caster.stats.HasStat(modifier.stat):
+			spell_caster.stats.AddModifier(modifier, half)
+		else:
+			stats.AddModifier(modifier, half)
 
 func _on_run_half_removed(half: PactHalf) -> void:
 	stats.RemoveModifiersFrom(half)
+	if spell_caster:
+		spell_caster.stats.RemoveModifiersFrom(half)
 
 func _on_stat_changed(stat_name: StringName, value: float) -> void:
 	if stat_name == &"max_health":

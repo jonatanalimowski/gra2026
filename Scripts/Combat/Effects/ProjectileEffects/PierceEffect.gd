@@ -5,7 +5,8 @@ class_name PierceEffect
 @export var pierces: int = 1
 
 func OnProjectileSpawned(projectile: BaseProjectile) -> void:
-	projectile.effect_state[self] = pierces
+	# += so the same effect taken twice (stacked pact) adds its charges
+	projectile.effect_state[self] = projectile.effect_state.get(self, 0) + pierces
 
 func OnHitTarget(projectile: BaseProjectile, _target: Node2D, _info: DamageInfo) -> bool:
 	if projectile.survived_hit or projectile.effect_state[self] <= 0:

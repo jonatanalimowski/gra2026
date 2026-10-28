@@ -5,12 +5,14 @@
 
 [sub_resource type="Resource" id="Resource_rmiy3"]
 script = ExtResource("2_sine")
+amplitude = 8.0
+frequency = 0.2
 metadata/_custom_type_script = "uid://decva08kygvtm"
 
 [resource]
 script = ExtResource("1_ycx3n")
 damage = 50.0
-speed = 30.0
-knockback_force = 2000.0
+speed = 60.0
+knockback_force = 1000.0
 motion = SubResource("Resource_rmiy3")
 metadata/_custom_type_script = "uid://dd3ckxrxbtloq"

@@ -5,6 +5,7 @@ class_name AltarPact
 # the halves are separate resources (Data/Blessings, Data/Curses), see PactHalf
 @export var blessing: Blessing
 @export var curse: Curse
+@export var is_stacking: bool = false
 
 #pool settings
 @export var weight: float = 1.0

@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://b12frhujne4bm"]
 
-[ext_resource type="Script" path="res://Scripts/UI/choice_overlay.gd" id="1_overlay"]
+[ext_resource type="Script" uid="uid://dwatmokasqxtd" path="res://Scripts/UI/choice_overlay.gd" id="1_overlay"]
 [ext_resource type="PackedScene" uid="uid://qaxenbbv1xph" path="res://Scenes/UI/ChoiceCard.tscn" id="2_card"]
 [ext_resource type="Theme" uid="uid://d2g2pr66fmdmk" path="res://Fonts/Font.tres" id="3_font"]
 

@@ -13,8 +13,8 @@ var run_seed: int = randi()
 # run-wide blessings/curses picked up during the run (altar pacts, later oaths).
 # halves is the one source of truth: the player and enemies apply every active half on spawn
 # and listen to half_added / half_removed for live changes
-var pacts: Array[AltarPact] = [] # what was taken (HUD, offer pool)
-var halves: Array[PactHalf] = [] # active blessings + curses
+var pacts: Array[AltarPact] = [] # what was taken (HUD, offer pool), a stacking pact once per stack
+var halves: Array[PactHalf] = [] # active blessings + curses, a stacked half once per stack
 var cleansed_curses: Array[Curse] = []
 var run_effect_state: Dictionary = {} # per-run data for RunEffects, key = effect
 signal pact_added(pact: AltarPact)
@@ -51,23 +51,27 @@ func GetRunEffects() -> Array[RunEffect]:
 func AddPact(pact: AltarPact) -> void:
 	pacts.append(pact)
 	if pact.blessing:
-		AddHalf(pact.blessing)
+		AddHalf(pact.blessing, pact.is_stacking)
 	if pact.curse:
-		AddHalf(pact.curse)
+		AddHalf(pact.curse, pact.is_stacking)
 	pact_added.emit(pact)
 
-# the half resource is the modifier source, so the same half can only be active once
-func AddHalf(half: PactHalf) -> void:
-	if half in halves:
+func GetStackCount(pact: AltarPact) -> int:
+	return pacts.count(pact)
+
+# the half resource is the modifier source. a stacking half is added once per stack and every
+# half_added applies it again, so modifiers add up
+func AddHalf(half: PactHalf, can_stack: bool = false) -> void:
+	if half in halves and not can_stack:
 		return
 	halves.append(half)
 	half_added.emit(half)
 
+# removes every stack, half_removed once per stack (mirrors the adds, e.g. RunEffect.OnRemoved)
 func RemoveHalf(half: PactHalf) -> void:
-	if half not in halves:
-		return
-	halves.erase(half)
-	half_removed.emit(half)
+	while half in halves:
+		halves.erase(half)
+		half_removed.emit(half)
 
 # the single entry point for removing a curse (sanctuary, trials, skill tree...)
 func CleanseCurse(curse: Curse) -> bool:
@@ -84,7 +88,7 @@ func IsActive(half: PactHalf) -> bool:
 func GetActiveCurses() -> Array[Curse]:
 	var result: Array[Curse] = []
 	for half in halves:
-		if half is Curse:
+		if half is Curse and half not in result:
 			result.append(half)
 	return result
 

@@ -117,7 +117,11 @@ func UpdatePacts() -> void:
 	var header = Label.new()
 	header.text = "Pacts:"
 	pact_list.add_child(header)
+	var shown: Array[AltarPact] = []
 	for pact in RunState.pacts:
+		if pact in shown:
+			continue # stacked pacts get one row with a count
+		shown.append(pact)
 		var row = HBoxContainer.new()
 		var broken = pact.curse and pact.curse in RunState.cleansed_curses
 		row.tooltip_text = pact.GetDescription() + ("\n(curse broken)" if broken else "")
@@ -131,7 +135,8 @@ func UpdatePacts() -> void:
 			row.add_child(rect)
 		var label = Label.new()
 		# a broken curse leaves just the blessing, shown in the buff color
-		label.text = pact.display_name
+		var stacks = RunState.GetStackCount(pact)
+		label.text = pact.display_name + (" x%d" % stacks if stacks > 1 else "")
 		label.modulate = AltarPact.BUFF_COLOR if broken else Color(1, 0.6, 0.9)
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		row.add_child(label)

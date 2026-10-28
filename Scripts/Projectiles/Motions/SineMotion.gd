@@ -11,7 +11,7 @@ func OnSpawned(projectile: BaseProjectile) -> void:
 
 func GetVelocity(projectile: BaseProjectile, _delta: float) -> Vector2:
 	var w = TAU * frequency
-	var forward = projectile.direction * projectile.stats.speed
+	var forward = projectile.direction * projectile.GetSpeed()
 	# derivative of amplitude * sin(w * age), so the side offset itself is a sine
 	var phase: float = projectile.motion_state.phase
 	var side = projectile.direction.orthogonal() * amplitude * w * cos(w * projectile.age + phase)

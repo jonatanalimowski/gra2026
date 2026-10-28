@@ -6,7 +6,8 @@ signal cleared(room: EnemyRoom)
 @onready var player_detection_area: Area2D = $PlayerDetectionArea
 @onready var doors: TileMapLayer = $Doors
 @onready var enemy_spawn_markers: Array = $SpawnMarkers.get_children()
-@export var enemy_table: Array[PackedScene]
+# the room rolls one of these when entered, then every spawn marker picks from it
+@export var enemy_pools: Array[EnemyPool]
 var is_room_cleared: bool = false
 var is_room_active: bool = false
 var enemies_left: int = 0
@@ -47,8 +48,17 @@ func _on_room_cleared() -> void:
 	#SpawnLoot()?
 
 func SpawnEnemies() -> void:
+	# seeded by position like altars, so Ctrl+R gives the same fights
+	var rng = RandomNumberGenerator.new()
+	rng.seed = hash([RunState.GetFloorSeed(), "enemies", global_position])
+	var pool := PickPool(rng)
+
 	for spawnpoint in enemy_spawn_markers:
-		var enemy: Entity = enemy_table.pick_random().instantiate()
+		var scene := pool.PickEnemy(rng) if pool else null
+		if scene == null:
+			push_warning("%s: no enemy pool to spawn from" % name)
+			break
+		var enemy: Entity = scene.instantiate()
 		enemy.global_position = spawnpoint.global_position
 		get_parent().add_child(enemy)
 		RegisterEnemy(enemy)
@@ -56,6 +66,12 @@ func SpawnEnemies() -> void:
 	# a room without spawn markers would otherwise stay locked forever
 	if enemies_left == 0:
 		_on_room_cleared()
+
+func PickPool(rng: RandomNumberGenerator) -> EnemyPool:
+	var pools := enemy_pools.filter(func(p): return p != null)
+	if pools.is_empty():
+		return null
+	return pools[rng.randi() % pools.size()]
 
 # summoned enemies register too, so the doors stay shut until they're dead
 func RegisterEnemy(enemy: Entity) -> void:

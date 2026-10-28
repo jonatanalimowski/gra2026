@@ -34,7 +34,7 @@ shape = SubResource("CircleShape2D_0dqb0")
 position = Vector2(1, 12)
 sprite_frames = ExtResource("5_ih45n")
 animation = &"moving"
-frame_progress = 0.780531
+frame_progress = 0.26946026
 centered = false
 offset = Vector2(-16, -32)
 

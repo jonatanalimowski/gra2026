@@ -17,6 +17,9 @@ enum Team {PLAYER, ENEMY}
 var caster: Node2D
 var team: Team = Team.ENEMY # decides what it can hit, see SetupCollisions
 var damage: float = -1.0 # -1 = use stats.damage
+var speed_multiplier: float = 1.0 # spell's projectile_speed stat (curses, blessings)
+var crit_chance: float = 0.0 # rolled on every hit, 0.1 = 10%
+var crit_multiplier: float = 2.0
 var effects: Array[Effect] = []
 var motion: ProjectileMotion # null = stats.motion, set by the spawner to override the path
 var motion_state: Dictionary = {} # per-projectile values the motion rolls in OnSpawned
@@ -54,6 +57,10 @@ func SetupCollisions():
 	elif team == Team.ENEMY:
 		collision_mask |= LAYER_PLAYER
 
+# motions use this instead of stats.speed, so speed modifiers work on every path
+func GetSpeed() -> float:
+	return stats.speed * speed_multiplier
+
 func SetDirection(new_direction: Vector2) -> void:
 	direction = new_direction
 	rotation = direction.angle() + PI/2
@@ -81,6 +88,10 @@ func HandleCollision(collision: KinematicCollision2D) -> void:
 		var source = caster if is_instance_valid(caster) else null
 		var info = DamageInfo.new(damage, source)
 		info.knockback = direction * stats.knockback_force
+		# crit before the effects, so they see the final hit (vampirism heals off it)
+		if randf() < crit_chance:
+			info.is_critical = true
+			info.amount *= crit_multiplier
 		for effect in effects:
 			effect.ModifyDamage(self, info)
 		body.TakeDamage(info)

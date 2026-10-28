@@ -14,9 +14,9 @@ region = Rect2(129, 40, 16, 24)
 [sub_resource type="Resource" id="Resource_primary_spell"]
 script = ExtResource("2_spell")
 projectile_scene = ExtResource("3_projectile")
-damage = 100.0
-cooldown = 1.5
-shot_count = 10
+damage = 10.0
+cooldown = 0.4
+shot_count = 2
 spread = 20.0
 
 [resource]

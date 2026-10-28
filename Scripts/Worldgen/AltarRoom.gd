@@ -35,12 +35,12 @@ func GetOffers() -> Array[AltarPact]:
 		offers = RollOffers(pact_pool, RunState.GetPactOfferCount(offer_count), rng)
 	return offers
 
-# weighted pick without repeats, skipping pacts already taken or too early for this floor.
+# weighted pick without repeats, skipping pacts already taken (unless they stack) or too early for this floor.
 # static so DevTools can roll from the same pool rules
 static func RollOffers(pool: Array[AltarPact], count: int, rng: RandomNumberGenerator = RandomNumberGenerator.new()) -> Array[AltarPact]:
 	var valid: Array[AltarPact] = []
 	for pact in pool:
-		if pact and pact not in RunState.pacts and pact.min_floor <= RunState.floor_number:
+		if pact and (pact.is_stacking or pact not in RunState.pacts) and pact.min_floor <= RunState.floor_number:
 			valid.append(pact)
 
 	var result: Array[AltarPact] = []

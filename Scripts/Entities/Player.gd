@@ -77,7 +77,7 @@ func RemoveHalf(half: PactHalf) -> void:
 	for caster in wand.GetCasters():
 		caster.stats.RemoveModifiersFrom(half)
 	for e in half.effects:
-		effects.erase(e)
+		effects.erase(e) # one copy, RunState emits half_removed once per stack
 	for e in half.run_effects:
 		e.OnRemoved(self)
 

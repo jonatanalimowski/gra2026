@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Curse" load_steps=6 format=3 uid="uid://cp4s4g2botfu2"]
+
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="1_by0bw"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_caeki"]
+[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="3_pj6v0"]
+[ext_resource type="Script" uid="uid://cvxf4dpi86mre" path="res://Scripts/Altars/Curse.gd" id="4_g4r0q"]
+
+[sub_resource type="Resource" id="Resource_by0bw"]
+script = ExtResource("2_caeki")
+stat = &"projectile_speed"
+multiplier = 1.15
+metadata/_custom_type_script = "uid://dagkcxgw77g4s"
+
+[resource]
+script = ExtResource("4_g4r0q")
+display_name = "Barrage"
+description = "Enemy projectiles fly 15% faster"
+enemy_modifiers = Array[ExtResource("2_caeki")]([SubResource("Resource_by0bw")])
+metadata/_custom_type_script = "uid://cvxf4dpi86mre"

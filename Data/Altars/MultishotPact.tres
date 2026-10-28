@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AltarPact" load_steps=4 format=3 uid="uid://djcbghjersiqt"]
+
+[ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_p6off"]
+[ext_resource type="Resource" uid="uid://ddk74mip2indk" path="res://Data/Blessings/MultiCast.tres" id="1_sq51k"]
+[ext_resource type="Resource" uid="uid://cp4s4g2botfu2" path="res://Data/Curses/BarrageCurse.tres" id="2_ibdmb"]
+
+[resource]
+script = ExtResource("1_p6off")
+blessing = ExtResource("1_sq51k")
+curse = ExtResource("2_ibdmb")
+is_stacking = true
+weight = 1.15
+id = &"pact_multishot"
+display_name = "Multishot"
+metadata/_custom_type_script = "uid://b6jp2atuorn85"

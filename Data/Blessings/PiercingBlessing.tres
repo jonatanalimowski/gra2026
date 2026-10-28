@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Blessing" load_steps=7 format=3 uid="uid://8b3ojmeo5iqp"]
+
+[ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="1_half"]
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="3_effect"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="3_mdco1"]
+[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="4_rtgvd"]
+[ext_resource type="Script" uid="uid://dn0lngx6fw341" path="res://Scripts/Combat/Effects/ProjectileEffects/PierceEffect.gd" id="4_script"]
+
+[sub_resource type="Resource" id="Resource_effect"]
+script = ExtResource("4_script")
+
+[resource]
+script = ExtResource("1_half")
+type = 1
+display_name = "Piercing"
+description = "Your spells pierce 1 more enemy."
+effects = Array[ExtResource("3_effect")]([SubResource("Resource_effect")])

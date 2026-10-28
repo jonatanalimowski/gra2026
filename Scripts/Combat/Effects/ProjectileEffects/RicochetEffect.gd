@@ -6,7 +6,8 @@ class_name RicochetEffect
 @export var ricochets: int = 1
 
 func OnProjectileSpawned(projectile: BaseProjectile) -> void:
-	projectile.effect_state[self] = ricochets
+	# += so the same effect taken twice (stacked pact) adds its charges
+	projectile.effect_state[self] = projectile.effect_state.get(self, 0) + ricochets
 
 func OnHitTarget(projectile: BaseProjectile, _target: Node2D, _info: DamageInfo) -> bool:
 	if projectile.survived_hit or projectile.effect_state[self] <= 0:

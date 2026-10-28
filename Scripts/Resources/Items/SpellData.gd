@@ -8,11 +8,14 @@ class_name SpellData
 @export var cooldown: float = 0.5 # seconds between casts (was fire_rate)
 @export var shot_count: int = 1
 @export var spread: float = 10.0 # random angle in degrees (was firing_inaccuracy)
+@export var projectile_speed: float = 1.0 # multiplier on the projectile's own speed
+@export var crit_chance: float = 0.0 # 0.1 = 10% per hit
+@export var crit_multiplier: float = 2.0
 # effects every projectile of this spell has by default
 @export var effects: Array[Effect] = []
 
 const STAT_IGNORE_IN_DISPLAY = []
-const STAT_DETAILED = ["spread"]
+const STAT_DETAILED = ["spread", "crit_multiplier"]
 
 # projectile stats live on the projectile scene's root, so peek at a throwaway instance
 func GetProjectileStats() -> ProjectileStats:

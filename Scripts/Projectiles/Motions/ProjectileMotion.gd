@@ -10,4 +10,4 @@ func OnSpawned(_projectile: BaseProjectile) -> void:
 	pass
 
 func GetVelocity(projectile: BaseProjectile, _delta: float) -> Vector2:
-	return projectile.direction * projectile.stats.speed
+	return projectile.direction * projectile.GetSpeed()
