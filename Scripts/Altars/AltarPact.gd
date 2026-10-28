@@ -4,6 +4,7 @@ class_name AltarPact
 # a run-wide buff + curse offered at an altar. name/icon come from ItemData (display_name, icon)
 
 #buff_half
+@export var buff_type: PactType.Type = PactType.Type.SELF
 @export_multiline var buff_description: String = ""
 @export var player_modifiers: Array[StatModifier] = []
 @export var effects: Array[Effect] = [] #projectile hooks
@@ -22,3 +23,6 @@ class_name AltarPact
 
 func GetDescription() -> String:
 	return "%s\n\nCURSE: %s" % [buff_description, curse_description]
+
+func GetTagIcons() -> Array[Texture2D]:
+	return [PactType.GetIcon(buff_type)]

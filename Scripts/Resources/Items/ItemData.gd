@@ -11,3 +11,6 @@ class_name ItemData
 # card text. override when the text is built from other fields (AltarPact = buff + curse)
 func GetDescription() -> String:
 	return description
+
+func GetTagIcons() -> Array[Texture2D]:
+	return []

@@ -117,9 +117,19 @@ func UpdatePacts() -> void:
 	header.text = "Pacts:"
 	pact_list.add_child(header)
 	for pact in RunState.pacts:
+		var row = HBoxContainer.new()
+		row.tooltip_text = pact.GetDescription()
+		row.mouse_filter = Control.MOUSE_FILTER_STOP
+		for icon in pact.GetTagIcons():
+			var rect = TextureRect.new()
+			rect.texture = icon
+			rect.custom_minimum_size = Vector2(12, 12)
+			rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			row.add_child(rect)
 		var label = Label.new()
 		label.text = pact.display_name
-		label.tooltip_text = pact.GetDescription()
-		label.mouse_filter = Control.MOUSE_FILTER_STOP
 		label.modulate = Color(1, 0.6, 0.9)
-		pact_list.add_child(label)
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(label)
+		pact_list.add_child(row)

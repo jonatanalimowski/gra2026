@@ -13,6 +13,7 @@ explosion_scene = ExtResource("3_scene")
 
 [resource]
 script = ExtResource("1_pact")
+buff_type = 2
 buff_description = "Defeated monsters have a 25% chance to explode, damaging other monsters."
 run_effects = Array[ExtResource("3_j2tfu")]([SubResource("Resource_explode")])
 curse_description = "The explosions hurt you too."

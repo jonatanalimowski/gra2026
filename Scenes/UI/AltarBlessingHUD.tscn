@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://twi8bd4my88l"]
 
-[ext_resource type="Texture2D" uid="uid://blipfhwonmkmc" path="res://assets/ui/Pack2/Circle_menu.png" id="1_qd226"]
+[ext_resource type="Texture2D" uid="uid://blipfhwonmkmc" path="res://assets/ui/Pack2/Circle_menu.png" id="1_47o2y"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7mjv6"]
-atlas = ExtResource("1_qd226")
+atlas = ExtResource("1_47o2y")
 
 [node name="Control" type="Control"]
 layout_mode = 3

@@ -16,7 +16,9 @@ func _ready() -> void:
 	if content:
 		SetName(content.display_name)
 		SetDescription(content.GetDescription())
-		SetIcon(content.icon)
+		# pacts show their type icon, everything else its own icon
+		var tag_icons = content.GetTagIcons()
+		SetIcon(tag_icons[0] if not tag_icons.is_empty() else content.icon)
 	else:
 		SetName("Missing Name")
 		SetDescription("Missing description")
