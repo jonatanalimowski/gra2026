@@ -8,7 +8,7 @@ const PACTS_DIR = "res://Data/Altars/"
 
 var invincible: bool = false
 # killing the boss generates the next floor instead of ending the run
-var infinite_floors: bool = false
+var infinite_floors: bool = true
 
 var layer: CanvasLayer
 

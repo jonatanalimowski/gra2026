@@ -42,8 +42,8 @@ const FLOOR_VARIANTS: Array[Vector2i] = [
 
 @export_group("Layout")
 # rooms per floor, not counting start and boss. one more for every floor after the first
-@export var min_rooms: int = 6
-@export var max_rooms: int = 9
+@export var min_rooms: int = 4
+@export var max_rooms: int = 6
 # share of those rooms on the main path, the rest go into side branches
 @export_range(0.0, 1.0) var main_path_share: float = 0.6
 @export var max_branch_length: int = 2

@@ -162,7 +162,7 @@ animations = [{
 [node name="SkeletonEntity" type="CharacterBody2D"]
 z_index = 2
 collision_layer = 8
-collision_mask = 2
+collision_mask = 10
 script = ExtResource("1_jdwhj")
 base_stats = ExtResource("2_psx7r")
 corpse_scene = ExtResource("3_sxp6b")

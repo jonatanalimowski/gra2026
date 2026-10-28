@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_gh2a8")
 speed = 400.0
+knockback_force = 500.0
 metadata/_custom_type_script = "uid://dd3ckxrxbtloq"

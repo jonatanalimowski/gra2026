@@ -4,7 +4,7 @@ class_name BossRoom
 # sits at the end of the main path. walking in shuts the doors, the boss shows up a moment later
 @onready var boss_spawn: Marker2D = $PlayerSpawn
 @export var possible_bosses: Array[PackedScene]
-@export var time_before_boss: float = 2.0
+@export var time_before_boss: float = 1.0
 
 func SpawnEnemies() -> void:
 	enemies_left = 1
