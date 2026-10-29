@@ -8,7 +8,6 @@ class_name ExplodingEffect
 # explosion damage = projectile damage * this (when overriding)
 @export var damage_modifier: float = 2
 @export var radius: float = 32.0
-@export var hits_player: bool = true
 @export var tint: Color = Color(0.75, 0.5, 0.2, 1.0)
 @export var explosion_scene: PackedScene
 
@@ -39,7 +38,8 @@ func SpawnExplosion(projectile: BaseProjectile) -> void:
 
 	var explosion = explosion_scene.instantiate()
 	explosion.Setup(dmg, radius, source)
-	explosion.hits_player = hits_player
+	# the player's own blasts are harmless to them unless a curse says otherwise (Reckless Blast)
+	explosion.hits_player = projectile.team == BaseProjectile.Team.ENEMY or RunState.HasFlag(&"explosions_hit_player")
 	explosion.global_position = projectile.global_position
 	# we're inside the projectile's physics step, add it after
 	projectile.get_tree().current_scene.add_child.call_deferred(explosion)

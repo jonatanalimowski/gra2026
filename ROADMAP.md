@@ -127,7 +127,7 @@ Data/Blessings/*.tres                  Data/Curses/*.tres
 - Player and enemies apply all halves on spawn and listen to `half_added` / `half_removed`, so live enemies update right away (enemy max HP now follows `stat_changed`).
 - `RunState.CleanseCurse(curse)` is the single entry point (refuses binding curses), fills `cleansed_curses`, emits `curse_cleansed`. HUD shows a pact with a broken curse in the buff color.
 - `RunEffect.OnRemoved(player)` exists to undo `OnAdded`.
-- Curses that change rules use **flags** instead of code inside the blessing (Volatile: `kill_explosions_hit_player`).
+- Curses that change rules use **flags** instead of code inside the blessing (Reckless Blast: `explosions_hit_player`, makes your own explosions hurt you).
 - Dev: "Cleanse curses" button in the F6 panel.
 
 **Design note:** a curse should make sense on its own if it will ever be an oath. "Reckless Blast" (explosions hurt you) does nothing without its blessing. That's fine for a pact curse, but don't put it in the oath pool.

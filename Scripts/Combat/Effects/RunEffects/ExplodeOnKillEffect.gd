@@ -14,8 +14,8 @@ func OnEnemyKilled(enemy: Entity, info: DamageInfo) -> void:
 		return
 	var explosion = explosion_scene.instantiate()
 	explosion.Setup(damage, radius, enemy)
-	# harmless to the player unless a curse says otherwise (Volatile Dead)
-	explosion.hits_player = RunState.HasFlag(&"kill_explosions_hit_player")
+	# harmless to the player unless a curse says otherwise (Reckless Blast)
+	explosion.hits_player = RunState.HasFlag(&"explosions_hit_player")
 	explosion.global_position = enemy.global_position
 	# Die() runs inside a physics callback, adding areas there is not allowed
 	enemy.get_tree().current_scene.add_child.call_deferred(explosion)

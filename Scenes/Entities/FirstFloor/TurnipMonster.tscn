@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://cwyw4ifcv6efu"]
 
 [ext_resource type="Script" uid="uid://cpdiqwgu4xekk" path="res://Scripts/Entities/EntityMisc/EntityBase.gd" id="1_a7266"]
-[ext_resource type="Resource" uid="uid://st4ps7pi21r7" path="res://Scripts/Entities/EntityStats/SkeletonStats.tres" id="2_ogtyi"]
+[ext_resource type="Resource" uid="uid://6aoxba6eiefj" path="res://Scripts/Entities/EntityStats/TurnipMonsterStats.tres" id="2_ih45n"]
 [ext_resource type="PackedScene" uid="uid://tp2mxe65f0lq" path="res://Scenes/EntityCorpses/EntityCorpseBase.tscn" id="3_myjej"]
 [ext_resource type="PackedScene" uid="uid://b1u713r0een05" path="res://Scenes/UI/DamageNumber.tscn" id="4_udpxe"]
 [ext_resource type="SpriteFrames" uid="uid://b8js6ucyx2ld4" path="res://Scripts/Resources/SpriteFrames/TurnipSpriteFrames.tres" id="5_ih45n"]
@@ -17,7 +17,7 @@ z_index = 2
 collision_layer = 8
 collision_mask = 10
 script = ExtResource("1_a7266")
-base_stats = ExtResource("2_ogtyi")
+base_stats = ExtResource("2_ih45n")
 corpse_scene = ExtResource("3_myjej")
 damage_number_scene = ExtResource("4_udpxe")
 
@@ -34,7 +34,7 @@ shape = SubResource("CircleShape2D_0dqb0")
 position = Vector2(1, 12)
 sprite_frames = ExtResource("5_ih45n")
 animation = &"moving"
-frame_progress = 0.26946026
+frame_progress = 0.85184133
 centered = false
 offset = Vector2(-16, -32)
 

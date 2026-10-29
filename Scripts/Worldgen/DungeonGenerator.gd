@@ -111,7 +111,15 @@ func TryLayout() -> bool:
 	boss.on_main_path = true
 
 	AddBranches(target - main_length)
+	if not HasRequiredRooms():
+		return false
 	AddLoops()
+	return true
+
+func HasRequiredRooms() -> bool:
+	for data in rooms:
+		if placed_per_room.get(data, 0) < data.min_per_floor:
+			return false
 	return true
 
 # grows side branches off the main path, one room at a time from a frontier of rooms with free connectors
@@ -228,6 +236,7 @@ func Extend(from: LayoutPiece, candidates: Array[RoomShape], kind := LayoutPiece
 # candidate rooms in weighted random order.
 # main path / mid-branch rooms are combat rooms with a way on, branch ends prefer reward rooms
 func PickRooms(depth: int, needs_exit: bool, is_branch_end: bool) -> Array[RoomShape]:
+	var required: Array[RoomData] = []
 	var rewards: Array[RoomData] = []
 	var fights: Array[RoomData] = []
 	var dead_ends: Array[RoomData] = []
@@ -241,14 +250,18 @@ func PickRooms(depth: int, needs_exit: bool, is_branch_end: bool) -> Array[RoomS
 			continue
 		if data.room_type != RoomData.RoomType.COMBAT:
 			if is_branch_end:
-				rewards.append(data)
+				if placed_per_room.get(data, 0) < data.min_per_floor:
+					required.append(data)
+				else:
+					rewards.append(data)
 		elif is_branch_end and shape.connectors.size() == 1:
 			dead_ends.append(data)
 		else:
 			fights.append(data)
 
-	# branch ends: rewards first, then dead ends (they close a branch off cleanly), then the rest
-	var ordered = WeightedShuffle(rewards)
+	# branch ends: rooms the floor still needs, other rewards, then dead ends (they close a branch off cleanly), then the rest
+	var ordered = WeightedShuffle(required)
+	ordered.append_array(WeightedShuffle(rewards))
 	ordered.append_array(WeightedShuffle(dead_ends))
 	ordered.append_array(WeightedShuffle(fights))
 

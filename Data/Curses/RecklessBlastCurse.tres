@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_half")
 display_name = "Reckless Blast"
-description = "Explosions from defeated monsters hurt you too."
-flags = Array[StringName]([&"kill_explosions_hit_player"])
+description = "Your explosions hurt you too."
+flags = Array[StringName]([&"explosions_hit_player"])

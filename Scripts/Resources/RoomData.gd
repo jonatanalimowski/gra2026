@@ -13,3 +13,5 @@ enum RoomType { COMBAT, TREASURE, REST, SHRINE }
 @export var min_depth: int = 0
 # 0 = no limit
 @export var max_per_floor: int = 0
+# layouts without at least this many get retried. needs a reward type (placed at branch ends)
+@export var min_per_floor: int = 0

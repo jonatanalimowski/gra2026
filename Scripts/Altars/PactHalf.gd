@@ -11,5 +11,5 @@ class_name PactHalf
 @export var effects: Array[Effect] = [] #projectile hooks
 @export var run_effects: Array[RunEffect] = [] #event hooks (on kill etc.)
 @export var enemy_modifiers: Array[StatModifier] = []
-# simple rules other scripts check with RunState.HasFlag (e.g. &"kill_explosions_hit_player")
+# simple rules other scripts check with RunState.HasFlag (e.g. &"explosions_hit_player")
 @export var flags: Array[StringName] = []
