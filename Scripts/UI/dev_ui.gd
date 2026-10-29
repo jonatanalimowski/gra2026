@@ -5,7 +5,6 @@ extends Control
 func _ready() -> void:
 	var vbox = %ButtonList
 	AddToggleButton(vbox, "Invincible", DevTools.invincible, _on_invincible_toggled)
-	AddToggleButton(vbox, "Infinite Floors", DevTools.infinite_floors, _on_infinite_floors_toggled)
 	AddToggleButton(vbox, "10X Damage", DevTools.x10damage, _on_10x_damage_toggled)
 	AddActionButton(vbox, "Altar offer (F7)", _on_altar_offer_pressed)
 	AddActionButton(vbox, "Cleanse curses", _on_cleanse_curses_pressed)
@@ -28,9 +27,6 @@ func AddToggleButton(parent: Node, text: String, on: bool, callback: Callable) -
 
 func _on_invincible_toggled(on: bool) -> void:
 	DevTools.invincible = on
-
-func _on_infinite_floors_toggled(on: bool) -> void:
-	DevTools.infinite_floors = on
 
 func _on_10x_damage_toggled(on: bool) -> void:
 	DevTools.x10damage = on

@@ -12,3 +12,4 @@ signal boss_spawned(hp_value: int)
 signal boss_health_changed(new_current: int, new_max: int)
 signal boss_defeated
 signal player_damaged(info: DamageInfo)
+signal screen_shake(trauma: float) # 0-1, camera adds it up and decays it

@@ -20,9 +20,9 @@ class_name SwarmerAI
 @export var summon_count: int = 2
 @export var summon_cooldown: float = 4.0
 @export var first_summon_delay: float = 1.5
-@export var max_minions: int = 6 # alive at once, per summoner
+@export var max_minions: int = 4 # alive at once, per summoner
 @export var summon_radius: float = 20.0
-@export var minion_scale: float = 0.75
+@export var minion_scale: float = 0.8
 @export var minion_health_multiplier: float = 0.5
 @export var telegraph_color: Color = Color.AQUAMARINE
 @export var telegraph_duration: float = 0.5

@@ -7,8 +7,6 @@ const CHOICE_OVERLAY = preload("res://Scenes/UI/ChoiceOverlay.tscn")
 const PACTS_DIR = "res://Data/Altars/"
 
 var invincible: bool = false
-# killing the boss generates the next floor instead of ending the run
-var infinite_floors: bool = true
 # x10 damage on every player spell, as a modifier on the wand casters (source = DevTools)
 var x10damage: bool = false:
 	set(value):

@@ -33,8 +33,9 @@ shape = SubResource("CircleShape2D_0dqb0")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, 12)
 sprite_frames = ExtResource("5_ih45n")
-animation = &"moving"
-frame_progress = 0.85184133
+animation = &"jump"
+frame = 1
+frame_progress = 0.95789754
 centered = false
 offset = Vector2(-16, -32)
 

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="StatUpgrade" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Altars/StatUpgrade.gd" id="1_upg"]
+[ext_resource type="Script" path="res://Scripts/Altars/Blessing.gd" id="2_half"]
+[ext_resource type="Script" path="res://Scripts/Combat/StatModifier.gd" id="3_mod"]
+
+[sub_resource type="Resource" id="Resource_mod"]
+script = ExtResource("3_mod")
+stat = &"max_health"
+flat = 10.0
+multiplier = 1.0
+
+[sub_resource type="Resource" id="Resource_blessing"]
+script = ExtResource("2_half")
+type = 0
+display_name = "Vigor"
+description = "+10 max health."
+player_modifiers = Array[ExtResource("3_mod")]([SubResource("Resource_mod")])
+
+[resource]
+script = ExtResource("1_upg")
+blessing = SubResource("Resource_blessing")
+id = &"upgrade_vigor"
+display_name = "Vigor"
+description = "+10 max health."

@@ -26,8 +26,9 @@
 ## v0.11: Where we are now ✅
 
 **Run flow**
-- Main Menu → Pre-Run screen (pick 1 of 3 wands) → run → back to Pre-Run on death or boss kill
-- Ctrl+R restart (same loadout, new seed); the floor loops into the next one after the boss (infinite floors)
+- Main Menu → Pre-Run screen (pick 1 of 3 wands) → run → back to Pre-Run on death
+- Ctrl+R restart (same loadout, new seed)
+- Endless floors: the boss drops an Upgrade Shrine (pick +max HP / +damage / +fire rate, stacks), taking it starts the next floor
 
 **World**
 - Seeded dungeon generator: start → main path of combat rooms → boss room, side branches with reward rooms, occasional loops
@@ -49,7 +50,7 @@
 **Tech / UI**
 - StatBlock + StatModifier stat system, Effect / RunEffect hooks, global Signals bus
 - HUD (HP, spell slots, stat lists, boss bar, pact list), generic pick-1-of-N ChoiceOverlay
-- Dev tools (F6 panel, F7 altar offer, invincible, infinite floors)
+- Dev tools (F6 panel, F7 altar offer, invincible, x10 damage)
 
 ---
 

@@ -11,6 +11,7 @@ class_name Explosion
 # time between the warning circle appearing and the damage, so it's dodgeable
 @export var telegraph_time: float = 0.4
 @export var telegraph_color: Color = Color(1.0, 0.35, 0.1, 0.35)
+@export var shake_trauma: float = 0.5
 
 var damage: float = 10.0
 var radius: float = 48.0
@@ -62,6 +63,7 @@ func Explode() -> void:
 		body.TakeDamage(info)
 
 	Sfx.Play(&"explosion/explosion", -10)
+	Signals.screen_shake.emit(shake_trauma)
 	vfx.visible = true
 	queue_redraw()
 	# the vfx frames are 72px, scale them to the hit area
