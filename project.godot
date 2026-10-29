@@ -25,6 +25,8 @@ RunState="*res://Scripts/Global/run_state.gd"
 GameFlow="*res://Scripts/Global/game_flow.gd"
 DevTools="*res://Scripts/Global/dev_tools.gd"
 MetaProgress="*res://Scripts/Global/meta_progress.gd"
+Settings="*res://Scripts/Global/settings.gd"
+Sfx="*res://Scripts/Global/sfx.gd"
 
 [display]
 

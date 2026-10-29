@@ -82,6 +82,7 @@ func StartRest() -> void:
 
 func StartSummon() -> void:
 	state = State.SUMMON
+	Sfx.Play(&"enemy/summon", -8.0)
 	state_timer = telegraph_duration
 	ParentEntity.Stop()
 	GlobalMethods.FlashSprite(ParentEntity.sprite, telegraph_duration, telegraph_color)

@@ -53,6 +53,7 @@ func execute_behavior() -> void:
 		State.NORMAL_JUMP:
 			var direction = get_direction_to_player()
 			ParentEntity.Jump(direction, jump_duration, move_speed)
+			Sfx.Play(&"enemy/slime_jump", -16.0)
 			state = State.IDLE
 			jump_counter += 1
 		State.IDLE:
@@ -61,6 +62,7 @@ func execute_behavior() -> void:
 		State.SUPER_JUMP:
 			var direction = get_direction_to_player(false)
 			ParentEntity.Jump(direction, jump_duration * super_jump_duration_multiplier, move_speed * super_jump_speed_multiplier)
+			Sfx.Play(&"enemy/slime_jump", -6)
 			state = State.IDLE
 			jump_counter = 0
 

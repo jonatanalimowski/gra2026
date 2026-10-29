@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://ybhv6ni4yy0p"]
+[gd_scene load_steps=9 format=3 uid="uid://ybhv6ni4yy0p"]
 
 [ext_resource type="Script" uid="uid://he38sam0rgl8" path="res://Scripts/UI/main_menu.gd" id="1_72sra"]
 [ext_resource type="Texture2D" uid="uid://cw5jyrfnds2e8" path="res://assets/ui/menu_background.png" id="1_g18y6"]
 [ext_resource type="Texture2D" uid="uid://bus2k6nrycfcc" path="res://assets/ui/Pack2/Buttons.png" id="2_mjmdf"]
+[ext_resource type="Theme" uid="uid://cixt07vew57f" path="res://Data/UI/main_theme.tres" id="3_theme"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_72sra"]
 atlas = ExtResource("2_mjmdf")
@@ -72,3 +73,22 @@ unique_name_in_owner = true
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_mjmdf")
 texture_hover = SubResource("AtlasTexture_k8um8")
+
+[node name="SettingsButton" type="Button" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(95, 20)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -103.0
+offset_top = -28.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 0
+theme = ExtResource("3_theme")
+text = "Settings"

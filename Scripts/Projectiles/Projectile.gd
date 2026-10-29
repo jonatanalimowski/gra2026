@@ -95,6 +95,9 @@ func HandleCollision(collision: KinematicCollision2D) -> void:
 		for effect in effects:
 			effect.ModifyDamage(self, info)
 		body.TakeDamage(info)
+		# the player has its own hurt sound (Sfx listens to player_damaged)
+		if team == Team.PLAYER:
+			Sfx.Play(&"projectile/hit_enemy", -16.0)
 
 		# every effect gets the hook (explosions, lifesteal...), even after one kept us alive
 		survived_hit = false
@@ -112,5 +115,9 @@ func HandleCollision(collision: KinematicCollision2D) -> void:
 		for effect in effects:
 			if effect.OnHitWall(self, collision):
 				survived_hit = true
-		if not survived_hit:
+		if survived_hit:
+			pass
+			#Sfx.Play(&"projectile/bounce", -10.0)
+		else:
+			#Sfx.Play(&"projectile/hit_wall", -20.0)
 			queue_free()

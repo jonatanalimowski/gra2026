@@ -91,7 +91,10 @@ func Shoot(direction: Vector2) -> bool:
 	if not spell_caster or is_dead or spawn_shoot_timer > 0:
 		return false
 	var spawn_pos = $Muzzle.global_position if has_node("Muzzle") else global_position
-	return spell_caster.TryCast(self, direction, spawn_pos, effects)
+	var cast = spell_caster.TryCast(self, direction, spawn_pos, effects)
+	if cast:
+		Sfx.Play(&"enemy/shoot", -20.0)
+	return cast
 
 # adds an enemy next to this one (same parent as the room's enemies)
 func SpawnMinion(minion: Entity, pos: Vector2) -> void:

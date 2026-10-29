@@ -132,6 +132,7 @@ func UseMobility() -> void:
 	can_dash = false
 	get_tree().create_timer(mobility.cooldown).timeout.connect(func(): can_dash = true)
 	mobility.Activate(self, GetMovementInput())
+	Sfx.Play(&"player/dash", -16)
 	GlobalMethods.FlashSprite(sprite, 0.3, Color(0.4, 0.4, 0.4, 0.3))
 
 # moves the player with a fixed velocity for a while, ignoring input. used by DashAbility
@@ -171,10 +172,9 @@ func CastSpell(is_primary: bool) -> void:
 
 	var dir = (get_global_mouse_position() - global_position).normalized()
 	var pos = muzzle.global_position
-	if is_primary:
-		wand.CastPrimary(self, dir, pos, effects)
-	else:
-		wand.CastHeavy(self, dir, pos, effects)
+	var cast = wand.CastPrimary(self, dir, pos, effects) if is_primary else wand.CastHeavy(self, dir, pos, effects)
+	if cast:
+		Sfx.Play(&"player/cast", -16.0)
 
 func HandleMoveState(delta: float) -> void:
 	var direction = GetMovementInput()

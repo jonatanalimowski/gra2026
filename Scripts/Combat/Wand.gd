@@ -33,10 +33,9 @@ func _process(delta: float) -> void:
 	if heavy:
 		heavy.Tick(delta)
 
-func CastPrimary(caster: Node2D, direction: Vector2, spawn_pos: Vector2, extra_effects: Array[Effect]) -> void:
-	if primary:
-		primary.TryCast(caster, direction, spawn_pos, extra_effects)
+# false = no spell in that slot or on cooldown
+func CastPrimary(caster: Node2D, direction: Vector2, spawn_pos: Vector2, extra_effects: Array[Effect]) -> bool:
+	return primary != null and primary.TryCast(caster, direction, spawn_pos, extra_effects)
 
-func CastHeavy(caster: Node2D, direction: Vector2, spawn_pos: Vector2, extra_effects: Array[Effect]) -> void:
-	if heavy:
-		heavy.TryCast(caster, direction, spawn_pos, extra_effects)
+func CastHeavy(caster: Node2D, direction: Vector2, spawn_pos: Vector2, extra_effects: Array[Effect]) -> bool:
+	return heavy != null and heavy.TryCast(caster, direction, spawn_pos, extra_effects)

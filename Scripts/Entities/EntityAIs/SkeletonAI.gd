@@ -81,6 +81,7 @@ func Wander(delta: float) -> void:
 
 func StartWindup() -> void:
 	state = State.WINDUP
+	Sfx.Play(&"enemy/charge_telegraph", -16.0)
 	state_timer = telegraph_duration
 	ParentEntity.Stop()
 	GlobalMethods.FlashSprite(ParentEntity.sprite, telegraph_duration, telegraph_color)

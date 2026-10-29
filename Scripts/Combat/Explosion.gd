@@ -29,6 +29,7 @@ func _ready() -> void:
 	shape.shape = circle
 	vfx.visible = false
 
+	Sfx.Play(&"explosion/telegraph", -10.0)
 	# blink the warning circle, then hit
 	var tween = create_tween().set_loops(int(telegraph_time / 0.1))
 	tween.tween_property(self, "modulate:a", 0.4, 0.05)
@@ -60,6 +61,7 @@ func Explode() -> void:
 		info.knockback = (body.global_position - global_position).normalized() * knockback_force
 		body.TakeDamage(info)
 
+	Sfx.Play(&"explosion/explosion", -10)
 	vfx.visible = true
 	queue_redraw()
 	# the vfx frames are 72px, scale them to the hit area

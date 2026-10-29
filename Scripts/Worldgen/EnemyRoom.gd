@@ -37,6 +37,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if is_room_cleared == false and body.is_in_group("player") and is_room_active == false:
 		is_room_active = true
 		EnableDoors()
+		Sfx.Play(&"world/doors_lock", -10)
 		SpawnEnemies()
 
 func _on_room_cleared() -> void:
