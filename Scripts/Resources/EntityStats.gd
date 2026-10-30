@@ -7,3 +7,4 @@ class_name EntityStats
 @export var acceleration: float = 2.0
 @export var attack_damage: float = 10.0
 @export var knockback_resistance: float = 0.0 # 0 = full push, 1 = immune
+@export var mana_drop: float = 10.0 # total mana in the orbs it drops on death

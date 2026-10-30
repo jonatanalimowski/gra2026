@@ -1,11 +1,27 @@
-[gd_resource type="Resource" script_class="WandData" load_steps=9 format=3 uid="uid://c10lqnvq1axy6"]
+[gd_resource type="Resource" script_class="WandData" load_steps=12 format=3 uid="uid://c10lqnvq1axy6"]
 
 [ext_resource type="Script" uid="uid://jt1r0vubh4cb" path="res://Scripts/Resources/Items/WandData.gd" id="1_wand"]
+[ext_resource type="Script" path="res://Scripts/Combat/Effects/ProjectileEffects/HomingEffect.gd" id="2_rrdwu"]
 [ext_resource type="Script" uid="uid://bqwypd1uvt6ft" path="res://Scripts/Resources/Items/SpellData.gd" id="2_spell"]
 [ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="2_vyraq"]
 [ext_resource type="PackedScene" uid="uid://6h8hktw1m71n" path="res://Scenes/ProjectileScenes/ProjectileBlueBlinker.tscn" id="3_projectile"]
 [ext_resource type="Texture2D" uid="uid://bqfsopl255qmi" path="res://assets/items/Wands-original.png" id="4_tex"]
 [ext_resource type="Script" uid="uid://bqmfbqnscq3kp" path="res://Scripts/Resources/Items/RuneData.gd" id="5_rrdwu"]
+
+[sub_resource type="Resource" id="Resource_mm2yx"]
+script = ExtResource("2_rrdwu")
+turn_speed = 480.0
+seek_angle = 120.0
+start_delay = 0.01
+metadata/_custom_type_script = "uid://0ph61vgtc6wt"
+
+[sub_resource type="Resource" id="Resource_qm8c2"]
+script = ExtResource("2_spell")
+projectile_scene = ExtResource("3_projectile")
+damage = 150.0
+mana_cost = 50.0
+effects = Array[ExtResource("2_vyraq")]([SubResource("Resource_mm2yx")])
+metadata/_custom_type_script = "uid://bqwypd1uvt6ft"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_icon"]
 atlas = ExtResource("4_tex")
@@ -14,12 +30,14 @@ region = Rect2(40, 43, 15, 21)
 [sub_resource type="Resource" id="Resource_primary_spell"]
 script = ExtResource("2_spell")
 projectile_scene = ExtResource("3_projectile")
-damage = 15.0
-crit_chance = 0.2
+damage = 30.0
+cooldown = 1.0
+spread = 3.0
 
 [resource]
 script = ExtResource("1_wand")
 primary_spell = SubResource("Resource_primary_spell")
+heavy_spell = SubResource("Resource_qm8c2")
 id = &"blue_blinker_wand"
 display_name = "Blue Blinker Wand"
 description = "A weapon made for attacking your enemies"

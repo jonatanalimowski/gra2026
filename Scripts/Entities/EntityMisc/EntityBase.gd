@@ -209,6 +209,7 @@ func Die() -> void:
 	var corpse: EntityCorpse = corpse_scene.instantiate()
 	get_parent().add_child(corpse)
 	corpse.SpawnCorpse(self.global_position, sprite, death_offset if override_death_offset else sprite.offset, scale)
+	ManaOrb.SpawnBurst(get_tree().current_scene, global_position, stats.GetStat(&"mana_drop"))
 	died.emit(self)
 	Signals.enemy_killed.emit(self, last_hit)
 	if is_boss:

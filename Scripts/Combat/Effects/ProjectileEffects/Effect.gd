@@ -23,3 +23,7 @@ func OnHitTarget(_projectile: BaseProjectile, _target: Node2D, _info: DamageInfo
 # return true to keep the projectile alive
 func OnHitWall(_projectile: BaseProjectile, _collision: KinematicCollision2D) -> bool:
 	return false
+
+# every physics frame before the projectile moves (steering, e.g. homing turns projectile.direction)
+func OnPhysicsProcess(_projectile: BaseProjectile, _delta: float) -> void:
+	pass

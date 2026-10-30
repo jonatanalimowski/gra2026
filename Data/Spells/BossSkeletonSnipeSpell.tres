@@ -9,5 +9,5 @@ script = ExtResource("1_spell")
 projectile_scene = ExtResource("2_proj")
 cooldown = 0.0
 spread = 0.0
-projectile_speed = 2.5
+projectile_speed = 2.0
 metadata/_custom_type_script = "uid://bqwypd1uvt6ft"

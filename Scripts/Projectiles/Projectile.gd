@@ -67,6 +67,8 @@ func SetDirection(new_direction: Vector2) -> void:
 
 func _physics_process(delta: float) -> void:
 	age += delta
+	for effect in effects:
+		effect.OnPhysicsProcess(self, delta)
 	var move_velocity = motion.GetVelocity(self, delta)
 	# face where it's actually going (curved paths)
 	if move_velocity != Vector2.ZERO:

@@ -31,21 +31,6 @@ func TryCast(caster: Node2D, direction: Vector2, spawn_pos: Vector2, extra_effec
 	all_effects.append_array(effects)
 	all_effects.append_array(extra_effects)
 
-	var spread = stats.GetStat(&"spread")
-	for i in int(stats.GetStat(&"shot_count")):
-		var projectile = spell.projectile_scene.instantiate() as BaseProjectile
-		projectile.caster = caster
-		# same spell can be fired by either side, the caster decides what it hits
-		projectile.team = BaseProjectile.Team.PLAYER if caster.is_in_group("player") else BaseProjectile.Team.ENEMY
-		projectile.damage = stats.GetStat(&"damage")
-		projectile.speed_multiplier = stats.GetStat(&"projectile_speed")
-		projectile.crit_chance = stats.GetStat(&"crit_chance")
-		projectile.crit_multiplier = stats.GetStat(&"crit_multiplier")
-		projectile.effects = all_effects
-		projectile.global_position = spawn_pos
-		projectile.SetDirection(direction.rotated(deg_to_rad(randf_range(-spread, spread))))
-		# projectiles belong to the current scene, so they get removed with it
-		caster.get_tree().current_scene.add_child(projectile)
-
+	spell.Cast(caster, stats, direction, spawn_pos, all_effects)
 	cooldown_left = stats.GetStat(&"cooldown")
 	return true

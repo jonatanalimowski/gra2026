@@ -1,6 +1,7 @@
 extends Control
 const GRAY: Color = Color(0.3, 0.3, 0.3, 1.0)
 @onready var hp_bar: TextureProgressBar = %PlayerHealthbar
+@onready var mana_bar: TextureProgressBar = %ManaBar
 #@onready var hp_text: Label = %PlayerHealthbar/Label
 @onready var player_stats: VBoxContainer = %Playerstats
 @onready var primary_spell_stats: VBoxContainer = %PrimarySpellStats
@@ -15,6 +16,8 @@ const GRAY: Color = Color(0.3, 0.3, 0.3, 1.0)
 var pact_list: VBoxContainer
 var tab_hint: Label
 var hp_label: Label
+var mana_label: Label
+var player: Player
 var stats_visible: bool = false
 
 func _ready() -> void:
@@ -30,6 +33,9 @@ func _ready() -> void:
 	hp_label = Label.new()
 	stats_column.add_child(hp_label)
 	stats_column.move_child(hp_label, 2) # under the "Player Stats:" header
+	mana_label = Label.new()
+	stats_column.add_child(mana_label)
+	stats_column.move_child(mana_label, 3)
 	pact_list = VBoxContainer.new()
 	stats_column.add_child(pact_list)
 	UpdatePacts()
@@ -48,23 +54,33 @@ func SetStatsVisible(on: bool) -> void:
 func ConnectSignals() -> void:
 	Signals.player_ready.connect(_on_player_ready)
 	Signals.player_health_changed.connect(UpdateHealth)
+	Signals.player_mana_changed.connect(UpdateMana)
 	Signals.boss_spawned.connect(_on_boss_spawned)
 	Signals.boss_health_changed.connect(UpdateBossHP)
 	Signals.boss_defeated.connect(_on_boss_deafeated)
 	RunState.pact_added.connect(_on_pact_added)
 	RunState.curse_cleansed.connect(func(_curse): UpdatePacts())
 
-func _on_player_ready(player: Player):
+func _on_player_ready(new_player: Player):
+	player = new_player
 	BuildStatList(player_stats, player.stats)
 
 	var wand = player.wand
 	primary_spell_slot.texture = wand.data.icon
 	BuildStatList(primary_spell_stats, wand.primary.stats if wand.primary else null)
 
-	# heavy slot shows the same wand icon, grayed out while the wand has no heavy spell
+	# heavy slot shows the same wand icon
 	heavy_spell_slot.texture = wand.data.icon
-	heavy_spell_slot.modulate = Color.WHITE if wand.heavy else GRAY
 	BuildStatList(heavy_spell_stats, wand.heavy.stats if wand.heavy else null)
+	UpdateHeavySlot()
+
+# grayed out while the wand has no heavy spell or the player can't pay for it
+func UpdateHeavySlot() -> void:
+	if player == null:
+		return
+	var heavy = player.wand.heavy
+	var can_cast = heavy != null and player.mana >= heavy.stats.GetStat(&"mana_cost")
+	heavy_spell_slot.modulate = Color.WHITE if can_cast else GRAY
 
 # one label per stat, kept up to date through the StatBlock's stat_changed signal
 func BuildStatList(container: VBoxContainer, stats: StatBlock) -> void:
@@ -95,6 +111,12 @@ func UpdateHealth(new_current: int, new_max: int):
 	hp_bar.max_value = new_max
 	hp_bar.value = new_current
 	hp_label.text = "HP: %d/%d" % [new_current, new_max]
+
+func UpdateMana(new_current: float, new_max: float) -> void:
+	mana_bar.max_value = new_max
+	mana_bar.value = new_current
+	mana_label.text = "MP: %d/%d" % [new_current, new_max]
+	UpdateHeavySlot()
 
 func UpdateBossHP(new_current, new_max):
 	boss_hp_bar.max_value = new_max

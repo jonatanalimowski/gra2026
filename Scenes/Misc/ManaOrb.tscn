@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Misc/ManaOrb.gd" id="1_orb"]
+
+[node name="ManaOrb" type="Node2D"]
+z_index = 5
+script = ExtResource("1_orb")

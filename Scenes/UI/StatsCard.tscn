@@ -1,30 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://cob8fnuxgoe28"]
+[gd_scene load_steps=5 format=3 uid="uid://cob8fnuxgoe28"]
 
 [ext_resource type="Theme" uid="uid://cixt07vew57f" path="res://Data/UI/main_theme.tres" id="1_dbmrh"]
 [ext_resource type="Script" uid="uid://bt2kmolav6km5" path="res://Scripts/UI/stats_card.gd" id="2_dbmrh"]
 [ext_resource type="Texture2D" uid="uid://bk1qf8hetnvtd" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-Tilesheet.png" id="3_xb6yb"]
-[ext_resource type="Theme" uid="uid://d2g2pr66fmdmk" path="res://Fonts/Font.tres" id="5_qb4yp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_54dwx"]
 atlas = ExtResource("3_xb6yb")
 region = Rect2(0, 0, 96, 96)
 
-[node name="StatsCard" type="Control"]
-custom_minimum_size = Vector2(196, 298)
-layout_mode = 3
-anchors_preset = 0
+[node name="StatsCard" type="MarginContainer"]
+offset_right = 196.0
+offset_bottom = 120.0
 theme = ExtResource("1_dbmrh")
 script = ExtResource("2_dbmrh")
 
-[node name="TextureRect" type="NinePatchRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -2.0
-offset_right = -2.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Background" type="NinePatchRect" parent="."]
+layout_mode = 2
 texture = SubResource("AtlasTexture_54dwx")
 region_rect = Rect2(0, 0, 96, 96)
 patch_margin_left = 48
@@ -32,51 +23,29 @@ patch_margin_top = 48
 patch_margin_right = 48
 patch_margin_bottom = 48
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TextureRect"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.7
-anchor_right = 0.523
-anchor_bottom = 0.734
-offset_left = -80.0
-offset_top = -150.0
-offset_right = 80.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="NameDescription" type="VBoxContainer" parent="TextureRect/VBoxContainer"]
-z_index = 10
+[node name="Padding" type="MarginContainer" parent="."]
 layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 16
 
-[node name="Separator2" type="Label" parent="TextureRect/VBoxContainer/NameDescription"]
-custom_minimum_size = Vector2(40, 0)
+[node name="Content" type="VBoxContainer" parent="Padding"]
+custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
-theme = ExtResource("5_qb4yp")
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-autowrap_mode = 2
+theme_override_constants/separation = 6
 
-[node name="Name" type="Label" parent="TextureRect/VBoxContainer/NameDescription"]
+[node name="Name" type="Label" parent="Padding/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 20
 text = "Pomarancza Mocy"
 horizontal_alignment = 1
-autowrap_mode = 2
 
-[node name="Separator" type="Label" parent="TextureRect/VBoxContainer/NameDescription"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-theme = ExtResource("5_qb4yp")
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-autowrap_mode = 2
-
-[node name="Description" type="RichTextLabel" parent="TextureRect/VBoxContainer/NameDescription"]
+[node name="Description" type="RichTextLabel" parent="Padding/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 mouse_filter = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -84,9 +53,12 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/line_separation = 2
 theme_override_constants/shadow_offset_x = 0
 bbcode_enabled = true
-text = "Stat: 150	
-StatWithALongName: 200
-Stat2: 2.0
-StatType: TypeSomething	"
+text = "Item description"
 fit_content = true
+scroll_active = false
 autowrap_mode = 2
+
+[node name="Columns" type="HBoxContainer" parent="Padding/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16

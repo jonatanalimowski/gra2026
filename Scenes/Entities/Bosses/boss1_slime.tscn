@@ -40,7 +40,9 @@ animation = &"moving"
 [node name="Brain" type="Node" parent="."]
 script = ExtResource("6_6433y")
 rest_time = 1.0
-super_jump_speed_multiplier = 4.5
+super_jump_speed_multiplier = 3.0
+super_telegraph_color = Color(0.866915, 0.042561896, 0.026084363, 1)
+super_telegraph_duration = 1.0
 summon_count = 3
 summon_cooldown = 8.0
 

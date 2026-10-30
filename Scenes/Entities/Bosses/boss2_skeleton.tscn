@@ -1,7 +1,7 @@
 [gd_scene load_steps=30 format=3 uid="uid://kt227wqvpj44"]
 
 [ext_resource type="Script" uid="uid://cpdiqwgu4xekk" path="res://Scripts/Entities/EntityMisc/EntityBase.gd" id="1_jdwhj"]
-[ext_resource type="Resource" path="res://Scripts/Entities/EntityStats/Boss2SkeletonStats.tres" id="2_psx7r"]
+[ext_resource type="Resource" uid="uid://bnit0rsgnscrr" path="res://Scripts/Entities/EntityStats/Boss2SkeletonStats.tres" id="2_psx7r"]
 [ext_resource type="PackedScene" uid="uid://tp2mxe65f0lq" path="res://Scenes/EntityCorpses/EntityCorpseBase.tscn" id="3_sxp6b"]
 [ext_resource type="PackedScene" uid="uid://b1u713r0een05" path="res://Scenes/UI/DamageNumber.tscn" id="4_vgsfc"]
 [ext_resource type="Texture2D" uid="uid://cyqpefj2jgx62" path="res://assets/packs/tilesets/Anokolisa_PixelCrawler/Pixel Crawler - Free Pack 2.11/Pixel Crawler - Free Pack/Entities/Mobs/Skeleton Crew/Skeleton - Base/Death/Death-Sheet.png" id="5_3ifn7"]
@@ -192,6 +192,7 @@ rest_time = 3.5
 ring_waves = 10
 ring_wave_interval = 0.5
 snipe_shots = 5
+snipe_interval = 0.35
 enraged_speed_multiplier = 0.7
 
 [node name="Control" type="Control" parent="."]

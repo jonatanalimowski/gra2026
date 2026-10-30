@@ -1,11 +1,31 @@
-[gd_resource type="Resource" script_class="WandData" load_steps=9 format=3 uid="uid://betivdmm3g1es"]
+[gd_resource type="Resource" script_class="WandData" load_steps=14 format=3 uid="uid://betivdmm3g1es"]
 
 [ext_resource type="Script" uid="uid://jt1r0vubh4cb" path="res://Scripts/Resources/Items/WandData.gd" id="1_wand"]
+[ext_resource type="Script" uid="uid://dn0lngx6fw341" path="res://Scripts/Combat/Effects/ProjectileEffects/PierceEffect.gd" id="2_3m7p6"]
 [ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="2_cvitr"]
 [ext_resource type="Script" uid="uid://bqwypd1uvt6ft" path="res://Scripts/Resources/Items/SpellData.gd" id="2_spell"]
 [ext_resource type="PackedScene" uid="uid://nx2msofl3li3" path="res://Scenes/ProjectileScenes/ProjectilePurpleBolt.tscn" id="3_projectile"]
+[ext_resource type="Script" uid="uid://dbidkijkecc81" path="res://Scripts/Combat/Effects/ProjectileEffects/BounceEffect.gd" id="3_s37ho"]
 [ext_resource type="Texture2D" uid="uid://cckenj4w3la12" path="res://assets/items/wands_alternative.png" id="4_tex"]
 [ext_resource type="Script" uid="uid://bqmfbqnscq3kp" path="res://Scripts/Resources/Items/RuneData.gd" id="5_3tu32"]
+
+[sub_resource type="Resource" id="Resource_4vl3y"]
+script = ExtResource("2_3m7p6")
+pierces = 5
+metadata/_custom_type_script = "uid://dn0lngx6fw341"
+
+[sub_resource type="Resource" id="Resource_j0c4u"]
+script = ExtResource("3_s37ho")
+bounces = 2
+metadata/_custom_type_script = "uid://dbidkijkecc81"
+
+[sub_resource type="Resource" id="Resource_4s28o"]
+script = ExtResource("2_spell")
+projectile_scene = ExtResource("3_projectile")
+damage = 50.0
+mana_cost = 100.0
+effects = Array[ExtResource("2_cvitr")]([SubResource("Resource_4vl3y"), SubResource("Resource_j0c4u")])
+metadata/_custom_type_script = "uid://bqwypd1uvt6ft"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_icon"]
 atlas = ExtResource("4_tex")
@@ -22,6 +42,7 @@ spread = 20.0
 [resource]
 script = ExtResource("1_wand")
 primary_spell = SubResource("Resource_primary_spell")
+heavy_spell = SubResource("Resource_4s28o")
 id = &"purple_bolt_wand"
 display_name = "Purple Bolt Wand"
 description = "A weapon made for attacking your enemies"

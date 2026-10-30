@@ -2,6 +2,7 @@ extends Node
 
 signal debug_ui_updated(string_label: Dictionary[String, Label])
 signal player_health_changed(new_current: int, new_max: int)
+signal player_mana_changed(new_current: float, new_max: float)
 signal player_ready(player_node: Player)
 signal player_died
 signal enemy_killed(enemy: Entity, info: DamageInfo)

@@ -1,14 +1,55 @@
-[gd_scene load_steps=20 format=3 uid="uid://c2ooxaoermteu"]
+[gd_scene load_steps=32 format=3 uid="uid://c2ooxaoermteu"]
 
 [ext_resource type="Script" uid="uid://d22ugsnpvbate" path="res://Scripts/Entities/Player.gd" id="1_kyqiw"]
 [ext_resource type="Script" uid="uid://c0vo06wjioddm" path="res://Scripts/Resources/PlayerStats.gd" id="2_dewec"]
+[ext_resource type="Texture2D" uid="uid://bqfsopl255qmi" path="res://assets/items/Wands-original.png" id="3_uqx8j"]
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="4_0ee6a"]
 [ext_resource type="Texture2D" uid="uid://bi8va0tan5ovh" path="res://assets/packs/characters/cyberrumor_Mage/Animated_Mage_Character.png" id="4_p20vm"]
-[ext_resource type="Resource" uid="uid://bb3pyna1othvh" path="res://Data/Wands/FlameStarWand.tres" id="4_wand"]
+[ext_resource type="PackedScene" uid="uid://ds3gjwt7bjoi8" path="res://Scenes/ProjectileScenes/ProjectileFlameStar.tscn" id="5_oaoyw"]
+[ext_resource type="Script" uid="uid://bqwypd1uvt6ft" path="res://Scripts/Resources/Items/SpellData.gd" id="6_ur7jp"]
+[ext_resource type="Script" uid="uid://bqmfbqnscq3kp" path="res://Scripts/Resources/Items/RuneData.gd" id="7_w6h1n"]
+[ext_resource type="Script" uid="uid://dbidkijkecc81" path="res://Scripts/Combat/Effects/ProjectileEffects/BounceEffect.gd" id="8_0o2wj"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="9_spsl7"]
+[ext_resource type="Script" uid="uid://jt1r0vubh4cb" path="res://Scripts/Resources/Items/WandData.gd" id="10_mipjx"]
 
 [sub_resource type="Resource" id="Resource_5ixxa"]
 script = ExtResource("2_dewec")
 movement_speed = 120.0
+acceleration = 1200.0
+friction = 15000.0
 metadata/_custom_type_script = "uid://c0vo06wjioddm"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icon"]
+atlas = ExtResource("3_uqx8j")
+region = Rect2(79, 72, 17, 25)
+
+[sub_resource type="Resource" id="Resource_primary_spell"]
+script = ExtResource("6_ur7jp")
+projectile_scene = ExtResource("5_oaoyw")
+damage = 10.0
+cooldown = 1.5
+shot_count = 10
+spread = 20.0
+crit_chance = 0.2
+crit_multiplier = 4.0
+
+[sub_resource type="Resource" id="Resource_4woai"]
+script = ExtResource("8_0o2wj")
+metadata/_custom_type_script = "uid://dbidkijkecc81"
+
+[sub_resource type="Resource" id="Resource_xtp6n"]
+script = ExtResource("7_w6h1n")
+effects = Array[ExtResource("4_0ee6a")]([SubResource("Resource_4woai")])
+metadata/_custom_type_script = "uid://bqmfbqnscq3kp"
+
+[sub_resource type="Resource" id="Resource_w6gpn"]
+script = ExtResource("10_mipjx")
+primary_spell = SubResource("Resource_primary_spell")
+runes = Array[ExtResource("7_w6h1n")]([SubResource("Resource_xtp6n")])
+id = &"flame_star_wand"
+display_name = "Flame Star Wand"
+description = "A weapon made for attacking your enemies"
+icon = SubResource("AtlasTexture_icon")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fu1ki"]
 atlas = ExtResource("4_p20vm")
@@ -143,7 +184,7 @@ z_index = 5
 collision_mask = 2
 script = ExtResource("1_kyqiw")
 base_stats = SubResource("Resource_5ixxa")
-fallback_wand = ExtResource("4_wand")
+fallback_wand = SubResource("Resource_w6gpn")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -1.1920929e-07)

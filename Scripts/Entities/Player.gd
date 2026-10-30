@@ -8,6 +8,7 @@ class_name Player
 
 var stats: StatBlock
 var health: Health
+var mana: float = 100 # starts empty every floor, refilled by ManaOrbs
 var wand: Wand
 var mobility: MobilityAbility
 # effects from equipment and blessings, added to every spell cast
@@ -36,6 +37,7 @@ func _ready() -> void:
 	NodeReferences.player = self
 	Signals.player_ready.emit(self)
 	Signals.player_health_changed.emit(health.current, health.maximum)
+	Signals.player_mana_changed.emit(mana, stats.GetStat(&"max_mana"))
 
 func ApplyLoadout(loadout: Loadout) -> void:
 	if loadout == null:
@@ -84,6 +86,14 @@ func RemoveHalf(half: PactHalf) -> void:
 func _on_stat_changed(stat_name: StringName, value: float) -> void:
 	if stat_name == &"max_health":
 		health.SetMaximum(value)
+	elif stat_name == &"max_mana":
+		AddMana(0.0) # clamps to the new max + updates the bar
+
+# negative = spend. extra mana over the max is lost
+func AddMana(amount: float) -> void:
+	var max_mana = stats.GetStat(&"max_mana")
+	mana = clampf(mana + amount, 0.0, max_mana)
+	Signals.player_mana_changed.emit(mana, max_mana)
 
 func _exit_tree() -> void:
 	NodeReferences.player = null
@@ -170,10 +180,16 @@ func CastSpell(is_primary: bool) -> void:
 	if is_dead:
 		return
 
+	var spell_caster: SpellCaster = wand.primary if is_primary else wand.heavy
+	if spell_caster == null:
+		return
+	var cost = spell_caster.stats.GetStat(&"mana_cost")
+	if mana < cost:
+		return
+
 	var dir = (get_global_mouse_position() - global_position).normalized()
-	var pos = muzzle.global_position
-	var cast = wand.CastPrimary(self, dir, pos, effects) if is_primary else wand.CastHeavy(self, dir, pos, effects)
-	if cast:
+	if spell_caster.TryCast(self, dir, muzzle.global_position, effects):
+		AddMana(-cost)
 		Sfx.Play(&"player/cast", -16.0)
 
 func HandleMoveState(delta: float) -> void:
