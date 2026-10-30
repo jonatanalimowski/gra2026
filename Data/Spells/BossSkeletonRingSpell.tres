@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="SpellData" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="SpellData" load_steps=4 format=3 uid="uid://c7k3ppv0j0lkv"]
 
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="1_g2lgu"]
 [ext_resource type="Script" uid="uid://bqwypd1uvt6ft" path="res://Scripts/Resources/Items/SpellData.gd" id="1_spell"]
 [ext_resource type="PackedScene" uid="uid://du1088esivdqm" path="res://Scenes/ProjectileScenes/EnemyShooterProjectile.tscn" id="2_proj"]
 

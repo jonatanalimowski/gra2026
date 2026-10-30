@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name Entity
 
+const DEFAULT_ELITE: EliteData = preload("res://Data/Elites/DefaultElite.tres")
+
 signal died(entity: Entity)
 # a brain spawned another enemy (SpawnMinion), the room counts it too
 signal summoned(minion: Entity)
@@ -29,6 +31,9 @@ signal summoned(minion: Entity)
 @export var effects: Array[Effect] = []
 # can't shoot this long after spawning, so a room doesn't open with a volley
 @export var spawn_shoot_delay: float = 1.0
+# elite version: rolled by EnemyRoom, set before add_child so _ready applies it. empty = DEFAULT_ELITE
+@export var elite_data: EliteData
+var is_elite: bool = false
 var spell_caster: SpellCaster
 var stats: StatBlock
 var health: Health
@@ -46,6 +51,8 @@ func _ready() -> void:
 	stats = StatBlock.FromResource(base_stats)
 	if spell:
 		spell_caster = SpellCaster.new(spell, [])
+	if is_elite:
+		ApplyElite()
 	# pact/oath enemy modifiers (enemies +hp etc.), before Health so max_health includes them
 	for half in RunState.halves:
 		ApplyRunHalf(half)
@@ -160,10 +167,22 @@ func IsStunned() -> bool:
 # projectile_speed -> its spell (so curses can buff enemy shots too)
 func ApplyRunHalf(half: PactHalf) -> void:
 	for modifier in half.enemy_modifiers:
-		if spell_caster and spell_caster.stats.HasStat(modifier.stat):
-			spell_caster.stats.AddModifier(modifier, half)
-		else:
-			stats.AddModifier(modifier, half)
+		AddEnemyModifier(modifier, half)
+
+# stats neither block has are skipped (spell damage on an enemy that doesn't shoot)
+func AddEnemyModifier(modifier: StatModifier, source: Object) -> void:
+	if spell_caster and spell_caster.stats.HasStat(modifier.stat):
+		spell_caster.stats.AddModifier(modifier, source)
+	elif stats.HasStat(modifier.stat):
+		stats.AddModifier(modifier, source)
+
+# tougher, faster, hits harder, bigger and tinted so it reads as a threat
+func ApplyElite() -> void:
+	var data := elite_data if elite_data else DEFAULT_ELITE
+	for modifier in data.modifiers:
+		AddEnemyModifier(modifier, data)
+	scale *= data.scale
+	sprite.self_modulate = data.color
 
 func _on_run_half_removed(half: PactHalf) -> void:
 	stats.RemoveModifiersFrom(half)

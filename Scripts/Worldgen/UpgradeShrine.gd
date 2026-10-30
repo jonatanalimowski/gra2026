@@ -1,12 +1,14 @@
 extends Area2D
 class_name UpgradeShrine
 
-# spawned by BossRoom when the boss dies. Interact = pick 1 stat upgrade, then the next floor
-# starts after a short delay. walking away keeps it usable, the only way forward is to take one
+# spawned by BossRoom when the boss dies. Interact = pick a stat upgrade (`picks` times, 2 after a
+# flawless fight), then the next floor starts after a short delay. walking away keeps it usable
 const CHOICE_OVERLAY = preload("res://Scenes/UI/ChoiceOverlay.tscn")
 
 @export var upgrades: Array[StatUpgrade] = []
 @export var next_floor_delay: float = 1.5
+# set by BossRoom before add_child
+@export var picks: int = 1
 @onready var sprite: Sprite2D = %Sprite
 @onready var prompt: Label = %Prompt
 var is_used: bool = false
@@ -34,22 +36,32 @@ func _on_body_exited(body: Node2D) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if player_in_range and not is_used and event.is_action_pressed("Interact"):
 		get_viewport().set_input_as_handled()
-		var overlay = CHOICE_OVERLAY.instantiate()
-		add_child(overlay)
-		overlay.chosen.connect(_on_overlay_chosen)
-		overlay.Open("Boss Reward", upgrades, true)
+		OpenChoice()
+
+func OpenChoice() -> void:
+	var overlay = CHOICE_OVERLAY.instantiate()
+	add_child(overlay)
+	overlay.chosen.connect(_on_overlay_chosen)
+	var title = "Boss Reward" if picks == 1 else "Flawless! Boss Reward (%d left)" % picks
+	overlay.Open(title, upgrades, true)
 
 func _on_overlay_chosen(upgrade: ItemData) -> void:
 	if upgrade == null:
 		return
 
-	is_used = true
-	prompt.visible = false
+	picks -= 1
 	RunState.AddHalf((upgrade as StatUpgrade).blessing, true)
 	Sfx.Play(&"altar/pact_take", -6)
 	if NodeReferences.player:
 		GlobalMethods.FlashSprite(NodeReferences.player.sprite, 0.4, Color(1.0, 0.85, 0.3))
 
+	# next pick right away. deferred, the old overlay is still closing (it unpauses after this)
+	if picks > 0:
+		OpenChoice.call_deferred()
+		return
+
+	is_used = true
+	prompt.visible = false
 	bob_tween.kill()
 	create_tween().tween_property(sprite, "modulate", Color(0.3, 0.3, 0.3, 1.0), 0.5)
 	get_tree().create_timer(next_floor_delay, false).timeout.connect(GameFlow.NextFloor)

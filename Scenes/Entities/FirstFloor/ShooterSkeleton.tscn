@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://bnbyahanqarh0"]
+[gd_scene load_steps=32 format=3 uid="uid://bnbyahanqarh0"]
 
 [ext_resource type="Script" uid="uid://cpdiqwgu4xekk" path="res://Scripts/Entities/EntityMisc/EntityBase.gd" id="1_jdwhj"]
 [ext_resource type="Resource" uid="uid://btmybjumtrtjj" path="res://Scripts/Entities/EntityStats/ShooterStats.tres" id="2_psx7r"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://41e7xh01rjv8" path="res://assets/packs/tilesets/Anokolisa_PixelCrawler/Pixel Crawler - Free Pack 2.11/Pixel Crawler - Free Pack/Entities/Mobs/Skeleton Crew/Skeleton - Base/Idle/Idle-Sheet.png" id="6_4cmlc"]
 [ext_resource type="Texture2D" uid="uid://dfero48kwwok0" path="res://assets/packs/tilesets/Anokolisa_PixelCrawler/Pixel Crawler - Free Pack 2.11/Pixel Crawler - Free Pack/Entities/Mobs/Skeleton Crew/Skeleton - Base/Run/Run-Sheet.png" id="7_hqhro"]
 [ext_resource type="Script" uid="uid://baqm57n8ry0h1" path="res://Scripts/Entities/EntityAIs/ShooterAI.gd" id="8_vyjvp"]
+[ext_resource type="Resource" path="res://Data/Elites/ShooterSkeletonElite.tres" id="9_elite"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s367j"]
 
@@ -170,6 +171,7 @@ damage_number_scene = ExtResource("4_vgsfc")
 override_death_offset = true
 death_offset = Vector2(-16, -48)
 spell = ExtResource("5_sxp6b")
+elite_data = ExtResource("9_elite")
 
 [node name="Area2D" type="Area2D" parent="."]
 

@@ -8,6 +8,8 @@ signal cleared(room: EnemyRoom)
 @onready var enemy_spawn_markers: Array = $SpawnMarkers.get_children()
 # the room rolls one of these when entered, then every spawn marker picks from it
 @export var enemy_pools: Array[EnemyPool]
+# chance per spawned enemy to be elite (see Entity.ApplyElite)
+@export_range(0.0, 1.0) var elite_chance: float = 0.08
 var is_room_cleared: bool = false
 var is_room_active: bool = false
 var enemies_left: int = 0
@@ -61,6 +63,8 @@ func SpawnEnemies() -> void:
 			break
 		var enemy: Entity = scene.instantiate()
 		enemy.global_position = spawnpoint.global_position
+		# always roll, so the dev cheat doesn't shift the seeded picks after it
+		enemy.is_elite = rng.randf() < elite_chance or DevTools.more_elites
 		get_parent().add_child(enemy)
 		RegisterEnemy(enemy)
 

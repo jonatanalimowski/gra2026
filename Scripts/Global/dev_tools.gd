@@ -15,6 +15,10 @@ var x10damage: bool = false:
 			ApplyDamageCheat(NodeReferences.player)
 var damage_cheat_mod: StatModifier = StatModifier.new()
 
+var more_elites: bool = false:
+	set(value):
+		more_elites = value
+
 var layer: CanvasLayer
 
 func _init() -> void:

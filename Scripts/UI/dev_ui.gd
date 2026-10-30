@@ -6,6 +6,7 @@ func _ready() -> void:
 	var vbox = %ButtonList
 	AddToggleButton(vbox, "Invincible", DevTools.invincible, _on_invincible_toggled)
 	AddToggleButton(vbox, "10X Damage", DevTools.x10damage, _on_10x_damage_toggled)
+	AddToggleButton(vbox, "All enemy elites", DevTools.more_elites, _on_more_elites_toggled)
 	AddActionButton(vbox, "Altar offer (F7)", _on_altar_offer_pressed)
 	AddActionButton(vbox, "Cleanse curses", _on_cleanse_curses_pressed)
 	AddActionButton(vbox, "Teleport to boss", _on_teleport_to_boss_pressed)
@@ -31,6 +32,9 @@ func _on_invincible_toggled(on: bool) -> void:
 
 func _on_10x_damage_toggled(on: bool) -> void:
 	DevTools.x10damage = on
+
+func _on_more_elites_toggled(on: bool) -> void:
+	DevTools.more_elites = on
 
 func _on_altar_offer_pressed() -> void:
 	if NodeReferences.player and not get_tree().paused:
