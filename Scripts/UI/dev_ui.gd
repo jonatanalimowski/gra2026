@@ -8,6 +8,7 @@ func _ready() -> void:
 	AddToggleButton(vbox, "10X Damage", DevTools.x10damage, _on_10x_damage_toggled)
 	AddActionButton(vbox, "Altar offer (F7)", _on_altar_offer_pressed)
 	AddActionButton(vbox, "Cleanse curses", _on_cleanse_curses_pressed)
+	AddActionButton(vbox, "Teleport to boss", _on_teleport_to_boss_pressed)
 
 # focus off everywhere so space/enter can't press a cheat while playing
 func AddActionButton(parent: Node, text: String, callback: Callable) -> void:
@@ -38,3 +39,20 @@ func _on_altar_offer_pressed() -> void:
 func _on_cleanse_curses_pressed() -> void:
 	for curse in RunState.GetActiveCurses():
 		RunState.CleanseCurse(curse)
+
+# lands a bit below the boss spawn, inside the detection area, so the fight starts right away
+func _on_teleport_to_boss_pressed() -> void:
+	var player = NodeReferences.player
+	var room = FindBossRoom(get_tree().current_scene)
+	if not player or not room:
+		return
+	player.global_position = room.boss_spawn.global_position + Vector2(0, 100)
+
+func FindBossRoom(node: Node) -> BossRoom:
+	if node is BossRoom:
+		return node
+	for child in node.get_children():
+		var found = FindBossRoom(child)
+		if found:
+			return found
+	return null

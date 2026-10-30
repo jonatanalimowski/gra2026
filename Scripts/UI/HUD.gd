@@ -11,23 +11,39 @@ const GRAY: Color = Color(0.3, 0.3, 0.3, 1.0)
 @onready var boss_hp_text: Label = %BossHpLabel
 @onready var boss_ui = %BossBar
 @onready var stats_column: VBoxContainer = %StatsColumn
+@onready var floor_label: Label = %FloorLabel
 var pact_list: VBoxContainer
-var detailed_stat_labels: Array[Label] = []
+var tab_hint: Label
+var hp_label: Label
+var stats_visible: bool = false
 
 func _ready() -> void:
 	ConnectSignals()
 	boss_ui.visible = false
+	# the run scene reloads every floor, so setting it once is enough
+	floor_label.text = "Floor %d" % RunState.floor_number
+	# stats are hidden behind Tab, the hint takes their place while closed
+	tab_hint = Label.new()
+	tab_hint.text = "[Tab] Stats"
+	stats_column.add_child(tab_hint)
+	stats_column.move_child(tab_hint, 0)
+	hp_label = Label.new()
+	stats_column.add_child(hp_label)
+	stats_column.move_child(hp_label, 2) # under the "Player Stats:" header
 	pact_list = VBoxContainer.new()
 	stats_column.add_child(pact_list)
 	UpdatePacts()
+	SetStatsVisible(false)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("Tab"):
-		ToggleDetailedStats()
+		SetStatsVisible(!stats_visible)
 
-func ToggleDetailedStats() -> void:
-	for label in detailed_stat_labels:
-		label.visible = !label.visible
+# everything in the column but the hint
+func SetStatsVisible(on: bool) -> void:
+	stats_visible = on
+	for child in stats_column.get_children():
+		child.visible = on if child != tab_hint else not on
 
 func ConnectSignals() -> void:
 	Signals.player_ready.connect(_on_player_ready)
@@ -39,7 +55,6 @@ func ConnectSignals() -> void:
 	RunState.curse_cleansed.connect(func(_curse): UpdatePacts())
 
 func _on_player_ready(player: Player):
-	detailed_stat_labels.clear()
 	BuildStatList(player_stats, player.stats)
 
 	var wand = player.wand
@@ -50,8 +65,6 @@ func _on_player_ready(player: Player):
 	heavy_spell_slot.texture = wand.data.icon
 	heavy_spell_slot.modulate = Color.WHITE if wand.heavy else GRAY
 	BuildStatList(heavy_spell_stats, wand.heavy.stats if wand.heavy else null)
-
-	ToggleDetailedStats()
 
 # one label per stat, kept up to date through the StatBlock's stat_changed signal
 func BuildStatList(container: VBoxContainer, stats: StatBlock) -> void:
@@ -69,8 +82,6 @@ func BuildStatList(container: VBoxContainer, stats: StatBlock) -> void:
 		container.add_child(label)
 		SetStatLabel(label, stat_name, stats.GetStat(stat_name))
 		labels[stat_name] = label
-		if stat_name in stats.detailed_stats:
-			detailed_stat_labels.append(label)
 
 	stats.stat_changed.connect(func(stat_name, value):
 		if labels.has(stat_name):
@@ -83,7 +94,7 @@ func SetStatLabel(label: Label, stat_name: String, value: float) -> void:
 func UpdateHealth(new_current: int, new_max: int):
 	hp_bar.max_value = new_max
 	hp_bar.value = new_current
-	#hp_text.text = str(new_current) + "/" + str(new_max)
+	hp_label.text = "HP: %d/%d" % [new_current, new_max]
 
 func UpdateBossHP(new_current, new_max):
 	boss_hp_bar.max_value = new_max
@@ -99,6 +110,7 @@ func _on_boss_spawned(hp_value):
 func _on_boss_deafeated():
 	boss_ui.visible = false
 	pact_list = VBoxContainer.new()
+	pact_list.visible = stats_visible
 	stats_column.add_child(pact_list)
 	UpdatePacts()
 	boss_hp_bar.visible = false

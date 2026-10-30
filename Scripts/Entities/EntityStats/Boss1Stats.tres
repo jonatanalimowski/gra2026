@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_ys6sl")
-max_health = 1000.0
+max_health = 750.0
 movement_speed = 100.0
-attack_damage = 45.0
+attack_damage = 35.0
 knockback_resistance = 1.0
 metadata/_custom_type_script = "uid://df20v0kdtj1rb"

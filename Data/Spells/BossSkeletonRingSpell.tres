@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SpellData" load_steps=3 format=3]
+
+[ext_resource type="Script" uid="uid://bqwypd1uvt6ft" path="res://Scripts/Resources/Items/SpellData.gd" id="1_spell"]
+[ext_resource type="PackedScene" uid="uid://du1088esivdqm" path="res://Scenes/ProjectileScenes/EnemyShooterProjectile.tscn" id="2_proj"]
+
+[resource]
+script = ExtResource("1_spell")
+projectile_scene = ExtResource("2_proj")
+damage = 15.0
+cooldown = 0.0
+spread = 0.0
+metadata/_custom_type_script = "uid://bqwypd1uvt6ft"

@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://psk1gxpjdcsj"]
 
-[ext_resource type="Script" uid="uid://cpdiqwgu4xekk" path="res://Scripts/Entities/EntityMisc/EntityBase.gd" id="1_7ll3w"]
-[ext_resource type="Resource" uid="uid://wmb1ajd4hvfc" path="res://Scripts/Entities/EntityStats/Boss1Stats.tres" id="2_2l8j5"]
-[ext_resource type="PackedScene" uid="uid://tp2mxe65f0lq" path="res://Scenes/EntityCorpses/EntityCorpseBase.tscn" id="3_sk3a8"]
-[ext_resource type="PackedScene" uid="uid://b1u713r0een05" path="res://Scenes/UI/DamageNumber.tscn" id="4_ojtkd"]
-[ext_resource type="SpriteFrames" uid="uid://5uwujdm0yexg" path="res://Scripts/Resources/SpriteFrames/SlimeSpriteFrames.tres" id="5_7q2qc"]
-[ext_resource type="Script" uid="uid://da5ee26iwoxo3" path="res://Scripts/Entities/EntityAIs/JumperAI.gd" id="6_2l8j5"]
+[ext_resource type="Script" uid="uid://cpdiqwgu4xekk" path="res://Scripts/Entities/EntityMisc/EntityBase.gd" id="1_sabak"]
+[ext_resource type="Resource" uid="uid://wmb1ajd4hvfc" path="res://Scripts/Entities/EntityStats/Boss1Stats.tres" id="2_vbtcg"]
+[ext_resource type="PackedScene" uid="uid://tp2mxe65f0lq" path="res://Scenes/EntityCorpses/EntityCorpseBase.tscn" id="3_xqlde"]
+[ext_resource type="PackedScene" uid="uid://b1u713r0een05" path="res://Scenes/UI/DamageNumber.tscn" id="4_g17nt"]
+[ext_resource type="SpriteFrames" uid="uid://5uwujdm0yexg" path="res://Scripts/Resources/SpriteFrames/SlimeSpriteFrames.tres" id="5_pc3p5"]
+[ext_resource type="Script" uid="uid://c7idnto2ppyev" path="res://Scripts/Entities/EntityAIs/SlimeBossAI.gd" id="6_6433y"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s367j"]
 radius = 5.0990195
@@ -18,10 +18,10 @@ z_index = 2
 scale = Vector2(3, 3)
 collision_layer = 8
 collision_mask = 10
-script = ExtResource("1_7ll3w")
-base_stats = ExtResource("2_2l8j5")
-corpse_scene = ExtResource("3_sk3a8")
-damage_number_scene = ExtResource("4_ojtkd")
+script = ExtResource("1_sabak")
+base_stats = ExtResource("2_vbtcg")
+corpse_scene = ExtResource("3_xqlde")
+damage_number_scene = ExtResource("4_g17nt")
 
 [node name="Area2D" type="Area2D" parent="."]
 
@@ -34,17 +34,15 @@ shape = SubResource("CircleShape2D_0dqb0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -3)
-sprite_frames = ExtResource("5_7q2qc")
+sprite_frames = ExtResource("5_pc3p5")
 animation = &"moving"
 
 [node name="Brain" type="Node" parent="."]
-script = ExtResource("6_2l8j5")
-max_frequency_variation = 0.0
-jump_duration = 1.0
-jumps_between_super = 2
-telegraph_color = Color(1, 0.64705884, 0, 1)
-telegraph_duration = 0.75
-needs_line_of_sight = false
+script = ExtResource("6_6433y")
+rest_time = 1.0
+super_jump_speed_multiplier = 4.5
+summon_count = 3
+summon_cooldown = 8.0
 
 [node name="Control" type="Control" parent="."]
 visible = false
