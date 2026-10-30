@@ -41,6 +41,7 @@ offset = Vector2(-16, -32)
 
 [node name="Brain" type="Node" parent="."]
 script = ExtResource("6_ih45n")
+minion_health_multiplier = 0.4
 
 [node name="Control" type="Control" parent="."]
 visible = false

@@ -16,6 +16,13 @@ func GetDescription() -> String:
 func GetRichDescription() -> String:
 	return GetDescription()
 
+# small colored line under the card name (pact rarity). empty = hidden
+func GetSubtitle() -> String:
+	return ""
+
+func GetSubtitleColor() -> Color:
+	return Color.WHITE
+
 func GetTagIcons() -> Array[Texture2D]:
 	return []
 

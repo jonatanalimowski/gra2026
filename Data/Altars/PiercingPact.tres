@@ -1,13 +1,13 @@
-[gd_resource type="Resource" script_class="AltarPact" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="AltarPact" load_steps=4 format=3 uid="uid://b80myw4i4r6c7"]
 
 [ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_pact"]
-[ext_resource type="Resource" path="res://Data/Blessings/PiercingBlessing.tres" id="2_blessing"]
-[ext_resource type="Resource" path="res://Data/Curses/SluggishCastingCurse.tres" id="3_curse"]
+[ext_resource type="Resource" uid="uid://8b3ojmeo5iqp" path="res://Data/Blessings/PiercingBlessing.tres" id="2_blessing"]
+[ext_resource type="Resource" uid="uid://cp4s4g2botfu2" path="res://Data/Curses/BarrageCurse.tres" id="2_kfnkw"]
 
 [resource]
 script = ExtResource("1_pact")
 blessing = ExtResource("2_blessing")
-curse = ExtResource("3_curse")
+curse = ExtResource("2_kfnkw")
 is_stacking = true
 id = &"pact_piercing"
 display_name = "Piercing"

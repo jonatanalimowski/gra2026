@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="AltarPact" load_steps=4 format=3 uid="uid://ct75ojyk4ofci"]
 
 [ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_pact"]
-[ext_resource type="Resource" path="res://Data/Blessings/BloodthirstBlessing.tres" id="2_blessing"]
-[ext_resource type="Resource" path="res://Data/Curses/WitheredHeartCurse.tres" id="3_curse"]
+[ext_resource type="Resource" uid="uid://bc2tss3mcdtaq" path="res://Data/Blessings/BloodthirstBlessing.tres" id="2_blessing"]
+[ext_resource type="Resource" uid="uid://dakqfbe1men1r" path="res://Data/Curses/WitheredHeartCurse.tres" id="3_curse"]
 
 [resource]
 script = ExtResource("1_pact")

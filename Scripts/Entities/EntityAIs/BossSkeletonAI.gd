@@ -69,6 +69,11 @@ func _on_parent_ready() -> void:
 			for caster in [ring_caster, snipe_caster]:
 				if caster.stats.HasStat(modifier.stat):
 					caster.stats.AddModifier(modifier, half)
+	# floor scaling, the entity only scales its own spell
+	for modifier in RunState.GetFloorScalingModifiers():
+		for caster in [ring_caster, snipe_caster]:
+			if caster.stats.HasStat(modifier.stat):
+				caster.stats.AddModifier(modifier, RunState)
 
 func _process(delta: float) -> void:
 	if not ParentEntity or ParentEntity.is_dead or ParentEntity.IsStunned(): return
@@ -172,7 +177,7 @@ func SpawnExplosion() -> void:
 	if step_index > 0:
 		pos += Vector2.from_angle(randf() * TAU) * randf_range(explosion_radius, explosion_spread)
 	var explosion: Explosion = explosion_scene.instantiate()
-	explosion.Setup(explosion_damage, explosion_radius, ParentEntity)
+	explosion.Setup(explosion_damage * RunState.GetEnemyDamageScale(), explosion_radius, ParentEntity)
 	explosion.hits_enemies = false # would hurt the boss itself
 	explosion.telegraph_time = explosion_telegraph_time
 	explosion.global_position = pos

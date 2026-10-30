@@ -112,6 +112,26 @@ func Begin(new_loadout: Loadout, seed_value: int = 0) -> void:
 func GetPactOfferCount(base: int) -> int:
 	return base + MetaProgress.altar_offer_bonus
 
+# enemy (and boss) scaling per floor past the first, linear: floor 3 = +40% hp, +20% damage
+const ENEMY_HEALTH_PER_FLOOR: float = 0.2
+const ENEMY_DAMAGE_PER_FLOOR: float = 0.1
+
+func GetEnemyHealthScale() -> float:
+	return 1.0 + ENEMY_HEALTH_PER_FLOOR * (floor_number - 1)
+
+func GetEnemyDamageScale() -> float:
+	return 1.0 + ENEMY_DAMAGE_PER_FLOOR * (floor_number - 1)
+
+# max_health, contact damage and spell damage. new each call, source = RunState
+func GetFloorScalingModifiers() -> Array[StatModifier]:
+	var result: Array[StatModifier] = []
+	for entry in [[&"max_health", GetEnemyHealthScale()], [&"attack_damage", GetEnemyDamageScale()], [&"damage", GetEnemyDamageScale()]]:
+		var modifier := StatModifier.new()
+		modifier.stat = entry[0]
+		modifier.multiplier = entry[1]
+		result.append(modifier)
+	return result
+
 func GetFloorSeed() -> int:
 	return hash([run_seed, floor_number])
 

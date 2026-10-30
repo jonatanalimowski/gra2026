@@ -9,13 +9,13 @@
 
 [sub_resource type="Resource" id="Resource_exploding"]
 script = ExtResource("3_exploding")
-chance = 0.2
-damage_modifier = 8.0
+chance = 0.1
+damage_modifier = 4.0
 explosion_scene = ExtResource("4_scene")
 
 [resource]
 script = ExtResource("1_half")
 type = 1
 display_name = "Exploding Spells"
-description = "Your spells have a 15% chance to explode on contact for 2x spell damage. The blast hurts you too."
+description = "Your spells have a 15% chance to explode on contact for 4x spell damage. The blast hurts you too."
 effects = Array[ExtResource("2_effect")]([SubResource("Resource_exploding")])

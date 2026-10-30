@@ -1,17 +1,18 @@
 extends Node
 class_name SkeletonAI
 
-# walks around the player, charges when behind player
-# "behind" = on the opposite side of where the player is aiming (mouse)
+# stays close to the player (circles at close range), every few seconds winds up and dashes at them
 @onready var ParentEntity: Entity = get_parent()
-@export var orbit_radius: float = 70.0
-@export var orbit_radius_correction: float = 0.6 # how hard it pulls back to the orbit radius
-@export var orbit_switch_chance: float = 0.2 # chance per second to change circling direction
-@export var behind_angle: float = 110.0 # min angle between player's aim and the skeleton to count as behind
-@export var charge_range: float = 480.0
+@export var orbit_radius: float = 30.0 # how close it hangs around the player
+@export var orbit_radius_correction: float = 1.5 # how hard it pulls in to the orbit radius
+@export var orbit_switch_chance: float = 0.3 # chance per second to change circling direction
+# dash: only from this distance band, random time between dashes
+@export var charge_min_range: float = 50.0
+@export var charge_range: float = 150.0
 @export var charge_speed_multiplier: float = 4.0
-@export var charge_duration: float = 1.5
-@export var charge_cooldown: float = 1.5
+@export var charge_duration: float = 0.8
+@export var charge_cooldown_min: float = 2.0
+@export var charge_cooldown_max: float = 4.0
 @export var telegraph_color: Color = Color.AQUAMARINE
 @export var telegraph_duration: float = 0.4
 # if true the skeleton wanders randomly when it can't see the player
@@ -29,6 +30,7 @@ var unstoppable_mod: StatModifier
 
 func _ready() -> void:
 	orbit_direction = [-1.0, 1.0].pick_random()
+	cooldown = randf_range(charge_cooldown_min, charge_cooldown_max)
 	unstoppable_mod = StatModifier.new()
 	unstoppable_mod.stat = &"knockback_resistance"
 	unstoppable_mod.flat = 1.0
@@ -51,7 +53,7 @@ func _process(delta: float) -> void:
 			if state_timer <= 0:
 				state = State.CIRCLE
 				ParentEntity.stats.RemoveModifiersFrom(self)
-				cooldown = charge_cooldown
+				cooldown = randf_range(charge_cooldown_min, charge_cooldown_max)
 
 	UpdateFacing()
 
@@ -60,17 +62,18 @@ func HandleCircle(delta: float) -> void:
 		Wander(delta)
 		return
 
-	if cooldown <= 0 and IsBehindPlayer():
+	if cooldown <= 0 and InChargeRange():
 		StartWindup()
 		return
 
 	if randf() < orbit_switch_chance * delta:
 		orbit_direction *= -1
 
-	# tangent keeps it circling, radial part keeps it near orbit_radius
+	# radial part pulls it in to orbit_radius, tangent makes it circle once it's close
 	var to_player = ParentEntity.global_position.direction_to(NodeReferences.player.global_position)
 	var distance = ParentEntity.global_position.distance_to(NodeReferences.player.global_position)
-	var tangent = to_player.orthogonal() * orbit_direction
+	# fades out from 2x orbit_radius away, so it walks mostly straight in from far
+	var tangent = to_player.orthogonal() * orbit_direction * clampf(2.0 - distance / orbit_radius, 0.2, 1.0)
 	var radial = to_player * clampf((distance - orbit_radius) / orbit_radius, -1.0, 1.0) * orbit_radius_correction
 	ParentEntity.Move((tangent + radial).normalized())
 
@@ -98,12 +101,9 @@ func StartCharge() -> void:
 	ParentEntity.stats.AddModifier(unstoppable_mod, self)
 	ParentEntity.Jump(charge_direction, charge_duration, move_speed * charge_speed_multiplier)
 
-func IsBehindPlayer() -> bool:
-	var p = NodeReferences.player
-	var to_skeleton = p.global_position.direction_to(ParentEntity.global_position)
-	var aim = p.global_position.direction_to(p.get_global_mouse_position())
-	var in_range = p.global_position.distance_to(ParentEntity.global_position) <= charge_range
-	return in_range and absf(rad_to_deg(aim.angle_to(to_skeleton))) > behind_angle
+func InChargeRange() -> bool:
+	var distance = NodeReferences.player.global_position.distance_to(ParentEntity.global_position)
+	return distance >= charge_min_range and distance <= charge_range
 
 func CanFindPlayer() -> bool:
 	if not NodeReferences.player: return false

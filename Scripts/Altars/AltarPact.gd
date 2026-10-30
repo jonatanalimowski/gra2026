@@ -6,6 +6,7 @@ class_name AltarPact
 @export var blessing: Blessing
 @export var curse: Curse
 @export var is_stacking: bool = false
+@export var rarity: PactRarity.Rarity = PactRarity.Rarity.RARE
 
 #pool settings
 @export var weight: float = 1.0
@@ -20,6 +21,12 @@ const CURSE_COLOR = Color(1.0, 0.7, 0.7)
 func GetRichDescription() -> String:
 	return "[color=#%s]%s[/color]\n\n[color=#%s]CURSE: %s[/color]" % [
 		BUFF_COLOR.to_html(false), _Text(blessing), CURSE_COLOR.to_html(false), _Text(curse)]
+
+func GetSubtitle() -> String:
+	return PactRarity.GetName(rarity)
+
+func GetSubtitleColor() -> Color:
+	return PactRarity.GetColor(rarity)
 
 func GetTagIcons() -> Array[Texture2D]:
 	if blessing == null:

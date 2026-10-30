@@ -9,9 +9,9 @@
 [ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="8_pact"]
 [ext_resource type="Resource" uid="uid://cei6vo28k4a54" path="res://Data/Altars/ExplodingShotsPact.tres" id="9_p4"]
 [ext_resource type="Resource" uid="uid://djcbghjersiqt" path="res://Data/Altars/MultishotPact.tres" id="10_p5"]
-[ext_resource type="Resource" path="res://Data/Altars/ReboundPact.tres" id="11_p6"]
-[ext_resource type="Resource" path="res://Data/Altars/PiercingPact.tres" id="12_p7"]
-[ext_resource type="Resource" path="res://Data/Altars/KeenEyePact.tres" id="13_p8"]
+[ext_resource type="Resource" uid="uid://bxaiu0d66y33i" path="res://Data/Altars/ReboundPact.tres" id="11_p6"]
+[ext_resource type="Resource" uid="uid://b80myw4i4r6c7" path="res://Data/Altars/PiercingPact.tres" id="12_p7"]
+[ext_resource type="Resource" uid="uid://dhfr7v2oxndyg" path="res://Data/Altars/KeenEyePact.tres" id="13_p8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_room"]
 size = Vector2(286, 254)

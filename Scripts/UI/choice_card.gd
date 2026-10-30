@@ -2,6 +2,7 @@ extends Control
 class_name ChoiceCard
 
 @onready var name_label: Label = %Name
+@onready var subtitle_label: Label = %Subtitle
 @onready var description_label: RichTextLabel = %Description
 @onready var element_icon: TextureRect = %ElementIcon
 @onready var button: Button = %TakeButton
@@ -20,12 +21,14 @@ func _ready() -> void:
 
 	if content:
 		SetName(content.display_name)
+		SetSubtitle(content.GetSubtitle(), content.GetSubtitleColor())
 		SetDescription(content.GetRichDescription())
 		# pacts show their type icon, everything else its own icon
 		var tag_icons = content.GetTagIcons()
 		SetIcon(tag_icons[0] if not tag_icons.is_empty() else content.icon)
 	else:
 		SetName("Missing Name")
+		SetSubtitle("")
 		SetDescription("Missing description")
 		SetIcon(PlaceholderTexture2D.new())
 
@@ -40,6 +43,11 @@ func _on_stats_button_pressed():
 
 func SetName(text: String) -> void:
 	name_label.text = text
+
+func SetSubtitle(text: String, color: Color = Color.WHITE) -> void:
+	subtitle_label.text = text
+	subtitle_label.visible = text != ""
+	subtitle_label.add_theme_color_override("font_color", color)
 
 func SetDescription(text: String) -> void:
 	description_label.text = text

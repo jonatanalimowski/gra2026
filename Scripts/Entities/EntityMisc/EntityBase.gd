@@ -53,6 +53,9 @@ func _ready() -> void:
 		spell_caster = SpellCaster.new(spell, [])
 	if is_elite:
 		ApplyElite()
+	# deeper floors = tougher enemies
+	for modifier in RunState.GetFloorScalingModifiers():
+		AddEnemyModifier(modifier, RunState)
 	# pact/oath enemy modifiers (enemies +hp etc.), before Health so max_health includes them
 	for half in RunState.halves:
 		ApplyRunHalf(half)

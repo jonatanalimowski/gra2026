@@ -4,7 +4,7 @@ class_name AltarRoom
 # reward room at the end of a side branch. press Interact at the altar to see pacts
 # (buff + curse), take one or leave. the altar stays active until something is taken
 const CHOICE_OVERLAY = preload("res://Scenes/UI/ChoiceOverlay.tscn")
-const BASE_OFFER_COUNT = 2
+const BASE_OFFER_COUNT = 3
 
 @export var pact_pool: Array[AltarPact] = []
 @export var offer_count: int = BASE_OFFER_COUNT # before bonuses, see RunState.GetPactOfferCount
@@ -35,7 +35,9 @@ func GetOffers() -> Array[AltarPact]:
 		offers = RollOffers(pact_pool, RunState.GetPactOfferCount(offer_count), rng)
 	return offers
 
-# weighted pick without repeats, skipping pacts already taken (unless they stack) or too early for this floor.
+# per offer: roll a rarity (PactRarity.CHANCES), then a weighted pick of that rarity without repeats,
+# skipping pacts already taken (unless they stack) or too early for this floor.
+# no pact of the rolled rarity left = falls back to lower rarities, then higher.
 # static so DevTools can roll from the same pool rules
 static func RollOffers(pool: Array[AltarPact], count: int, rng: RandomNumberGenerator = RandomNumberGenerator.new()) -> Array[AltarPact]:
 	var valid: Array[AltarPact] = []
@@ -45,18 +47,30 @@ static func RollOffers(pool: Array[AltarPact], count: int, rng: RandomNumberGene
 
 	var result: Array[AltarPact] = []
 	while result.size() < count and not valid.is_empty():
-		var total = 0.0
-		for pact in valid:
-			total += pact.weight
-		var roll = rng.randf() * total
-		var picked = valid.size() - 1
-		for i in valid.size():
-			roll -= valid[i].weight
-			if roll <= 0.0:
-				picked = i
-				break
-		result.append(valid.pop_at(picked))
+		var candidates = _CandidatesFor(valid, PactRarity.Roll(rng))
+		var pact = _PickWeighted(candidates, rng)
+		valid.erase(pact)
+		result.append(pact)
 	return result
+
+static func _CandidatesFor(valid: Array[AltarPact], rolled: PactRarity.Rarity) -> Array[AltarPact]:
+	var order: Array = range(rolled, -1, -1) + range(rolled + 1, PactRarity.Rarity.size())
+	for rarity in order:
+		var candidates = valid.filter(func(p): return p.rarity == rarity)
+		if not candidates.is_empty():
+			return candidates
+	return valid
+
+static func _PickWeighted(candidates: Array, rng: RandomNumberGenerator) -> AltarPact:
+	var total = 0.0
+	for pact in candidates:
+		total += pact.weight
+	var roll = rng.randf() * total
+	for pact in candidates:
+		roll -= pact.weight
+		if roll <= 0.0:
+			return pact
+	return candidates.back()
 
 func _on_altar_body_entered(body: Node2D) -> void:
 	if body is Player:

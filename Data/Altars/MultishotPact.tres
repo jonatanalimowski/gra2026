@@ -2,13 +2,14 @@
 
 [ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_p6off"]
 [ext_resource type="Resource" uid="uid://ddk74mip2indk" path="res://Data/Blessings/MultiCast.tres" id="1_sq51k"]
-[ext_resource type="Resource" uid="uid://cp4s4g2botfu2" path="res://Data/Curses/BarrageCurse.tres" id="2_ibdmb"]
+[ext_resource type="Resource" uid="uid://cqblgtx5jhnax" path="res://Data/Curses/SluggishCastingCurse.tres" id="2_sq51k"]
 
 [resource]
 script = ExtResource("1_p6off")
 blessing = ExtResource("1_sq51k")
-curse = ExtResource("2_ibdmb")
+curse = ExtResource("2_sq51k")
 is_stacking = true
+rarity = 2
 weight = 1.15
 id = &"pact_multishot"
 display_name = "Multishot"

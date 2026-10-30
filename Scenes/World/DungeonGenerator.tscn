@@ -40,5 +40,6 @@ corridor_caps = Dictionary[String, PackedScene]({
 })
 starter_room = ExtResource("4_k8k4m")
 boss_rooms = Array[PackedScene]([ExtResource("17_0s438")])
-min_rooms = 3
-max_rooms = 5
+main_path_share = 0.5
+direct_connection_chance = 0.05
+max_attempts = 75

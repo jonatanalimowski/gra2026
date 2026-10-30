@@ -77,12 +77,6 @@ theme_override_constants/margin_right = 10
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HpLabel" type="Label" parent="DebugUi/MarginContainer/DebugList"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "HP"
-
 [node name="HUD" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -292,10 +286,16 @@ script = ExtResource("9_minimap")
 
 [node name="FloorLabel" type="Label" parent="HUD"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 6.0
-offset_top = 6.0
-offset_right = 66.0
-offset_bottom = 20.0
-mouse_filter = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.174
+anchor_right = 0.5
+anchor_bottom = 0.174
+offset_left = -30.0
+offset_right = 30.0
+offset_bottom = 14.0
+grow_horizontal = 2
 text = "Floor 1"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="AltarPact" load_steps=4 format=3 uid="uid://dh4p70lmjigmo"]
 
 [ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_pact"]
-[ext_resource type="Resource" path="res://Data/Blessings/VolatileDeadBlessing.tres" id="2_blessing"]
+[ext_resource type="Resource" uid="uid://3xltxr16fiu" path="res://Data/Blessings/VolatileDeadBlessing.tres" id="2_blessing"]
 [ext_resource type="Resource" path="res://Data/Curses/RecklessBlastCurse.tres" id="3_curse"]
 
 [resource]

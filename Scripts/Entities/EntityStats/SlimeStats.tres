@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_yncv2")
 max_health = 25.0
-movement_speed = 25.0
+movement_speed = 50.0
 acceleration = 4.0
 attack_damage = 25.0
 metadata/_custom_type_script = "uid://df20v0kdtj1rb"
