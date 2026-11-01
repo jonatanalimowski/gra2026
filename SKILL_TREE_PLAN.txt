@@ -1,0 +1,112 @@
+SKILL TREE PLAN (v0.13)
+Written 2026-11-01. Design decisions and reasoning: ROADMAP.md, "v0.13".
+Do the steps in order. Play a few runs after each one and check they still feel good.
+Amounts and costs below are starting values, tune them in playtests.
+
+
+STEP 1: SOUL SHARDS AND RUN SUMMARY
+Goal: every run ends on a screen showing what you earned.
+
+[ ] Add shard_drop to EntityStats.gd, next to mana_drop (default 1)
+[ ] Set shard_drop on bosses: JumperBoss and CasterBoss stats (start at 25)
+[ ] Add a shard_drop multiplier to DefaultElite.tres and ShooterElite.tres (start at x5)
+[ ] Add var is_summon: bool = false to Entity (EntityBase.gd)
+[ ] Set minion.is_summon = true before add_child in:
+      - SwarmerAI.Summon()
+      - JumperBossAI.Summon()
+[ ] RunState: add run_shards and run_kills, reset both in Begin()
+[ ] RunState._on_enemy_killed: run_kills += 1, and add the shard_drop stat to run_shards
+    unless enemy.is_summon
+[ ] GameFlow.RestartRun: call RunState.Finish(false) before StartRun, so Ctrl+R banks shards
+[ ] Check for any other way to leave a run (e.g. a quit to menu). It must also go through Finish()
+[ ] New scene Scenes/UI/RunSummary.tscn + run_summary.gd, styled with main_theme.tres:
+      floor reached, kills, pacts taken, curses broken, shards earned, "new best" if it is one
+      Continue button -> GameFlow.GoToLoadout()
+[ ] GameFlow: add GoToRunSummary(). EndRun calls it instead of GoToLoadout()
+
+Ctrl+R skips the summary, so restarting stays instant.
+Done when: dying shows correct numbers. Summons add nothing. Elites and bosses add more.
+
+
+STEP 2: SAVE DATA
+Goal: shards and best floor survive closing the game.
+
+[ ] MetaProgress: add shards, best_floor, unlocked_nodes (Array[StringName])
+[ ] Save() / Load(): write and read them with ConfigFile, with defaults for old saves
+[ ] MetaProgress.AddShards(amount)
+[ ] MetaProgress.SubmitFloor(floor_number): keeps the highest
+[ ] RunState.Finish(): call both, then set run_shards = 0 so nothing can bank twice
+[ ] MetaProgress.HasUnlock(id)
+[ ] Show the shard total on PreRunScreen
+[ ] Dev: F6 panel buttons "+100 shards" and "Reset meta progress"
+
+Closing the game mid-run loses that run's shards. That's fine for now.
+Done when: shards are still there after a restart of the game.
+
+
+STEP 3: TREE DATA AND LOGIC
+Goal: nodes can be bought and change the game, before there is a real screen.
+
+[ ] Scripts/Resources/SkillNode.gd (Resource):
+      id: StringName, display_name, description, icon, cost: int,
+      prerequisites: Array[SkillNode], position: Vector2, unlocks_pacts: Array[AltarPact]
+[ ] One .tres per node in Data/SkillTree/
+[ ] MetaProgress: IsAvailable(node) = not owned and all prerequisites owned
+[ ] MetaProgress: CanBuy(node) = IsAvailable and enough shards
+[ ] MetaProgress: BuyNode(node) = spend, add node.id, Save()
+[ ] First node: "+1 altar offer"
+      - RunState.GetPactOfferCount: base + 1 if HasUnlock(&"altar_extra_offer")
+      - Remove altar_offer_bonus and AddAltarOfferBonus from MetaProgress
+      - Check that ChoiceOverlay fits 3 cards
+[ ] Dev: F6 panel button "Buy test node" to try it without a UI
+
+Always save node.id, never a resource path.
+Done when: buying the node with the dev button makes altars offer 3 pacts, also after a restart.
+
+
+STEP 4: SKILL TREE SCREEN
+Goal: spend shards in a real screen.
+
+[ ] New scene Scenes/UI/SkillTree.tscn + skill_tree.gd, styled with main_theme.tres
+[ ] Export a list of all SkillNode resources. Place a button at each node.position
+[ ] Draw lines from each node to its prerequisites in _draw()
+[ ] Three looks: locked (dark), available (lit, shows cost), owned (bright)
+[ ] Name, description and cost shown on hover. Click = BuyNode, then refresh
+[ ] Shard total at the top. Back button
+[ ] GameFlow: add GoToSkillTree(). Add a Skill Tree button on PreRunScreen
+[ ] Add a sound on buying (ui/ group)
+
+Done when: die -> summary -> pre-run -> tree -> buy -> start a run, with no dev tools.
+
+
+STEP 5: FIRST NODES
+Add one at a time and play with each.
+
+[ ] +1 altar offer (from step 3): cost 30
+[ ] Wand reroll: reroll button on PreRunScreen, once per visit: cost 30
+[ ] Pact reroll: reroll button on ChoiceOverlay, once per altar, altar offers only
+    (not the UpgradeShrine): cost 60
+[ ] Sanctuary choice: RestRoom offers heal OR cleanse one curse, through
+    RunState.CleanseCurse. Binding curses can't be picked: cost 80
+[ ] 2-3 "new pacts" nodes, each adding 1-2 NEW pacts: cost 40-100
+      - Fill in unlocks_pacts on the node
+      - AltarRoom: drop pacts from pact_pool that need a node you don't own.
+        A pact no node lists is always available
+      - The F7 dev offer stays unfiltered
+      - Good first picks: OnEnemyKilled / OnRoomCleared pacts, and mana pacts
+
+Prerequisites: start with two short branches, "choices" (offer -> pact reroll) and "pacts".
+Wand reroll and Sanctuary choice can stand alone at the start.
+Done when: a new save takes several runs to fill the tree, and the first node is affordable
+after 1-2 runs. Adjust costs and drops until that's true.
+
+
+LATER, NOT PART OF THIS PLAN
+Hub screen, curse trials, Oaths, Descent, secret floors, keystones, a win condition.
+
+
+NOT DOING
+- Flat stat nodes (pillar 3)
+- Nodes that remove a curse before you take it (pillar 1)
+- Locking the 10 existing pacts behind the tree
+- Mana regen or carrying mana between floors (pillar 4)
