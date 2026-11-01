@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="EnemyPool" load_steps=11 format=3 uid="uid://dl3isvohrrb8a"]
+[gd_resource type="Resource" script_class="EnemyPool" load_steps=13 format=3 uid="uid://dl3isvohrrb8a"]
 
 [ext_resource type="Script" path="res://Scripts/Worldgen/EnemyPool.gd" id="1_pool"]
 [ext_resource type="Script" path="res://Scripts/Worldgen/EnemyPoolEntry.gd" id="2_entry"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ceweqec6x6pa" path="res://Scenes/Entities/FirstFloor/Jumper.tscn" id="4_gm4pt"]
 [ext_resource type="PackedScene" uid="uid://bnbyahanqarh0" path="res://Scenes/Entities/FirstFloor/Shooter.tscn" id="5_shooter"]
 [ext_resource type="PackedScene" uid="uid://cwyw4ifcv6efu" path="res://Scenes/Entities/FirstFloor/Swarmer.tscn" id="6_swarmer"]
+[ext_resource type="PackedScene" uid="uid://cdjchar40e01x" path="res://Scenes/Entities/FirstFloor/AreaCaster.tscn" id="7_area_caster"]
 
 [sub_resource type="Resource" id="entry_charger"]
 script = ExtResource("2_entry")
@@ -24,7 +25,12 @@ weight = 1.5
 script = ExtResource("2_entry")
 scene = ExtResource("6_swarmer")
 
+[sub_resource type="Resource" id="entry_area_caster"]
+script = ExtResource("2_entry")
+scene = ExtResource("7_area_caster")
+weight = 0.5
+
 [resource]
 script = ExtResource("1_pool")
 display_name = "Mixed"
-entries = Array[ExtResource("2_entry")]([SubResource("entry_charger"), SubResource("entry_shooter"), SubResource("entry_jumper"), SubResource("entry_swarmer")])
+entries = Array[ExtResource("2_entry")]([SubResource("entry_charger"), SubResource("entry_shooter"), SubResource("entry_jumper"), SubResource("entry_swarmer"), SubResource("entry_area_caster")])

@@ -185,6 +185,7 @@ collision_mask = 2
 script = ExtResource("1_kyqiw")
 base_stats = SubResource("Resource_5ixxa")
 fallback_wand = SubResource("Resource_w6gpn")
+hit_iframes = 0.3
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -1.1920929e-07)

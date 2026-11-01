@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://b1lytlrftv1ws"]
 
-[ext_resource type="Script" path="res://Scripts/Misc/ManaOrb.gd" id="1_orb"]
+[ext_resource type="Script" uid="uid://dhml113ffu55p" path="res://Scripts/Misc/ManaOrb.gd" id="1_orb"]
 
 [node name="ManaOrb" type="Node2D"]
 z_index = 5

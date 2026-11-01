@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://kt227wqvpj44"]
+[gd_scene load_steps=11 format=3 uid="uid://kt227wqvpj44"]
 
 [ext_resource type="Script" uid="uid://cpdiqwgu4xekk" path="res://Scripts/Entities/EntityMisc/EntityBase.gd" id="1_jdwhj"]
 [ext_resource type="Resource" uid="uid://bnit0rsgnscrr" path="res://Scripts/Entities/EntityStats/CasterBossStats.tres" id="2_psx7r"]
 [ext_resource type="PackedScene" uid="uid://tp2mxe65f0lq" path="res://Scenes/EntityCorpses/EntityCorpseBase.tscn" id="3_sxp6b"]
 [ext_resource type="PackedScene" uid="uid://b1u713r0een05" path="res://Scenes/UI/DamageNumber.tscn" id="4_vgsfc"]
 [ext_resource type="SpriteFrames" uid="uid://ck062m3m7744y" path="res://Scripts/Resources/SpriteFrames/SkeletonMageSpriteFrames.tres" id="5_h3inj"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="7_uk14n"]
 [ext_resource type="Script" uid="uid://co8mr5vcumjvj" path="res://Scripts/Entities/EntityAIs/CasterBossAI.gd" id="8_vyjvp"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s367j"]
@@ -12,6 +13,10 @@ radius = 9.2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0dqb0"]
 radius = 13.333333
+
+[sub_resource type="Resource" id="Resource_nkync"]
+script = ExtResource("7_uk14n")
+metadata/_custom_type_script = "uid://dagkcxgw77g4s"
 
 [node name="CasterBoss" type="CharacterBody2D"]
 z_index = 2
@@ -48,9 +53,12 @@ script = ExtResource("8_vyjvp")
 rest_time = 3.5
 ring_waves = 10
 ring_wave_interval = 0.5
+ring_wave_interval_enraged = 1.7
 snipe_shots = 5
+snipe_shots_enraged = 40
 snipe_interval = 0.35
 enraged_speed_multiplier = 0.7
+enrage_stat_modifiers = Array[ExtResource("7_uk14n")]([SubResource("Resource_nkync")])
 
 [node name="Control" type="Control" parent="."]
 visible = false

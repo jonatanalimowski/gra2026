@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EnemyPool" load_steps=6 format=3 uid="uid://cyp178r7ik0q3"]
+
+[ext_resource type="Script" path="res://Scripts/Worldgen/EnemyPoolEntry.gd" id="1_d54qp"]
+[ext_resource type="Script" path="res://Scripts/Worldgen/EnemyPool.gd" id="2_6xvrt"]
+[ext_resource type="PackedScene" uid="uid://bli2attvtjcur" path="res://Scenes/Entities/FirstFloor/Charger.tscn" id="2_vcll1"]
+
+[sub_resource type="Resource" id="Resource_r05yf"]
+script = ExtResource("1_d54qp")
+scene = ExtResource("2_vcll1")
+weight = 4.0
+metadata/_custom_type_script = "uid://dlv0bwepbxqbf"
+
+[sub_resource type="Resource" id="Resource_vcvyf"]
+script = ExtResource("1_d54qp")
+metadata/_custom_type_script = "uid://dlv0bwepbxqbf"
+
+[resource]
+script = ExtResource("2_6xvrt")
+display_name = "Chargers + Area Casters"
+entries = Array[ExtResource("1_d54qp")]([SubResource("Resource_r05yf"), SubResource("Resource_vcvyf")])

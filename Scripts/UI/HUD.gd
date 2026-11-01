@@ -14,6 +14,8 @@ const GRAY: Color = Color(0.3, 0.3, 0.3, 1.0)
 @onready var stats_column: VBoxContainer = %StatsColumn
 @onready var floor_label: Label = %FloorLabel
 var pact_list: VBoxContainer
+var status_list: VBoxContainer
+var status_rows: Dictionary = {} # ActiveStatusEffect -> its time label
 var tab_hint: Label
 var hp_label: Label
 var mana_label: Label
@@ -40,6 +42,8 @@ func _ready() -> void:
 	stats_column.add_child(pact_list)
 	UpdatePacts()
 	SetStatsVisible(false)
+	status_list = VBoxContainer.new()
+	mana_bar.get_parent().add_child(status_list)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("Tab"):
@@ -64,6 +68,8 @@ func ConnectSignals() -> void:
 func _on_player_ready(new_player: Player):
 	player = new_player
 	BuildStatList(player_stats, player.stats)
+	player.status_holder.status_added.connect(_on_status_added)
+	player.status_holder.status_removed.connect(_on_status_removed)
 
 	var wand = player.wand
 	primary_spell_slot.texture = wand.data.icon
@@ -73,6 +79,27 @@ func _on_player_ready(new_player: Player):
 	heavy_spell_slot.texture = wand.data.icon
 	BuildStatList(heavy_spell_stats, wand.heavy.stats if wand.heavy else null)
 	UpdateHeavySlot()
+
+# one row per status under the bars: icon (if it has one) + name + time left
+func _on_status_added(status: ActiveStatusEffect) -> void:
+	var row = HBoxContainer.new()
+	if status.effect.icon:
+		var icon = TextureRect.new()
+		icon.texture = status.effect.icon
+		row.add_child(icon)
+	var label = Label.new()
+	label.modulate = status.effect.color
+	row.add_child(label)
+	status_list.add_child(row)
+	status_rows[status] = label
+
+func _on_status_removed(status: ActiveStatusEffect) -> void:
+	status_rows[status].get_parent().queue_free()
+	status_rows.erase(status)
+
+func _process(_delta: float) -> void:
+	for status in status_rows:
+		status_rows[status].text = "%s %.1fs" % [status.effect.name, maxf(status.time_left, 0.0)]
 
 # grayed out while the wand has no heavy spell or the player can't pay for it
 func UpdateHeavySlot() -> void:

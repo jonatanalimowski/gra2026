@@ -38,6 +38,7 @@ var is_elite: bool = false
 var spell_caster: SpellCaster
 var stats: StatBlock
 var health: Health
+var status_holder: StatusEffectHolder
 var is_boss = false
 var is_dead: bool = false
 var contact_damage_cooldown: float = 0.0
@@ -51,12 +52,14 @@ var telegraph_mark: TelegraphMark
 
 func _ready() -> void:
 	stats = StatBlock.FromResource(base_stats)
+	status_holder = StatusEffectHolder.new()
+	add_child(status_holder)
 	if spell:
 		spell_caster = SpellCaster.new(spell, [])
 	if is_elite:
 		ApplyElite()
 	# deeper floors = tougher enemies
-	for modifier in RunState.GetFloorScalingModifiers():
+	for modifier in RunState.floor_modifier.GetEnemyModifiers(RunState.floor_number):
 		AddEnemyModifier(modifier, RunState)
 	# pact/oath enemy modifiers (enemies +hp etc.), before Health so max_health includes them
 	for half in RunState.halves:
@@ -140,7 +143,8 @@ func TakeDamage(info: DamageInfo) -> void:
 	last_hit = info
 	health.Damage(info.amount)
 
-	if not is_dead:
+	# status ticks don't flinch, sprite.play would restart the animation on every tick
+	if not is_dead and not info.is_periodic:
 		GlobalMethods.FlashSprite(sprite)
 		sprite.play("idle")
 		ApplyKnockback(info.knockback)
@@ -150,6 +154,10 @@ func TakeDamage(info: DamageInfo) -> void:
 		var dmg_num = damage_number_scene.instantiate()
 		get_tree().current_scene.add_child(dmg_num)
 		dmg_num.display(info.amount, global_position, info.is_critical)
+
+func ApplyStatus(effect: StatusEffect, source: Node2D, strength: float = 1.0, duration_multiplier: float = 1.0) -> void:
+	if not is_dead:
+		status_holder.Apply(effect, source, strength, duration_multiplier)
 
 # resistance 1 or more = unstoppable (bosses, charger dash), no push and no hitstun
 func ApplyKnockback(knockback: Vector2) -> void:

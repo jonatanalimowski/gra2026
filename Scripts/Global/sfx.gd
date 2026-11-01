@@ -17,7 +17,7 @@ func _ready() -> void:
 	# ui sounds have to play in paused menus
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	Signals.enemy_killed.connect(_on_enemy_killed)
-	Signals.player_damaged.connect(func(_info): Play(&"player/hurt", -12))
+	Signals.player_damaged.connect(func(info): if not info.is_periodic: Play(&"player/hurt", -12))
 	Signals.player_died.connect(func(): Play(&"player/death", -12))
 	Signals.room_cleared.connect(func(): Play(&"world/room_clear", -10))
 	RunState.pact_added.connect(func(_pact): Play(&"altar/pact_take", -6))

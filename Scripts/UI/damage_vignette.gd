@@ -9,7 +9,9 @@ func _ready() -> void:
 	modulate.a = 0.0
 	Signals.player_damaged.connect(_on_player_damaged)
 
-func _on_player_damaged(_info: DamageInfo) -> void:
+func _on_player_damaged(info: DamageInfo) -> void:
+	if info.is_periodic:
+		return
 	# a new hit restarts the fade instead of fighting the old one
 	if fade_tween:
 		fade_tween.kill()

@@ -7,6 +7,8 @@ class_name PlayerStats
 @export var movement_speed: float = 1000.0
 @export var acceleration: float = 1000.0
 @export var friction: float = 1300
+@export var mana_gain: float = 1.0 # multiplier on mana picked up from orbs
+@export var orb_heal_chance: float = 0.0 # per mana orb, 0.2 = 20% of orbs also heal
 
-const STAT_IGNORE_IN_DISPLAY = ["friction", "acceleration", "max_health", "max_mana"]
+const STAT_IGNORE_IN_DISPLAY = ["friction", "acceleration", "max_health", "max_mana", "mana_gain", "orb_heal_chance"]
 const STAT_DETAILED = []

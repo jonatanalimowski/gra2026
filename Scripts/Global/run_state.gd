@@ -6,6 +6,8 @@ extends Node
 
 var loadout: Loadout
 var floor_number: int = 1
+# per-floor rules (enemy scaling, elite chance, tint), all functions of floor_number
+var floor_modifier: FloorModifier = preload("res://Data/Floors/DefaultFloorModifier.tres")
 var is_run_active: bool = false
 # every floor layout comes from this. kept on Ctrl+R, so a restart replays the same floors
 var run_seed: int = randi()
@@ -59,6 +61,9 @@ func AddPact(pact: AltarPact) -> void:
 func GetStackCount(pact: AltarPact) -> int:
 	return pacts.count(pact)
 
+func CanTakePact(pact: AltarPact) -> bool:
+	return GetStackCount(pact) < pact.GetMaxStacks()
+
 # the half resource is the modifier source. a stacking half is added once per stack and every
 # half_added applies it again, so modifiers add up
 func AddHalf(half: PactHalf, can_stack: bool = false) -> void:
@@ -111,26 +116,6 @@ func Begin(new_loadout: Loadout, seed_value: int = 0) -> void:
 # base comes from the altar, bonuses from wherever they live (meta now, run blessings later)
 func GetPactOfferCount(base: int) -> int:
 	return base + MetaProgress.altar_offer_bonus
-
-# enemy (and boss) scaling per floor past the first, linear: floor 3 = +40% hp, +20% damage
-const ENEMY_HEALTH_PER_FLOOR: float = 0.2
-const ENEMY_DAMAGE_PER_FLOOR: float = 0.1
-
-func GetEnemyHealthScale() -> float:
-	return 1.0 + ENEMY_HEALTH_PER_FLOOR * (floor_number - 1)
-
-func GetEnemyDamageScale() -> float:
-	return 1.0 + ENEMY_DAMAGE_PER_FLOOR * (floor_number - 1)
-
-# max_health, contact damage and spell damage. new each call, source = RunState
-func GetFloorScalingModifiers() -> Array[StatModifier]:
-	var result: Array[StatModifier] = []
-	for entry in [[&"max_health", GetEnemyHealthScale()], [&"attack_damage", GetEnemyDamageScale()], [&"damage", GetEnemyDamageScale()]]:
-		var modifier := StatModifier.new()
-		modifier.stat = entry[0]
-		modifier.multiplier = entry[1]
-		result.append(modifier)
-	return result
 
 func GetFloorSeed() -> int:
 	return hash([run_seed, floor_number])

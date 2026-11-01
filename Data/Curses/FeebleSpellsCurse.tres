@@ -7,10 +7,10 @@
 
 [sub_resource type="Resource" id="Resource_halfdmg"]
 script = ExtResource("2_mod")
-multiplier = 0.5
+multiplier = 0.7
 
 [resource]
 script = ExtResource("1_half")
 display_name = "Feeble Spells"
-description = "-50% spell damage."
+description = "-30% spell damage."
 spell_modifiers = Array[ExtResource("2_mod")]([SubResource("Resource_halfdmg")])

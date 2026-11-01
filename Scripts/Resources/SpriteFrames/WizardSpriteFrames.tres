@@ -1,0 +1,135 @@
+[gd_resource type="SpriteFrames" load_steps=20 format=3 uid="uid://bq2tfnt34u4c1"]
+
+[ext_resource type="Texture2D" uid="uid://cnjvvq06lwnom" path="res://assets/packs/tilesets/Anokolisa_PixelCrawler/Pixel Crawler - Free Pack 2.11/Pixel Crawler - Free Pack/Entities/Npc's/Wizzard/Death/Death-Sheet.png" id="1_o0emw"]
+[ext_resource type="Texture2D" uid="uid://200kfnssvvb1" path="res://assets/packs/tilesets/Anokolisa_PixelCrawler/Pixel Crawler - Free Pack 2.11/Pixel Crawler - Free Pack/Entities/Npc's/Wizzard/Idle/Idle-Sheet.png" id="2_svck2"]
+[ext_resource type="Texture2D" uid="uid://bohh7as3p8bpt" path="res://assets/packs/tilesets/Anokolisa_PixelCrawler/Pixel Crawler - Free Pack 2.11/Pixel Crawler - Free Pack/Entities/Npc's/Wizzard/Run/Run-Sheet.png" id="3_ng850"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kiisr"]
+atlas = ExtResource("1_o0emw")
+region = Rect2(0, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dtk4i"]
+atlas = ExtResource("1_o0emw")
+region = Rect2(64, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bdncl"]
+atlas = ExtResource("1_o0emw")
+region = Rect2(128, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kqbbq"]
+atlas = ExtResource("1_o0emw")
+region = Rect2(192, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggcm8"]
+atlas = ExtResource("1_o0emw")
+region = Rect2(256, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f2ly2"]
+atlas = ExtResource("1_o0emw")
+region = Rect2(320, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ue100"]
+atlas = ExtResource("2_svck2")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4pkqi"]
+atlas = ExtResource("2_svck2")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_utce0"]
+atlas = ExtResource("2_svck2")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c04vb"]
+atlas = ExtResource("2_svck2")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n5sum"]
+atlas = ExtResource("3_ng850")
+region = Rect2(17, 30, 32, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hgqc3"]
+atlas = ExtResource("3_ng850")
+region = Rect2(81, 30, 32, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_osqw0"]
+atlas = ExtResource("3_ng850")
+region = Rect2(145, 30, 32, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uyrea"]
+atlas = ExtResource("3_ng850")
+region = Rect2(209, 30, 32, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v8xef"]
+atlas = ExtResource("3_ng850")
+region = Rect2(273, 30, 32, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lmicx"]
+atlas = ExtResource("3_ng850")
+region = Rect2(337, 30, 32, 34)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kiisr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dtk4i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bdncl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kqbbq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggcm8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f2ly2")
+}],
+"loop": false,
+"name": &"die",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ue100")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4pkqi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_utce0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c04vb")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n5sum")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hgqc3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_osqw0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uyrea")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v8xef")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lmicx")
+}],
+"loop": true,
+"name": &"moving",
+"speed": 6.0
+}]

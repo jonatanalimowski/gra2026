@@ -6,11 +6,15 @@ class_name AltarPact
 @export var blessing: Blessing
 @export var curse: Curse
 @export var is_stacking: bool = false
+@export var max_stacks: int = 3 # most times a stacking pact can be taken in a run
 @export var rarity: PactRarity.Rarity = PactRarity.Rarity.RARE
 
 #pool settings
 @export var weight: float = 1.0
 @export var min_floor: int = 1
+
+func GetMaxStacks() -> int:
+	return max_stacks if is_stacking else 1
 
 func GetDescription() -> String:
 	return "%s\n\nCURSE: %s" % [_Text(blessing), _Text(curse)]

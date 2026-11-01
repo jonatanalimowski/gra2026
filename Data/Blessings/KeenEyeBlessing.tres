@@ -8,11 +8,11 @@
 [sub_resource type="Resource" id="Resource_mod"]
 script = ExtResource("2_mod")
 stat = &"crit_chance"
-flat = 0.1
+flat = 0.25
 
 [resource]
 script = ExtResource("1_half")
 type = 1
 display_name = "Keen Eye"
-description = "+10% critical hit chance."
+description = "+25% critical hit chance."
 spell_modifiers = Array[ExtResource("2_mod")]([SubResource("Resource_mod")])

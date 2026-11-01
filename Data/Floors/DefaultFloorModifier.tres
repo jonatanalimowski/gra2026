@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="FloorModifier" load_steps=2 format=3 uid="uid://bwdm7gdi5wyce"]
+
+[ext_resource type="Script" path="res://Scripts/Worldgen/FloorModifier.gd" id="1_floor"]
+
+[resource]
+script = ExtResource("1_floor")
+damage_per_floor = 0.2
+elite_chance_per_floor = 0.02
+tints = Array[Color]([Color(0.901963, 0.885005, 0.81957173, 1), Color(0.627451, 0.627451, 0.627451, 1), Color(0.878955, 0.7992256, 0.8637756, 1)])

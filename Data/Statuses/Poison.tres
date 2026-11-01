@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="StatusEffect" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Combat/StatusEffects/StatusEffect.gd" id="1_status"]
+
+[resource]
+script = ExtResource("1_status")
+duration = 3.0
+interval = 0.5
+damage = 2.0
+element = &"poison"
+name = "Poison"
+color = Color(0.45, 0.9, 0.3, 1)

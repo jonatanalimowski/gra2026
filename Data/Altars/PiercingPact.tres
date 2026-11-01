@@ -9,5 +9,6 @@ script = ExtResource("1_pact")
 blessing = ExtResource("2_blessing")
 curse = ExtResource("2_kfnkw")
 is_stacking = true
+weight = 0.7
 id = &"pact_piercing"
 display_name = "Piercing"

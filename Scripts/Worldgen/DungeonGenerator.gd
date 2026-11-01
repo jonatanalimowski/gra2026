@@ -365,6 +365,7 @@ func Build() -> void:
 		instance.z_index = -1
 		add_child(instance)
 		VaryFloor(instance, hash([rng.seed, piece.position]))
+		TintTiles(instance)
 
 		if instance is EnemyRoom and not instance is BossRoom:
 			instance.cleared.connect(_on_room_cleared)
@@ -379,6 +380,13 @@ func AddCap(piece: LayoutPiece, connector: String) -> void:
 	cap.position = piece.GetConnectorPosition(connector) - GetShape(cap_scene).connectors[OPPOSITE[connector]]
 	cap.z_index = 1
 	add_child(cap)
+	TintTiles(cap)
+
+# only the tile layers: enemies are children of this node and rooms hold sprites, those keep their colors
+func TintTiles(piece: Node) -> void:
+	var tint := RunState.floor_modifier.GetTint(RunState.floor_number)
+	for layer: TileMapLayer in piece.find_children("*", "TileMapLayer", true, false):
+		layer.modulate = tint
 
 # own rng per room so it never shifts the layout rng (same seed = same floor)
 func VaryFloor(room: Node, room_seed: int) -> void:

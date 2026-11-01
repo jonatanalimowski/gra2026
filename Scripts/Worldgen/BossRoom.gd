@@ -19,7 +19,9 @@ func SpawnEnemies() -> void:
 	get_tree().create_timer(time_before_boss).timeout.connect(SpawnBoss)
 
 func SpawnBoss():
-	var boss = possible_bosses.pick_random().instantiate() as Entity
+	# temporary code to make bosses a fixed order
+	var boss = possible_bosses.get((RunState.floor_number - 1)%possible_bosses.size()).instantiate() as Entity
+	#var boss = possible_bosses.pick_random().instantiate() as Entity
 	boss.died.connect(_on_enemy_died)
 	boss.died.connect(_on_boss_died)
 	get_parent().add_child(boss)

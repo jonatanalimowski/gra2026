@@ -39,7 +39,9 @@ window/stretch/scale_mode="integer"
 [file_customization]
 
 folder_colors={
-"res://Scripts/": "red"
+"res://Data/": "blue",
+"res://Scripts/": "red",
+"res://assets/": "green"
 }
 
 [gui]

@@ -37,7 +37,7 @@ Status: ✅ in the game · 🛠 partly there · 💭 planned (see `ROADMAP.md`).
 | Term | Meaning | Code |
 |---|---|---|
 | **Run** ✅ | One attempt, from leaving the Pre-Run screen until death or the end. | `RunState` |
-| **Floor** ✅ | One generated dungeon level, ending in a boss room. Endless for now; each floor has a few more rooms. | `RunState.floor_number`, `DungeonGenerator` |
+| **Floor** ✅ | One generated dungeon level, ending in a boss room. Endless for now; each floor has a few more rooms, tougher enemies and its own slight tint. | `RunState.floor_number`, `DungeonGenerator`, `FloorModifier` (`Data/Floors/`) |
 | **Seed** ✅ | The number every floor layout comes from. Ctrl+R keeps it (same floors) or rolls a new one. | `RunState.run_seed`, `GetFloorSeed()` |
 | **Room types** ✅ | **Combat** (doors lock, enemies), **Rest / Sanctuary** (heal shrine), **Shrine** (altar), **Treasure** (💭 no scene yet), **Boss**. | `RoomData.room_type` |
 | **Altar** ✅ | The interactable in a Shrine room (one guaranteed per floor) that offers pacts (pick 1 of N, or leave). N = 2 + meta bonuses. | `AltarRoom` |
@@ -66,7 +66,7 @@ Status: ✅ in the game · 🛠 partly there · 💭 planned (see `ROADMAP.md`).
 | **Equipment** 🛠 | Armor, rings, amulets: base stat changes and passive effects. | `EquipmentData` |
 | **Dodge** ✅ | While dashing you're invulnerable and projectiles fly through you. | `Player.IsDodging()` |
 | **Knockback / hitstun** ✅ | Hits push enemies and briefly stop their AI, with an immunity window after. | `EntityBase.ApplyKnockback`, `IsStunned()` |
-| **Elite** ✅ | A bigger, tinted version of a normal enemy (~8% of spawns) with more HP, damage and speed. | `EliteData` (`Data/Elites/`), `Entity.is_elite`, `EnemyRoom.elite_chance` |
+| **Elite** ✅ | A bigger, tinted version of a normal enemy (~8% of spawns) with more HP, damage and speed. | `EliteData` (`Data/Elites/`), `Entity.is_elite`, `EnemyRoom.elite_chance`, `FloorModifier.GetEliteChance` |
 | **Affix** 💭 | A random extra trait on an elite (shielded, explodes on death, split). | – |
 
 ---

@@ -8,7 +8,7 @@ signal cleared(room: EnemyRoom)
 @onready var enemy_spawn_markers: Array = $SpawnMarkers.get_children()
 # the room rolls one of these when entered, then every spawn marker picks from it
 @export var enemy_pools: Array[EnemyPool]
-# chance per spawned enemy to be elite (see Entity.ApplyElite)
+# chance per spawned enemy to be elite (see Entity.ApplyElite), before the floor's FloorModifier
 @export_range(0.0, 1.0) var elite_chance: float = 0.08
 # how long the spawn markers show before the enemies appear
 @export var spawn_telegraph_time: float = 0.8
@@ -58,6 +58,7 @@ func SpawnEnemies() -> void:
 	rng.seed = hash([RunState.GetFloorSeed(), "enemies", global_position])
 	var pool := PickPool(rng)
 	var spawns: Array[Dictionary] = []
+	var floor_elite_chance := RunState.floor_modifier.GetEliteChance(RunState.floor_number, elite_chance)
 
 	for spawnpoint in enemy_spawn_markers:
 		var scene := pool.PickEnemy(rng) if pool else null
@@ -71,7 +72,7 @@ func SpawnEnemies() -> void:
 			"scene": scene,
 			"position": spawnpoint.global_position,
 			# always roll, so the dev cheat doesn't shift the seeded picks after it
-			"is_elite": rng.randf() < elite_chance or DevTools.more_elites,
+			"is_elite": rng.randf() < floor_elite_chance or DevTools.more_elites,
 			"telegraph": telegraph,
 		})
 

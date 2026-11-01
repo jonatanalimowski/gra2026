@@ -5,9 +5,12 @@ class_name Player
 @export var base_stats: PlayerStats
 # used when Main.tscn is started straight from the editor, without picking a wand first
 @export var fallback_wand: WandData
+# seconds of immunity after taking a hit, so bullets landing together count once
+@export var hit_iframes: float = 0.05
 
 var stats: StatBlock
 var health: Health
+var status_holder: StatusEffectHolder
 var mana: float = 100 # starts empty every floor, refilled by ManaOrbs
 var wand: Wand
 var mobility: MobilityAbility
@@ -19,12 +22,15 @@ var dash_velocity: Vector2 = Vector2.ZERO
 var input: Vector2
 enum player_state {MOVING, DASHING}
 var current_state: player_state = player_state.MOVING
-var is_invulnerable: bool = false
+var is_invulnerable: bool = false # dash
+var hit_iframes_left: float = 0.0
 var is_dead: bool = false
 
 func _ready() -> void:
 	add_to_group("player")
 	stats = StatBlock.FromResource(base_stats)
+	status_holder = StatusEffectHolder.new()
+	add_child(status_holder)
 	ApplyLoadout(RunState.loadout)
 
 	health = Health.new(stats.GetStat(&"max_health"))
@@ -101,11 +107,22 @@ func _exit_tree() -> void:
 func TakeDamage(info: DamageInfo) -> void:
 	if is_invulnerable or is_dead or DevTools.invincible:
 		return
+	# status ticks ignore hit i-frames and don't start them, poison shouldn't shield the player
+	if not info.is_periodic:
+		if hit_iframes_left > 0.0:
+			return
+		hit_iframes_left = hit_iframes
 
 	health.Damage(info.amount)
 	Signals.player_damaged.emit(info)
-	if not is_dead:
+	if not is_dead and not info.is_periodic:
 		GlobalMethods.FlashSprite(sprite)
+
+# dashing through a status area is a real dodge
+func ApplyStatus(effect: StatusEffect, source: Node2D, strength: float = 1.0, duration_multiplier: float = 1.0) -> void:
+	if is_invulnerable or is_dead or DevTools.invincible:
+		return
+	status_holder.Apply(effect, source, strength, duration_multiplier)
 
 func Die() -> void:
 	if is_dead:
@@ -131,6 +148,7 @@ func _process(delta: float) -> void:
 		CastSpell(true)
 
 func _physics_process(delta: float) -> void:
+	hit_iframes_left -= delta
 	match current_state:
 		player_state.MOVING:
 			HandleMoveState(delta)
@@ -202,7 +220,7 @@ func HandleMoveState(delta: float) -> void:
 
 # projectiles pass through instead of hitting, see BaseProjectile.HandleCollision
 func IsDodging() -> bool:
-	return is_invulnerable
+	return is_invulnerable or hit_iframes_left > 0.0
 
 func MakeInvulnerable(seconds: float) -> void:
 	is_invulnerable = true

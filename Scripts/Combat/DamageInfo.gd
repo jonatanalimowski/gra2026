@@ -8,6 +8,7 @@ var source: Node2D # who caused the damage (the player for player spells, the en
 var is_critical: bool = false
 var knockback: Vector2 = Vector2.ZERO # direction * force, zero = no push
 var element: StringName = &""
+var is_periodic: bool = false # status tick (poison): still real damage, but no hit flash / sound / vignette
 
 func _init(damage_amount: float, damage_source: Node2D = null) -> void:
 	amount = damage_amount

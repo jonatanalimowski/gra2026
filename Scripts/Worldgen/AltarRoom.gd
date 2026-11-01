@@ -33,16 +33,17 @@ func GetOffers() -> Array[AltarPact]:
 		var rng = RandomNumberGenerator.new()
 		rng.seed = hash([RunState.GetFloorSeed(), "altar", global_position])
 		offers = RollOffers(pact_pool, RunState.GetPactOfferCount(offer_count), rng)
-	return offers
+	# offers stay rolled, another altar may have used up a pact since
+	return offers.filter(RunState.CanTakePact)
 
 # per offer: roll a rarity (PactRarity.CHANCES), then a weighted pick of that rarity without repeats,
-# skipping pacts already taken (unless they stack) or too early for this floor.
+# skipping pacts at their stack limit (non-stacking = taken once) or too early for this floor.
 # no pact of the rolled rarity left = falls back to lower rarities, then higher.
 # static so DevTools can roll from the same pool rules
 static func RollOffers(pool: Array[AltarPact], count: int, rng: RandomNumberGenerator = RandomNumberGenerator.new()) -> Array[AltarPact]:
 	var valid: Array[AltarPact] = []
 	for pact in pool:
-		if pact and (pact.is_stacking or pact not in RunState.pacts) and pact.min_floor <= RunState.floor_number:
+		if pact and RunState.CanTakePact(pact) and pact.min_floor <= RunState.floor_number:
 			valid.append(pact)
 
 	var result: Array[AltarPact] = []
@@ -91,7 +92,7 @@ func OpenOverlay() -> void:
 	var overlay = CHOICE_OVERLAY.instantiate()
 	add_child(overlay)
 	overlay.chosen.connect(_on_overlay_chosen)
-	overlay.Open("Altar of Pacts", offers, true)
+	overlay.Open("Altar of Pacts", GetOffers(), true)
 
 func _on_overlay_chosen(pact: ItemData) -> void:
 	if pact == null:

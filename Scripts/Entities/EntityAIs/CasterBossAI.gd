@@ -15,19 +15,24 @@ class_name CasterBossAI
 @export_group("Ring")
 @export var ring_spell: SpellData = preload("res://Data/Spells/CasterBossRingSpell.tres")
 @export var ring_projectiles: int = 16 # per wave
+@export var ring_projectiles_enraged: int = 48
 @export var ring_waves: int = 3
+@export var ring_waves_enraged: int = 3
 @export var ring_wave_interval: float = 0.35
+@export var ring_wave_interval_enraged: float = 2.0
 @export var ring_telegraph_color: Color = Color.MEDIUM_PURPLE
 @export_group("Snipe")
 @export var snipe_spell: SpellData = preload("res://Data/Spells/CasterBossSnipeSpell.tres")
 @export var snipe_shots: int = 3
+@export var snipe_shots_enraged: int = 15
 @export var snipe_interval: float = 0.3
+@export var snipe_interval_enraged: float = 0.05
 @export var snipe_telegraph_color: Color = Color.ORANGE_RED
 @export_group("Bombs")
 @export var explosion_scene: PackedScene = preload("res://Scenes/Combat/Explosion.tscn")
 @export var explosion_count: int = 5 # the first one lands right on the player
 @export var explosion_interval: float = 0.15
-@export var explosion_spread: float = 70.0 # max distance from the player
+@export var explosion_spread: float = 60.0 # max distance from the player
 @export var explosion_damage: float = 20.0
 @export var explosion_radius: float = 28.0
 @export var explosion_telegraph_time: float = 0.8
@@ -39,6 +44,8 @@ class_name CasterBossAI
 @export var enraged_speed_multiplier: float = 0.6 # on rest, telegraph and step intervals
 @export var enraged_extra_steps: int = 1 # +1 ring wave / snipe shot / explosion... per attack
 @export var enrage_color: Color = Color(1, 0.3, 0.3)
+@export var enrage_effects: Array[Effect] = []
+@export var enrage_stat_modifiers: Array[StatModifier] = []
 
 enum State { REPOSITION, TELEGRAPH, ATTACK }
 enum Attack { RING, SNIPE, BOMBS }
@@ -70,7 +77,7 @@ func _on_parent_ready() -> void:
 				if caster.stats.HasStat(modifier.stat):
 					caster.stats.AddModifier(modifier, half)
 	# floor scaling, the entity only scales its own spell
-	for modifier in RunState.GetFloorScalingModifiers():
+	for modifier in RunState.floor_modifier.GetEnemyModifiers(RunState.floor_number):
 		for caster in [ring_caster, snipe_caster]:
 			if caster.stats.HasStat(modifier.stat):
 				caster.stats.AddModifier(modifier, RunState)
@@ -178,7 +185,7 @@ func SpawnExplosion() -> void:
 	if step_index > 0:
 		pos += Vector2.from_angle(randf() * TAU) * randf_range(explosion_radius, explosion_spread)
 	var explosion: Explosion = explosion_scene.instantiate()
-	explosion.Setup(explosion_damage * RunState.GetEnemyDamageScale(), explosion_radius, ParentEntity)
+	explosion.Setup(explosion_damage * RunState.floor_modifier.GetDamageScale(RunState.floor_number), explosion_radius, ParentEntity)
 	explosion.hits_enemies = false # would hurt the boss itself
 	explosion.telegraph_time = explosion_telegraph_time
 	explosion.global_position = pos
@@ -190,10 +197,23 @@ func GetSpeedMultiplier() -> float:
 func _on_health_changed(current: float, maximum: float) -> void:
 	if is_enraged or current <= 0 or current > maximum * enrage_threshold:
 		return
+	if is_enraged == false:
+		ApplyEnragedEffects()
 	is_enraged = true
 	GlobalMethods.FlashSprite(ParentEntity.sprite, 0.6, enrage_color)
 	# keep it tinted so the player can tell the phase changed
 	ParentEntity.sprite.self_modulate = enrage_color.lerp(Color.WHITE, 0.5)
+
+func ApplyEnragedEffects():
+	for effect in enrage_effects:
+		ParentEntity.effects.append(effect)
+	
+	ring_waves = ring_waves_enraged
+	ring_wave_interval = ring_wave_interval_enraged
+	ring_projectiles = ring_projectiles_enraged
+	
+	snipe_interval = snipe_interval_enraged
+	snipe_shots = snipe_shots_enraged
 
 func UpdateFacing() -> void:
 	var p = NodeReferences.player

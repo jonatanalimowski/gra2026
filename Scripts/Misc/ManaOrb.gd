@@ -8,6 +8,7 @@ const MANA_PER_ORB = 5.0
 
 @export var radius: float = 2.5
 @export var color: Color = Color(0.35, 0.6, 1.0)
+@export var healing_color = Color(0.738, 0.249, 0.281, 1.0)
 @export var scatter_speed: float = 140.0
 @export var scatter_time: float = 0.3 # before it starts flying to the player
 @export var home_acceleration: float = 900.0
@@ -15,6 +16,8 @@ const MANA_PER_ORB = 5.0
 @export var turn_rate: float = 10.0 # higher = tighter curve towards the player
 @export var pickup_distance: float = 8.0
 
+var is_healing: bool = false
+var heal_amount: float = 5.0
 var amount: float = MANA_PER_ORB
 var velocity: Vector2
 var speed: float = 0.0
@@ -26,9 +29,12 @@ static func SpawnBurst(parent: Node, pos: Vector2, total_mana: float) -> void:
 		return
 	var scene: PackedScene = load(SCENE_PATH)
 	var count = ceili(total_mana / MANA_PER_ORB)
+	var player = NodeReferences.player
+	var heal_chance: float = player.stats.GetStat(&"orb_heal_chance") if player else 0.0
 	for i in count:
 		var orb: ManaOrb = scene.instantiate()
 		orb.amount = total_mana / count
+		orb.is_healing = randf() < heal_chance
 		orb.position = pos
 		parent.add_child.call_deferred(orb)
 
@@ -45,13 +51,17 @@ func _physics_process(delta: float) -> void:
 		speed = min(speed + home_acceleration * delta, max_speed)
 		# within one step = caught, so fast orbs can't skip past the player
 		if to_player.length() < max(pickup_distance, speed * delta):
-			player.AddMana(amount)
+			player.AddMana(amount * player.stats.GetStat(&"mana_gain"))
+			if is_healing:
+				player.health.Heal(heal_amount, false)
 			queue_free()
 			return
 		velocity = velocity.lerp(to_player.normalized() * speed, 1.0 - exp(-turn_rate * delta))
 	global_position += velocity * delta
 
 func _draw() -> void:
+	if is_healing:
+		color = healing_color
 	draw_circle(Vector2.ZERO, radius * 2.0, Color(color, 0.25)) # glow
 	draw_circle(Vector2.ZERO, radius, color)
 	draw_circle(Vector2(-0.5, -0.5), radius * 0.4, Color(0.85, 0.95, 1.0))
