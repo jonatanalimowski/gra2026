@@ -13,7 +13,7 @@ size = Vector2(318, 238)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qr4e0"]
 size = Vector2(302, 203)
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D3" type="Node2D"]
 script = ExtResource("1_3d6js")
 enemy_pools = Array[ExtResource("2_5560s")]([ExtResource("pool_Mixed"), ExtResource("pool_ChargersShooters"), ExtResource("5_1h0kk")])
 

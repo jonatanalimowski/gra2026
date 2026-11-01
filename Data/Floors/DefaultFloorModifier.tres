@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="FloorModifier" load_steps=2 format=3 uid="uid://bwdm7gdi5wyce"]
 
-[ext_resource type="Script" path="res://Scripts/Worldgen/FloorModifier.gd" id="1_floor"]
+[ext_resource type="Script" uid="uid://dlw83nh42417p" path="res://Scripts/Worldgen/FloorModifier.gd" id="1_floor"]
 
 [resource]
 script = ExtResource("1_floor")

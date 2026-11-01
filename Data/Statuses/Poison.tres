@@ -1,11 +1,10 @@
-[gd_resource type="Resource" script_class="StatusEffect" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="StatusEffect" load_steps=3 format=3 uid="uid://dceqixn0w7ull"]
 
-[ext_resource type="Script" path="res://Scripts/Combat/StatusEffects/StatusEffect.gd" id="1_status"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="1_j4n1q"]
+[ext_resource type="Script" uid="uid://dbrsojh3aexrl" path="res://Scripts/Combat/StatusEffects/StatusEffect.gd" id="1_status"]
 
 [resource]
 script = ExtResource("1_status")
-duration = 3.0
-interval = 0.5
 damage = 2.0
 element = &"poison"
 name = "Poison"
