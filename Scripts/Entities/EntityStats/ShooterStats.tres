@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_kl6vr")
-max_health = 15.0
+max_health = 20.0
 movement_speed = 40.0
 attack_damage = 15.0
 knockback_resistance = 0.1

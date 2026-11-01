@@ -8,5 +8,6 @@
 script = ExtResource("1_pact")
 blessing = ExtResource("2_blessing")
 curse = ExtResource("3_curse")
+rarity = 1
 id = &"pact_volatile"
 display_name = "Volatile Dead"

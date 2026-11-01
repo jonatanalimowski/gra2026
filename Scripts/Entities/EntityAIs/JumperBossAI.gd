@@ -1,9 +1,9 @@
 extends Node
-class_name SlimeBossAI
+class_name JumperBossAI
 
-# slime king: hops at the player, every few hops a telegraphed super jump straight at them,
-# every so often stops to summon regular slimes. below enrage_threshold hp it rests less,
-# jumps faster and super jumps more often. its slimes die with it
+# hops at the player, every few hops a telegraphed super jump straight at them,
+# every so often stops to summon regular jumpers. below enrage_threshold hp it rests less,
+# jumps faster and super jumps more often. its minions die with it
 @onready var ParentEntity: Entity = get_parent()
 @export_group("Jumping")
 @export var jump_duration: float = 0.5
@@ -22,7 +22,7 @@ class_name SlimeBossAI
 @export var enraged_telegraph_multiplier: float = 0.7
 @export var enrage_color: Color = Color(1, 0.3, 0.3)
 @export_group("Summoning")
-@export var minion_scene: PackedScene = preload("res://Scenes/BaseScenes/enemy_entity.tscn")
+@export var minion_scene: PackedScene = preload("res://Scenes/Entities/FirstFloor/Jumper.tscn")
 @export var summon_count: int = 2
 @export var summon_cooldown: float = 6.0
 @export var first_summon_delay: float = 3.0
@@ -87,10 +87,13 @@ func StartTelegraph(next_state: State, duration: float, color: Color) -> void:
 	state_timer = duration * (enraged_telegraph_multiplier if is_enraged else 1.0)
 	ParentEntity.Stop()
 	GlobalMethods.FlashSprite(ParentEntity.sprite, state_timer, color)
+	ParentEntity.ShowTelegraphMark(state_timer)
 
 func Jump() -> void:
 	var offset = deg_to_rad(randf_range(-movement_direction_offset, movement_direction_offset))
-	ParentEntity.Jump(GetDirectionToPlayer().rotated(offset), jump_duration, GetJumpSpeed())
+	var direction = GetDirectionToPlayer().rotated(offset)
+	ParentEntity.sprite.flip_h = direction.x < 0
+	ParentEntity.Jump(direction, jump_duration, GetJumpSpeed())
 	Sfx.Play(&"enemy/slime_jump", -16.0)
 	state = State.JUMP
 	state_timer = jump_duration
@@ -98,7 +101,9 @@ func Jump() -> void:
 
 func SuperJump() -> void:
 	var duration = jump_duration * super_jump_duration_multiplier
-	ParentEntity.Jump(GetDirectionToPlayer(), duration, GetJumpSpeed() * super_jump_speed_multiplier)
+	var direction = GetDirectionToPlayer()
+	ParentEntity.sprite.flip_h = direction.x < 0
+	ParentEntity.Jump(direction, duration, GetJumpSpeed() * super_jump_speed_multiplier)
 	Sfx.Play(&"enemy/slime_jump", -6.0)
 	state = State.JUMP
 	state_timer = duration

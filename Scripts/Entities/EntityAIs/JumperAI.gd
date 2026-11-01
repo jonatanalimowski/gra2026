@@ -2,7 +2,7 @@ extends Node
 class_name JumperAI
 
 # jumps towards the player, every few jumps does a telegraphed "super jump"
-# used by the slime and the first boss (was SlimeAI and Boss1AI) - tune it per enemy in the inspector
+# tune it per enemy in the inspector
 @onready var ParentEntity: Entity = get_parent()
 @export var jump_frequency: float = 0.5
 @export var max_frequency_variation: float = 1.0 # random extra wait between jumps
@@ -47,11 +47,14 @@ func execute_behavior() -> void:
 
 	if jump_counter == jumps_between_super and state == State.IDLE:
 		GlobalMethods.FlashSprite(ParentEntity.sprite, telegraph_duration, telegraph_color)
+		# the super jump comes at the next behavior tick, not when the flash ends
+		ParentEntity.ShowTelegraphMark(jump_frequency + jump_frequency_variation)
 
 	var move_speed = ParentEntity.stats.GetStat(&"movement_speed")
 	match state:
 		State.NORMAL_JUMP:
 			var direction = get_direction_to_player()
+			ParentEntity.sprite.flip_h = direction.x < 0
 			ParentEntity.Jump(direction, jump_duration, move_speed)
 			Sfx.Play(&"enemy/slime_jump", -16.0)
 			state = State.IDLE
@@ -61,6 +64,7 @@ func execute_behavior() -> void:
 			state = State.NORMAL_JUMP
 		State.SUPER_JUMP:
 			var direction = get_direction_to_player(false)
+			ParentEntity.sprite.flip_h = direction.x < 0
 			ParentEntity.Jump(direction, jump_duration * super_jump_duration_multiplier, move_speed * super_jump_speed_multiplier)
 			Sfx.Play(&"enemy/slime_jump", -6)
 			state = State.IDLE

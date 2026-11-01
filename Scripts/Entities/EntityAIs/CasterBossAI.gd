@@ -1,7 +1,7 @@
 extends Node
-class_name BossSkeletonAI
+class_name CasterBossAI
 
-# skeleton mage boss: strafes around the player at a distance, then picks one of three attacks
+# strafes around the player at a distance, then picks one of three attacks
 # (never the same twice in a row), telegraphs it with a colored flash and fires it in steps:
 # RING = bullet hell waves in every direction, SNIPE = fast aimed shots, BOMBS = explosions around the player.
 # below enrage_threshold hp everything is faster (rests, telegraphs, steps) and attacks get extra steps
@@ -13,13 +13,13 @@ class_name BossSkeletonAI
 @export var strafe_speed_multiplier: float = 0.7
 @export var strafe_switch_chance: float = 0.4 # per second
 @export_group("Ring")
-@export var ring_spell: SpellData = preload("res://Data/Spells/BossSkeletonRingSpell.tres")
+@export var ring_spell: SpellData = preload("res://Data/Spells/CasterBossRingSpell.tres")
 @export var ring_projectiles: int = 16 # per wave
 @export var ring_waves: int = 3
 @export var ring_wave_interval: float = 0.35
 @export var ring_telegraph_color: Color = Color.MEDIUM_PURPLE
 @export_group("Snipe")
-@export var snipe_spell: SpellData = preload("res://Data/Spells/BossSkeletonSnipeSpell.tres")
+@export var snipe_spell: SpellData = preload("res://Data/Spells/CasterBossSnipeSpell.tres")
 @export var snipe_shots: int = 3
 @export var snipe_interval: float = 0.3
 @export var snipe_telegraph_color: Color = Color.ORANGE_RED
@@ -120,6 +120,7 @@ func StartTelegraph() -> void:
 	ParentEntity.Stop()
 	var color = [ring_telegraph_color, snipe_telegraph_color, bombs_telegraph_color][attack]
 	GlobalMethods.FlashSprite(ParentEntity.sprite, state_timer, color)
+	ParentEntity.ShowTelegraphMark(state_timer)
 	Sfx.Play(&"enemy/charge_telegraph", -10.0)
 
 func StartAttack() -> void:

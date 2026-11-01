@@ -1,10 +1,10 @@
 [gd_scene load_steps=9 format=3 uid="uid://cwyw4ifcv6efu"]
 
 [ext_resource type="Script" uid="uid://cpdiqwgu4xekk" path="res://Scripts/Entities/EntityMisc/EntityBase.gd" id="1_a7266"]
-[ext_resource type="Resource" uid="uid://6aoxba6eiefj" path="res://Scripts/Entities/EntityStats/TurnipMonsterStats.tres" id="2_ih45n"]
+[ext_resource type="Resource" uid="uid://6aoxba6eiefj" path="res://Scripts/Entities/EntityStats/SwarmerStats.tres" id="2_ih45n"]
 [ext_resource type="PackedScene" uid="uid://tp2mxe65f0lq" path="res://Scenes/EntityCorpses/EntityCorpseBase.tscn" id="3_myjej"]
 [ext_resource type="PackedScene" uid="uid://b1u713r0een05" path="res://Scenes/UI/DamageNumber.tscn" id="4_udpxe"]
-[ext_resource type="SpriteFrames" uid="uid://b8js6ucyx2ld4" path="res://Scripts/Resources/SpriteFrames/TurnipSpriteFrames.tres" id="5_ih45n"]
+[ext_resource type="SpriteFrames" uid="uid://6wk4hr4y8vy1" path="res://Scripts/Resources/SpriteFrames/OrcSpriteFrames.tres" id="5_ih45n"]
 [ext_resource type="Script" uid="uid://cjrtth654cf5r" path="res://Scripts/Entities/EntityAIs/SwarmerAI.gd" id="6_ih45n"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s367j"]
@@ -12,7 +12,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_0dqb0"]
 radius = 13.333333
 
-[node name="TurnipEntity" type="CharacterBody2D"]
+[node name="Swarmer" type="CharacterBody2D"]
 z_index = 2
 collision_layer = 8
 collision_mask = 10
@@ -24,23 +24,25 @@ damage_number_scene = ExtResource("4_udpxe")
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -13)
 shape = SubResource("CircleShape2D_s367j")
 debug_color = Color(0.7946726, 0.3546824, 0.6140199, 0.41960785)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -13)
 shape = SubResource("CircleShape2D_0dqb0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(1, 12)
 sprite_frames = ExtResource("5_ih45n")
-animation = &"jump"
-frame = 1
-frame_progress = 0.95789754
+animation = &"die"
 centered = false
 offset = Vector2(-16, -32)
 
 [node name="Brain" type="Node" parent="."]
 script = ExtResource("6_ih45n")
+walk_time = 1.8
+first_summon_delay = 2.0
+summon_radius = 5.0
 minion_health_multiplier = 0.4
 
 [node name="Control" type="Control" parent="."]

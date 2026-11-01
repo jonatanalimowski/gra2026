@@ -1,5 +1,5 @@
 extends Node
-class_name SkeletonAI
+class_name ChargerAI
 
 # stays close to the player (circles at close range), every few seconds winds up and dashes at them
 @onready var ParentEntity: Entity = get_parent()
@@ -15,7 +15,7 @@ class_name SkeletonAI
 @export var charge_cooldown_max: float = 4.0
 @export var telegraph_color: Color = Color.AQUAMARINE
 @export var telegraph_duration: float = 0.4
-# if true the skeleton wanders randomly when it can't see the player
+# if true it wanders randomly when it can't see the player
 @export var needs_line_of_sight: bool = true
 
 enum State { CIRCLE, WINDUP, CHARGE }
@@ -88,6 +88,7 @@ func StartWindup() -> void:
 	state_timer = telegraph_duration
 	ParentEntity.Stop()
 	GlobalMethods.FlashSprite(ParentEntity.sprite, telegraph_duration, telegraph_color)
+	ParentEntity.ShowTelegraphMark(telegraph_duration)
 	# face the player while winding up
 	ParentEntity.sprite.flip_h = NodeReferences.player.global_position.x < ParentEntity.global_position.x
 

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="WandData" load_steps=12 format=3 uid="uid://c10lqnvq1axy6"]
 
 [ext_resource type="Script" uid="uid://jt1r0vubh4cb" path="res://Scripts/Resources/Items/WandData.gd" id="1_wand"]
-[ext_resource type="Script" path="res://Scripts/Combat/Effects/ProjectileEffects/HomingEffect.gd" id="2_rrdwu"]
+[ext_resource type="Script" uid="uid://0ph61vgtc6wt" path="res://Scripts/Combat/Effects/ProjectileEffects/HomingEffect.gd" id="2_rrdwu"]
 [ext_resource type="Script" uid="uid://bqwypd1uvt6ft" path="res://Scripts/Resources/Items/SpellData.gd" id="2_spell"]
 [ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="2_vyraq"]
 [ext_resource type="PackedScene" uid="uid://6h8hktw1m71n" path="res://Scenes/ProjectileScenes/ProjectileBlueBlinker.tscn" id="3_projectile"]
@@ -39,6 +39,8 @@ script = ExtResource("1_wand")
 primary_spell = SubResource("Resource_primary_spell")
 heavy_spell = SubResource("Resource_qm8c2")
 id = &"blue_blinker_wand"
-display_name = "Blue Blinker Wand"
-description = "A weapon made for attacking your enemies"
+display_name = "Blue Wand"
+description = "Primary spell: High velocity projectiles with bigger base damage.
+
+Secondary spell: Huge damage with homing, single target"
 icon = SubResource("AtlasTexture_icon")

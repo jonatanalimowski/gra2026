@@ -10,6 +10,8 @@ signal cleared(room: EnemyRoom)
 @export var enemy_pools: Array[EnemyPool]
 # chance per spawned enemy to be elite (see Entity.ApplyElite)
 @export_range(0.0, 1.0) var elite_chance: float = 0.08
+# how long the spawn markers show before the enemies appear
+@export var spawn_telegraph_time: float = 0.8
 var is_room_cleared: bool = false
 var is_room_active: bool = false
 var enemies_left: int = 0
@@ -55,22 +57,40 @@ func SpawnEnemies() -> void:
 	var rng = RandomNumberGenerator.new()
 	rng.seed = hash([RunState.GetFloorSeed(), "enemies", global_position])
 	var pool := PickPool(rng)
+	var spawns: Array[Dictionary] = []
 
 	for spawnpoint in enemy_spawn_markers:
 		var scene := pool.PickEnemy(rng) if pool else null
 		if scene == null:
 			push_warning("%s: no enemy pool to spawn from" % name)
 			break
-		var enemy: Entity = scene.instantiate()
-		enemy.global_position = spawnpoint.global_position
-		# always roll, so the dev cheat doesn't shift the seeded picks after it
-		enemy.is_elite = rng.randf() < elite_chance or DevTools.more_elites
-		get_parent().add_child(enemy)
-		RegisterEnemy(enemy)
+		var telegraph = SpawnTelegraph.new()
+		add_child(telegraph)
+		telegraph.global_position = spawnpoint.global_position
+		spawns.append({
+			"scene": scene,
+			"position": spawnpoint.global_position,
+			# always roll, so the dev cheat doesn't shift the seeded picks after it
+			"is_elite": rng.randf() < elite_chance or DevTools.more_elites,
+			"telegraph": telegraph,
+		})
 
 	# a room without spawn markers would otherwise stay locked forever
-	if enemies_left == 0:
+	if spawns.is_empty():
 		_on_room_cleared()
+		return
+
+	# a timer connection instead of await, so nothing runs if the room is freed before it fires
+	get_tree().create_timer(spawn_telegraph_time, false).timeout.connect(FinishSpawning.bind(spawns))
+
+func FinishSpawning(spawns: Array[Dictionary]) -> void:
+	for spawn in spawns:
+		spawn.telegraph.queue_free()
+		var enemy: Entity = spawn.scene.instantiate()
+		enemy.global_position = spawn.position
+		enemy.is_elite = spawn.is_elite
+		get_parent().add_child(enemy)
+		RegisterEnemy(enemy)
 
 func PickPool(rng: RandomNumberGenerator) -> EnemyPool:
 	var pools := enemy_pools.filter(func(p): return p != null)

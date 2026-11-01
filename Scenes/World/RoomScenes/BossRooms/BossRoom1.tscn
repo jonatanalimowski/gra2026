@@ -1,9 +1,9 @@
-[gd_scene load_steps=6 format=4 uid="uid://dsjpjyxmsh2m2"]
+[gd_scene load_steps=7 format=4 uid="uid://dsjpjyxmsh2m2"]
 
 [ext_resource type="Script" uid="uid://brxatusqnmya2" path="res://Scripts/Worldgen/BossRoom.gd" id="1_keiv6"]
-[ext_resource type="PackedScene" uid="uid://psk1gxpjdcsj" path="res://Scenes/Entities/Bosses/boss1_slime.tscn" id="2_e0ecp"]
-[ext_resource type="PackedScene" uid="uid://kt227wqvpj44" path="res://Scenes/Entities/Bosses/boss2_skeleton.tscn" id="3_skel"]
+[ext_resource type="PackedScene" uid="uid://psk1gxpjdcsj" path="res://Scenes/Entities/Bosses/JumperBoss.tscn" id="2_e0ecp"]
 [ext_resource type="TileSet" uid="uid://d0cbsuev84gt8" path="res://Scripts/Resources/TileMap.tres" id="3_fpv4l"]
+[ext_resource type="PackedScene" uid="uid://kt227wqvpj44" path="res://Scenes/Entities/Bosses/CasterBoss.tscn" id="3_skel"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yvok5"]
 size = Vector2(318, 318)

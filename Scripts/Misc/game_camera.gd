@@ -1,19 +1,25 @@
 extends Camera2D
 
-var debug_zoom = true;
+var debug_zoom = false;
+var can_zoom_camera = true;
 
 # screen shake: trauma 0-1 goes up on AddTrauma and decays, offset = trauma^2 so small hits stay subtle
 @export var max_shake_offset: float = 8.0
 @export var trauma_decay: float = 1.5 # per second
 @export var shake_speed: float = 30.0 # noise scroll speed, higher = more jittery
+
+var last_player_zoom: Vector2
 var trauma: float = 0.0
 var noise_time: float = 0.0
 var noise := FastNoiseLite.new()
+var camera_twink: Tween
 
 func _ready() -> void:
 	noise.seed = randi()
 	noise.frequency = 1.0
 	Signals.screen_shake.connect(AddTrauma)
+	Signals.boss_spawned.connect(_on_boss_spawned)
+	Signals.boss_defeated.connect(_on_boss_defeated)
 
 func AddTrauma(amount: float) -> void:
 	trauma = minf(trauma + amount, 1.0)
@@ -27,16 +33,34 @@ func _process(delta: float) -> void:
 	# offset doesn't fight position smoothing, unlike moving the camera itself
 	offset = Vector2(noise.get_noise_2d(noise_time, 0.0), noise.get_noise_2d(0.0, noise_time)) * strength
 
+func _on_boss_spawned(_hp_value: int):
+	if camera_twink:
+		camera_twink.kill()
+	
+	print("hello")
+	camera_twink = create_tween()
+	camera_twink.tween_property(self, "zoom", Vector2(1.5, 1.5), 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	last_player_zoom = zoom
+	can_zoom_camera = false
+
+func _on_boss_defeated():
+	if camera_twink:
+		camera_twink.kill()
+
+	camera_twink = create_tween()
+	camera_twink.tween_property(self, "zoom", last_player_zoom, 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	can_zoom_camera = true
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ScrollUp"):
 		var new_zoom = zoom + Vector2(0.1, 0.1)
-		if (new_zoom > Vector2(2.5, 2.5)):
+		if ((new_zoom > Vector2(2.5, 2.5) and debug_zoom == false) or can_zoom_camera == false):
 			return
 		else:
 			zoom = new_zoom
 	if event.is_action_pressed("ScrollDown"):
 		var new_zoom = zoom - Vector2(0.1, 0.1)
-		if (new_zoom < Vector2(1.6, 1.6) and debug_zoom == false):
+		if ((new_zoom < Vector2(1.6, 1.6) and debug_zoom == false) or can_zoom_camera == false):
 			return
 		else:
 			zoom = new_zoom

@@ -6,10 +6,16 @@ extends Control
 @export var wands: Array[WandData]
 
 @onready var choice_card_container: HBoxContainer = %CardRow
+@onready var back_button: Button = %BackButton
 var cards_amount: int = 3
 
 func _ready() -> void:
+	back_button.pressed.connect(_on_back_button_pressed)
 	GenerateChoiceCards(wands)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		_on_back_button_pressed()
 
 func GenerateChoiceCards(items: Array):
 	var pool = items.duplicate()
@@ -28,3 +34,6 @@ func _on_wand_chosen(wand: WandData):
 	var loadout = Loadout.new()
 	loadout.wand = wand
 	GameFlow.StartRun(loadout)
+
+func _on_back_button_pressed() -> void:
+	GameFlow.GoToMainMenu()

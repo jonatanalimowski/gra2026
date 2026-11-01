@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dtwdf4gml8oue"]
+[gd_scene load_steps=19 format=3 uid="uid://dtwdf4gml8oue"]
 
 [ext_resource type="Theme" uid="uid://cixt07vew57f" path="res://Data/UI/main_theme.tres" id="1_jevvu"]
 [ext_resource type="Script" uid="uid://dt5inydsxhw3e" path="res://Scripts/UI/debug_ui.gd" id="1_w371h"]
@@ -7,6 +7,13 @@
 [ext_resource type="Texture2D" uid="uid://cxpgwcbtjgnhi" path="res://assets/items/Exotic Swords.png" id="5_48q88"]
 [ext_resource type="Texture2D" uid="uid://bk1qf8hetnvtd" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-Tilesheet.png" id="6_jevvu"]
 [ext_resource type="Script" uid="uid://cgm1isyr8rgx6" path="res://Scripts/UI/Minimap.gd" id="9_minimap"]
+[ext_resource type="Shader" uid="uid://b88166h2a4f2t" path="res://Scripts/UI/damage_vignette.gdshader" id="10_vignette"]
+[ext_resource type="Script" uid="uid://5pns4s365unx" path="res://Scripts/UI/damage_vignette.gd" id="11_vignette"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vignette"]
+shader = ExtResource("10_vignette")
+shader_parameter/inner_radius = 0.3
+shader_parameter/outer_radius = 0.6
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xjg7p"]
 atlas = ExtResource("4_qwshj")
@@ -49,6 +56,20 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("1_jevvu")
+
+[node name="DamageVignette" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_vignette")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.8, 0, 0, 1)
+script = ExtResource("11_vignette")
+peak_alpha = 0.4
+fade_time = 0.2
 
 [node name="DebugUi" type="Control" parent="."]
 layout_mode = 1

@@ -1,0 +1,76 @@
+[gd_scene load_steps=9 format=3 uid="uid://kt227wqvpj44"]
+
+[ext_resource type="Script" uid="uid://cpdiqwgu4xekk" path="res://Scripts/Entities/EntityMisc/EntityBase.gd" id="1_jdwhj"]
+[ext_resource type="Resource" uid="uid://bnit0rsgnscrr" path="res://Scripts/Entities/EntityStats/CasterBossStats.tres" id="2_psx7r"]
+[ext_resource type="PackedScene" uid="uid://tp2mxe65f0lq" path="res://Scenes/EntityCorpses/EntityCorpseBase.tscn" id="3_sxp6b"]
+[ext_resource type="PackedScene" uid="uid://b1u713r0een05" path="res://Scenes/UI/DamageNumber.tscn" id="4_vgsfc"]
+[ext_resource type="SpriteFrames" uid="uid://ck062m3m7744y" path="res://Scripts/Resources/SpriteFrames/SkeletonMageSpriteFrames.tres" id="5_h3inj"]
+[ext_resource type="Script" uid="uid://co8mr5vcumjvj" path="res://Scripts/Entities/EntityAIs/CasterBossAI.gd" id="8_vyjvp"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s367j"]
+radius = 9.2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0dqb0"]
+radius = 13.333333
+
+[node name="CasterBoss" type="CharacterBody2D"]
+z_index = 2
+scale = Vector2(2, 2)
+collision_layer = 8
+collision_mask = 10
+script = ExtResource("1_jdwhj")
+base_stats = ExtResource("2_psx7r")
+corpse_scene = ExtResource("3_sxp6b")
+damage_number_scene = ExtResource("4_vgsfc")
+override_death_offset = true
+death_offset = Vector2(-32, -64)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.79999995, -11.999999)
+shape = SubResource("CircleShape2D_s367j")
+debug_color = Color(0.7946726, 0.3546824, 0.6140199, 0.41960785)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.79999995, -13.999999)
+shape = SubResource("CircleShape2D_0dqb0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.99999994, 0.99999994)
+sprite_frames = ExtResource("5_h3inj")
+animation = &"idle"
+centered = false
+offset = Vector2(-16, -32)
+
+[node name="Brain" type="Node" parent="."]
+script = ExtResource("8_vyjvp")
+rest_time = 3.5
+ring_waves = 10
+ring_wave_interval = 0.5
+snipe_shots = 5
+snipe_interval = 0.35
+enraged_speed_multiplier = 0.7
+
+[node name="Control" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HpLabel" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = -12.0
+offset_top = -15.0
+offset_right = 477.0
+offset_bottom = 163.66667
+scale = Vector2(0.05, 0.05)
+theme_override_font_sizes/font_size = 128
+text = "100/100"
+vertical_alignment = 1
+
+[node name="Muzzle" type="Marker2D" parent="."]
+position = Vector2(-2, 2)

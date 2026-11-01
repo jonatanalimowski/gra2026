@@ -1,0 +1,67 @@
+[gd_scene load_steps=9 format=3 uid="uid://ceweqec6x6pa"]
+
+[ext_resource type="Script" uid="uid://cpdiqwgu4xekk" path="res://Scripts/Entities/EntityMisc/EntityBase.gd" id="1_pchmu"]
+[ext_resource type="Resource" uid="uid://bxrici3518kl3" path="res://Scripts/Entities/EntityStats/JumperStats.tres" id="2_jyr8y"]
+[ext_resource type="PackedScene" uid="uid://tp2mxe65f0lq" path="res://Scenes/EntityCorpses/EntityCorpseBase.tscn" id="3_0u13s"]
+[ext_resource type="PackedScene" uid="uid://b1u713r0een05" path="res://Scenes/UI/DamageNumber.tscn" id="4_ubvvp"]
+[ext_resource type="SpriteFrames" uid="uid://bhy1jsp1kylek" path="res://Scripts/Resources/SpriteFrames/OrcRogueSpriteFrames.tres" id="5_4dmei"]
+[ext_resource type="Script" uid="uid://da5ee26iwoxo3" path="res://Scripts/Entities/EntityAIs/JumperAI.gd" id="6_m5pgj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s367j"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0dqb0"]
+radius = 12.0
+
+[node name="Jumper" type="CharacterBody2D"]
+z_index = 2
+collision_layer = 8
+collision_mask = 10
+script = ExtResource("1_pchmu")
+base_stats = ExtResource("2_jyr8y")
+corpse_scene = ExtResource("3_0u13s")
+damage_number_scene = ExtResource("4_ubvvp")
+override_death_offset = true
+death_offset = Vector2(-32, -64)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -11)
+shape = SubResource("CircleShape2D_s367j")
+debug_color = Color(0.7946726, 0.3546824, 0.6140199, 0.41960785)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -11)
+shape = SubResource("CircleShape2D_0dqb0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("5_4dmei")
+animation = &"idle"
+centered = false
+offset = Vector2(-16, -32)
+
+[node name="Brain" type="Node" parent="."]
+script = ExtResource("6_m5pgj")
+jump_duration = 0.75
+movement_direction_offset = 35.0
+jumps_between_super = 2
+
+[node name="Control" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HpLabel" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = -12.0
+offset_top = -15.0
+offset_right = 477.0
+offset_bottom = 163.66667
+scale = Vector2(0.05, 0.05)
+theme_override_font_sizes/font_size = 128
+text = "100/100"
+vertical_alignment = 1

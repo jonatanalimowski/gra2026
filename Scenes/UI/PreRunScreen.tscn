@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://d3cdkvwcg6df8"]
+[gd_scene load_steps=9 format=3 uid="uid://d3cdkvwcg6df8"]
 
 [ext_resource type="Texture2D" uid="uid://cw5jyrfnds2e8" path="res://assets/ui/menu_background.png" id="1_6wyvx"]
 [ext_resource type="Script" uid="uid://d0e744afx76eu" path="res://Scripts/UI/pre_run_screen.gd" id="1_etodu"]
@@ -6,6 +6,7 @@
 [ext_resource type="Resource" uid="uid://c8kiamrbrvn0g" path="res://Data/Wands/FlameShurikenWand.tres" id="4_FlameShurikenWand"]
 [ext_resource type="Resource" uid="uid://betivdmm3g1es" path="res://Data/Wands/PurpleBoltWand.tres" id="5_PurpleBoltWand"]
 [ext_resource type="Resource" uid="uid://c10lqnvq1axy6" path="res://Data/Wands/BlueBlinkerWand.tres" id="7_BlueBlinkerWand"]
+[ext_resource type="Theme" uid="uid://cixt07vew57f" path="res://Data/UI/main_theme.tres" id="8_8o263"]
 [ext_resource type="Script" uid="uid://jt1r0vubh4cb" path="res://Scripts/Resources/Items/WandData.gd" id="10_wanddata"]
 
 [node name="PreRunScreen" type="Control"]
@@ -69,3 +70,12 @@ layout_mode = 2
 
 [node name="ChoiceCard3" parent="UI/MarginContainer/CardRow" instance=ExtResource("2_ts5e7")]
 layout_mode = 2
+
+[node name="BackButton" type="Button" parent="UI"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 4.0
+offset_right = 92.0
+offset_bottom = 24.0
+theme = ExtResource("8_8o263")
+text = "Back"

@@ -86,6 +86,7 @@ func StartSummon() -> void:
 	state_timer = telegraph_duration
 	ParentEntity.Stop()
 	GlobalMethods.FlashSprite(ParentEntity.sprite, telegraph_duration, telegraph_color)
+	ParentEntity.ShowTelegraphMark(telegraph_duration)
 
 func CanSummon() -> bool:
 	return can_summon and summon_scene != null and summon_timer <= 0 \

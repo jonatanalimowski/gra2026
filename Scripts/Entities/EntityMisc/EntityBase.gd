@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name Entity
 
 const DEFAULT_ELITE: EliteData = preload("res://Data/Elites/DefaultElite.tres")
+const TELEGRAPH_MARK_MARGIN: float = 2.0
 
 signal died(entity: Entity)
 # a brain spawned another enemy (SpawnMinion), the room counts it too
@@ -46,6 +47,7 @@ var hitstun_timer: float = 0.0
 var hitstun_immunity_timer: float = 0.0
 var spawn_shoot_timer: float = 0.0
 var last_hit: DamageInfo
+var telegraph_mark: TelegraphMark
 
 func _ready() -> void:
 	stats = StatBlock.FromResource(base_stats)
@@ -149,7 +151,7 @@ func TakeDamage(info: DamageInfo) -> void:
 		get_tree().current_scene.add_child(dmg_num)
 		dmg_num.display(info.amount, global_position, info.is_critical)
 
-# resistance 1 or more = unstoppable (bosses, skeleton charge), no push and no hitstun
+# resistance 1 or more = unstoppable (bosses, charger dash), no push and no hitstun
 func ApplyKnockback(knockback: Vector2) -> void:
 	var resist = clampf(stats.GetStat(&"knockback_resistance"), 0.0, 1.0)
 	if knockback == Vector2.ZERO or resist >= 1.0:
@@ -165,6 +167,22 @@ func ApplyKnockback(knockback: Vector2) -> void:
 
 func IsStunned() -> bool:
 	return hitstun_timer > 0
+
+# "!" over the head for a brain's windup. a new one replaces the old one
+func ShowTelegraphMark(duration: float) -> void:
+	if is_instance_valid(telegraph_mark):
+		telegraph_mark.queue_free()
+	telegraph_mark = TelegraphMark.new()
+	telegraph_mark.position = Vector2(0, GetSpriteTop() - TELEGRAPH_MARK_MARGIN)
+	add_child(telegraph_mark)
+	telegraph_mark.Show(duration)
+
+# top of the visible pixels: frames differ in size per enemy and often have empty space above the art
+func GetSpriteTop() -> float:
+	var texture = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame)
+	var frame_top = sprite.offset.y - (texture.get_height() / 2.0 if sprite.centered else 0.0)
+	var top = frame_top + texture.get_image().get_used_rect().position.y
+	return sprite.position.y + top * sprite.scale.y
 
 # a modifier goes to whichever block has its stat: max_health -> the enemy,
 # projectile_speed -> its spell (so curses can buff enemy shots too)

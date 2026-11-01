@@ -18,7 +18,7 @@ explosion_scene = ExtResource("7_explosion")
 [sub_resource type="Resource" id="Resource_heavy_spell"]
 script = ExtResource("2_spell")
 projectile_scene = ExtResource("3_projectile")
-damage = 20.0
+damage = 40.0
 cooldown = 1.0
 spread = 15.0
 projectile_speed = 0.8
@@ -32,15 +32,17 @@ region = Rect2(2, 75, 15, 23)
 [sub_resource type="Resource" id="Resource_primary_spell"]
 script = ExtResource("2_spell")
 projectile_scene = ExtResource("3_projectile")
-damage = 10.0
+damage = 8.0
 crit_chance = 0.2
-crit_multiplier = 4.0
+crit_multiplier = 8.0
 
 [resource]
 script = ExtResource("1_wand")
 primary_spell = SubResource("Resource_primary_spell")
 heavy_spell = SubResource("Resource_heavy_spell")
 id = &"flame_shuriken_wand"
-display_name = "Flame Shuriken Wand"
-description = "A weapon made for attacking your enemies"
+display_name = "Gamba Wand"
+description = "Primary spell: Low base damage projectiles, with huge crit multiplier, starts with 20% crit chance
+
+Secondary spell: Exploding shot"
 icon = SubResource("AtlasTexture_icon")

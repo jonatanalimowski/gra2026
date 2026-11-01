@@ -37,13 +37,15 @@ projectile_scene = ExtResource("3_projectile")
 damage = 10.0
 cooldown = 0.4
 shot_count = 2
-spread = 20.0
+spread = 25.0
 
 [resource]
 script = ExtResource("1_wand")
 primary_spell = SubResource("Resource_primary_spell")
 heavy_spell = SubResource("Resource_4s28o")
 id = &"purple_bolt_wand"
-display_name = "Purple Bolt Wand"
-description = "A weapon made for attacking your enemies"
+display_name = "Split bolt Wand"
+description = "Primary spell: Shoots 2 projectiles at a low cooldown.
+
+Secondary spell: Shoots a wall bouncing projectile with piercing effect"
 icon = SubResource("AtlasTexture_icon")

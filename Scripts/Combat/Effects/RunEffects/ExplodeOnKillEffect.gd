@@ -7,8 +7,8 @@ class_name ExplodeOnKillEffect
 @export var explosion_scene: PackedScene
 
 func OnEnemyKilled(enemy: Entity, info: DamageInfo) -> void:
-	# an explosion kill can't explode again, otherwise one kill clears the room
-	if info and info.element == &"explosion":
+	# an explosion kill can't explode again
+	if not info: # and info.element == &"explosion":
 		return
 	if randf() > chance:
 		return

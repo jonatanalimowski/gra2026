@@ -1,0 +1,135 @@
+[gd_resource type="SpriteFrames" load_steps=20 format=3 uid="uid://ck062m3m7744y"]
+
+[ext_resource type="Texture2D" uid="uid://dhpaerakj0qg3" path="res://assets/packs/tilesets/Anokolisa_PixelCrawler/Pixel Crawler - Free Pack 2.11/Pixel Crawler - Free Pack/Entities/Mobs/Skeleton Crew/Skeleton - Mage/Death/Death-Sheet.png" id="Death"]
+[ext_resource type="Texture2D" uid="uid://ctwvtaavfjq4e" path="res://assets/packs/tilesets/Anokolisa_PixelCrawler/Pixel Crawler - Free Pack 2.11/Pixel Crawler - Free Pack/Entities/Mobs/Skeleton Crew/Skeleton - Mage/Idle/Idle-Sheet.png" id="Idle"]
+[ext_resource type="Texture2D" uid="uid://bnhi8eoj3sit3" path="res://assets/packs/tilesets/Anokolisa_PixelCrawler/Pixel Crawler - Free Pack 2.11/Pixel Crawler - Free Pack/Entities/Mobs/Skeleton Crew/Skeleton - Mage/Run/Run-Sheet.png" id="Run"]
+
+[sub_resource type="AtlasTexture" id="Death_0"]
+atlas = ExtResource("Death")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Death_1"]
+atlas = ExtResource("Death")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Death_2"]
+atlas = ExtResource("Death")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Death_3"]
+atlas = ExtResource("Death")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Death_4"]
+atlas = ExtResource("Death")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Death_5"]
+atlas = ExtResource("Death")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Idle_0"]
+atlas = ExtResource("Idle")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Idle_1"]
+atlas = ExtResource("Idle")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Idle_2"]
+atlas = ExtResource("Idle")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Idle_3"]
+atlas = ExtResource("Idle")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Run_0"]
+atlas = ExtResource("Run")
+region = Rect2(14, 31, 32, 33)
+
+[sub_resource type="AtlasTexture" id="Run_1"]
+atlas = ExtResource("Run")
+region = Rect2(78, 31, 32, 33)
+
+[sub_resource type="AtlasTexture" id="Run_2"]
+atlas = ExtResource("Run")
+region = Rect2(142, 31, 32, 33)
+
+[sub_resource type="AtlasTexture" id="Run_3"]
+atlas = ExtResource("Run")
+region = Rect2(206, 31, 32, 33)
+
+[sub_resource type="AtlasTexture" id="Run_4"]
+atlas = ExtResource("Run")
+region = Rect2(270, 31, 32, 33)
+
+[sub_resource type="AtlasTexture" id="Run_5"]
+atlas = ExtResource("Run")
+region = Rect2(334, 31, 32, 33)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Death_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Death_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Death_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Death_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Death_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Death_5")
+}],
+"loop": false,
+"name": &"die",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Idle_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Idle_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Idle_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Idle_3")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Run_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Run_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Run_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Run_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Run_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Run_5")
+}],
+"loop": true,
+"name": &"moving",
+"speed": 6.0
+}]
