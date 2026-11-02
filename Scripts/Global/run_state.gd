@@ -97,6 +97,17 @@ func GetActiveCurses() -> Array[Curse]:
 			result.append(half)
 	return result
 
+# product of the active halves' multipliers, each half counted once even when stacked
+func GetEliteChanceMultiplier() -> float:
+	var result := 1.0
+	var counted: Array[PactHalf] = []
+	for half in halves:
+		if half in counted:
+			continue
+		counted.append(half)
+		result *= half.elite_chance_multiplier
+	return result
+
 func HasFlag(flag: StringName) -> bool:
 	for half in halves:
 		if flag in half.flags:

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Blessing" load_steps=6 format=3 uid="uid://b5l14aspjq872"]
+
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="1_f3mnr"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_cm1ft"]
+[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="3_di273"]
+[ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="4_vjjdo"]
+
+[sub_resource type="Resource" id="Resource_f3mnr"]
+script = ExtResource("2_cm1ft")
+stat = &"mana_drop"
+multiplier = 2.0
+metadata/_custom_type_script = "uid://dagkcxgw77g4s"
+
+[resource]
+script = ExtResource("4_vjjdo")
+type = 2
+display_name = "More Mana"
+description = "Enemies drop 2x more mana orbs"
+enemy_modifiers = Array[ExtResource("2_cm1ft")]([SubResource("Resource_f3mnr")])
+metadata/_custom_type_script = "uid://dkm2blmuoytre"

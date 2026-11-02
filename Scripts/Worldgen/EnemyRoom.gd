@@ -59,6 +59,7 @@ func SpawnEnemies() -> void:
 	var pool := PickPool(rng)
 	var spawns: Array[Dictionary] = []
 	var floor_elite_chance := RunState.floor_modifier.GetEliteChance(RunState.floor_number, elite_chance)
+	floor_elite_chance = minf(floor_elite_chance * RunState.GetEliteChanceMultiplier(), 1.0) # pacts
 
 	for spawnpoint in enemy_spawn_markers:
 		var scene := pool.PickEnemy(rng) if pool else null

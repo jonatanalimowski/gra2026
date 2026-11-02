@@ -13,3 +13,5 @@ class_name PactHalf
 @export var enemy_modifiers: Array[StatModifier] = []
 # simple rules other scripts check with RunState.HasFlag (e.g. &"explosions_hit_player")
 @export var flags: Array[StringName] = []
+# multiplies every room's elite chance (1.3 = 30% more likely). counts once per half, stacks don't add up
+@export var elite_chance_multiplier: float = 1.0

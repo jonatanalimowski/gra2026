@@ -3,16 +3,13 @@ const GRAY: Color = Color(0.3, 0.3, 0.3, 1.0)
 @onready var hp_bar: TextureProgressBar = %PlayerHealthbar
 @onready var mana_bar: TextureProgressBar = %ManaBar
 #@onready var hp_text: Label = %PlayerHealthbar/Label
-@onready var player_stats: VBoxContainer = %Playerstats
-@onready var primary_spell_stats: VBoxContainer = %PrimarySpellStats
-@onready var heavy_spell_stats: VBoxContainer = %HeavySpellStats
 @onready var primary_spell_slot: TextureRect = %PrimarySpellTexture
 @onready var heavy_spell_slot: TextureRect = %HeavySpellTexture
 @onready var boss_hp_bar: TextureProgressBar = %BossHpBar
 @onready var boss_hp_text: Label = %BossHpLabel
 @onready var boss_ui = %BossBar
-@onready var stats_column: VBoxContainer = %StatsColumn
 @onready var floor_label: Label = %FloorLabel
+
 var pact_list: VBoxContainer
 var status_list: VBoxContainer
 var status_rows: Dictionary = {} # ActiveStatusEffect -> its time label
@@ -29,31 +26,13 @@ func _ready() -> void:
 	floor_label.text = "Floor %d" % RunState.floor_number
 	# stats are hidden behind Tab, the hint takes their place while closed
 	tab_hint = Label.new()
-	tab_hint.text = "[Tab] Stats"
-	stats_column.add_child(tab_hint)
-	stats_column.move_child(tab_hint, 0)
+	tab_hint.text = "[C] Stats"
 	hp_label = Label.new()
-	stats_column.add_child(hp_label)
-	stats_column.move_child(hp_label, 2) # under the "Player Stats:" header
 	mana_label = Label.new()
-	stats_column.add_child(mana_label)
-	stats_column.move_child(mana_label, 3)
 	pact_list = VBoxContainer.new()
-	stats_column.add_child(pact_list)
 	UpdatePacts()
-	SetStatsVisible(false)
 	status_list = VBoxContainer.new()
 	mana_bar.get_parent().add_child(status_list)
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("Tab"):
-		SetStatsVisible(!stats_visible)
-
-# everything in the column but the hint
-func SetStatsVisible(on: bool) -> void:
-	stats_visible = on
-	for child in stats_column.get_children():
-		child.visible = on if child != tab_hint else not on
 
 func ConnectSignals() -> void:
 	Signals.player_ready.connect(_on_player_ready)
@@ -67,17 +46,14 @@ func ConnectSignals() -> void:
 
 func _on_player_ready(new_player: Player):
 	player = new_player
-	BuildStatList(player_stats, player.stats)
 	player.status_holder.status_added.connect(_on_status_added)
 	player.status_holder.status_removed.connect(_on_status_removed)
 
 	var wand = player.wand
 	primary_spell_slot.texture = wand.data.icon
-	BuildStatList(primary_spell_stats, wand.primary.stats if wand.primary else null)
 
 	# heavy slot shows the same wand icon
 	heavy_spell_slot.texture = wand.data.icon
-	BuildStatList(heavy_spell_stats, wand.heavy.stats if wand.heavy else null)
 	UpdateHeavySlot()
 
 # one row per status under the bars: icon (if it has one) + name + time left
@@ -160,7 +136,6 @@ func _on_boss_deafeated():
 	boss_ui.visible = false
 	pact_list = VBoxContainer.new()
 	pact_list.visible = stats_visible
-	stats_column.add_child(pact_list)
 	UpdatePacts()
 	boss_hp_bar.visible = false
 	boss_hp_text.visible = false

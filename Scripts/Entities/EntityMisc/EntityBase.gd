@@ -113,9 +113,30 @@ func Shoot(direction: Vector2) -> bool:
 
 # adds an enemy next to this one (same parent as the room's enemies)
 func SpawnMinion(minion: Entity, pos: Vector2) -> void:
-	minion.global_position = pos
+	minion.global_position = FindSpawnPosition(minion, pos)
 	get_parent().add_child(minion)
 	summoned.emit(minion)
+
+# slides the minion's body shape from our body center towards target and stops before the
+# first wall. a plain ray from the feet misses thin walls the body (which sits above the feet)
+# would still overlap, and physics then pushes the minion out on the wrong side
+func FindSpawnPosition(minion: Entity, target: Vector2) -> Vector2:
+	var minion_shape: CollisionShape2D = minion.get_node_or_null("CollisionShape2D")
+	if minion_shape == null or minion_shape.shape == null:
+		return target
+	# the minion isn't in the tree yet, so its shape offset is worked out by hand
+	var shape_offset = minion_shape.position * minion.scale
+	var start = $CollisionShape2D.global_position # our body is inside the room
+	var end = target + shape_offset
+
+	var query = PhysicsShapeQueryParameters2D.new()
+	query.shape = minion_shape.shape
+	query.transform = Transform2D(0, minion.scale, 0, start)
+	query.motion = end - start
+	query.collision_mask = BaseProjectile.LAYER_WORLD
+	# [safe, unsafe] fraction of the motion, [1, 1] = no wall in the way
+	var safe = get_world_2d().direct_space_state.cast_motion(query)[0]
+	return start + query.motion * safe - shape_offset
 
 func CanShoot() -> bool:
 	return spell_caster != null and spell_caster.IsReady() and not is_dead and spawn_shoot_timer <= 0

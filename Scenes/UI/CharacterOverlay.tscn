@@ -1,0 +1,173 @@
+[gd_scene load_steps=7 format=3 uid="uid://cb0iw0hpsx2x8"]
+
+[ext_resource type="Script" uid="uid://d0grg2eolqxla" path="res://Scripts/UI/character_overlay.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://cixt07vew57f" path="res://Data/UI/main_theme.tres" id="2_theme"]
+[ext_resource type="Texture2D" uid="uid://bk1qf8hetnvtd" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-Tilesheet.png" id="3_sheet"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_frame"]
+atlas = ExtResource("3_sheet")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_frame"]
+content_margin_left = 30.0
+content_margin_top = 30.0
+content_margin_right = 30.0
+content_margin_bottom = 28.0
+texture = SubResource("AtlasTexture_frame")
+texture_margin_left = 48.0
+texture_margin_top = 48.0
+texture_margin_right = 48.0
+texture_margin_bottom = 48.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
+content_margin_left = 6.0
+content_margin_top = 4.0
+content_margin_right = 6.0
+content_margin_bottom = 5.0
+bg_color = Color(0.08, 0.07, 0.1, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.784, 0.663, 0.431, 1)
+
+[node name="CharacterOverlay" type="CanvasLayer"]
+layer = 60
+script = ExtResource("1_script")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+
+[node name="Dim" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="Center" type="CenterContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Root/Center"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_frame")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Root/Center/Frame"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="Root/Center/Frame/VBoxContainer"]
+layout_mode = 2
+text = "Character"
+horizontal_alignment = 1
+
+[node name="Columns" type="HBoxContainer" parent="Root/Center/Frame/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="StatsColumn" type="VBoxContainer" parent="Root/Center/Frame/VBoxContainer/Columns"]
+layout_mode = 2
+
+[node name="StatsHeader" type="Label" parent="Root/Center/Frame/VBoxContainer/Columns/StatsColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.784, 0.663, 0.431, 1)
+text = "Stats"
+
+[node name="StatList" type="VBoxContainer" parent="Root/Center/Frame/VBoxContainer/Columns/StatsColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="GearColumn" type="VBoxContainer" parent="Root/Center/Frame/VBoxContainer/Columns"]
+layout_mode = 2
+
+[node name="WandHeader" type="Label" parent="Root/Center/Frame/VBoxContainer/Columns/GearColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.784, 0.663, 0.431, 1)
+text = "Wand"
+
+[node name="WandRow" type="HBoxContainer" parent="Root/Center/Frame/VBoxContainer/Columns/GearColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="WandIcon" type="TextureRect" parent="Root/Center/Frame/VBoxContainer/Columns/GearColumn/WandRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WandName" type="Label" parent="Root/Center/Frame/VBoxContainer/Columns/GearColumn/WandRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Wand"
+
+[node name="PactsHeader" type="Label" parent="Root/Center/Frame/VBoxContainer/Columns/GearColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.784, 0.663, 0.431, 1)
+text = "Pacts"
+
+[node name="NoPactsLabel" type="Label" parent="Root/Center/Frame/VBoxContainer/Columns/GearColumn"]
+unique_name_in_owner = true
+modulate = Color(0.6, 0.6, 0.6, 1)
+layout_mode = 2
+text = "None yet"
+
+[node name="PactList" type="VBoxContainer" parent="Root/Center/Frame/VBoxContainer/Columns/GearColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Hint" type="Label" parent="Root/Center/Frame/VBoxContainer"]
+modulate = Color(0.6, 0.6, 0.6, 1)
+layout_mode = 2
+text = "[C] Close"
+horizontal_alignment = 1
+
+[node name="HoverPanel" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 40.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hover")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Root/HoverPanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="HoverTitle" type="Label" parent="Root/HoverPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Name"
+
+[node name="HoverSubtitle" type="Label" parent="Root/HoverPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Rare"
+
+[node name="HoverText" type="RichTextLabel" parent="Root/HoverPanel/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+text = "Description"
+fit_content = true

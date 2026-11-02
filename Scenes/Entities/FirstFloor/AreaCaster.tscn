@@ -1,12 +1,31 @@
-[gd_scene load_steps=10 format=3 uid="uid://cdjchar40e01x"]
+[gd_scene load_steps=15 format=3 uid="uid://cdjchar40e01x"]
 
 [ext_resource type="Script" uid="uid://cpdiqwgu4xekk" path="res://Scripts/Entities/EntityMisc/EntityBase.gd" id="1_7nrxw"]
-[ext_resource type="Resource" path="res://Scripts/Entities/EntityStats/AreaCasterStats.tres" id="2_4un2n"]
+[ext_resource type="Resource" uid="uid://b8o30smnx3dxt" path="res://Scripts/Entities/EntityStats/AreaCasterStats.tres" id="2_4un2n"]
 [ext_resource type="PackedScene" uid="uid://tp2mxe65f0lq" path="res://Scenes/EntityCorpses/EntityCorpseBase.tscn" id="3_dafq2"]
 [ext_resource type="PackedScene" uid="uid://b1u713r0een05" path="res://Scenes/UI/DamageNumber.tscn" id="4_oosli"]
 [ext_resource type="Resource" uid="uid://sgseuiso24cf" path="res://Data/Spells/AreaCasterSpell.tres" id="5_0hjlv"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="6_4un2n"]
+[ext_resource type="Script" uid="uid://cgk3u0qftrxyn" path="res://Scripts/Resources/EliteData.gd" id="7_dafq2"]
 [ext_resource type="SpriteFrames" uid="uid://bq2tfnt34u4c1" path="res://Scripts/Resources/SpriteFrames/WizardSpriteFrames.tres" id="7_q4usb"]
 [ext_resource type="Script" uid="uid://baqm57n8ry0h1" path="res://Scripts/Entities/EntityAIs/ShooterAI.gd" id="8_xvmuf"]
+
+[sub_resource type="Resource" id="Resource_oosli"]
+script = ExtResource("6_4un2n")
+stat = &"area_count"
+flat = 2.0
+metadata/_custom_type_script = "uid://dagkcxgw77g4s"
+
+[sub_resource type="Resource" id="Resource_4un2n"]
+script = ExtResource("6_4un2n")
+stat = &"area_radius"
+flat = 1.0
+metadata/_custom_type_script = "uid://dagkcxgw77g4s"
+
+[sub_resource type="Resource" id="Resource_0hjlv"]
+script = ExtResource("7_dafq2")
+modifiers = Array[ExtResource("6_4un2n")]([SubResource("Resource_oosli"), SubResource("Resource_4un2n")])
+metadata/_custom_type_script = "uid://cgk3u0qftrxyn"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s367j"]
 radius = 8.062258
@@ -25,6 +44,7 @@ damage_number_scene = ExtResource("4_oosli")
 override_death_offset = true
 death_offset = Vector2(-32, -32)
 spell = ExtResource("5_0hjlv")
+elite_data = SubResource("Resource_0hjlv")
 
 [node name="Area2D" type="Area2D" parent="."]
 

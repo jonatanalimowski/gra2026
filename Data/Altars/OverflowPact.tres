@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AltarPact" load_steps=4 format=3 uid="uid://r6xoanyksb53"]
+
+[ext_resource type="Resource" uid="uid://b5l14aspjq872" path="res://Data/Blessings/MoreManaBlessing.tres" id="1_xr1a8"]
+[ext_resource type="Resource" uid="uid://kvypxutyrke1" path="res://Data/Curses/EliteAwakeningCurse.tres" id="2_eeii5"]
+[ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="3_qbij6"]
+
+[resource]
+script = ExtResource("3_qbij6")
+blessing = ExtResource("1_xr1a8")
+curse = ExtResource("2_eeii5")
+max_stacks = 1
+rarity = 1
+id = &"pact_overflow"
+display_name = "Overflow"
+metadata/_custom_type_script = "uid://b6jp2atuorn85"
