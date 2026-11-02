@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="GlyphData" load_steps=10 format=3 uid="uid://dmlijcfvacgre"]
+
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="1_pdepx"]
+[ext_resource type="Script" uid="uid://cben1sbwi083e" path="res://Scripts/Altars/GlyphData.gd" id="1_r"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_108vh"]
+[ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="2_r"]
+[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="3_d6m4d"]
+[ext_resource type="Script" uid="uid://cjp37m6rc8u6d" path="res://Scripts/Combat/StatusEffects/StatusTweak.gd" id="3_r"]
+[ext_resource type="Resource" path="res://Data/Statuses/Burn.tres" id="4_r"]
+
+[sub_resource type="Resource" id="Resource_2"]
+script = ExtResource("3_r")
+status = ExtResource("4_r")
+extra_max_stacks = 1
+
+[sub_resource type="Resource" id="Resource_1"]
+script = ExtResource("2_r")
+type = 1
+display_name = "Fuel"
+description = "Burn can stack 1 more time."
+status_tweaks = Array[ExtResource("3_r")]([SubResource("Resource_2")])
+
+[resource]
+script = ExtResource("1_r")
+blessing = SubResource("Resource_1")
+school = 1
+id = &"glyph_fuel"
+display_name = "Fuel"
+description = "Burn can stack 1 more time."

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AltarPact" load_steps=5 format=3 uid="uid://bu0l06ewpsb2c"]
+
+[ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_r"]
+[ext_resource type="Resource" uid="uid://ccwaf2fqmhtj6" path="res://Data/Blessings/GlacialNovaBlessing.tres" id="2_r"]
+[ext_resource type="Resource" uid="uid://blwrcpve5nxx2" path="res://Data/Curses/NumbHandsCurse.tres" id="3_r"]
+[ext_resource type="Resource" path="res://Data/Blessings/GlacialNovaIIBlessing.tres" id="r2_r"]
+
+[resource]
+script = ExtResource("1_r")
+blessing = ExtResource("2_r")
+curse = ExtResource("3_r")
+slot = 2
+rank2_blessing = ExtResource("r2_r")
+id = &"pact_glacial_nova"
+display_name = "Glacial Nova"

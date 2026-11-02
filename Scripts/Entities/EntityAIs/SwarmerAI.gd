@@ -39,6 +39,9 @@ func _ready() -> void:
 	ParentEntity.add_to_group("swarmer")
 	state_timer = Vary(rest_time)
 	summon_timer = first_summon_delay
+	# elite: summons twice as often, and its copies are faster
+	if ParentEntity.is_elite:
+		summon_cooldown *= 0.5
 	# copies come from the entity's own scene (can't be an export, a scene can't contain itself)
 	if can_summon and ParentEntity.scene_file_path != "":
 		summon_scene = load(ParentEntity.scene_file_path)
@@ -109,6 +112,11 @@ func Summon() -> void:
 		hp_mod.stat = &"max_health"
 		hp_mod.multiplier = minion_health_multiplier
 		minion.stats.AddModifier(hp_mod, minion_brain)
+		if ParentEntity.is_elite:
+			var speed_mod = StatModifier.new()
+			speed_mod.stat = &"movement_speed"
+			speed_mod.multiplier = 1.3
+			minion.stats.AddModifier(speed_mod, minion_brain)
 
 		minions.append(minion)
 		minion.died.connect(_on_minion_died)

@@ -1,14 +1,17 @@
-[gd_resource type="Resource" script_class="AltarPact" load_steps=4 format=3 uid="uid://nbno5ojy2xpo"]
+[gd_resource type="Resource" script_class="AltarPact" load_steps=5 format=3]
 
-[ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_pact"]
-[ext_resource type="Resource" uid="uid://b6hb7qpv8o8m3" path="res://Data/Blessings/VitalMotesBlessing.tres" id="2_blessing"]
-[ext_resource type="Resource" uid="uid://c5jfio804oko3" path="res://Data/Curses/DrainedFontCurse.tres" id="3_curse"]
+[ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_r"]
+[ext_resource type="Resource" path="res://Data/Blessings/LifebloodBlessing.tres" id="2_r"]
+[ext_resource type="Resource" path="res://Data/Curses/WitheredFontCurse.tres" id="3_r"]
+[ext_resource type="Resource" path="res://Data/Blessings/LifebloodIIBlessing.tres" id="r2_r"]
 
 [resource]
-script = ExtResource("1_pact")
-blessing = ExtResource("2_blessing")
-curse = ExtResource("3_curse")
-rarity = 1
-weight = 1.5
+script = ExtResource("1_r")
+blessing = ExtResource("2_r")
+curse = ExtResource("3_r")
+rank2_blessing = ExtResource("r2_r")
+rarity = 0
+slot = 5
+weight = 1.0
 id = &"pact_lifeblood"
-display_name = "Lifeblood Pact"
+display_name = "Lifeblood"

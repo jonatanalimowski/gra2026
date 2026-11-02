@@ -1,21 +1,25 @@
-[gd_resource type="Resource" script_class="Blessing" load_steps=8 format=3 uid="uid://3xltxr16fiu"]
+[gd_resource type="Resource" script_class="Blessing" load_steps=10 format=3 uid="uid://3xltxr16fiu"]
 
 [ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="1_26dsl"]
-[ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="1_half"]
+[ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="1_r"]
 [ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_qp3sm"]
-[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="2_runeffect"]
-[ext_resource type="Script" uid="uid://cxsgc8u3x6jj3" path="res://Scripts/Combat/Effects/RunEffects/ExplodeOnKillEffect.gd" id="3_explode"]
-[ext_resource type="PackedScene" uid="uid://dhpf3x35g6lp7" path="res://Scenes/Combat/Explosion.tscn" id="4_scene"]
+[ext_resource type="Script" uid="uid://cxsgc8u3x6jj3" path="res://Scripts/Combat/Effects/RunEffects/ExplodeOnKillEffect.gd" id="2_r"]
+[ext_resource type="PackedScene" uid="uid://dhpf3x35g6lp7" path="res://Scenes/Combat/Explosion.tscn" id="3_r"]
+[ext_resource type="Resource" path="res://Data/Statuses/Burn.tres" id="4_r"]
+[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="5_r"]
+[ext_resource type="Script" uid="uid://cjp37m6rc8u6d" path="res://Scripts/Combat/StatusEffects/StatusTweak.gd" id="8_l3wh7"]
 
-[sub_resource type="Resource" id="Resource_explode"]
-script = ExtResource("3_explode")
-chance = 0.3
+[sub_resource type="Resource" id="Resource_1"]
+script = ExtResource("2_r")
+chance = 0.2
 damage = 30.0
-explosion_scene = ExtResource("4_scene")
+explosion_scene = ExtResource("3_r")
+required_status = ExtResource("4_r")
 
 [resource]
-script = ExtResource("1_half")
+script = ExtResource("1_r")
 type = 2
 display_name = "Volatile Dead"
-description = "Defeated monsters have a 30% chance to explode, dealing 30 damage to other monsters."
-run_effects = Array[ExtResource("2_runeffect")]([SubResource("Resource_explode")])
+description = "Burning enemies explode on death (others: 20%), dealing 30 damage to other monsters."
+school = 1
+run_effects = Array[ExtResource("5_r")]([SubResource("Resource_1")])

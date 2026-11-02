@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="GlyphData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Altars/GlyphData.gd" id="1_r"]
+[ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="2_r"]
+
+[sub_resource type="Resource" id="Resource_1"]
+script = ExtResource("2_r")
+type = 1
+display_name = "Fork"
+description = "Shock arcs hit 1 more enemy."
+flags = Array[StringName]([&"fork"])
+
+[resource]
+script = ExtResource("1_r")
+blessing = SubResource("Resource_1")
+school = 3
+max_stacks = 2
+id = &"glyph_fork"
+display_name = "Fork"
+description = "Shock arcs hit 1 more enemy."

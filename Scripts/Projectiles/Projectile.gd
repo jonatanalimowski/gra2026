@@ -90,6 +90,7 @@ func HandleCollision(collision: KinematicCollision2D) -> void:
 		var source = caster if is_instance_valid(caster) else null
 		var info = DamageInfo.new(damage, source)
 		info.knockback = direction * stats.knockback_force
+		info.target = body
 		# crit before the effects, so they see the final hit (vampirism heals off it)
 		if randf() < crit_chance:
 			info.is_critical = true

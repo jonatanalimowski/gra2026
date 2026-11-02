@@ -1,8 +1,10 @@
 extends Room
 class_name RestRoom
 
-# a quiet room at the end of a side branch. stepping onto the shrine heals the player once
-@export_range(0.0, 1.0) var heal_share: float = 0.5
+# Sanctuary: a quiet room at the end of a side branch (one every floor). stepping onto the shrine
+# once gives +10 max HP for the rest of the run (SanctuaryBlessing, stacks) and heals 40%
+const SANCTUARY_BLESSING = preload("res://Data/Blessings/SanctuaryBlessing.tres")
+@export_range(0.0, 1.0) var heal_share: float = 0.4
 @onready var shrine: Area2D = $Shrine
 @onready var shrine_sprite: Sprite2D = %Heart
 var is_used: bool = false
@@ -20,12 +22,12 @@ func _on_shrine_body_entered(body: Node2D) -> void:
 		return
 
 	var player = body as Player
-	# at full health the shrine waits instead of being wasted
-	if player.health.current >= player.health.maximum:
-		return
-
 	is_used = true
-	player.health.Heal(player.health.maximum * heal_share, false)
+	# max HP first, so the heal counts the new maximum. works at full HP too, the max HP is the point
+	RunState.AddHalf(SANCTUARY_BLESSING, true)
+	# Cold Hearth curse
+	var share = heal_share * (0.5 if RunState.HasFlag(&"sanctuary_heal_halved") else 1.0)
+	player.health.Heal(player.health.maximum * share, false)
 	Sfx.Play(&"world/heal", -10)
 	GlobalMethods.FlashSprite(player.sprite, 0.4, Color.GREEN)
 

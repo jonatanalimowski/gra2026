@@ -24,6 +24,11 @@ func _ready() -> void:
 	boss_ui.visible = false
 	# the run scene reloads every floor, so setting it once is enough
 	floor_label.text = "Floor %d" % RunState.floor_number
+	for omen in RunState.omens:
+		floor_label.text += "\nOmen: %s" % omen.display_name
+	if not RunState.omens.is_empty():
+		floor_label.tooltip_text = "\n".join(RunState.omens.map(func(o): return "%s: %s" % [o.display_name, o.description]))
+		floor_label.mouse_filter = Control.MOUSE_FILTER_STOP
 	# stats are hidden behind Tab, the hint takes their place while closed
 	tab_hint = Label.new()
 	tab_hint.text = "[C] Stats"
@@ -43,6 +48,27 @@ func ConnectSignals() -> void:
 	Signals.boss_defeated.connect(_on_boss_deafeated)
 	RunState.pact_added.connect(_on_pact_added)
 	RunState.curse_cleansed.connect(func(_curse): UpdatePacts())
+	RunState.attunement_reached.connect(_on_attunement_reached)
+
+# big named popup in the middle of the screen when a school tier is reached
+func _on_attunement_reached(attunement: Attunement) -> void:
+	var label = Label.new()
+	label.text = "%s Attunement: %s" % [School.GetName(attunement.school), attunement.display_name]
+	if attunement.blessing:
+		label.text += "\n" + attunement.blessing.description
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.modulate = School.GetColor(attunement.school)
+	label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+	label.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	label.position.y = 60
+	label.scale = Vector2(1.5, 1.5)
+	add_child(label)
+	label.pivot_offset = label.size / 2.0
+	Sfx.Play(&"altar/cleanse", -4)
+	var tween = label.create_tween()
+	tween.tween_interval(2.5)
+	tween.tween_property(label, "modulate:a", 0.0, 0.8)
+	tween.tween_callback(label.queue_free)
 
 func _on_player_ready(new_player: Player):
 	player = new_player
@@ -82,7 +108,7 @@ func UpdateHeavySlot() -> void:
 	if player == null:
 		return
 	var heavy = player.wand.heavy
-	var can_cast = heavy != null and player.mana >= heavy.stats.GetStat(&"mana_cost")
+	var can_cast = heavy != null and (player.mana >= heavy.stats.GetStat(&"mana_cost") or RunState.HasFlag(&"blood_price"))
 	heavy_spell_slot.modulate = Color.WHITE if can_cast else GRAY
 
 # one label per stat, kept up to date through the StatBlock's stat_changed signal
@@ -173,6 +199,8 @@ func UpdatePacts() -> void:
 		# a broken curse leaves just the blessing, shown in the buff color
 		var stacks = RunState.GetStackCount(pact)
 		label.text = pact.display_name + (" x%d" % stacks if stacks > 1 else "")
+		if pact.slot != AltarPact.Slot.NONE:
+			label.text = "[%s] %s" % [AltarPact.GetSlotName(pact.slot), label.text]
 		label.modulate = AltarPact.BUFF_COLOR if broken else Color(1, 0.6, 0.9)
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		row.add_child(label)

@@ -5,6 +5,8 @@ class_name WandData
 @export var heavy_spell: SpellData # right click, can be empty
 @export var rune_slots: int = 2
 @export var runes: Array[RuneData] = []
+# school this wand leans toward: x1.5 offer weight on the first altar, later its evolution
+@export var school_affinity: School.Kind = School.Kind.NONE
 
 func GetDisplayStats() -> Dictionary[String, Dictionary]:
 	var sections: Dictionary[String, Dictionary] = { "Wand": { &"rune_slots": float(rune_slots) } }

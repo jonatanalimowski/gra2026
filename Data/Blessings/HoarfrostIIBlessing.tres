@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Blessing" load_steps=9 format=3 uid="uid://c55v3c7tc7l21"]
+
+[ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="1_r"]
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="1_t2vt6"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_15s6h"]
+[ext_resource type="Script" path="res://Scripts/Combat/Effects/RunEffects/ManaShieldEffect.gd" id="2_r"]
+[ext_resource type="Resource" uid="uid://b2q1hs4ql2sdl" path="res://Data/Statuses/Chill.tres" id="3_r"]
+[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="4_r"]
+[ext_resource type="Script" uid="uid://cjp37m6rc8u6d" path="res://Scripts/Combat/StatusEffects/StatusTweak.gd" id="7_8bdbw"]
+
+[sub_resource type="Resource" id="Resource_1"]
+script = ExtResource("2_r")
+mana_per_charge = 20.0
+attacker_status = ExtResource("3_r")
+attacker_stacks = 3
+
+[resource]
+script = ExtResource("1_r")
+display_name = "Hoarfrost II"
+description = "Every 20 mana collected gives a frost shield: it blocks one hit and gives the attacker 3 Chill."
+school = 2
+run_effects = Array[ExtResource("4_r")]([SubResource("Resource_1")])

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Blessing" load_steps=2 format=3]
+
+[ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="1_r"]
+
+[resource]
+script = ExtResource("1_r")
+type = 2
+display_name = "Stormcaller"
+description = "Storm Tier II: Shock arcs apply Shock, so they can chain again."
+school = 0
+flags = Array[StringName]([&"stormcaller"])

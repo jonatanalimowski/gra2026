@@ -27,6 +27,9 @@ var wander_direction: Vector2 = Vector2.ZERO
 var charge_direction: Vector2 = Vector2.ZERO
 # added while charging so hits can't push or stun it
 var unstoppable_mod: StatModifier
+# elite: chains a second dash right after the first (shorter windup)
+var chained: bool = false
+@export var elite_chain_windup: float = 0.25
 
 func _ready() -> void:
 	orbit_direction = [-1.0, 1.0].pick_random()
@@ -51,9 +54,15 @@ func _process(delta: float) -> void:
 				StartCharge()
 		State.CHARGE:
 			if state_timer <= 0:
-				state = State.CIRCLE
 				ParentEntity.stats.RemoveModifiersFrom(self)
-				cooldown = randf_range(charge_cooldown_min, charge_cooldown_max)
+				if ParentEntity.is_elite and not chained and NodeReferences.player:
+					chained = true
+					StartWindup()
+					state_timer = elite_chain_windup
+				else:
+					chained = false
+					state = State.CIRCLE
+					cooldown = randf_range(charge_cooldown_min, charge_cooldown_max)
 
 	UpdateFacing()
 

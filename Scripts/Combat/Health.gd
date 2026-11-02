@@ -4,6 +4,10 @@ class_name Health
 # shared health logic for the player and enemies
 signal changed(current: float, maximum: float)
 signal died
+# healing past the maximum (Sanguine turns it into a barrier)
+signal overhealed(amount: float)
+# Thin Blood etc., set by the owner
+var heal_multiplier: float = 1.0
 
 var current: float
 var maximum: float
@@ -28,9 +32,13 @@ func Heal(amount: float, is_percentage: bool) -> void:
 	var new = amount
 	if is_percentage:
 		new = maximum*(amount/100)
-		
+	new *= heal_multiplier
+
+	var overflow = current + new - maximum
 	current = min(current + new, maximum)
 	changed.emit(current, maximum)
+	if overflow > 0.0:
+		overhealed.emit(overflow)
 
 # keeps the same health percentage when max health changes (e.g. armor equipped mid-run)
 func SetMaximum(value: float) -> void:

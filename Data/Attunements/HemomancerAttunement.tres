@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Attunement" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Altars/Attunement.gd" id="1_r"]
+[ext_resource type="Resource" path="res://Data/Blessings/HemomancerBlessing.tres" id="2_r"]
+
+[resource]
+script = ExtResource("1_r")
+school = 4
+threshold = 4
+tier = 1
+display_name = "Hemomancer"
+blessing = ExtResource("2_r")

@@ -28,8 +28,28 @@ enum State { NORMAL_JUMP, SUPER_JUMP, IDLE }
 var state: State = State.IDLE
 var jump_counter = 0
 
+# elite: every landing sends a ring of slow projectiles
+@export var elite_ring_count: int = 6
+@export var elite_ring_speed: float = 0.45
+@export var elite_ring_scene: PackedScene = preload("res://Scenes/ProjectileScenes/EnemyShooterProjectile.tscn")
+
 func _ready() -> void:
 	jump_frequency_variation = randf_range(0, max_frequency_variation)
+	ParentEntity.landed.connect(_on_landed)
+
+func _on_landed() -> void:
+	if not ParentEntity.is_elite or ParentEntity.is_dead:
+		return
+	var offset = randf() * TAU
+	for i in elite_ring_count:
+		var projectile = elite_ring_scene.instantiate() as BaseProjectile
+		projectile.caster = ParentEntity
+		projectile.team = BaseProjectile.Team.ENEMY
+		projectile.damage = ParentEntity.stats.GetStat(&"attack_damage") * 0.5
+		projectile.speed_multiplier = elite_ring_speed
+		projectile.global_position = ParentEntity.global_position
+		projectile.SetDirection(Vector2.from_angle(offset + TAU * i / elite_ring_count))
+		get_tree().current_scene.add_child(projectile)
 
 func _process(delta: float) -> void:
 	if not ParentEntity or ParentEntity.IsStunned(): return

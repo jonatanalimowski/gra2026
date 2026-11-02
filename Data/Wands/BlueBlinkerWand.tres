@@ -38,6 +38,7 @@ spread = 3.0
 script = ExtResource("1_wand")
 primary_spell = SubResource("Resource_primary_spell")
 heavy_spell = SubResource("Resource_qm8c2")
+school_affinity = 2
 id = &"blue_blinker_wand"
 display_name = "Blue Wand"
 description = "Primary spell: High velocity projectiles with bigger base damage.

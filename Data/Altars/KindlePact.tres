@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AltarPact" load_steps=5 format=3 uid="uid://cfrg1ra1l08wl"]
+
+[ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_r"]
+[ext_resource type="Resource" uid="uid://bka3rydbw8mkv" path="res://Data/Blessings/KindleBlessing.tres" id="2_r"]
+[ext_resource type="Resource" uid="uid://3io2yn276ebn" path="res://Data/Curses/SmolderCurse.tres" id="3_r"]
+[ext_resource type="Resource" path="res://Data/Blessings/KindleIIBlessing.tres" id="r2_r"]
+
+[resource]
+script = ExtResource("1_r")
+blessing = ExtResource("2_r")
+curse = ExtResource("3_r")
+slot = 1
+rank2_blessing = ExtResource("r2_r")
+id = &"pact_kindle"
+display_name = "Kindle"

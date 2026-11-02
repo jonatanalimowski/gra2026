@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Attunement" load_steps=3 format=3 uid="uid://b5tugmbylkt75"]
+
+[ext_resource type="Script" uid="uid://bf386mx6yrha3" path="res://Scripts/Altars/Attunement.gd" id="1_r"]
+[ext_resource type="Resource" uid="uid://cfmfnubaj88e2" path="res://Data/Blessings/GlacierBlessing.tres" id="2_r"]
+
+[resource]
+script = ExtResource("1_r")
+school = 2
+display_name = "Glacier"
+blessing = ExtResource("2_r")

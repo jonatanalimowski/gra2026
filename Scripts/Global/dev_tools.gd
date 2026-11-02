@@ -19,11 +19,29 @@ var more_elites: bool = false:
 	set(value):
 		more_elites = value
 
+# every player hit applies 1 Burn / 1 Chill (ApplyStatusOnHitEffect on Player.effects), for testing statuses in real fights
+const BURN_STATUS = preload("res://Data/Statuses/Burn.tres")
+const CHILL_STATUS = preload("res://Data/Statuses/Chill.tres")
+var burn_shots: bool = false:
+	set(value):
+		burn_shots = value
+		if is_instance_valid(NodeReferences.player):
+			ApplyShotCheats(NodeReferences.player)
+var chill_shots: bool = false:
+	set(value):
+		chill_shots = value
+		if is_instance_valid(NodeReferences.player):
+			ApplyShotCheats(NodeReferences.player)
+var burn_shot_effect: ApplyStatusOnHitEffect = ApplyStatusOnHitEffect.new()
+var chill_shot_effect: ApplyStatusOnHitEffect = ApplyStatusOnHitEffect.new()
+
 var layer: CanvasLayer
 
 func _init() -> void:
 	damage_cheat_mod.stat = &"damage"
 	damage_cheat_mod.multiplier = 10.0
+	burn_shot_effect.status = BURN_STATUS
+	chill_shot_effect.status = CHILL_STATUS
 
 func _ready() -> void:
 	if not OS.is_debug_build():
@@ -67,3 +85,18 @@ func ApplyDamageCheat(player: Player) -> void:
 		caster.stats.RemoveModifiersFrom(self)
 		if x10damage:
 			caster.stats.AddModifier(damage_cheat_mod, self)
+
+# also called by Player.ApplyLoadout, effects are rebuilt every floor/restart
+func ApplyShotCheats(player: Player) -> void:
+	player.effects.erase(burn_shot_effect)
+	player.effects.erase(chill_shot_effect)
+	if burn_shots:
+		player.effects.append(burn_shot_effect)
+	if chill_shots:
+		player.effects.append(chill_shot_effect)
+
+# stacks of a status on every living enemy (dev panel)
+func ApplyStatusToAllEnemies(effect: StatusEffect, stacks: int) -> void:
+	for enemy in get_tree().get_nodes_in_group("enemy"):
+		if enemy is Entity and not enemy.is_dead:
+			enemy.ApplyStatus(effect, NodeReferences.player, 1.0, 1.0, stacks)

@@ -65,6 +65,8 @@ func BuildWand(wand: Wand) -> void:
 		return
 	wand_icon.texture = wand.data.icon
 	wand_name.text = wand.data.display_name
+	if RunState.evolution and RunState.evolution.wand == wand.data:
+		wand_name.text = RunState.evolution.display_name
 	# live stats from the casters, so runes, pacts and upgrades are included
 	var sections: Array[String] = []
 	if wand.data.description != "":
@@ -90,6 +92,31 @@ func BuildPacts() -> void:
 			continue
 		shown.append(pact)
 		pact_list.add_child(MakePactRow(pact))
+	# glyphs under the pacts, one row each with "xN"
+	var shown_glyphs: Array[GlyphData] = []
+	for glyph in RunState.glyphs:
+		if glyph in shown_glyphs:
+			continue
+		shown_glyphs.append(glyph)
+		pact_list.add_child(MakeGlyphRow(glyph))
+	no_pacts_label.visible = RunState.pacts.is_empty() and RunState.glyphs.is_empty()
+
+func MakeGlyphRow(glyph: GlyphData) -> HBoxContainer:
+	var row = HBoxContainer.new()
+	for icon in glyph.GetTagIcons():
+		var rect = TextureRect.new()
+		rect.texture = icon
+		rect.custom_minimum_size = Vector2(12, 12)
+		rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		row.add_child(rect)
+	var stacks = RunState.GetGlyphStacks(glyph)
+	var label = Label.new()
+	label.text = "Glyph: %s" % glyph.display_name + (" x%d" % stacks if stacks > 1 else "")
+	label.modulate = School.GetColor(glyph.school)
+	row.add_child(label)
+	ConnectHover(row, label.text, glyph.GetSubtitle(), glyph.GetSubtitleColor(), glyph.GetRichDescription())
+	return row
 
 func MakePactRow(pact: AltarPact) -> HBoxContainer:
 	var row = HBoxContainer.new()
@@ -105,6 +132,8 @@ func MakePactRow(pact: AltarPact) -> HBoxContainer:
 	var stacks = RunState.GetStackCount(pact)
 	var label = Label.new()
 	label.text = pact.display_name + (" x%d" % stacks if stacks > 1 else "")
+	if pact.slot != AltarPact.Slot.NONE:
+		label.text = "[%s] %s" % [AltarPact.GetSlotName(pact.slot), label.text]
 	# a broken curse leaves just the blessing, shown in the buff color
 	label.modulate = AltarPact.BUFF_COLOR if broken else PACT_NAME_COLOR
 	row.add_child(label)

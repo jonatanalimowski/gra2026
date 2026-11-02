@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Curse" load_steps=2 format=3]
+
+[ext_resource type="Script" uid="uid://cvxf4dpi86mre" path="res://Scripts/Altars/Curse.gd" id="1_r"]
+
+[resource]
+script = ExtResource("1_r")
+display_name = "Short Fuse"
+description = "Dash cooldown +30%."
+flags = Array[StringName]([&"short_fuse"])

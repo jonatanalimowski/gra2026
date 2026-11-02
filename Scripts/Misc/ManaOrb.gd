@@ -22,6 +22,8 @@ var amount: float = MANA_PER_ORB
 var velocity: Vector2
 var speed: float = 0.0
 var age: float = 0.0
+# per-orb data for RunEffects (Ember Motes: who it already ignited), key = effect
+var effect_state: Dictionary = {}
 
 # splits the mana into orbs of ~MANA_PER_ORB each
 static func SpawnBurst(parent: Node, pos: Vector2, total_mana: float) -> void:
@@ -38,6 +40,16 @@ static func SpawnBurst(parent: Node, pos: Vector2, total_mana: float) -> void:
 		orb.position = pos
 		parent.add_child.call_deferred(orb)
 
+# Bloodthirst: a heal-only orb, no mana
+static func SpawnMote(parent: Node, pos: Vector2, heal: float) -> void:
+	var orb: ManaOrb = load(SCENE_PATH).instantiate()
+	orb.amount = 0.0
+	orb.is_healing = true
+	orb.heal_amount = heal
+	orb.radius *= 0.8
+	orb.position = pos
+	parent.add_child.call_deferred(orb)
+
 func _ready() -> void:
 	velocity = Vector2.RIGHT.rotated(randf() * TAU) * randf_range(0.4, 1.0) * scatter_speed
 
@@ -51,11 +63,15 @@ func _physics_process(delta: float) -> void:
 		speed = min(speed + home_acceleration * delta, max_speed)
 		# within one step = caught, so fast orbs can't skip past the player
 		if to_player.length() < max(pickup_distance, speed * delta):
-			player.AddMana(amount * player.stats.GetStat(&"mana_gain"))
+			var mana = amount * player.stats.GetStat(&"mana_gain")
+			player.AddMana(mana)
 			if is_healing:
-				player.health.Heal(heal_amount, false)
+				# Clotting glyph: +3 per stack
+				player.health.Heal(heal_amount + 3.0 * RunState.CountFlag(&"clotting"), false)
+			Signals.orb_collected.emit(self, mana)
 			queue_free()
 			return
+		RunState.OrbProcess(self, delta)
 		velocity = velocity.lerp(to_player.normalized() * speed, 1.0 - exp(-turn_rate * delta))
 	global_position += velocity * delta
 

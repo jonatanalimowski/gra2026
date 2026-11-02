@@ -28,3 +28,4 @@ id = &"purple_saw_staff"
 display_name = "Purple Saw Staff"
 description = "A weapon made for attacking your enemies"
 icon = SubResource("AtlasTexture_icon")
+school_affinity = 4

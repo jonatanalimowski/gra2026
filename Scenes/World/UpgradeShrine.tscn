@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=20 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Worldgen/UpgradeShrine.gd" id="1_shrine"]
 [ext_resource type="Texture2D" path="res://assets/packs/tilesets/0x72_DungeonTilesetII/0x72_DungeonTilesetII_v1.7/0x72_DungeonTilesetII_v1.7/frames/flask_big_yellow.png" id="2_tex"]
@@ -7,11 +7,26 @@
 [ext_resource type="Resource" path="res://Data/StatUpgrades/PowerUpgrade.tres" id="5_u2"]
 [ext_resource type="Resource" path="res://Data/StatUpgrades/QuickCastUpgrade.tres" id="6_u3"]
 
+[ext_resource type="Resource" path="res://Data/Duos/ThermalShockDuo.tres" id="duo_0"]
+[ext_resource type="Resource" path="res://Data/Duos/PlasmaDuo.tres" id="duo_1"]
+[ext_resource type="Resource" path="res://Data/Duos/BoilingBloodDuo.tres" id="duo_2"]
+[ext_resource type="Resource" path="res://Data/Duos/SuperconductorDuo.tres" id="duo_3"]
+[ext_resource type="Resource" path="res://Data/Duos/ColdBloodDuo.tres" id="duo_4"]
+[ext_resource type="Resource" path="res://Data/Duos/GalvanicPulseDuo.tres" id="duo_5"]
+[ext_resource type="Resource" path="res://Data/Evolutions/InfernoWheelEvolution.tres" id="evo_0"]
+[ext_resource type="Resource" path="res://Data/Evolutions/GlacierLanceEvolution.tres" id="evo_1"]
+[ext_resource type="Resource" path="res://Data/Evolutions/ForkedLightningEvolution.tres" id="evo_2"]
+[ext_resource type="Resource" path="res://Data/Evolutions/HemoclastEvolution.tres" id="evo_3"]
+[ext_resource type="Script" path="res://Scripts/Altars/DuoData.gd" id="duo_script"]
+[ext_resource type="Script" path="res://Scripts/Altars/WandEvolution.gd" id="evo_script"]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_shrine"]
 radius = 14.0
 
 [node name="UpgradeShrine" type="Area2D"]
 script = ExtResource("1_shrine")
+duo_pool = Array[ExtResource("duo_script")]([ExtResource("duo_0"), ExtResource("duo_1"), ExtResource("duo_2"), ExtResource("duo_3"), ExtResource("duo_4"), ExtResource("duo_5")])
+evolution_pool = Array[ExtResource("evo_script")]([ExtResource("evo_0"), ExtResource("evo_1"), ExtResource("evo_2"), ExtResource("evo_3")])
 upgrades = Array[ExtResource("3_upg")]([ExtResource("4_u1"), ExtResource("5_u2"), ExtResource("6_u3")])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

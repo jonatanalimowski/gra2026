@@ -22,6 +22,7 @@ func StartRun(loadout: Loadout, run_seed: int = 0) -> void:
 # run-wide buffs in _ready, and the generator gets a new floor seed
 func NextFloor() -> void:
 	RunState.floor_number += 1
+	RunState.RollOmens()
 	get_tree().change_scene_to_file(RUN_SCENE)
 
 # same loadout, fresh run (Ctrl+R). new dungeon unless same_seed

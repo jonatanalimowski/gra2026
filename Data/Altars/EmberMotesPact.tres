@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AltarPact" load_steps=5 format=3 uid="uid://15ojeqy8in10"]
+
+[ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_r"]
+[ext_resource type="Resource" uid="uid://brep2uyrlsdkl" path="res://Data/Blessings/EmberMotesBlessing.tres" id="2_r"]
+[ext_resource type="Resource" uid="uid://c5jfio804oko3" path="res://Data/Curses/DrainedFontCurse.tres" id="3_r"]
+[ext_resource type="Resource" path="res://Data/Blessings/EmberMotesIIBlessing.tres" id="r2_r"]
+
+[resource]
+script = ExtResource("1_r")
+blessing = ExtResource("2_r")
+curse = ExtResource("3_r")
+slot = 5
+rank2_blessing = ExtResource("r2_r")
+id = &"pact_ember_motes"
+display_name = "Ember Motes"

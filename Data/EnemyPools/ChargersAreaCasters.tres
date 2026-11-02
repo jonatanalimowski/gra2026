@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="EnemyPool" load_steps=7 format=3 uid="uid://cyp178r7ik0q3"]
 
-[ext_resource type="Script" path="res://Scripts/Worldgen/EnemyPoolEntry.gd" id="1_d54qp"]
-[ext_resource type="Script" path="res://Scripts/Worldgen/EnemyPool.gd" id="2_6xvrt"]
+[ext_resource type="Script" uid="uid://dlv0bwepbxqbf" path="res://Scripts/Worldgen/EnemyPoolEntry.gd" id="1_d54qp"]
+[ext_resource type="Script" uid="uid://dyf22aipq6bh6" path="res://Scripts/Worldgen/EnemyPool.gd" id="2_6xvrt"]
 [ext_resource type="PackedScene" uid="uid://bli2attvtjcur" path="res://Scenes/Entities/FirstFloor/Charger.tscn" id="2_vcll1"]
 [ext_resource type="PackedScene" uid="uid://cdjchar40e01x" path="res://Scenes/Entities/FirstFloor/AreaCaster.tscn" id="3_vcll1"]
 

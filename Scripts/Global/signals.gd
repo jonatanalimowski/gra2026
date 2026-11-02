@@ -6,6 +6,8 @@ signal player_mana_changed(new_current: float, new_max: float)
 signal player_ready(player_node: Player)
 signal player_died
 signal enemy_killed(enemy: Entity, info: DamageInfo)
+signal enemy_frozen(enemy: Entity)
+signal enemy_damaged(enemy: Entity, info: DamageInfo, amount: float)
 signal room_cleared
 signal world_generated(layout: Array) # Array[LayoutPiece]
 signal all_rooms_cleared
@@ -14,3 +16,9 @@ signal boss_health_changed(new_current: int, new_max: int)
 signal boss_defeated
 signal player_damaged(info: DamageInfo)
 signal screen_shake(trauma: float) # 0-1, camera adds it up and decays it
+signal player_dash_started(position: Vector2, direction: Vector2)
+signal player_dash_ended(position: Vector2)
+signal player_dashed_through(enemy: Entity) # once per enemy per dash
+signal orb_collected(orb: ManaOrb, mana: float)
+signal player_hit_blocked(info: DamageInfo) # a shield ate the hit
+signal player_shield_changed(charges: int)

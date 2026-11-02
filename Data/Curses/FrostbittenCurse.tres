@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Curse" load_steps=7 format=3 uid="uid://djbism2vtmwt7"]
+
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="1_1p45y"]
+[ext_resource type="Script" uid="uid://cvxf4dpi86mre" path="res://Scripts/Altars/Curse.gd" id="1_r"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_r"]
+[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="3_hejld"]
+[ext_resource type="Script" uid="uid://cjp37m6rc8u6d" path="res://Scripts/Combat/StatusEffects/StatusTweak.gd" id="5_qxi8m"]
+
+[sub_resource type="Resource" id="Resource_1"]
+script = ExtResource("2_r")
+stat = &"movement_speed"
+multiplier = 0.9
+
+[resource]
+script = ExtResource("1_r")
+display_name = "Frostbitten"
+description = "You move 10% slower."
+player_modifiers = Array[ExtResource("2_r")]([SubResource("Resource_1")])

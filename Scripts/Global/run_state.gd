@@ -19,7 +19,53 @@ var pacts: Array[AltarPact] = [] # what was taken (HUD, offer pool), a stacking 
 var halves: Array[PactHalf] = [] # active blessings + curses, a stacked half once per stack
 var cleansed_curses: Array[Curse] = []
 var run_effect_state: Dictionary = {} # per-run data for RunEffects, key = effect
+# verb slots: AltarPact.Slot -> the pact in it. a new pact for a filled slot replaces the old one
+var slots: Dictionary = {}
+# school tiers (Attunement): reached by school points, lost again if points drop (slot replaced)
+const ATTUNEMENTS: Array[Attunement] = [
+	preload("res://Data/Attunements/PyromancerAttunement.tres"),
+	preload("res://Data/Attunements/GlacierAttunement.tres"),
+	preload("res://Data/Attunements/InfernoAttunement.tres"),
+	preload("res://Data/Attunements/AbsoluteZeroAttunement.tres"),
+	preload("res://Data/Attunements/TempestAttunement.tres"),
+	preload("res://Data/Attunements/StormcallerAttunement.tres"),
+	preload("res://Data/Attunements/HemomancerAttunement.tres"),
+	preload("res://Data/Attunements/SanguineAttunement.tres"),
+]
+const SLOT_PACT_POINTS: int = 2
+const GLYPH_POINTS: int = 1
+# glyphs: small free picks after room clears, once per stack
+var glyphs: Array[GlyphData] = []
+# bad-luck protection: grows for every combat room cleared without a glyph, resets when one drops
+var glyph_pity: float = 0.0
+signal glyph_added(glyph: GlyphData)
+# boss shrine payoffs (phase E)
+var duos: Array[DuoData] = []
+var evolution: WandEvolution # the wand's evolved form, one per run
+var deepened_pacts: Array[AltarPact] = []
+# phase F: elite affixes (rolled by EnemyRoom) and the current floor's omens (halves for one floor)
+const AFFIXES: Array[Affix] = [
+	preload("res://Data/Affixes/VolatileAffix.tres"),
+	preload("res://Data/Affixes/HastedAffix.tres"),
+	preload("res://Data/Affixes/WardedAffix.tres"),
+	preload("res://Data/Affixes/RegeneratingAffix.tres"),
+]
+const OMENS: Array[FloorOmen] = [
+	preload("res://Data/Omens/SwarmOmen.tres"),
+	preload("res://Data/Omens/ChampionsOmen.tres"),
+	preload("res://Data/Omens/KindledHallsOmen.tres"),
+	preload("res://Data/Omens/SilentHallsOmen.tres"),
+	preload("res://Data/Omens/BloodMoonOmen.tres"),
+	preload("res://Data/Omens/RestlessDeadOmen.tres"),
+]
+const DOUBLE_OMEN_FLOOR: int = 8
+var omens: Array[FloorOmen] = []
+const SCHOOL_WARD_GROUPS := { School.Kind.EMBER: &"ember", School.Kind.FROST: &"frost", School.Kind.STORM: &"storm", School.Kind.BLOOD: &"blood" }
+var active_attunements: Array[Attunement] = []
 signal pact_added(pact: AltarPact)
+signal pact_replaced(old_pact: AltarPact, new_pact: AltarPact)
+signal attunement_reached(attunement: Attunement)
+signal attunement_lost(attunement: Attunement)
 signal half_added(half: PactHalf)
 signal half_removed(half: PactHalf)
 signal curse_cleansed(curse: Curse)
@@ -28,6 +74,30 @@ func _ready() -> void:
 	Signals.enemy_killed.connect(_on_enemy_killed)
 	Signals.player_damaged.connect(_on_player_damaged)
 	Signals.room_cleared.connect(_on_room_cleared)
+	Signals.enemy_frozen.connect(func(enemy):
+		for e in GetRunEffects(): e.OnEnemyFrozen(enemy))
+	Signals.enemy_damaged.connect(func(enemy, info, amount):
+		for e in GetRunEffects(): e.OnEnemyDamaged(enemy, info, amount))
+	Signals.player_dash_started.connect(func(pos, dir):
+		for e in GetRunEffects(): e.OnDashStarted(NodeReferences.player, pos, dir))
+	Signals.player_dashed_through.connect(func(enemy):
+		for e in GetRunEffects(): e.OnDashedThrough(NodeReferences.player, enemy))
+	Signals.player_dash_ended.connect(func(pos):
+		for e in GetRunEffects(): e.OnDashEnded(NodeReferences.player, pos))
+	Signals.orb_collected.connect(func(orb, mana):
+		for e in GetRunEffects(): e.OnOrbCollected(NodeReferences.player, orb, mana))
+	Signals.player_hit_blocked.connect(func(info):
+		for e in GetRunEffects(): e.OnHitBlocked(NodeReferences.player, info))
+
+# every physics frame from the player (Capacitor, Leak...)
+func ProcessEffects(player: Player, delta: float) -> void:
+	for e in GetRunEffects():
+		e.OnProcess(player, delta)
+
+# called by every flying ManaOrb each physics frame (Ember Motes)
+func OrbProcess(orb: ManaOrb, delta: float) -> void:
+	for e in GetRunEffects():
+		e.OnOrbProcess(orb, delta)
 
 # no is_run_active check: the lists are empty outside a run, and Main.tscn started
 # from the editor never calls Begin()
@@ -51,12 +121,176 @@ func GetRunEffects() -> Array[RunEffect]:
 	return result
 
 func AddPact(pact: AltarPact) -> void:
+	var replaced: AltarPact = pact.GetReplacedPact()
+	if replaced:
+		ReplacePact(replaced, pact)
+	if pact.slot != AltarPact.Slot.NONE:
+		slots[pact.slot] = pact
 	pacts.append(pact)
 	if pact.blessing:
 		AddHalf(pact.blessing, pact.is_stacking)
 	if pact.curse:
 		AddHalf(pact.curse, pact.is_stacking)
 	pact_added.emit(pact)
+	CheckAttunements()
+
+# the old slot pact goes completely: blessing AND curse (RemoveHalf, not CleanseCurse: that refuses
+# binding curses and counts as a cleanse). the new pact brings its own curse, so the curse count stays
+func ReplacePact(old_pact: AltarPact, new_pact: AltarPact) -> void:
+	if old_pact.blessing:
+		RemoveHalf(old_pact.blessing)
+	if old_pact.rank2_blessing:
+		RemoveHalf(old_pact.rank2_blessing)
+	deepened_pacts.erase(old_pact)
+	if old_pact.curse:
+		RemoveHalf(old_pact.curse)
+	while old_pact in pacts:
+		pacts.erase(old_pact)
+	slots.erase(old_pact.slot)
+	pact_replaced.emit(old_pact, new_pact)
+
+func GetSlotPact(slot: AltarPact.Slot) -> AltarPact:
+	return slots.get(slot)
+
+# slot pact = 2, glyph = 1 per stack
+func GetSchoolPoints(school: School.Kind) -> int:
+	var points := GetPactSchoolPoints(school)
+	for glyph in glyphs:
+		if glyph.school == school:
+			points += GLYPH_POINTS
+	return points
+
+# from slot pacts only: owning a school = having a pact of it (glyphs can only deepen those)
+func GetPactSchoolPoints(school: School.Kind) -> int:
+	var points := 0
+	for pact in slots.values():
+		if pact.GetSchool() == school:
+			points += SLOT_PACT_POINTS
+	return points
+
+func AddGlyph(glyph: GlyphData) -> void:
+	glyphs.append(glyph)
+	if glyph.blessing:
+		AddHalf(glyph.blessing, true)
+	glyph_added.emit(glyph)
+	CheckAttunements()
+
+# called by GameFlow.NextFloor: last floor's omens go, new ones from floor 2 (2 of them from floor 8)
+func RollOmens() -> void:
+	for omen in omens:
+		RemoveHalf(omen)
+	omens.clear()
+	var rng = RandomNumberGenerator.new()
+	rng.seed = hash([GetFloorSeed(), "omen"])
+	var pool = OMENS.filter(func(o): return o.min_floor <= floor_number)
+	var count = 2 if floor_number >= DOUBLE_OMEN_FLOOR else (1 if floor_number >= 2 else 0)
+	for i in mini(count, pool.size()):
+		var omen = pool[rng.randi() % pool.size()]
+		pool.erase(omen)
+		omens.append(omen)
+		AddHalf(omen)
+
+func GetEnemyCountMultiplier() -> float:
+	var result := 1.0
+	for omen in omens:
+		result *= omen.enemy_count_multiplier
+	return result
+
+func GetEliteGlyphBonus() -> float:
+	var result := 0.0
+	for omen in omens:
+		result += omen.elite_glyph_bonus
+	return result
+
+func GetOmenWardGroup() -> StringName:
+	for omen in omens:
+		if omen.enemy_ward_group != &"":
+			return omen.enemy_ward_group
+	return &""
+
+# Warded affix: the school the player leans on most (owned by pact), so it pushes a second school
+func GetTopSchoolWardGroup() -> StringName:
+	var best := &""
+	var best_points := 0
+	for school in SCHOOL_WARD_GROUPS:
+		var points = GetSchoolPoints(school)
+		if GetPactSchoolPoints(school) > 0 and points > best_points:
+			best_points = points
+			best = SCHOOL_WARD_GROUPS[school]
+	return best
+
+func AddDuo(duo: DuoData) -> void:
+	duos.append(duo)
+	if duo.blessing:
+		AddHalf(duo.blessing)
+
+func SetEvolution(new_evolution: WandEvolution) -> void:
+	evolution = new_evolution
+	if evolution.blessing:
+		AddHalf(evolution.blessing)
+
+# rank II: swap the blessing, keep the curse and the slot
+func DeepenPact(pact: AltarPact) -> void:
+	if pact.rank2_blessing == null or pact in deepened_pacts:
+		return
+	deepened_pacts.append(pact)
+	RemoveHalf(pact.blessing)
+	AddHalf(pact.rank2_blessing)
+
+func GetGlyphStacks(glyph: GlyphData) -> int:
+	return glyphs.count(glyph)
+
+func CanTakeGlyph(glyph: GlyphData) -> bool:
+	return GetGlyphStacks(glyph) < glyph.max_stacks
+
+# how many active halves carry the flag, stacks count (Deep Cold x2, Ice Shards x3...)
+func CountFlag(flag: StringName) -> int:
+	var count := 0
+	for half in halves:
+		if flag in half.flags:
+			count += 1
+	return count
+
+# StatusTweak sums for statuses the player puts on enemies
+func GetStatusExtraStacks(effect: StatusEffect) -> int:
+	var extra := 0
+	for half in halves:
+		for tweak in half.status_tweaks:
+			if tweak.status == effect:
+				extra += tweak.extra_max_stacks
+	return extra
+
+func GetStatusExtraApplication(effect: StatusEffect) -> int:
+	var extra := 0
+	for half in halves:
+		for tweak in half.status_tweaks:
+			if tweak.status == effect:
+				extra += tweak.extra_stacks_per_application
+	return extra
+
+func GetStatusDurationMultiplier(effect: StatusEffect) -> float:
+	var multiplier := 1.0
+	for half in halves:
+		for tweak in half.status_tweaks:
+			if tweak.status == effect:
+				multiplier += tweak.extra_duration
+	return multiplier
+
+# after every pact change: reach new tiers, lose tiers whose points are gone (slot replaced)
+func CheckAttunements() -> void:
+	for attunement in ATTUNEMENTS:
+		var has_points = GetSchoolPoints(attunement.school) >= attunement.threshold
+		var is_active = attunement in active_attunements
+		if has_points and not is_active:
+			active_attunements.append(attunement)
+			if attunement.blessing:
+				AddHalf(attunement.blessing)
+			attunement_reached.emit(attunement)
+		elif not has_points and is_active:
+			active_attunements.erase(attunement)
+			if attunement.blessing:
+				RemoveHalf(attunement.blessing)
+			attunement_lost.emit(attunement)
 
 func GetStackCount(pact: AltarPact) -> int:
 	return pacts.count(pact)
@@ -122,6 +356,14 @@ func Begin(new_loadout: Loadout, seed_value: int = 0) -> void:
 	halves.clear()
 	cleansed_curses.clear()
 	run_effect_state.clear()
+	slots.clear()
+	active_attunements.clear()
+	glyphs.clear()
+	glyph_pity = 0.0
+	duos.clear()
+	evolution = null
+	deepened_pacts.clear()
+	omens.clear()
 	is_run_active = true
 
 # base comes from the altar, bonuses from wherever they live (meta now, run blessings later)

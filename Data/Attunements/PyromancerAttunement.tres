@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Attunement" load_steps=3 format=3 uid="uid://d2g3nw6jrd6y3"]
+
+[ext_resource type="Script" uid="uid://bf386mx6yrha3" path="res://Scripts/Altars/Attunement.gd" id="1_r"]
+[ext_resource type="Resource" uid="uid://520sa2tv13ho" path="res://Data/Blessings/PyromancerBlessing.tres" id="2_r"]
+
+[resource]
+script = ExtResource("1_r")
+school = 1
+display_name = "Pyromancer"
+blessing = ExtResource("2_r")

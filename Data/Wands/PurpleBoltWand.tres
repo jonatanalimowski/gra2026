@@ -43,6 +43,7 @@ spread = 25.0
 script = ExtResource("1_wand")
 primary_spell = SubResource("Resource_primary_spell")
 heavy_spell = SubResource("Resource_4s28o")
+school_affinity = 3
 id = &"purple_bolt_wand"
 display_name = "Split bolt Wand"
 description = "Primary spell: Shoots 2 projectiles at a low cooldown.

@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="WandEvolution" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Altars/WandEvolution.gd" id="1_r"]
+[ext_resource type="Resource" path="res://Data/Wands/PurpleBoltWand.tres" id="2_r"]
+[ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="3_r"]
+[ext_resource type="Script" path="res://Scripts/Combat/Effects/ProjectileEffects/ArcOnHitEffect.gd" id="4_r"]
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="5_r"]
+
+[sub_resource type="Resource" id="Resource_2"]
+script = ExtResource("4_r")
+share = 0.6
+
+[sub_resource type="Resource" id="Resource_1"]
+script = ExtResource("3_r")
+type = 1
+display_name = "Forked Lightning"
+description = "Your primary bolts chain on hit: every hit arcs to 2 nearby enemies."
+primary_effects = Array[ExtResource("5_r")]([SubResource("Resource_2")])
+
+[resource]
+script = ExtResource("1_r")
+wand = ExtResource("2_r")
+school = 3
+blessing = SubResource("Resource_1")
+id = &"evolution_forkedlightning"
+display_name = "Forked Lightning"
+description = "Your primary bolts chain on hit: every hit arcs to 2 nearby enemies."

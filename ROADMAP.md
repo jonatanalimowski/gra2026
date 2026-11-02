@@ -3,7 +3,7 @@
 > Top-down spellcasting roguelite (magical / dark fantasy) in Godot 4.5.
 > **Core loop:** build a loadout from what you've unlocked → dungeon run, gambling on pacts → kill monsters and bosses → bring back materials and XP → unlock new options (Forge) and new run possibilities (Skill Tree) → repeat.
 
-What's already built is in `CLAUDE.md`; terms are in `GLOSSARY.md`.
+What's already built is in `CLAUDE.md`; the build systems (schools, slots, glyphs, boss shrine, enemy scaling) are documented in `BUILD_SYSTEMS.md`; terms are in `GLOSSARY.md`.
 
 | Version | Theme | Goal | Status |
 |---|---|---|---|
@@ -13,9 +13,9 @@ What's already built is in `CLAUDE.md`; terms are in `GLOSSARY.md`.
 | **v0.14** | Meta progression II | The Forge: loot, crafting, new loadout options | 💭 |
 | **v0.15+** | Polish & content | Balancing, juice, more of everything | 💭 |
 
-## Where the project stands (2026-11-01)
+## Where the project stands (2026-11-02)
 
-The game feels good: replaying it doesn't get boring quickly, even against the same enemies. But nothing carries between runs, and that will make the fun stop after a few hours. So v0.13 comes before more content.
+The game feels good: replaying it doesn't get boring quickly, even against the same enemies. The build rework (A-F) is in: runs now pull toward a school, picks interact through statuses, and floors get stranger instead of just tankier. First playtests feel good. But nothing carries between runs, and that will make the fun stop after a few hours. So v0.13 is next.
 
 - Stop polishing combat for its own sake. Hitstop and death bursts are side tasks for a quick win.
 - Replay after each meta step and check that runs still feel this good.
@@ -23,11 +23,30 @@ The game feels good: replaying it doesn't get boring quickly, even against the s
 
 ## Design pillars
 
-1. **In-run power has two sources.** Pacts shape the build: every blessing has a curse, they're optional, and they're where behavior changes come from. Boss Upgrade Shrines are the safe, skill-earned growth: flat stats with no curse, doubled for a flawless fight. There are no other standalone blessings.
-2. **Meta progression is horizontal.** The Forge unlocks more starting choices that change how you play, not how strong you start.
-3. **The Skill Tree unlocks things that happen in runs:** choices, rerolls, secret floors, ways to remove curses. No flat stats.
-4. **Mana is a per-floor resource earned by killing.** Orbs fill a 0-100 bar, heavy spells spend it, and it resets every floor. No regen, no carry-over.
-5. **Difficulty is opt-in** (Oaths). The base game shouldn't get easier just because you've played a lot.
+From `BUILD_DESIGN.md` §11 (2026-11-02).
+
+1. **A run is a build.** By floor 3 the player can *name* their build ("frost-storm shatter caster").
+2. **Every pick is felt.** Pacts change what a verb does. Percentages live in glyphs and boss upgrades.
+3. **Shared vocabulary.** Schools, statuses and verbs are the language. Every pact or glyph references at least one tag; weak pieces get more references.
+4. **Pacts open doors, glyphs walk through them.** One pact per floor, always with a curse, and the only way into a school. Glyphs are free but only deepen what you already chose.
+5. **Commitment pays, pivoting is possible.** Points → attunements, pairs → duos, wand + school → evolution. Slots can be overwritten.
+6. **Curses shape play.** A curse changes how or what you fight; no plain stat taxes.
+7. **The dungeon gets stranger, not just tankier.** Scaling comes from behavior: elites, affixes, waves, omens. Stronger enemies give more build fuel.
+8. **Read the fight at a glance.** Every status and affix has an icon, a color and (if strong) a body effect. A flash means a hit, and nothing else.
+9. **Meta progression is horizontal.** The tree and Forge unlock schools, duos, wands, omens and room types. Never flat stats.
+10. **Mana is a per-floor resource earned by killing.** No regen. The Orb slot makes it a build axis.
+11. **Difficulty is opt-in** (Oaths).
+
+## Build rework (A-F) 🔧
+
+*Goal: pacts interact, runs pull toward a playstyle.* Design: `BUILD_DESIGN.md`. What was built and how it works: `BUILD_SYSTEMS.md`. All six phases are implemented; next is a balance pass from playtests (glyph rate 30 vs 40%, curse load by floor 6, Brittle vs bosses).
+
+- [x] A: status stacking + readability (Burn, Chill/Freeze, icon bar, outlines) - playtest pending
+- [x] B: schools + verb slots (Ember & Frost: 10 slot pacts, Tier I) - playtest pending
+- [x] C: glyphs + Sanctuary rework (14 glyphs, Tier II for Ember/Frost) - playtest pending
+- [x] D: Storm & Blood (10 slot pacts, 8 glyphs, Tier I/II) - playtest pending
+- [x] E: shrine payoffs (6 duos, 4 evolutions, rank II for all 20 slot pacts) - playtest pending
+- [x] F: enemy scaling (floor retune, elite behaviors, 4 affixes, waves, omens, champion packs) - playtest pending
 
 ## v0.13: Skill Tree ⏭
 
@@ -50,15 +69,16 @@ The game feels good: replaying it doesn't get boring quickly, even against the s
 
 ## v0.12 leftovers
 
-- [ ] Heavy spell for Purple Saw Staff
-- [ ] Enemy scaling by *behavior* (more elites, new types, pools by depth) over HP
+- [x] Heavy spell for Purple Saw Staff (via heavy slot pacts; it still has no heavy of its own)
+- [x] Enemy scaling by *behavior*: elites with behaviors, affixes, waves, omens (new enemy types still missing)
 - [ ] Treasure rooms: greater altar (pick 1 of 4), full mana, heal, reroll token
 - [ ] HUD cooldowns for primary, heavy and dash
-- [ ] More pacts: 10 now, aim for ~15, then 30+
+- [x] More pacts: 22 in the pool (20 slot + 2 Form), plus 22 glyphs, 6 duos, 4 evolutions
 - [ ] More runes: Burn, Split, Chain Lightning
 - [ ] Reward for refusing an altar (small heal or mana)
 - [ ] More enemy roles (mortar/lobber, shielded tank, support healer, hazard layer) and a 3rd boss
-- [ ] Elite affixes, floor themes, arena and trap rooms
+- [x] Elite affixes and floor themes (omens)
+- [ ] Arena and trap rooms
 
 ## Design notes
 
@@ -92,7 +112,7 @@ The game feels good: replaying it doesn't get boring quickly, even against the s
 
 ## Open risks
 
-- **Thin pact pool.** In-run variety rests on pacts, and the loadout is fixed before the run.
+- **Pact pool depth.** 22 pacts + glyphs now, but only 5 enemy types: variety on the enemy side is the thinner one.
 - **Boss-fight mana.** CasterBoss has no adds, so a spent heavy stays spent. If that feels bad, drop orbs at HP thresholds; don't carry mana over.
 - **Saving mana for the boss** must not become "never use heavies on the floor". If it does, make elites drop more orbs.
 - **Refusing pacts must stay viable.** Boss upgrades alone should carry a skilled player a few floors.

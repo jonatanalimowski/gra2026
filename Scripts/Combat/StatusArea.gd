@@ -3,7 +3,6 @@ class_name StatusArea
 
 # one circle on the floor that keeps applying status_effects to whoever stands in it.
 # a small warning circle blinks first, Spawn() then opens the real area
-const REAPPLY_INTERVAL: float = 0.25
 const WARNING_RADIUS_RATIO: float = 0.35
 const OPEN_TIME: float = 0.12
 const FADE_TIME: float = 0.4
@@ -15,6 +14,8 @@ const FADE_TIME: float = 0.4
 @export var affects_player: bool = true
 @export var affects_enemies: bool = true
 @export var status_effects: Array[StatusEffect] = []
+# how often bodies inside get the statuses again. each time adds a stack for stacking statuses
+@export var reapply_interval: float = 0.25
 
 # time between the warning circle appearing and the real effect area
 @export var telegraph_time: float = 0.4
@@ -66,7 +67,7 @@ func _physics_process(delta: float) -> void:
 
 	reapply_timer -= delta
 	if reapply_timer <= 0.0:
-		reapply_timer = REAPPLY_INTERVAL
+		reapply_timer = reapply_interval
 		ApplyToOverlapping()
 
 func _draw() -> void:

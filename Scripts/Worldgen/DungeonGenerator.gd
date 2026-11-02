@@ -118,6 +118,8 @@ func TryLayout() -> bool:
 
 func HasRequiredRooms() -> bool:
 	for data in rooms:
+		if data.room_type == RoomData.RoomType.REST and RunState.HasFlag(&"no_sanctuary"):
+			continue
 		if placed_per_room.get(data, 0) < data.min_per_floor:
 			return false
 	return true
@@ -241,9 +243,12 @@ func PickRooms(depth: int, needs_exit: bool, is_branch_end: bool) -> Array[RoomS
 	var fights: Array[RoomData] = []
 	var dead_ends: Array[RoomData] = []
 	for data in rooms:
-		if depth < data.min_depth:
+		if depth < data.min_depth or RunState.floor_number < data.min_floor:
 			continue
-		if data.max_per_floor > 0 and placed_per_room.get(data, 0) >= data.max_per_floor:
+		if data.room_type == RoomData.RoomType.REST and RunState.HasFlag(&"no_sanctuary"):
+			continue
+		var max_count = data.GetMaxPerFloor(RunState.floor_number)
+		if max_count > 0 and placed_per_room.get(data, 0) >= max_count:
 			continue
 		var shape = GetShape(data.room_scene)
 		if needs_exit and shape.connectors.size() < 2:

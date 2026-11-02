@@ -26,6 +26,10 @@ func GetSubtitleColor() -> Color:
 func GetTagIcons() -> Array[Texture2D]:
 	return []
 
+# boss shrine rewards: what taking it does (StatUpgrade, DuoData, WandEvolution, DeepenOffer)
+func Claim() -> void:
+	pass
+
 # stats for tooltips, grouped by section title: { "Wand": { rune_slots: 2 }, "Primary": {...} }
 # a section can also hold named groups: "Primary": { "Offense": { damage: 8 }, "Casting": {...} }
 # empty = item has no stats to show

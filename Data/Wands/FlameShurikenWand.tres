@@ -40,6 +40,7 @@ crit_multiplier = 8.0
 script = ExtResource("1_wand")
 primary_spell = SubResource("Resource_primary_spell")
 heavy_spell = SubResource("Resource_heavy_spell")
+school_affinity = 1
 id = &"flame_shuriken_wand"
 display_name = "Gamba Wand"
 description = "Primary spell: Low base damage projectiles, with huge crit multiplier, starts with 20% crit chance

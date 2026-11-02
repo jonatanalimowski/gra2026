@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="GlyphData" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Altars/GlyphData.gd" id="1_r"]
+[ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="2_r"]
+[ext_resource type="Script" path="res://Scripts/Combat/Effects/ProjectileEffects/PlayerHealthDamageEffect.gd" id="3_r"]
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="4_r"]
+
+[sub_resource type="Resource" id="Resource_2"]
+script = ExtResource("3_r")
+per_missing = 0.5
+
+[sub_resource type="Resource" id="Resource_1"]
+script = ExtResource("2_r")
+type = 1
+display_name = "Frenzy"
+description = "+1% spell damage per 2% missing HP."
+effects = Array[ExtResource("4_r")]([SubResource("Resource_2")])
+
+[resource]
+script = ExtResource("1_r")
+blessing = SubResource("Resource_1")
+school = 4
+max_stacks = 2
+id = &"glyph_frenzy"
+display_name = "Frenzy"
+description = "+1% spell damage per 2% missing HP."

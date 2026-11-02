@@ -1,19 +1,22 @@
 extends Marker2D
 @onready var label = $Label
 
-func display(value: int, target_position: Vector2, is_critical: bool = false):
+# small = status tick: smaller, tinted, drifts less so it doesn't bury the hit numbers
+func display(value: int, target_position: Vector2, is_critical: bool = false, color: Color = Color.WHITE, small: bool = false):
 	label.text = str(value)
 	position = target_position
 	scale = Vector2(0.75, 0.75)
+	label.modulate = color
 	if is_critical:
 		label.modulate = Color.GOLD
 		label.text += "!"
 		scale = Vector2(1, 1)
-	else:
-		label.modulate = Color.WHITE
+	elif small:
+		scale = Vector2(0.5, 0.5)
 
-	var spread_horizontal = randf_range(-75, 75)
-	var spread_vertical = randf_range(-25, -65)
+	var spread = 0.4 if small else 1.0
+	var spread_horizontal = randf_range(-75, 75) * spread
+	var spread_vertical = randf_range(-25, -65) * spread
 	var target_pos = position + Vector2(spread_horizontal, spread_vertical)
 	var tween = create_tween().set_parallel(true)
 	

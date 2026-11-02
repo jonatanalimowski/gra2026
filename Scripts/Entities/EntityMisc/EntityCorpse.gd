@@ -1,14 +1,16 @@
 extends Node
 class_name EntityCorpse
 
-@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+# not @onready: SpawnCorpse runs before the corpse is in the tree (Entity.Die adds it deferred)
+var animated_sprite: AnimatedSprite2D
 
 func _ready() -> void:
 	add_to_group("corpses")
 
-# a corpse is the last frame of a death animation
-func SpawnCorpse(spawn_pos: Vector2, source_sprite: AnimatedSprite2D, offset: Vector2, scale: Vector2):
-	self.global_position = spawn_pos
+# a corpse is the last frame of a death animation. local_pos = position in the parent it will be added to
+func SpawnCorpse(local_pos: Vector2, source_sprite: AnimatedSprite2D, offset: Vector2, scale: Vector2):
+	animated_sprite = $AnimatedSprite2D
+	self.position = local_pos
 	animated_sprite.sprite_frames = source_sprite.sprite_frames
 	animated_sprite.centered = source_sprite.centered
 	animated_sprite.flip_h = source_sprite.flip_h

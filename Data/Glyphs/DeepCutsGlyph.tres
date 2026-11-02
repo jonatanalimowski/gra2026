@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="GlyphData" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Altars/GlyphData.gd" id="1_r"]
+[ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="2_r"]
+[ext_resource type="Script" path="res://Scripts/Combat/StatusEffects/StatusTweak.gd" id="3_r"]
+[ext_resource type="Resource" path="res://Data/Statuses/Bleed.tres" id="4_r"]
+
+[sub_resource type="Resource" id="Resource_2"]
+script = ExtResource("3_r")
+status = ExtResource("4_r")
+extra_stacks_per_application = 1
+
+[sub_resource type="Resource" id="Resource_1"]
+script = ExtResource("2_r")
+type = 1
+display_name = "Deep Cuts"
+description = "Your Bleeds apply 1 more stack."
+status_tweaks = Array[ExtResource("3_r")]([SubResource("Resource_2")])
+
+[resource]
+script = ExtResource("1_r")
+blessing = SubResource("Resource_1")
+school = 4
+max_stacks = 3
+id = &"glyph_deepcuts"
+display_name = "Deep Cuts"
+description = "Your Bleeds apply 1 more stack."

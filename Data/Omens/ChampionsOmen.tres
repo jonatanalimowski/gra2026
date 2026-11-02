@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FloorOmen" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Worldgen/FloorOmen.gd" id="1_r"]
+
+[resource]
+script = ExtResource("1_r")
+display_name = "Champions"
+description = "Elites are twice as likely, and each one counts double toward the glyph chance."
+elite_chance_multiplier = 2.0
+elite_glyph_bonus = 0.15

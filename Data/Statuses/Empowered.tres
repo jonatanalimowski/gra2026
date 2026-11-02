@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StatusEffect" load_steps=3 format=3]
+
+[ext_resource type="Script" uid="uid://dbrsojh3aexrl" path="res://Scripts/Combat/StatusEffects/StatusEffect.gd" id="1_status"]
+[ext_resource type="Texture2D" path="res://assets/icons/status_empowered.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_status")
+duration = 3.0
+interval = 0.0
+name = "Empowered"
+icon = ExtResource("2_icon")
+color = Color(1, 0.45, 0.3, 1)
+is_debuff = false

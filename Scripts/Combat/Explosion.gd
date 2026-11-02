@@ -16,6 +16,9 @@ class_name Explosion
 var damage: float = 10.0
 var radius: float = 48.0
 var source: Node2D
+# optional status on everything it hits (Fireburst: 3 Burn)
+var status: StatusEffect
+var status_stacks: int = 1
 
 func Setup(dmg: float, explosion_radius: float, damage_source: Node2D = null) -> void:
 	damage = dmg
@@ -61,6 +64,8 @@ func Explode() -> void:
 		info.element = &"explosion"
 		info.knockback = (body.global_position - global_position).normalized() * knockback_force
 		body.TakeDamage(info)
+		if status and body.has_method("ApplyStatus"):
+			body.ApplyStatus(status, source, 1.0, 1.0, status_stacks)
 
 	Sfx.Play(&"explosion/explosion", -10)
 	Signals.screen_shake.emit(shake_trauma)

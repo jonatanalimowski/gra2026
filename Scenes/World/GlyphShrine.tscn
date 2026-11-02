@@ -1,0 +1,56 @@
+[gd_scene load_steps=27 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Worldgen/GlyphShrine.gd" id="1_shrine"]
+[ext_resource type="Texture2D" path="res://assets/packs/tilesets/0x72_DungeonTilesetII/0x72_DungeonTilesetII_v1.7/0x72_DungeonTilesetII_v1.7/frames/flask_big_blue.png" id="2_tex"]
+
+[ext_resource type="Resource" path="res://Data/Glyphs/PierceGlyph.tres" id="g_0"]
+[ext_resource type="Resource" path="res://Data/Glyphs/ReboundGlyph.tres" id="g_1"]
+[ext_resource type="Resource" path="res://Data/Glyphs/SwiftFeetGlyph.tres" id="g_2"]
+[ext_resource type="Resource" path="res://Data/Glyphs/KeenEyeGlyph.tres" id="g_3"]
+[ext_resource type="Resource" path="res://Data/Glyphs/VelocityGlyph.tres" id="g_4"]
+[ext_resource type="Resource" path="res://Data/Glyphs/QuickHandsGlyph.tres" id="g_5"]
+[ext_resource type="Resource" path="res://Data/Glyphs/FuelGlyph.tres" id="g_6"]
+[ext_resource type="Resource" path="res://Data/Glyphs/WildfireGlyph.tres" id="g_7"]
+[ext_resource type="Resource" path="res://Data/Glyphs/SearingGlyph.tres" id="g_8"]
+[ext_resource type="Resource" path="res://Data/Glyphs/LongFuseGlyph.tres" id="g_9"]
+[ext_resource type="Resource" path="res://Data/Glyphs/DeepColdGlyph.tres" id="g_10"]
+[ext_resource type="Resource" path="res://Data/Glyphs/FractureGlyph.tres" id="g_11"]
+[ext_resource type="Resource" path="res://Data/Glyphs/LingeringChillGlyph.tres" id="g_12"]
+[ext_resource type="Resource" path="res://Data/Glyphs/IceShardsGlyph.tres" id="g_13"]
+[ext_resource type="Resource" path="res://Data/Glyphs/ForkGlyph.tres" id="gd_15"]
+[ext_resource type="Resource" path="res://Data/Glyphs/LongArcGlyph.tres" id="gd_15"]
+[ext_resource type="Resource" path="res://Data/Glyphs/OverloadGlyph.tres" id="gd_15"]
+[ext_resource type="Resource" path="res://Data/Glyphs/StaticFieldGlyph.tres" id="gd_15"]
+[ext_resource type="Resource" path="res://Data/Glyphs/DeepCutsGlyph.tres" id="gd_15"]
+[ext_resource type="Resource" path="res://Data/Glyphs/TransfusionGlyph.tres" id="gd_15"]
+[ext_resource type="Resource" path="res://Data/Glyphs/FrenzyGlyph.tres" id="gd_15"]
+[ext_resource type="Resource" path="res://Data/Glyphs/ClottingGlyph.tres" id="gd_15"]
+[ext_resource type="Script" path="res://Scripts/Altars/GlyphData.gd" id="g_script"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_glyph"]
+radius = 14.0
+
+[node name="GlyphShrine" type="Area2D"]
+z_index = 2
+collision_layer = 0
+script = ExtResource("1_shrine")
+glyph_pool = Array[ExtResource("g_script")]([ExtResource("g_0"), ExtResource("g_1"), ExtResource("g_2"), ExtResource("g_3"), ExtResource("g_4"), ExtResource("g_5"), ExtResource("g_6"), ExtResource("g_7"), ExtResource("g_8"), ExtResource("g_9"), ExtResource("g_10"), ExtResource("g_11"), ExtResource("g_12"), ExtResource("g_13"), ExtResource("gd_15"), ExtResource("gd_15"), ExtResource("gd_15"), ExtResource("gd_15"), ExtResource("gd_15"), ExtResource("gd_15"), ExtResource("gd_15"), ExtResource("gd_15")])
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_glyph")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+texture = ExtResource("2_tex")
+
+[node name="Prompt" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = -20.0
+offset_top = -28.0
+offset_right = 20.0
+offset_bottom = -12.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 8
+text = "[E]"
+horizontal_alignment = 1

@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="Blessing" load_steps=13 format=3 uid="uid://xm3dnof4vo4e"]
+
+[ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="1_r"]
+[ext_resource type="Script" uid="uid://bqwypd1uvt6ft" path="res://Scripts/Resources/Items/SpellData.gd" id="2_r"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_u4o7o"]
+[ext_resource type="PackedScene" uid="uid://ds3gjwt7bjoi8" path="res://Scenes/ProjectileScenes/ProjectileFlameStar.tscn" id="3_r"]
+[ext_resource type="Script" uid="uid://cv6uto88actsr" path="res://Scripts/Combat/Effects/ProjectileEffects/ExplodingEffect.gd" id="4_r"]
+[ext_resource type="PackedScene" uid="uid://dhpf3x35g6lp7" path="res://Scenes/Combat/Explosion.tscn" id="5_r"]
+[ext_resource type="Resource" path="res://Data/Statuses/Burn.tres" id="6_r"]
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="7_r"]
+[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="8_msaym"]
+[ext_resource type="Script" uid="uid://cjp37m6rc8u6d" path="res://Scripts/Combat/StatusEffects/StatusTweak.gd" id="10_satpy"]
+
+[sub_resource type="Resource" id="Resource_2"]
+script = ExtResource("4_r")
+chance = 1.0
+radius = 64.0
+explosion_scene = ExtResource("5_r")
+status = ExtResource("6_r")
+status_stacks = 3
+
+[sub_resource type="Resource" id="Resource_1"]
+script = ExtResource("2_r")
+projectile_scene = ExtResource("3_r")
+damage = 30.0
+cooldown = 1.0
+spread = 0.0
+projectile_speed = 0.8
+mana_cost = 70.0
+effects = Array[ExtResource("7_r")]([SubResource("Resource_2")])
+
+[resource]
+script = ExtResource("1_r")
+type = 1
+display_name = "Fireburst"
+description = "Your heavy becomes a fireball that detonates on impact in a large explosion, applying 3 Burn."
+heavy_override = SubResource("Resource_1")
+school = 1

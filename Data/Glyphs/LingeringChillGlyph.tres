@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="GlyphData" load_steps=10 format=3 uid="uid://dytrcyniq5lha"]
+
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="1_4wt6e"]
+[ext_resource type="Script" uid="uid://cben1sbwi083e" path="res://Scripts/Altars/GlyphData.gd" id="1_r"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_lg6a7"]
+[ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="2_r"]
+[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="3_10rnf"]
+[ext_resource type="Script" uid="uid://cjp37m6rc8u6d" path="res://Scripts/Combat/StatusEffects/StatusTweak.gd" id="3_r"]
+[ext_resource type="Resource" uid="uid://b2q1hs4ql2sdl" path="res://Data/Statuses/Chill.tres" id="4_r"]
+
+[sub_resource type="Resource" id="Resource_2"]
+script = ExtResource("3_r")
+status = ExtResource("4_r")
+extra_duration = 0.5
+
+[sub_resource type="Resource" id="Resource_1"]
+script = ExtResource("2_r")
+type = 1
+display_name = "Lingering Chill"
+description = "Chill lasts 50% longer."
+status_tweaks = Array[ExtResource("3_r")]([SubResource("Resource_2")])
+
+[resource]
+script = ExtResource("1_r")
+blessing = SubResource("Resource_1")
+school = 2
+id = &"glyph_lingeringchill"
+display_name = "Lingering Chill"
+description = "Chill lasts 50% longer."

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Attunement" load_steps=3 format=3 uid="uid://c65ky7nioxj26"]
+
+[ext_resource type="Script" uid="uid://bf386mx6yrha3" path="res://Scripts/Altars/Attunement.gd" id="1_r"]
+[ext_resource type="Resource" uid="uid://dis4n05w1lii5" path="res://Data/Blessings/AbsoluteZeroBlessing.tres" id="2_r"]
+
+[resource]
+script = ExtResource("1_r")
+school = 2
+threshold = 8
+tier = 2
+display_name = "Absolute Zero"
+blessing = ExtResource("2_r")

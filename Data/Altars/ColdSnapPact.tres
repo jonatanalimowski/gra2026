@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AltarPact" load_steps=5 format=3 uid="uid://chkam0v1hq2qj"]
+
+[ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_r"]
+[ext_resource type="Resource" uid="uid://dce66qbjmkvsa" path="res://Data/Blessings/ColdSnapBlessing.tres" id="2_r"]
+[ext_resource type="Resource" uid="uid://b7hap7r3mskh6" path="res://Data/Curses/SlickFloorCurse.tres" id="3_r"]
+[ext_resource type="Resource" path="res://Data/Blessings/ColdSnapIIBlessing.tres" id="r2_r"]
+
+[resource]
+script = ExtResource("1_r")
+blessing = ExtResource("2_r")
+curse = ExtResource("3_r")
+slot = 3
+rank2_blessing = ExtResource("r2_r")
+id = &"pact_cold_snap"
+display_name = "Cold Snap"

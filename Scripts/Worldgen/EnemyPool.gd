@@ -6,18 +6,16 @@ class_name EnemyPool
 @export var entries: Array[EnemyPoolEntry]
 
 func PickEnemy(rng: RandomNumberGenerator) -> PackedScene:
+	var available = entries.filter(func(e): return e and e.IsAvailable())
 	var total := 0.0
-	for entry in entries:
-		if entry.scene:
-			total += entry.weight
+	for entry in available:
+		total += entry.weight
 	if total <= 0.0:
 		return null
 
 	var roll := rng.randf() * total
-	for entry in entries:
-		if not entry.scene:
-			continue
+	for entry in available:
 		roll -= entry.weight
 		if roll <= 0.0:
 			return entry.scene
-	return entries.back().scene
+	return available.back().scene

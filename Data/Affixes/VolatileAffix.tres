@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Affix" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Resources/Affix.gd" id="1_r"]
+[ext_resource type="Texture2D" path="res://assets/icons/affix_volatile.png" id="2_r"]
+
+[resource]
+script = ExtResource("1_r")
+display_name = "Volatile"
+icon = ExtResource("2_r")
+kind = 1

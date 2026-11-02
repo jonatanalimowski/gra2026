@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="Blessing" load_steps=12 format=3 uid="uid://npxuo3ptcyl5"]
+
+[ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="1_r"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_r"]
+[ext_resource type="Script" path="res://Scripts/Combat/Effects/RunEffects/StatusOnHealOrbEffect.gd" id="3_r"]
+[ext_resource type="Resource" path="res://Data/Statuses/Empowered.tres" id="4_r"]
+[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="5_r"]
+[ext_resource type="Script" uid="uid://dn14wltmfmi77" path="res://Scripts/Combat/Effects/ProjectileEffects/StatusDamageBonusEffect.gd" id="6_r"]
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="7_r"]
+[ext_resource type="Script" uid="uid://cjp37m6rc8u6d" path="res://Scripts/Combat/StatusEffects/StatusTweak.gd" id="8_utytu"]
+
+[sub_resource type="Resource" id="Resource_3"]
+script = ExtResource("6_r")
+status = ExtResource("4_r")
+
+[sub_resource type="Resource" id="Resource_1"]
+script = ExtResource("2_r")
+stat = &"orb_heal_chance"
+flat = 0.1
+
+[sub_resource type="Resource" id="Resource_2"]
+script = ExtResource("3_r")
+status = ExtResource("4_r")
+
+[resource]
+script = ExtResource("1_r")
+display_name = "Lifeblood"
+description = "10% of mana orbs also heal 5 HP, and healing orbs give +20% damage for 3s."
+player_modifiers = Array[ExtResource("2_r")]([SubResource("Resource_1")])
+effects = Array[ExtResource("7_r")]([SubResource("Resource_3")])
+school = 4
+run_effects = Array[ExtResource("5_r")]([SubResource("Resource_2")])

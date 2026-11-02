@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="DuoData" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Altars/DuoData.gd" id="1_r"]
+[ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="2_r"]
+[ext_resource type="Script" path="res://Scripts/Combat/Effects/RunEffects/StatusOnKillNearestEffect.gd" id="3_r"]
+[ext_resource type="Resource" path="res://Data/Statuses/Shock.tres" id="4_r"]
+[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="5_r"]
+
+[sub_resource type="Resource" id="Resource_2"]
+script = ExtResource("3_r")
+status = ExtResource("4_r")
+count = 1
+heal_per_kill = 1.0
+
+[sub_resource type="Resource" id="Resource_1"]
+script = ExtResource("2_r")
+type = 1
+display_name = "Galvanic Pulse"
+description = "Every kill Shocks the nearest enemy and heals you 1."
+run_effects = Array[ExtResource("5_r")]([SubResource("Resource_2")])
+
+[resource]
+script = ExtResource("1_r")
+school_a = 3
+school_b = 4
+blessing = SubResource("Resource_1")
+id = &"duo_galvanicpulse"
+display_name = "Galvanic Pulse"
+description = "Every kill Shocks the nearest enemy and heals you 1."

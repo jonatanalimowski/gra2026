@@ -10,6 +10,11 @@ class_name ExplodingEffect
 @export var radius: float = 32.0
 @export var tint: Color = Color(0.75, 0.5, 0.2, 1.0)
 @export var explosion_scene: PackedScene
+# optional status the explosion applies (Fireburst)
+const INFERNO_STATUS = preload("res://Data/Statuses/Burn.tres")
+const INFERNO_STACKS: int = 2
+@export var status: StatusEffect
+@export var status_stacks: int = 1
 
 func OnProjectileSpawned(projectile: BaseProjectile) -> void:
 	var is_explosive = randf() < chance
@@ -38,6 +43,12 @@ func SpawnExplosion(projectile: BaseProjectile) -> void:
 
 	var explosion = explosion_scene.instantiate()
 	explosion.Setup(dmg, radius, source)
+	explosion.status = status
+	explosion.status_stacks = status_stacks
+	# Inferno (Ember Tier II): the player's explosions burn
+	if not status and projectile.team == BaseProjectile.Team.PLAYER and RunState.HasFlag(&"inferno"):
+		explosion.status = INFERNO_STATUS
+		explosion.status_stacks = INFERNO_STACKS
 	# the player's own blasts are harmless to them unless a curse says otherwise (Reckless Blast)
 	explosion.hits_player = projectile.team == BaseProjectile.Team.ENEMY or RunState.HasFlag(&"explosions_hit_player")
 	explosion.global_position = projectile.global_position

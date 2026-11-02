@@ -5,10 +5,11 @@ class_name Wand
 var data: WandData
 var primary: SpellCaster # left click
 var heavy: SpellCaster # right click, null if the wand has no heavy spell
+var runes: Array[RuneData] = []
 
 func Setup(wand_data: WandData) -> void:
 	data = wand_data
-	var runes: Array[RuneData] = []
+	runes = []
 	for i in min(data.runes.size(), data.rune_slots):
 		runes.append(data.runes[i])
 	if data.runes.size() > data.rune_slots:
@@ -16,8 +17,11 @@ func Setup(wand_data: WandData) -> void:
 
 	if data.primary_spell:
 		primary = SpellCaster.new(data.primary_spell, runes)
-	if data.heavy_spell:
-		heavy = SpellCaster.new(data.heavy_spell, runes)
+	SetHeavy(data.heavy_spell)
+
+# Heavy slot pacts swap the heavy spell. a fresh caster: the caller re-adds pact modifiers (Player.UpdateHeavy)
+func SetHeavy(spell: SpellData) -> void:
+	heavy = SpellCaster.new(spell, runes) if spell else null
 
 func GetCasters() -> Array[SpellCaster]:
 	var casters: Array[SpellCaster] = []

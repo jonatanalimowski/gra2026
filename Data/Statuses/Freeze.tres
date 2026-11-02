@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="StatusEffect" load_steps=3 format=3]
+
+[ext_resource type="Script" uid="uid://dbrsojh3aexrl" path="res://Scripts/Combat/StatusEffects/StatusEffect.gd" id="1_status"]
+[ext_resource type="Texture2D" path="res://assets/icons/status_freeze.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_status")
+duration = 1.5
+interval = 0.0
+element = &"frost"
+name = "Freeze"
+icon = ExtResource("2_icon")
+color = Color(0.8, 0.95, 1, 1)
+priority = 50
+outline_color = Color(0.85, 1, 1, 1)
+ward_group = &"frost"

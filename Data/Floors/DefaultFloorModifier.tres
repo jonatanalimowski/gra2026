@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_floor")
-damage_per_floor = 0.2
-elite_chance_per_floor = 0.02
+health_per_floor = 0.1
+damage_per_floor = 0.12
+elite_chance_per_floor = 0.03
 tints = Array[Color]([Color(0.901963, 0.885005, 0.81957173, 1), Color(0.627451, 0.627451, 0.627451, 1), Color(0.878955, 0.7992256, 0.8637756, 1)])

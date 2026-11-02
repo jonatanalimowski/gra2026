@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Combat/StatusArea.gd" id="1_area"]
+[ext_resource type="Resource" path="res://Data/Statuses/Burn.tres" id="2_status"]
+[ext_resource type="Script" path="res://Scripts/Combat/StatusEffects/StatusEffect.gd" id="3_status"]
+
+[node name="ScorchedArea" type="Area2D"]
+script = ExtResource("1_area")
+lifetime = 2.5
+affects_player = true
+affects_enemies = false
+status_effects = Array[ExtResource("3_status")]([ExtResource("2_status")])
+reapply_interval = 0.6
+telegraph_time = 0.5
+telegraph_color = Color(0.8, 0.3, 0.1, 0.3)
+area_color = Color(0.9, 0.35, 0.05, 0.35)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

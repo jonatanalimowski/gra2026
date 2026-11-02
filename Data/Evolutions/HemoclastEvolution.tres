@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="WandEvolution" load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Altars/WandEvolution.gd" id="1_r"]
+[ext_resource type="Resource" path="res://Data/Wands/PurpleSawStaff.tres" id="2_r"]
+[ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="3_r"]
+[ext_resource type="Script" path="res://Scripts/Combat/Effects/ProjectileEffects/ScaleProjectileEffect.gd" id="4_r"]
+[ext_resource type="Script" path="res://Scripts/Combat/Effects/ProjectileEffects/ApplyStatusOnHitEffect.gd" id="5_r"]
+[ext_resource type="Resource" path="res://Data/Statuses/Bleed.tres" id="6_r"]
+[ext_resource type="Script" path="res://Scripts/Combat/Effects/ProjectileEffects/HealOnKillEffect.gd" id="7_r"]
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="8_r"]
+
+[sub_resource type="Resource" id="Resource_2"]
+script = ExtResource("4_r")
+scale = 1.5
+
+[sub_resource type="Resource" id="Resource_3"]
+script = ExtResource("5_r")
+status = ExtResource("6_r")
+
+[sub_resource type="Resource" id="Resource_4"]
+script = ExtResource("7_r")
+heal = 1.0
+
+[sub_resource type="Resource" id="Resource_1"]
+script = ExtResource("3_r")
+type = 1
+display_name = "Hemoclast"
+description = "Your saws grow 50% larger and apply 1 Bleed, and each saw kill heals 1 HP."
+primary_effects = Array[ExtResource("8_r")]([SubResource("Resource_2"), SubResource("Resource_3"), SubResource("Resource_4")])
+
+[resource]
+script = ExtResource("1_r")
+wand = ExtResource("2_r")
+school = 4
+blessing = SubResource("Resource_1")
+id = &"evolution_hemoclast"
+display_name = "Hemoclast"
+description = "Your saws grow 50% larger and apply 1 Bleed, and each saw kill heals 1 HP."

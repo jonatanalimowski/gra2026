@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AltarPact" load_steps=5 format=3 uid="uid://drvjruwphal6a"]
+
+[ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_r"]
+[ext_resource type="Resource" uid="uid://xm3dnof4vo4e" path="res://Data/Blessings/FireburstBlessing.tres" id="2_r"]
+[ext_resource type="Resource" path="res://Data/Curses/RecklessBlastCurse.tres" id="3_r"]
+[ext_resource type="Resource" path="res://Data/Blessings/FireburstIIBlessing.tres" id="r2_r"]
+
+[resource]
+script = ExtResource("1_r")
+blessing = ExtResource("2_r")
+curse = ExtResource("3_r")
+slot = 2
+rank2_blessing = ExtResource("r2_r")
+id = &"pact_fireburst"
+display_name = "Fireburst"

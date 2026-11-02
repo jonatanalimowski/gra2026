@@ -5,6 +5,9 @@ class_name AltarRoom
 # (buff + curse), take one or leave. the altar stays active until something is taken
 const CHOICE_OVERLAY = preload("res://Scenes/UI/ChoiceOverlay.tscn")
 const BASE_OFFER_COUNT = 3
+# schools you already have points in show up more, the wand's school a bit more on the first altar
+const OWNED_SCHOOL_WEIGHT = 2.0
+const AFFINITY_WEIGHT = 1.5
 
 @export var pact_pool: Array[AltarPact] = []
 @export var offer_count: int = BASE_OFFER_COUNT # before bonuses, see RunState.GetPactOfferCount
@@ -65,13 +68,33 @@ static func _CandidatesFor(valid: Array[AltarPact], rolled: PactRarity.Rarity) -
 static func _PickWeighted(candidates: Array, rng: RandomNumberGenerator) -> AltarPact:
 	var total = 0.0
 	for pact in candidates:
-		total += pact.weight
+		total += GetOfferWeight(pact)
 	var roll = rng.randf() * total
 	for pact in candidates:
-		roll -= pact.weight
+		roll -= GetOfferWeight(pact)
 		if roll <= 0.0:
 			return pact
 	return candidates.back()
+
+# pact.weight, nudged toward schools the run already leans into (a nudge, not a rail)
+static func GetOfferWeight(pact: AltarPact) -> float:
+	var weight = pact.weight
+	var school = pact.GetSchool()
+	if school == School.Kind.NONE or school == School.Kind.FORM:
+		return weight
+	if RunState.GetSchoolPoints(school) > 0:
+		weight *= OWNED_SCHOOL_WEIGHT
+	if RunState.pacts.is_empty() and GetWandAffinity() == school:
+		weight *= AFFINITY_WEIGHT
+	return weight
+
+static func GetWandAffinity() -> School.Kind:
+	if RunState.loadout and RunState.loadout.wand:
+		return RunState.loadout.wand.school_affinity
+	var player = NodeReferences.player
+	if player and player.wand and player.wand.data:
+		return player.wand.data.school_affinity
+	return School.Kind.NONE
 
 func _on_altar_body_entered(body: Node2D) -> void:
 	if body is Player:

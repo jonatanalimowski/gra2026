@@ -5,6 +5,9 @@ class_name StatUpgrade
 # reuses Blessing so the player/HUD apply it like any other half (RunState.AddHalf)
 @export var blessing: Blessing
 
+func Claim() -> void:
+	RunState.AddHalf(blessing, true)
+
 func GetTagIcons() -> Array[Texture2D]:
 	if blessing == null:
 		return []
