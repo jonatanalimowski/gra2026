@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://qaxenbbv1xph"]
+[gd_scene load_steps=9 format=3 uid="uid://qaxenbbv1xph"]
 
 [ext_resource type="Script" uid="uid://gb0obnx4votr" path="res://Scripts/UI/choice_card.gd" id="1_54dwx"]
 [ext_resource type="Texture2D" uid="uid://bk1qf8hetnvtd" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-Tilesheet.png" id="2_54dwx"]
 [ext_resource type="Texture2D" uid="uid://cxpgwcbtjgnhi" path="res://assets/items/Exotic Swords.png" id="2_d37f7"]
 [ext_resource type="Theme" uid="uid://d2g2pr66fmdmk" path="res://Fonts/Font.tres" id="3_54dwx"]
 [ext_resource type="Theme" uid="uid://cixt07vew57f" path="res://Data/UI/main_theme.tres" id="5_54dwx"]
+[ext_resource type="Theme" uid="uid://cjy3idkndmck7" path="res://Data/UI/alt_button.tres" id="6_ajnib"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_54dwx"]
 atlas = ExtResource("2_54dwx")
@@ -131,7 +132,7 @@ offset_top = -20.0
 offset_right = 47.5
 grow_horizontal = 2
 grow_vertical = 0
-theme = ExtResource("5_54dwx")
+theme = ExtResource("6_ajnib")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="TextureRect/ViewStatsButton"]
 layout_mode = 1
@@ -166,7 +167,7 @@ offset_top = -20.0
 offset_right = 47.5
 grow_horizontal = 2
 grow_vertical = 0
-theme = ExtResource("5_54dwx")
+theme = ExtResource("6_ajnib")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="TextureRect/TakeButton"]
 layout_mode = 1

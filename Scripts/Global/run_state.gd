@@ -12,6 +12,12 @@ var is_run_active: bool = false
 # every floor layout comes from this. kept on Ctrl+R, so a restart replays the same floors
 var run_seed: int = randi()
 
+signal on_experience_changed(new_experience)
+
+var collected_experience: int = 0
+var enemies_killed: int = 0
+var elites_killed: int = 0
+
 # run-wide blessings/curses picked up during the run (altar pacts, later oaths).
 # halves is the one source of truth: the player and enemies apply every active half on spawn
 # and listen to half_added / half_removed for live changes
@@ -34,16 +40,15 @@ const ATTUNEMENTS: Array[Attunement] = [
 ]
 const SLOT_PACT_POINTS: int = 2
 const GLYPH_POINTS: int = 1
-# glyphs: small free picks after room clears, once per stack
+
 var glyphs: Array[GlyphData] = []
-# bad-luck protection: grows for every combat room cleared without a glyph, resets when one drops
 var glyph_pity: float = 0.0
 signal glyph_added(glyph: GlyphData)
-# boss shrine payoffs (phase E)
+
 var duos: Array[DuoData] = []
-var evolution: WandEvolution # the wand's evolved form, one per run
+var evolution: WandEvolution
 var deepened_pacts: Array[AltarPact] = []
-# phase F: elite affixes (rolled by EnemyRoom) and the current floor's omens (halves for one floor)
+
 const AFFIXES: Array[Affix] = [
 	preload("res://Data/Affixes/VolatileAffix.tres"),
 	preload("res://Data/Affixes/HastedAffix.tres"),
@@ -58,6 +63,7 @@ const OMENS: Array[FloorOmen] = [
 	preload("res://Data/Omens/BloodMoonOmen.tres"),
 	preload("res://Data/Omens/RestlessDeadOmen.tres"),
 ]
+
 const DOUBLE_OMEN_FLOOR: int = 8
 var omens: Array[FloorOmen] = []
 const SCHOOL_WARD_GROUPS := { School.Kind.EMBER: &"ember", School.Kind.FROST: &"frost", School.Kind.STORM: &"storm", School.Kind.BLOOD: &"blood" }
@@ -104,6 +110,12 @@ func OrbProcess(orb: ManaOrb, delta: float) -> void:
 func _on_enemy_killed(enemy: Entity, info: DamageInfo) -> void:
 	for e in GetRunEffects():
 		e.OnEnemyKilled(enemy, info)
+	
+	@warning_ignore("narrowing_conversion")
+	HandleExperience(enemy.stats.GetStat("experience_drop"))
+	enemies_killed += 1
+	if enemy.is_elite:
+		elites_killed += 1
 
 func _on_player_damaged(info: DamageInfo) -> void:
 	for e in GetRunEffects():
@@ -112,6 +124,10 @@ func _on_player_damaged(info: DamageInfo) -> void:
 func _on_room_cleared() -> void:
 	for e in GetRunEffects():
 		e.OnRoomCleared()
+
+func HandleExperience(experience_gained: int):
+	collected_experience += experience_gained
+	on_experience_changed.emit(collected_experience)
 
 # a copy, so an effect can cleanse a curse (trials) while we loop
 func GetRunEffects() -> Array[RunEffect]:
@@ -134,8 +150,6 @@ func AddPact(pact: AltarPact) -> void:
 	pact_added.emit(pact)
 	CheckAttunements()
 
-# the old slot pact goes completely: blessing AND curse (RemoveHalf, not CleanseCurse: that refuses
-# binding curses and counts as a cleanse). the new pact brings its own curse, so the curse count stays
 func ReplacePact(old_pact: AltarPact, new_pact: AltarPact) -> void:
 	if old_pact.blessing:
 		RemoveHalf(old_pact.blessing)
@@ -352,6 +366,7 @@ func Begin(new_loadout: Loadout, seed_value: int = 0) -> void:
 	loadout = new_loadout
 	run_seed = seed_value if seed_value != 0 else randi()
 	floor_number = 1
+	collected_experience = 0
 	pacts.clear()
 	halves.clear()
 	cleansed_curses.clear()

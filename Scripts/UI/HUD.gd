@@ -9,6 +9,7 @@ const GRAY: Color = Color(0.3, 0.3, 0.3, 1.0)
 @onready var boss_hp_text: Label = %BossHpLabel
 @onready var boss_ui = %BossBar
 @onready var floor_label: Label = %FloorLabel
+@onready var experience_label: Label = %ExperienceLabel
 
 var pact_list: VBoxContainer
 var status_list: VBoxContainer
@@ -36,6 +37,7 @@ func _ready() -> void:
 	mana_label = Label.new()
 	pact_list = VBoxContainer.new()
 	UpdatePacts()
+	_on_experience_changed(RunState.collected_experience)
 	status_list = VBoxContainer.new()
 	mana_bar.get_parent().add_child(status_list)
 
@@ -49,6 +51,10 @@ func ConnectSignals() -> void:
 	RunState.pact_added.connect(_on_pact_added)
 	RunState.curse_cleansed.connect(func(_curse): UpdatePacts())
 	RunState.attunement_reached.connect(_on_attunement_reached)
+	RunState.on_experience_changed.connect(_on_experience_changed)
+
+func _on_experience_changed(new_xp: int):
+	experience_label.text = "Experience: %d" % [new_xp]
 
 # big named popup in the middle of the screen when a school tier is reached
 func _on_attunement_reached(attunement: Attunement) -> void:

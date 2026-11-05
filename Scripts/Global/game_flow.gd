@@ -7,6 +7,8 @@ extends Node
 const MAIN_MENU_SCENE = "res://Scenes/UI/MainMenu.tscn"
 const LOADOUT_SCENE = "res://Scenes/UI/PreRunScreen.tscn"
 const RUN_SCENE = "res://Scenes/Misc/Main.tscn"
+const POST_RUN_SCENE = "res://Scenes/UI/PostRunScreen.tscn"
+const DEATH_SCENE = "res://Scenes/UI/DeathScreen.tscn"
 
 func GoToMainMenu() -> void:
 	get_tree().change_scene_to_file(MAIN_MENU_SCENE)
@@ -14,9 +16,15 @@ func GoToMainMenu() -> void:
 func GoToLoadout() -> void:
 	get_tree().change_scene_to_file(LOADOUT_SCENE)
 
+func GoToYouDied() -> void:
+	SceneTransition.transition_to(DEATH_SCENE)
+
 func StartRun(loadout: Loadout, run_seed: int = 0) -> void:
 	RunState.Begin(loadout, run_seed)
 	get_tree().change_scene_to_file(RUN_SCENE)
+
+func GoToPostRunScene() -> void:
+	get_tree().change_scene_to_file(POST_RUN_SCENE)
 
 # reloads the run scene with floor_number + 1. the player re-applies RunState.loadout and the
 # run-wide buffs in _ready, and the generator gets a new floor seed
@@ -31,4 +39,7 @@ func RestartRun(same_seed: bool = false) -> void:
 
 func EndRun(victory: bool) -> void:
 	RunState.Finish(victory)
-	GoToLoadout()
+	if victory:
+		pass
+	else:
+		GoToYouDied()

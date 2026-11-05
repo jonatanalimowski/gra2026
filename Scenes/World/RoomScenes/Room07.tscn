@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://1oaxocwfapgf" path="res://Scripts/Worldgen/EnemyRoom.gd" id="1_148w2"]
 [ext_resource type="TileSet" uid="uid://d0cbsuev84gt8" path="res://Scripts/Resources/TileMap.tres" id="2_5q2es"]
-[ext_resource type="Script" path="res://Scripts/Worldgen/EnemyPool.gd" id="2_m18k8"]
+[ext_resource type="Script" uid="uid://dyf22aipq6bh6" path="res://Scripts/Worldgen/EnemyPool.gd" id="2_m18k8"]
 [ext_resource type="Resource" uid="uid://cyp178r7ik0q3" path="res://Data/EnemyPools/ChargersAreaCasters.tres" id="6_ivnpc"]
 [ext_resource type="Resource" uid="uid://b45qig2to62pq" path="res://Data/EnemyPools/ChargersShooters.tres" id="pool_ChargersShooters"]
 [ext_resource type="Resource" uid="uid://dl3isvohrrb8a" path="res://Data/EnemyPools/Mixed.tres" id="pool_Mixed"]

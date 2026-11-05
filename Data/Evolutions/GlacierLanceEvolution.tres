@@ -1,12 +1,15 @@
-[gd_resource type="Resource" script_class="WandEvolution" load_steps=11 format=3]
+[gd_resource type="Resource" script_class="WandEvolution" load_steps=14 format=3 uid="uid://c0eg06eb72mdc"]
 
 [ext_resource type="Script" path="res://Scripts/Altars/WandEvolution.gd" id="1_r"]
-[ext_resource type="Resource" path="res://Data/Wands/BlueBlinkerWand.tres" id="2_r"]
+[ext_resource type="Resource" uid="uid://c10lqnvq1axy6" path="res://Data/Wands/BlueBlinkerWand.tres" id="2_r"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_wtlkh"]
 [ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="3_r"]
-[ext_resource type="Script" path="res://Scripts/Combat/Effects/ProjectileEffects/PierceEffect.gd" id="4_r"]
-[ext_resource type="Script" path="res://Scripts/Combat/Effects/ProjectileEffects/ApplyStatusOnHitEffect.gd" id="5_r"]
-[ext_resource type="Resource" path="res://Data/Statuses/Chill.tres" id="6_r"]
+[ext_resource type="Script" uid="uid://dn0lngx6fw341" path="res://Scripts/Combat/Effects/ProjectileEffects/PierceEffect.gd" id="4_r"]
+[ext_resource type="Script" uid="uid://dv7gvjcomnqi0" path="res://Scripts/Combat/Effects/ProjectileEffects/ApplyStatusOnHitEffect.gd" id="5_r"]
+[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="6_j43f2"]
+[ext_resource type="Resource" uid="uid://b2q1hs4ql2sdl" path="res://Data/Statuses/Chill.tres" id="6_r"]
 [ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="7_r"]
+[ext_resource type="Script" uid="uid://cjp37m6rc8u6d" path="res://Scripts/Combat/StatusEffects/StatusTweak.gd" id="8_j5cki"]
 
 [sub_resource type="Resource" id="Resource_2"]
 script = ExtResource("4_r")

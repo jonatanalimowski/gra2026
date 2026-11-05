@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="1_r"]
 [ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_kr6oj"]
 [ext_resource type="Script" path="res://Scripts/Resources/Items/BallLightningSpell.gd" id="2_r"]
-[ext_resource type="Resource" path="res://Data/Statuses/Shock.tres" id="3_r"]
+[ext_resource type="Resource" uid="uid://1onvpwgadrg0" path="res://Data/Statuses/Shock.tres" id="3_r"]
 [ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="5_32c7n"]
 [ext_resource type="Script" uid="uid://cjp37m6rc8u6d" path="res://Scripts/Combat/StatusEffects/StatusTweak.gd" id="7_222uy"]
 

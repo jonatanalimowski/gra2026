@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="1_r"]
 [ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_ikqul"]
-[ext_resource type="Script" path="res://Scripts/Combat/Effects/RunEffects/ShatterEffect.gd" id="2_r"]
+[ext_resource type="Script" uid="uid://cpsmi100e44uq" path="res://Scripts/Combat/Effects/RunEffects/ShatterEffect.gd" id="2_r"]
 [ext_resource type="PackedScene" uid="uid://6h8hktw1m71n" path="res://Scenes/ProjectileScenes/ProjectileBlueBlinker.tscn" id="3_r"]
 [ext_resource type="Script" uid="uid://dv7gvjcomnqi0" path="res://Scripts/Combat/Effects/ProjectileEffects/ApplyStatusOnHitEffect.gd" id="4_r"]
 [ext_resource type="Resource" uid="uid://b2q1hs4ql2sdl" path="res://Data/Statuses/Chill.tres" id="5_r"]
@@ -25,6 +25,6 @@ shard_effects = Array[ExtResource("6_r")]([SubResource("Resource_2")])
 script = ExtResource("1_r")
 type = 2
 display_name = "Shatter"
-description = "Enemies that freeze burst into 6 ice shards that apply 1 Chill."
+description = "Enemies that die burst into 6 ice shards that apply 1 Chill."
 school = 2
 run_effects = Array[ExtResource("7_r")]([SubResource("Resource_1")])

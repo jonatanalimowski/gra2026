@@ -111,7 +111,8 @@ func Summon() -> void:
 		var hp_mod = StatModifier.new()
 		hp_mod.stat = &"max_health"
 		hp_mod.multiplier = minion_health_multiplier
-		minion.stats.AddModifier(hp_mod, minion_brain)
+		if minion.stats:
+			minion.stats.AddModifier(hp_mod, minion_brain)
 		if ParentEntity.is_elite:
 			var speed_mod = StatModifier.new()
 			speed_mod.stat = &"movement_speed"

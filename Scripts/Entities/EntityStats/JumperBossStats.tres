@@ -8,4 +8,5 @@ max_health = 750.0
 movement_speed = 100.0
 attack_damage = 35.0
 knockback_resistance = 1.0
+experience_drop = 15
 metadata/_custom_type_script = "uid://df20v0kdtj1rb"

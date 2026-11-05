@@ -49,6 +49,8 @@ signal landed
 @export var spawn_shoot_delay: float = 1.0
 # elite version: rolled by EnemyRoom, set before add_child so _ready applies it. empty = DEFAULT_ELITE
 @export var elite_data: EliteData
+
+
 var is_elite: bool = false
 # set by EnemyRoom before add_child, applied in _ready
 var affixes: Array[Affix] = []
@@ -196,7 +198,11 @@ func Shoot(direction: Vector2) -> bool:
 
 # adds an enemy next to this one (same parent as the room's enemies)
 func SpawnMinion(minion: Entity, pos: Vector2) -> void:
-	minion.global_position = FindSpawnPosition(minion, pos)
+	var found_pos = FindSpawnPosition(minion, pos)
+	if found_pos == Vector2.ZERO:
+		return
+		
+	minion.global_position = found_pos
 	get_parent().add_child(minion)
 	summoned.emit(minion)
 
@@ -219,6 +225,8 @@ func FindSpawnPosition(minion: Entity, target: Vector2) -> Vector2:
 	query.collision_mask = BaseProjectile.LAYER_WORLD
 	# [safe, unsafe] fraction of the motion, [1, 1] = no wall in the way
 	var safe = get_world_2d().direct_space_state.cast_motion(query)[0]
+	if safe != 1:
+		return Vector2.ZERO
 	return start + query.motion * safe - shape_offset
 
 func CanShoot() -> bool:
@@ -428,9 +436,10 @@ func Die() -> void:
 	# is busy adding/removing children, and add_child would fail (corpse never ready)
 	var corpse: EntityCorpse = corpse_scene.instantiate()
 	var parent = get_parent()
-	corpse.SpawnCorpse(parent.to_local(global_position), sprite, death_offset if override_death_offset else sprite.offset, scale)
-	parent.add_child.call_deferred(corpse)
-	ManaOrb.SpawnBurst(get_tree().current_scene, global_position, stats.GetStat(&"mana_drop"))
+	if is_instance_valid(parent) and is_instance_valid(corpse):
+		corpse.SpawnCorpse(parent.to_local(global_position), sprite, death_offset if override_death_offset else sprite.offset, scale)
+		parent.add_child.call_deferred(corpse)
+		ManaOrb.SpawnBurst(get_tree().current_scene, global_position, stats.GetStat(&"mana_drop"))
 	died.emit(self)
 	Signals.enemy_killed.emit(self, last_hit)
 	if is_boss:

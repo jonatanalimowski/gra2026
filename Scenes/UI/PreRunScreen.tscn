@@ -6,7 +6,7 @@
 [ext_resource type="Resource" uid="uid://c8kiamrbrvn0g" path="res://Data/Wands/FlameShurikenWand.tres" id="4_FlameShurikenWand"]
 [ext_resource type="Resource" uid="uid://betivdmm3g1es" path="res://Data/Wands/PurpleBoltWand.tres" id="5_PurpleBoltWand"]
 [ext_resource type="Resource" uid="uid://c10lqnvq1axy6" path="res://Data/Wands/BlueBlinkerWand.tres" id="7_BlueBlinkerWand"]
-[ext_resource type="Theme" uid="uid://cixt07vew57f" path="res://Data/UI/main_theme.tres" id="8_8o263"]
+[ext_resource type="Theme" uid="uid://cjy3idkndmck7" path="res://Data/UI/alt_button.tres" id="8_8o263"]
 [ext_resource type="Script" uid="uid://jt1r0vubh4cb" path="res://Scripts/Resources/Items/WandData.gd" id="10_wanddata"]
 
 [node name="PreRunScreen" type="Control"]
@@ -74,8 +74,9 @@ layout_mode = 2
 [node name="BackButton" type="Button" parent="UI"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_top = 4.0
-offset_right = 92.0
-offset_bottom = 24.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 96.0
+offset_bottom = 30.0
 theme = ExtResource("8_8o263")
 text = "Back"

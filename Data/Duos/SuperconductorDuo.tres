@@ -1,7 +1,11 @@
-[gd_resource type="Resource" script_class="DuoData" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="DuoData" load_steps=8 format=3 uid="uid://c1ukd5osbnj2y"]
 
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="1_dwsik"]
 [ext_resource type="Script" path="res://Scripts/Altars/DuoData.gd" id="1_r"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_jk387"]
 [ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="2_r"]
+[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="3_1lqg4"]
+[ext_resource type="Script" uid="uid://cjp37m6rc8u6d" path="res://Scripts/Combat/StatusEffects/StatusTweak.gd" id="5_rns1m"]
 
 [sub_resource type="Resource" id="Resource_1"]
 script = ExtResource("2_r")

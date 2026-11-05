@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="EliteData" load_steps=7 format=3 uid="uid://cnjfrv6cm7wo5"]
+[gd_resource type="Resource" script_class="EliteData" load_steps=8 format=3 uid="uid://cnjfrv6cm7wo5"]
 
 [ext_resource type="Script" uid="uid://cgk3u0qftrxyn" path="res://Scripts/Resources/EliteData.gd" id="1_elite"]
 [ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_mod"]
@@ -22,6 +22,12 @@ multiplier = 1.3
 script = ExtResource("2_mod")
 multiplier = 1.5
 
+[sub_resource type="Resource" id="Resource_ljuba"]
+script = ExtResource("2_mod")
+stat = &"experience_drop"
+multiplier = 2.5
+metadata/_custom_type_script = "uid://dagkcxgw77g4s"
+
 [resource]
 script = ExtResource("1_elite")
-modifiers = Array[ExtResource("2_mod")]([SubResource("Resource_health"), SubResource("Resource_contact"), SubResource("Resource_speed"), SubResource("Resource_spell_damage")])
+modifiers = Array[ExtResource("2_mod")]([SubResource("Resource_health"), SubResource("Resource_contact"), SubResource("Resource_speed"), SubResource("Resource_spell_damage"), SubResource("Resource_ljuba")])

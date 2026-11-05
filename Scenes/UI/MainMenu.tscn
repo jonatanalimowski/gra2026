@@ -1,25 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://ybhv6ni4yy0p"]
+[gd_scene load_steps=4 format=3 uid="uid://ybhv6ni4yy0p"]
 
 [ext_resource type="Script" uid="uid://he38sam0rgl8" path="res://Scripts/UI/main_menu.gd" id="1_72sra"]
 [ext_resource type="Texture2D" uid="uid://cw5jyrfnds2e8" path="res://assets/ui/menu_background.png" id="1_g18y6"]
-[ext_resource type="Texture2D" uid="uid://bus2k6nrycfcc" path="res://assets/ui/Pack2/Buttons.png" id="2_mjmdf"]
-[ext_resource type="Theme" uid="uid://cixt07vew57f" path="res://Data/UI/main_theme.tres" id="3_theme"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_72sra"]
-atlas = ExtResource("2_mjmdf")
-region = Rect2(13, 274, 56, 12)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_t6w0q"]
-atlas = ExtResource("2_mjmdf")
-region = Rect2(93, 275, 56, 11)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mjmdf"]
-atlas = ExtResource("2_mjmdf")
-region = Rect2(13, 402, 56, 12)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_k8um8"]
-atlas = ExtResource("2_mjmdf")
-region = Rect2(93, 403, 56, 11)
+[ext_resource type="Theme" uid="uid://cjy3idkndmck7" path="res://Data/UI/alt_button.tres" id="3_72sra"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -50,45 +33,32 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -28.0
-offset_top = -20.0
-offset_right = 28.0
-offset_bottom = 8.0
+offset_left = -66.0
+offset_top = -69.0
+offset_right = 44.0
+offset_bottom = 41.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(2, 2)
-pivot_offset = Vector2(28, 14)
+scale = Vector2(1.2, 1.2)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+theme = ExtResource("3_72sra")
 
-[node name="Start" type="TextureButton" parent="MarginContainer/VBoxContainer"]
+[node name="Start" type="Button" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-texture_normal = SubResource("AtlasTexture_72sra")
-texture_hover = SubResource("AtlasTexture_t6w0q")
+text = "Start"
 
-[node name="Quit" type="TextureButton" parent="MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-texture_normal = SubResource("AtlasTexture_mjmdf")
-texture_hover = SubResource("AtlasTexture_k8um8")
-
-[node name="SettingsButton" type="Button" parent="."]
+[node name="SettingsButton" type="Button" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(95, 20)
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -103.0
-offset_top = -28.0
-offset_right = -8.0
-offset_bottom = -8.0
-grow_horizontal = 0
-grow_vertical = 0
+layout_mode = 2
 focus_mode = 0
-theme = ExtResource("3_theme")
+theme = ExtResource("3_72sra")
 text = "Settings"
+
+[node name="Quit" type="Button" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Quit"

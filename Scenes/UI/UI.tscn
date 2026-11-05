@@ -272,30 +272,33 @@ texture_under = SubResource("AtlasTexture_jevvu")
 texture_progress = SubResource("AtlasTexture_nqsl3")
 texture_progress_offset = Vector2(1, 1)
 
-[node name="Minimap" type="Control" parent="HUD"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD"]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -124.0
-offset_top = 6.0
-offset_right = -6.0
-offset_bottom = 86.0
+anchors_preset = -1
+anchor_left = 0.98
+anchor_top = 0.04
+anchor_right = 0.98
+anchor_bottom = 0.04
+offset_left = -119.0
+offset_bottom = 137.0
 grow_horizontal = 0
+
+[node name="Minimap" type="Control" parent="HUD/VBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
 mouse_filter = 2
 script = ExtResource("9_minimap")
 
-[node name="FloorLabel" type="Label" parent="HUD"]
+[node name="FloorLabel" type="Label" parent="HUD/VBoxContainer"]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.95
-anchor_top = 0.24
-anchor_right = 0.95
-anchor_bottom = 0.24
-offset_left = -60.0
-offset_bottom = 14.0
-grow_horizontal = 0
+layout_mode = 2
 text = "Floor 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ExperienceLabel" type="Label" parent="HUD/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Experience: 0/100"
 horizontal_alignment = 1
 vertical_alignment = 1

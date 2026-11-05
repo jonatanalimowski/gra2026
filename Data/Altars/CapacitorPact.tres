@@ -1,17 +1,15 @@
-[gd_resource type="Resource" script_class="AltarPact" load_steps=5 format=3]
+[gd_resource type="Resource" script_class="AltarPact" load_steps=5 format=3 uid="uid://cjwc8d3kf81px"]
 
 [ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_r"]
-[ext_resource type="Resource" path="res://Data/Blessings/CapacitorBlessing.tres" id="2_r"]
-[ext_resource type="Resource" path="res://Data/Curses/LeakCurse.tres" id="3_r"]
-[ext_resource type="Resource" path="res://Data/Blessings/CapacitorIIBlessing.tres" id="r2_r"]
+[ext_resource type="Resource" uid="uid://bjq1dkm7kcw3o" path="res://Data/Blessings/CapacitorBlessing.tres" id="2_r"]
+[ext_resource type="Resource" uid="uid://d0yj4784nn2ki" path="res://Data/Curses/LeakCurse.tres" id="3_r"]
+[ext_resource type="Resource" uid="uid://cwut1yicj2s7g" path="res://Data/Blessings/CapacitorIIBlessing.tres" id="r2_r"]
 
 [resource]
 script = ExtResource("1_r")
 blessing = ExtResource("2_r")
 curse = ExtResource("3_r")
-rank2_blessing = ExtResource("r2_r")
-rarity = 0
 slot = 5
-weight = 1.0
+rank2_blessing = ExtResource("r2_r")
 id = &"pact_capacitor"
 display_name = "Capacitor"
