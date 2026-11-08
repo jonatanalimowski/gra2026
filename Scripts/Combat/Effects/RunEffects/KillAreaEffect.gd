@@ -7,7 +7,7 @@ class_name KillAreaEffect
 @export_range(0.0, 1.0) var chance: float = 1.0
 @export var strength: float = 1.0
 
-func OnEnemyKilled(enemy: Entity, _info: DamageInfo) -> void:
+func OnEnemyKilled(enemy: Entity, _info: DamageInfo, _xp: int, _is_elite: bool) -> void:
 	if area_scene == null or randf() > chance:
 		return
 	var area = area_scene.instantiate() as StatusArea

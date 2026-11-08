@@ -7,16 +7,19 @@ var can_zoom_camera = true;
 @export var max_shake_offset: float = 8.0
 @export var trauma_decay: float = 1.5 # per second
 @export var shake_speed: float = 30.0 # noise scroll speed, higher = more jittery
+@export var camera_smoothing_strength: float = 10
 
 var last_player_zoom: Vector2
 var trauma: float = 0.0
 var noise_time: float = 0.0
 var noise := FastNoiseLite.new()
 var camera_twink: Tween
+var target: Node2D
 
 func _ready() -> void:
 	noise.seed = randi()
 	noise.frequency = 1.0
+	target = get_parent()
 	Signals.screen_shake.connect(AddTrauma)
 	Signals.boss_spawned.connect(_on_boss_spawned)
 	Signals.boss_defeated.connect(_on_boss_defeated)
@@ -33,11 +36,18 @@ func _process(delta: float) -> void:
 	# offset doesn't fight position smoothing, unlike moving the camera itself
 	offset = Vector2(noise.get_noise_2d(noise_time, 0.0), noise.get_noise_2d(0.0, noise_time)) * strength
 
+#func _physics_process(delta: float) -> void:
+	#SmoothPosition(delta)
+
+func SmoothPosition(delta: float):
+	var target_pos = target.global_position
+	global_position = global_position.lerp(target_pos, camera_smoothing_strength * delta)
+	#global_position = Vector2(floor(global_position.x), floor(global_position.y))
+
 func _on_boss_spawned(_hp_value: int):
 	if camera_twink:
 		camera_twink.kill()
 	
-	print("hello")
 	camera_twink = create_tween()
 	camera_twink.tween_property(self, "zoom", Vector2(1.5, 1.5), 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	last_player_zoom = zoom
@@ -53,15 +63,15 @@ func _on_boss_defeated():
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ScrollUp"):
-		var new_zoom = zoom + Vector2(0.1, 0.1)
-		if ((new_zoom > Vector2(2.5, 2.5) and debug_zoom == false) or can_zoom_camera == false):
+		var new_zoom = zoom + Vector2(1, 1)
+		if ((new_zoom > Vector2(3, 3) and debug_zoom == false) or can_zoom_camera == false):
 			return
 		else:
-			zoom = new_zoom
+			zoom = new_zoom.floor()
 	if event.is_action_pressed("ScrollDown"):
-		var new_zoom = zoom - Vector2(0.1, 0.1)
-		if ((new_zoom < Vector2(1.6, 1.6) and debug_zoom == false) or can_zoom_camera == false):
+		var new_zoom = zoom - Vector2(1, 1)
+		if ((new_zoom < Vector2(1, 1) and debug_zoom == false) or can_zoom_camera == false):
 			return
 		else:
-			zoom = new_zoom
+			zoom = new_zoom.floor()
 		

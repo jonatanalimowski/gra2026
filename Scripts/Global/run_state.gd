@@ -107,14 +107,14 @@ func OrbProcess(orb: ManaOrb, delta: float) -> void:
 
 # no is_run_active check: the lists are empty outside a run, and Main.tscn started
 # from the editor never calls Begin()
-func _on_enemy_killed(enemy: Entity, info: DamageInfo) -> void:
+func _on_enemy_killed(enemy: Entity, info: DamageInfo, xp: int, is_elite: bool) -> void:
 	for e in GetRunEffects():
-		e.OnEnemyKilled(enemy, info)
+		e.OnEnemyKilled(enemy, info, xp, is_elite)
 	
 	@warning_ignore("narrowing_conversion")
-	HandleExperience(enemy.stats.GetStat("experience_drop"))
+	HandleExperience(xp)
 	enemies_killed += 1
-	if enemy.is_elite:
+	if is_elite:
 		elites_killed += 1
 
 func _on_player_damaged(info: DamageInfo) -> void:

@@ -7,7 +7,7 @@ class_name RunEffect
 
 func OnAdded(_player: Player) -> void: pass           # picked up / player spawned on new floor
 func OnRemoved(_player: Player) -> void: pass         # its half was removed (cleansed curse): undo OnAdded
-func OnEnemyKilled(_enemy: Entity, _info: DamageInfo) -> void: pass
+func OnEnemyKilled(_enemy: Entity, _info: DamageInfo, _xp_drop: int, _is_elite: bool) -> void: pass
 func OnEnemyFrozen(_enemy: Entity) -> void: pass # Chill reached max stacks (not bosses: they get Brittle)
 func OnEnemyDamaged(_enemy: Entity, _info: DamageInfo, _amount: float) -> void: pass # amount = what it really lost
 func OnProcess(_player: Player, _delta: float) -> void: pass # every physics frame while the player lives

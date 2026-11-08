@@ -105,7 +105,7 @@ func Summon() -> void:
 		minion_brain.can_summon = false
 		minion.scale = Vector2.ONE * minion_scale
 		var spawn_pos = ParentEntity.global_position + Vector2.from_angle(randf() * TAU) * summon_radius
-		ParentEntity.SpawnMinion(minion, spawn_pos)
+		ParentEntity.SpawnMinion(minion, spawn_pos, summon_radius)
 
 		# stats exist only after the minion's _ready, Health keeps the ratio so it spawns at full hp
 		var hp_mod = StatModifier.new()

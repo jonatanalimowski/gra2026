@@ -5,8 +5,10 @@
 [ext_resource type="Script" uid="uid://c0pcntrsog7c4" path="res://Scripts/UI/HUD.gd" id="3_48q88"]
 [ext_resource type="Texture2D" uid="uid://d1yn33s7btbdp" path="res://assets/ui/Pack2/Main_tiles.png" id="4_qwshj"]
 [ext_resource type="Texture2D" uid="uid://cxpgwcbtjgnhi" path="res://assets/items/Exotic Swords.png" id="5_48q88"]
-[ext_resource type="Texture2D" uid="uid://bk1qf8hetnvtd" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-Tilesheet.png" id="6_jevvu"]
+[ext_resource type="Texture2D" uid="uid://dmx6tmyvqs2ym" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-TileSheet.png" id="6_jevvu"]
+[ext_resource type="PackedScene" uid="uid://cl2li1ori5blu" path="res://Scenes/UI/CatchUpProgressBar.tscn" id="8_y85ht"]
 [ext_resource type="Script" uid="uid://cgm1isyr8rgx6" path="res://Scripts/UI/Minimap.gd" id="9_minimap"]
+[ext_resource type="StyleBox" uid="uid://y671o63mejjf" path="res://Data/UI/ManaBar.tres" id="9_nqsl3"]
 [ext_resource type="Shader" uid="uid://b88166h2a4f2t" path="res://Scripts/UI/damage_vignette.gdshader" id="10_vignette"]
 [ext_resource type="Script" uid="uid://5pns4s365unx" path="res://Scripts/UI/damage_vignette.gd" id="11_vignette"]
 
@@ -27,17 +29,14 @@ region = Rect2(0, 0, 16, 16)
 atlas = ExtResource("5_48q88")
 region = Rect2(16, 16, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_w8wei"]
-atlas = ExtResource("6_jevvu")
-region = Rect2(197, 135, 86, 15)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8wlyu"]
-atlas = ExtResource("6_jevvu")
-region = Rect2(198, 168, 83, 12)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_y85ht"]
-atlas = ExtResource("6_jevvu")
-region = Rect2(295, 136, 83, 12)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y85ht"]
+bg_color = Color(0, 0, 0, 0.28235295)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 30.0
+expand_margin_bottom = 20.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jevvu"]
 atlas = ExtResource("6_jevvu")
@@ -111,6 +110,7 @@ mouse_filter = 2
 script = ExtResource("3_48q88")
 
 [node name="SpellSlots" type="MarginContainer" parent="HUD"]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
@@ -177,80 +177,80 @@ texture = SubResource("AtlasTexture_wunin")
 [node name="PlayerStatistics" type="MarginContainer" parent="HUD"]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.37
-anchor_bottom = 0.37
-offset_top = -20.0
-offset_right = 40.0
-offset_bottom = 20.0
-grow_vertical = 2
+anchor_left = 0.337
+anchor_top = 1.0
+anchor_right = 0.337
+anchor_bottom = 1.0
+offset_left = -27.0
+offset_top = -40.0
+offset_right = 27.0
+grow_horizontal = 2
+grow_vertical = 0
 pivot_offset = Vector2(0, 20)
 
 [node name="Label" type="Label" parent="HUD/PlayerStatistics"]
 layout_mode = 2
 text = "[ C ] Stats"
 
-[node name="PlayerBars" type="MarginContainer" parent="HUD"]
+[node name="PlayerBars" type="Control" parent="HUD"]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -47.0
-offset_right = 47.0
-offset_bottom = 36.0
-grow_horizontal = 2
-scale = Vector2(1.5, 1.5)
-pivot_offset = Vector2(47, 0)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+scale = Vector2(1.8, 1.8)
 
 [node name="PanelContainer" type="PanelContainer" parent="HUD/PlayerBars"]
-layout_mode = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 0.5555556
+offset_top = -22.222225
+offset_right = 90.55556
+offset_bottom = -0.22222519
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(-0.185, 0)
 size_flags_horizontal = 4
-size_flags_vertical = 0
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_y85ht")
 
 [node name="MarginContainer" type="MarginContainer" parent="HUD/PlayerBars/PanelContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+size_flags_vertical = 8
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/PlayerBars/PanelContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 0
+size_flags_vertical = 8
 theme_override_constants/separation = 2
 
-[node name="PlayerHealthbar" type="TextureProgressBar" parent="HUD/PlayerBars/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="PlayerHealthbar" parent="HUD/PlayerBars/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("8_y85ht")]
 unique_name_in_owner = true
 layout_mode = 2
-value = 100.0
-texture_under = SubResource("AtlasTexture_w8wei")
-texture_progress = SubResource("AtlasTexture_8wlyu")
-texture_progress_offset = Vector2(1, 1)
 
-[node name="ManaBar" type="TextureProgressBar" parent="HUD/PlayerBars/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ManaBar" parent="HUD/PlayerBars/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("8_y85ht")]
 unique_name_in_owner = true
 layout_mode = 2
-value = 100.0
-texture_under = SubResource("AtlasTexture_w8wei")
-texture_progress = SubResource("AtlasTexture_y85ht")
-texture_progress_offset = Vector2(1, 1)
+bar_texture_override = ExtResource("9_nqsl3")
 
 [node name="BossBar" type="MarginContainer" parent="HUD"]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 1.0
 offset_left = -43.0
-offset_top = 6.5400085
 offset_right = 43.0
-offset_bottom = 38.54001
+offset_bottom = 32.0
 grow_horizontal = 2
-grow_vertical = 0
 scale = Vector2(2, 2)
-pivot_offset = Vector2(43, 32)
+pivot_offset = Vector2(43, -10)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/BossBar"]
 layout_mode = 2

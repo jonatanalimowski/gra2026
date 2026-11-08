@@ -10,7 +10,7 @@ class_name ExplodeOnKillEffect
 @export var explosion_status: StatusEffect # applied by the explosion (Inferno later)
 @export var explosion_status_stacks: int = 1
 
-func OnEnemyKilled(enemy: Entity, info: DamageInfo) -> void:
+func OnEnemyKilled(enemy: Entity, info: DamageInfo, _xp: int, _is_elite: bool) -> void:
 	# an explosion kill can't explode again
 	if not info: # and info.element == &"explosion":
 		return

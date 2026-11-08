@@ -5,7 +5,7 @@ class_name StatusSpreadOnKillEffect
 @export var status: StatusEffect
 @export var radius: float = 120.0
 
-func OnEnemyKilled(enemy: Entity, _info: DamageInfo) -> void:
+func OnEnemyKilled(enemy: Entity, _info: DamageInfo, _xp: int, _is_elite: bool) -> void:
 	var stacks = StatusEffectHolder.TargetStacks(enemy, status)
 	if status == null or stacks <= 0:
 		return

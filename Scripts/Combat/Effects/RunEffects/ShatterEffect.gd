@@ -9,7 +9,7 @@ class_name ShatterEffect
 @export var shard_effects: Array[Effect] = [] # e.g. 1 Chill on hit
 const EXTRA_SHARDS_PER_GLYPH: int = 3 # Ice Shards glyph
 
-func OnEnemyKilled(enemy: Entity, _damage_info: DamageInfo) -> void:
+func OnEnemyKilled(enemy: Entity, _damage_info: DamageInfo, _xp: int, _is_elite: bool) -> void:
 	var player = NodeReferences.player
 	if player == null or projectile_scene == null or not is_instance_valid(enemy):
 		return

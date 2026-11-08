@@ -7,7 +7,7 @@ class_name StatusOnKillNearestEffect
 @export var radius: float = 160.0
 @export var heal_per_kill: float = 0.0
 
-func OnEnemyKilled(enemy: Entity, _info: DamageInfo) -> void:
+func OnEnemyKilled(enemy: Entity, _info: DamageInfo, _xp: int, _is_elite: bool) -> void:
 	var player = NodeReferences.player
 	if heal_per_kill > 0.0 and player:
 		player.health.Heal(heal_per_kill, false)

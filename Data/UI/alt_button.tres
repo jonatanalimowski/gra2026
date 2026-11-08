@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=6 format=3 uid="uid://cjy3idkndmck7"]
 
-[ext_resource type="Texture2D" uid="uid://bk1qf8hetnvtd" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-Tilesheet.png" id="1_14qfo"]
+[ext_resource type="Texture2D" uid="uid://dmx6tmyvqs2ym" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-TileSheet.png" id="1_14qfo"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k2d8r"]
 atlas = ExtResource("1_14qfo")

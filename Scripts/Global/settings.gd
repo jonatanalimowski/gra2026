@@ -10,6 +10,9 @@ const DEFAULT_VOLUMES: Dictionary[StringName, float] = {
 	&"UI": 0.7,
 }
 
+var show_health_above_enemies: bool = false
+var show_health_above_player: bool = false
+
 func _ready() -> void:
 	Load()
 

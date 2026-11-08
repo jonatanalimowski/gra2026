@@ -1,0 +1,19 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://c1glxv5gum7yg"]
+
+[ext_resource type="Texture2D" uid="uid://dmx6tmyvqs2ym" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-TileSheet.png" id="1_ijo63"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ijo63"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_up8xl"]
+atlas = ExtResource("1_ijo63")
+region = Rect2(197, 174, 86, 8)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cjlu8"]
+texture = SubResource("AtlasTexture_up8xl")
+texture_margin_left = 4.0
+texture_margin_right = 4.0
+axis_stretch_horizontal = 2
+
+[resource]
+ProgressBar/styles/background = SubResource("StyleBoxEmpty_ijo63")
+ProgressBar/styles/fill = SubResource("StyleBoxTexture_cjlu8")

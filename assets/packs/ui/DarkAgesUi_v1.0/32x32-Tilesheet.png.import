@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bk1qf8hetnvtd"
-path="res://.godot/imported/32x32-Tilesheet.png-b598da445b16427e85ded60a499b95db.ctex"
+uid="uid://dmx6tmyvqs2ym"
+path="res://.godot/imported/32x32-TileSheet.png-bbe889a14f64ff36291cabcc237f0640.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-Tilesheet.png"
-dest_files=["res://.godot/imported/32x32-Tilesheet.png-b598da445b16427e85ded60a499b95db.ctex"]
+source_file="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-TileSheet.png"
+dest_files=["res://.godot/imported/32x32-TileSheet.png-bbe889a14f64ff36291cabcc237f0640.ctex"]
 
 [params]
 

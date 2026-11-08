@@ -125,7 +125,7 @@ func Summon() -> void:
 			break
 		var minion: Entity = minion_scene.instantiate()
 		var spawn_pos = ParentEntity.global_position + Vector2.from_angle(randf() * TAU) * summon_radius
-		ParentEntity.SpawnMinion(minion, spawn_pos)
+		ParentEntity.SpawnMinion(minion, spawn_pos, summon_radius)
 		minions.append(minion)
 		minion.died.connect(_on_minion_died)
 

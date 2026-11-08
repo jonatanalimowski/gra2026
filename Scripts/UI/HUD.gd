@@ -1,7 +1,7 @@
 extends Control
 const GRAY: Color = Color(0.3, 0.3, 0.3, 1.0)
-@onready var hp_bar: TextureProgressBar = %PlayerHealthbar
-@onready var mana_bar: TextureProgressBar = %ManaBar
+@onready var hp_bar: catch_up_progress_bar = %PlayerHealthbar
+@onready var mana_bar: catch_up_progress_bar = %ManaBar
 #@onready var hp_text: Label = %PlayerHealthbar/Label
 @onready var primary_spell_slot: TextureRect = %PrimarySpellTexture
 @onready var heavy_spell_slot: TextureRect = %HeavySpellTexture
@@ -40,6 +40,7 @@ func _ready() -> void:
 	_on_experience_changed(RunState.collected_experience)
 	status_list = VBoxContainer.new()
 	mana_bar.get_parent().add_child(status_list)
+	mana_bar.get_parent().move_child(status_list, 0)
 
 func ConnectSignals() -> void:
 	Signals.player_ready.connect(_on_player_ready)
@@ -143,14 +144,10 @@ func SetStatLabel(label: Label, stat_name: String, value: float) -> void:
 	label.text = StatBlock.FormatStat(stat_name, value)
 
 func UpdateHealth(new_current: int, new_max: int):
-	hp_bar.max_value = new_max
-	hp_bar.value = new_current
-	hp_label.text = "HP: %d/%d" % [new_current, new_max]
+	hp_bar.UpdateValue(new_current, new_max)
 
 func UpdateMana(new_current: float, new_max: float) -> void:
-	mana_bar.max_value = new_max
-	mana_bar.value = new_current
-	mana_label.text = "MP: %d/%d" % [new_current, new_max]
+	mana_bar.UpdateValue(new_current, new_max)
 	UpdateHeavySlot()
 
 func UpdateBossHP(new_current, new_max):

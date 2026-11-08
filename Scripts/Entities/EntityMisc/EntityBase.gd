@@ -196,38 +196,31 @@ func Shoot(direction: Vector2) -> bool:
 		Sfx.Play(&"enemy/shoot", -20.0)
 	return cast
 
-# adds an enemy next to this one (same parent as the room's enemies)
-func SpawnMinion(minion: Entity, pos: Vector2) -> void:
-	var found_pos = FindSpawnPosition(minion, pos)
+func SpawnMinion(minion: Entity, pos: Vector2, summon_radius: float) -> void:
+	var found_pos = FindSpawnPosition(minion, pos, summon_radius)
 	if found_pos == Vector2.ZERO:
 		return
-		
 	minion.global_position = found_pos
 	get_parent().add_child(minion)
 	summoned.emit(minion)
 
-# slides the minion's body shape from our body center towards target and stops before the
-# first wall. a plain ray from the feet misses thin walls the body (which sits above the feet)
-# would still overlap, and physics then pushes the minion out on the wrong side
-func FindSpawnPosition(minion: Entity, target: Vector2) -> Vector2:
-	var minion_shape: CollisionShape2D = minion.get_node_or_null("CollisionShape2D")
-	if minion_shape == null or minion_shape.shape == null:
+func FindSpawnPosition(minion: Entity, target: Vector2, summon_radius: float) -> Vector2:
+	var shape_node: CollisionShape2D = minion.get_node_or_null("CollisionShape2D")
+	if not shape_node or not shape_node.shape:
 		return target
-	# the minion isn't in the tree yet, so its shape offset is worked out by hand
-	var shape_offset = minion_shape.position * minion.scale
-	var start = $CollisionShape2D.global_position # our body is inside the room
-	var end = target + shape_offset
-
+	
 	var query = PhysicsShapeQueryParameters2D.new()
-	query.shape = minion_shape.shape
-	query.transform = Transform2D(0, minion.scale, 0, start)
-	query.motion = end - start
+	query.shape = shape_node.shape
 	query.collision_mask = BaseProjectile.LAYER_WORLD
-	# [safe, unsafe] fraction of the motion, [1, 1] = no wall in the way
-	var safe = get_world_2d().direct_space_state.cast_motion(query)[0]
-	if safe != 1:
-		return Vector2.ZERO
-	return start + query.motion * safe - shape_offset
+	var offset = shape_node.position * minion.scale
+	
+	for i in range(8):
+		var test_pos = target if i == 0 else global_position + Vector2.from_angle(randf() * TAU) * randf_range(0.2, 1.0) * summon_radius
+		query.transform = Transform2D(0, minion.scale, 0, test_pos + offset)
+		if get_world_2d().direct_space_state.intersect_shape(query).is_empty():
+			return test_pos
+			
+	return Vector2.ZERO
 
 func CanShoot() -> bool:
 	return spell_caster != null and spell_caster.IsReady() and not is_dead and spawn_shoot_timer <= 0 and not IsFrozen()
@@ -441,7 +434,7 @@ func Die() -> void:
 		parent.add_child.call_deferred(corpse)
 		ManaOrb.SpawnBurst(get_tree().current_scene, global_position, stats.GetStat(&"mana_drop"))
 	died.emit(self)
-	Signals.enemy_killed.emit(self, last_hit)
+	Signals.enemy_killed.emit(self, last_hit, base_stats.experience_drop, is_elite)
 	if is_boss:
 		Signals.boss_defeated.emit()
 	queue_free()
@@ -463,7 +456,7 @@ func RiseAgain() -> void:
 	risen.modulate = Color(0.6, 0.7, 0.6)
 	# counted by the room right now (before our died signal), added to the scene next frame:
 	# a deferred call on us would be dropped, we're freed at the end of this frame
-	risen.global_position = FindSpawnPosition(risen, global_position)
+	risen.global_position = FindSpawnPosition(risen, global_position, 0)
 	get_parent().add_child.call_deferred(risen)
 	summoned.emit(risen)
 	# hp after its _ready (Health keeps the ratio)
