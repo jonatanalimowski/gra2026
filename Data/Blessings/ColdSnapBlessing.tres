@@ -21,4 +21,5 @@ script = ExtResource("1_r")
 display_name = "Cold Snap"
 description = "Enemies you dash through gain 2 Chill, and the dash end leaves a chilling ice patch."
 school = 2
+applies_schools_status_effect = true
 run_effects = Array[ExtResource("5_r")]([SubResource("Resource_1")])

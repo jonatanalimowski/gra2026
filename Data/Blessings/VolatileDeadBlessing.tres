@@ -22,4 +22,5 @@ type = 2
 display_name = "Volatile Dead"
 description = "Burning enemies explode on death (others: 20%), dealing 30 damage to other monsters."
 school = 1
+requires_schools_status_effect = true
 run_effects = Array[ExtResource("5_r")]([SubResource("Resource_1")])

@@ -27,6 +27,7 @@ signal landed
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var brain = $Brain
 @onready var melee_range: Area2D = $Area2D
+@onready var health_bar: ProgressBar = %HealthBar
 @export var base_stats: EntityStats
 @export var corpse_scene: PackedScene
 @export var damage_number_scene: PackedScene
@@ -126,12 +127,14 @@ func _ready() -> void:
 	sprite.play("idle")
 	add_to_group("enemy")
 	# outline + body effects and the icon bar above the head
+	Settings.enemy_additional_healthbar_visibility_changed.connect(ChangeAdditionalHealthbarVisibility)
 	status_visuals = StatusVisuals.new()
 	add_child(status_visuals)
 	status_visuals.Setup(self)
 	status_icon_bar = StatusIconBar.new()
 	add_child(status_icon_bar)
 	status_icon_bar.Setup(self)
+	health.changed.emit(health.current, health.maximum)
 
 func _physics_process(delta: float) -> void:
 	hitstun_timer -= delta
@@ -274,6 +277,8 @@ func TakeDamage(info: DamageInfo) -> void:
 		get_tree().current_scene.add_child(dmg_num)
 		var color = info.status.color if info.status else Color.WHITE
 		dmg_num.display(amount, global_position, info.is_critical, color, info.is_periodic)
+	
+	_on_health_changed(health.current, health.maximum)
 
 func ApplyStatus(effect: StatusEffect, source: Node2D, strength: float = 1.0, duration_multiplier: float = 1.0, stacks: int = 1) -> void:
 	if not is_dead:
@@ -382,6 +387,10 @@ func AddEnemyModifier(modifier: StatModifier, source: Object) -> void:
 	elif stats.HasStat(modifier.stat):
 		stats.AddModifier(modifier, source)
 
+func ChangeAdditionalHealthbarVisibility(is_on: bool):
+	if health_bar:
+		health_bar.visible = is_on
+
 # tougher, faster, hits harder, bigger and tinted so it reads as a threat
 func ApplyElite() -> void:
 	var data := elite_data if elite_data else DEFAULT_ELITE
@@ -413,6 +422,9 @@ func _on_stat_changed(stat_name: StringName, value: float) -> void:
 func _on_health_changed(current: float, maximum: float) -> void:
 	if is_boss:
 		Signals.boss_health_changed.emit(current, maximum)
+	if health_bar:
+		health_bar.value = current
+		health_bar.max_value = maximum
 
 func Die() -> void:
 	if is_dead:

@@ -19,6 +19,8 @@ class_name PactHalf
 @export var status_tweaks: Array[StatusTweak] = []
 # which school this half counts toward (blessings), NONE for curses
 @export var school: School.Kind = School.Kind.NONE
+@export var applies_schools_status_effect: bool = false
+@export var requires_schools_status_effect: bool = false
 @export var run_effects: Array[RunEffect] = [] #event hooks (on kill etc.)
 @export var enemy_modifiers: Array[StatModifier] = []
 # simple rules other scripts check with RunState.HasFlag (e.g. &"explosions_hit_player")

@@ -1,17 +1,15 @@
-[gd_resource type="Resource" script_class="AltarPact" load_steps=5 format=3]
+[gd_resource type="Resource" script_class="AltarPact" load_steps=5 format=3 uid="uid://vyrxvhau5h48"]
 
 [ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_r"]
-[ext_resource type="Resource" path="res://Data/Blessings/BloodthirstBlessing.tres" id="2_r"]
+[ext_resource type="Resource" uid="uid://bc2tss3mcdtaq" path="res://Data/Blessings/BloodthirstBlessing.tres" id="2_r"]
 [ext_resource type="Resource" path="res://Data/Curses/HuntedCurse.tres" id="3_r"]
-[ext_resource type="Resource" path="res://Data/Blessings/BloodthirstIIBlessing.tres" id="r2_r"]
+[ext_resource type="Resource" uid="uid://dnx6uv340han4" path="res://Data/Blessings/BloodthirstIIBlessing.tres" id="r2_r"]
 
 [resource]
 script = ExtResource("1_r")
 blessing = ExtResource("2_r")
 curse = ExtResource("3_r")
-rank2_blessing = ExtResource("r2_r")
-rarity = 0
 slot = 4
-weight = 1.0
+rank2_blessing = ExtResource("r2_r")
 id = &"pact_bloodthirst"
 display_name = "Bloodthirst"

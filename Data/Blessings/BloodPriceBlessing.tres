@@ -36,4 +36,5 @@ display_name = "Blood Price"
 description = "Your heavy becomes a piercing blood saw that applies 4 Bleed. Without enough mana it costs 15% of your current HP instead."
 heavy_override = SubResource("Resource_1")
 school = 4
+applies_schools_status_effect = true
 flags = Array[StringName]([&"blood_price"])

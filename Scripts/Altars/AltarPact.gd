@@ -11,7 +11,6 @@ class_name AltarPact
 @export var max_stacks: int = 3 # most times a stacking pact can be taken in a run
 @export var rarity: PactRarity.Rarity = PactRarity.Rarity.RARE
 
-# verb slot (BUILD_DESIGN.md §4): one pact per slot, a new one replaces the old one. NONE = Form pact, no slot
 enum Slot { NONE, PRIMARY, HEAVY, DASH, KILL, ORB }
 const SLOT_NAMES := {
 		Slot.NONE: "",
@@ -22,6 +21,8 @@ const SLOT_NAMES := {
 		Slot.ORB: "Orb",
 }
 @export var slot: Slot = Slot.NONE
+@export var prerequisite: AltarPact
+
 # Deepen (boss shrine): replaces the blessing with a stronger one, same curse
 @export var rank2_blessing: Blessing
 
@@ -41,6 +42,18 @@ func GetActiveBlessing() -> Blessing:
 
 func GetSchool() -> School.Kind:
 	return blessing.school if blessing else School.Kind.NONE
+
+func GetStatusEffect() -> School.Kind:
+	return blessing.school if blessing.applies_schools_status_effect else School.Kind.NONE
+
+func IsStatusEffectRequired() -> bool:
+	return blessing.requires_schools_status_effect
+
+func IsApplyingStatusEffect() -> bool:
+	return blessing.applies_schools_status_effect
+
+func GetPrerequisite() -> AltarPact:
+	return prerequisite if prerequisite else null
 
 static func GetSlotName(slot_value: Slot) -> String:
 	return SLOT_NAMES.get(slot_value, "")

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_r"]
 [ext_resource type="Resource" uid="uid://xm3dnof4vo4e" path="res://Data/Blessings/FireburstBlessing.tres" id="2_r"]
 [ext_resource type="Resource" path="res://Data/Curses/RecklessBlastCurse.tres" id="3_r"]
-[ext_resource type="Resource" path="res://Data/Blessings/FireburstIIBlessing.tres" id="r2_r"]
+[ext_resource type="Resource" uid="uid://d06tw2pqxxuhm" path="res://Data/Blessings/FireburstIIBlessing.tres" id="r2_r"]
 
 [resource]
 script = ExtResource("1_r")

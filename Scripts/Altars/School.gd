@@ -1,6 +1,6 @@
 class_name School
 
-# a build school (BUILD_DESIGN.md §3): each owns a status. FORM = neutral projectile-shape pacts/glyphs.
+# a build school
 # used by pacts, glyphs, statuses, wand affinity and the HUD
 enum Kind { NONE, EMBER, FROST, STORM, BLOOD, FORM }
 

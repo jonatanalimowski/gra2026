@@ -11,4 +11,5 @@ script = ExtResource("1_r")
 type = 2
 display_name = "Inferno"
 description = "Ember Tier II: your explosions apply 2 Burn."
+applies_schools_status_effect = true
 flags = Array[StringName]([&"inferno"])

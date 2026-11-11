@@ -17,4 +17,5 @@ script = ExtResource("1_r")
 display_name = "Hoarfrost"
 description = "Every 30 mana collected gives a frost shield: it blocks one hit and gives the attacker 2 Chill."
 school = 2
+applies_schools_status_effect = true
 run_effects = Array[ExtResource("4_r")]([SubResource("Resource_1")])

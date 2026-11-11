@@ -19,3 +19,4 @@ display_name = "Hemorrhage"
 description = "Primary hits apply 1 Bleed. Bleed hurts more the lower your HP."
 primary_effects = Array[ExtResource("4_r")]([SubResource("Resource_1")])
 school = 4
+applies_schools_status_effect = true

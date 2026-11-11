@@ -129,6 +129,12 @@ func HandleExperience(experience_gained: int):
 	collected_experience += experience_gained
 	on_experience_changed.emit(collected_experience)
 
+func CanPlayerApplyEffect(school: School.Kind):
+	for pact in pacts:
+		if pact.GetStatusEffect() == school:
+			return true
+	return false
+
 # a copy, so an effect can cleanse a curse (trials) while we loop
 func GetRunEffects() -> Array[RunEffect]:
 	var result: Array[RunEffect] = []
@@ -310,7 +316,12 @@ func GetStackCount(pact: AltarPact) -> int:
 	return pacts.count(pact)
 
 func CanTakePact(pact: AltarPact) -> bool:
-	return GetStackCount(pact) < pact.GetMaxStacks()
+	var can_take = true
+	if pact.IsStatusEffectRequired():
+		can_take = CanPlayerApplyEffect(pact.GetStatusEffect())
+	
+	var is_limit_not_reached = GetStackCount(pact) < pact.GetMaxStacks()
+	return can_take and is_limit_not_reached
 
 # the half resource is the modifier source. a stacking half is added once per stack and every
 # half_added applies it again, so modifiers add up

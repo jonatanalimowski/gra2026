@@ -20,3 +20,4 @@ display_name = "Static"
 description = "Every 3rd primary hit applies Shock. The next hit on a Shocked enemy arcs to 2 enemies nearby for 50% of it."
 primary_effects = Array[ExtResource("4_r")]([SubResource("Resource_1")])
 school = 3
+applies_schools_status_effect = true

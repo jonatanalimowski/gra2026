@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cdjchar40e01x"]
+[gd_scene load_steps=16 format=3 uid="uid://cdjchar40e01x"]
 
 [ext_resource type="Script" uid="uid://cpdiqwgu4xekk" path="res://Scripts/Entities/EntityMisc/EntityBase.gd" id="1_7nrxw"]
 [ext_resource type="Resource" uid="uid://b8o30smnx3dxt" path="res://Scripts/Entities/EntityStats/AreaCasterStats.tres" id="2_4un2n"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://cgk3u0qftrxyn" path="res://Scripts/Resources/EliteData.gd" id="7_dafq2"]
 [ext_resource type="SpriteFrames" uid="uid://bq2tfnt34u4c1" path="res://Scripts/Resources/SpriteFrames/WizardSpriteFrames.tres" id="7_q4usb"]
 [ext_resource type="Script" uid="uid://baqm57n8ry0h1" path="res://Scripts/Entities/EntityAIs/ShooterAI.gd" id="8_xvmuf"]
+[ext_resource type="Theme" uid="uid://coasy0p7yrcvq" path="res://Data/UI/small_progress_bar.tres" id="10_dafq2"]
 
 [sub_resource type="Resource" id="Resource_oosli"]
 script = ExtResource("6_4un2n")
@@ -94,3 +95,14 @@ vertical_alignment = 1
 
 [node name="Muzzle" type="Marker2D" parent="."]
 position = Vector2(-2, 2)
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = -8.0
+offset_top = -36.0
+offset_right = 8.0
+offset_bottom = -34.0
+theme = ExtResource("10_dafq2")
+value = 50.0
+show_percentage = false

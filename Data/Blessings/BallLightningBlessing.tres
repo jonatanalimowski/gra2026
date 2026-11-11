@@ -23,3 +23,4 @@ display_name = "Ball Lightning"
 description = "Your heavy becomes a slow orb of lightning that Shocks and zaps nearby enemies every 0.4s."
 heavy_override = SubResource("Resource_1")
 school = 3
+applies_schools_status_effect = true

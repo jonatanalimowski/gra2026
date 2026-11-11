@@ -19,3 +19,4 @@ display_name = "Rime Bolt"
 description = "Primary hits apply 1 Chill. 5 Chill freezes."
 primary_effects = Array[ExtResource("4_r")]([SubResource("Resource_1")])
 school = 2
+applies_schools_status_effect = true

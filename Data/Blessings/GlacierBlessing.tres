@@ -16,3 +16,4 @@ type = 1
 display_name = "Glacier"
 description = "Frost Tier I: the first hit on a Frozen enemy deals x2."
 effects = Array[ExtResource("3_r")]([SubResource("Resource_1")])
+requires_schools_status_effect = true

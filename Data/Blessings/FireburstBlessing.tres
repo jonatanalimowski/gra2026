@@ -36,3 +36,4 @@ display_name = "Fireburst"
 description = "Your heavy becomes a fireball that detonates on impact in a large explosion, applying 3 Burn."
 heavy_override = SubResource("Resource_1")
 school = 1
+applies_schools_status_effect = true

@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name Player
 @onready var sprite = $AnimatedSprite2D
 @onready var muzzle = $Marker2D
+@onready var in_game_health_bar = %HealthBar
 @export var base_stats: PlayerStats
 # used when Main.tscn is started straight from the editor, without picking a wand first
 @export var fallback_wand: WandData
@@ -66,6 +67,8 @@ func _ready() -> void:
 	CreateDashArea()
 	RunState.half_added.connect(ApplyHalf)
 	RunState.half_removed.connect(RemoveHalf)
+	Signals.player_health_changed.connect(_on_player_health_changed)
+	Settings.player_additional_healthbar_visibility_changed.connect(ChangeAdditionalHealthbarVisiblility)
 
 	NodeReferences.player = self
 	Signals.player_ready.emit(self)
@@ -154,6 +157,10 @@ func UpdateHeavy() -> bool:
 	DevTools.ApplyDamageCheat(self)
 	Signals.player_mana_changed.emit(mana, stats.GetStat(&"max_mana")) # HUD regrays the heavy slot
 	return true
+
+func _on_player_health_changed(new_curr, new_max) -> void:
+	in_game_health_bar.value = new_curr
+	in_game_health_bar.max_value = new_max
 
 func _on_stat_changed(stat_name: StringName, value: float) -> void:
 	if stat_name == &"max_health":
@@ -331,6 +338,9 @@ func CreateDashArea() -> void:
 	dash_area.add_child(shape)
 	add_child(dash_area)
 	dash_area.body_entered.connect(_on_dash_area_body_entered)
+
+func ChangeAdditionalHealthbarVisiblility(is_on: bool):
+	in_game_health_bar.visible = is_on
 
 func _on_dash_area_body_entered(body: Node2D) -> void:
 	if body is Entity and not body.is_dead and body not in dashed_through:

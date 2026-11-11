@@ -1,17 +1,15 @@
-[gd_resource type="Resource" script_class="AltarPact" load_steps=5 format=3]
+[gd_resource type="Resource" script_class="AltarPact" load_steps=5 format=3 uid="uid://cwp0ymwj324c7"]
 
 [ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_r"]
-[ext_resource type="Resource" path="res://Data/Blessings/BloodPriceBlessing.tres" id="2_r"]
-[ext_resource type="Resource" path="res://Data/Curses/AnemiaCurse.tres" id="3_r"]
-[ext_resource type="Resource" path="res://Data/Blessings/BloodPriceIIBlessing.tres" id="r2_r"]
+[ext_resource type="Resource" uid="uid://dnb2qsruhc4ap" path="res://Data/Blessings/BloodPriceBlessing.tres" id="2_r"]
+[ext_resource type="Resource" uid="uid://giowjm327a17" path="res://Data/Curses/AnemiaCurse.tres" id="3_r"]
+[ext_resource type="Resource" uid="uid://bur32arkig4ve" path="res://Data/Blessings/BloodPriceIIBlessing.tres" id="r2_r"]
 
 [resource]
 script = ExtResource("1_r")
 blessing = ExtResource("2_r")
 curse = ExtResource("3_r")
-rank2_blessing = ExtResource("r2_r")
-rarity = 0
 slot = 2
-weight = 1.0
+rank2_blessing = ExtResource("r2_r")
 id = &"pact_blood_price"
 display_name = "Blood Price"

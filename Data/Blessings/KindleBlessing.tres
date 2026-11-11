@@ -19,3 +19,4 @@ display_name = "Kindle"
 description = "Primary hits apply 1 Burn."
 primary_effects = Array[ExtResource("4_r")]([SubResource("Resource_1")])
 school = 1
+applies_schools_status_effect = true

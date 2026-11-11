@@ -18,4 +18,5 @@ script = ExtResource("1_r")
 display_name = "Trail of Cinders"
 description = "Your dash leaves a fire trail for 2s that applies Burn."
 school = 1
+applies_schools_status_effect = true
 run_effects = Array[ExtResource("4_r")]([SubResource("Resource_1")])

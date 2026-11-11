@@ -16,4 +16,5 @@ type = 2
 display_name = "Tempest"
 description = "Storm Tier I: Shock arcs hit 1 more enemy, and every 10th hit is a guaranteed crit."
 effects = Array[ExtResource("3_r")]([SubResource("Resource_1")])
+requires_schools_status_effect = true
 flags = Array[StringName]([&"tempest"])

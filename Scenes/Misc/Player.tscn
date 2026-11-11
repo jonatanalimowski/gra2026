@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://c2ooxaoermteu"]
+[gd_scene load_steps=33 format=3 uid="uid://c2ooxaoermteu"]
 
 [ext_resource type="Script" uid="uid://d22ugsnpvbate" path="res://Scripts/Entities/Player.gd" id="1_kyqiw"]
 [ext_resource type="Script" uid="uid://c0vo06wjioddm" path="res://Scripts/Resources/PlayerStats.gd" id="2_dewec"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://dbidkijkecc81" path="res://Scripts/Combat/Effects/ProjectileEffects/BounceEffect.gd" id="8_0o2wj"]
 [ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="9_spsl7"]
 [ext_resource type="Script" uid="uid://jt1r0vubh4cb" path="res://Scripts/Resources/Items/WandData.gd" id="10_mipjx"]
+[ext_resource type="Theme" uid="uid://coasy0p7yrcvq" path="res://Data/UI/small_progress_bar.tres" id="12_0ee6a"]
 
 [sub_resource type="Resource" id="Resource_5ixxa"]
 script = ExtResource("2_dewec")
@@ -197,3 +198,14 @@ position = Vector2(0, -4)
 shape = SubResource("CapsuleShape2D_e80uo")
 
 [node name="Marker2D" type="Marker2D" parent="."]
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = -8.0
+offset_top = -17.0
+offset_right = 8.0
+offset_bottom = -15.0
+theme = ExtResource("12_0ee6a")
+value = 50.0
+show_percentage = false

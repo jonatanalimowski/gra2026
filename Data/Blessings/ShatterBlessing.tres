@@ -27,4 +27,5 @@ type = 2
 display_name = "Shatter"
 description = "Enemies that die burst into 6 ice shards that apply 1 Chill."
 school = 2
+applies_schools_status_effect = true
 run_effects = Array[ExtResource("7_r")]([SubResource("Resource_1")])

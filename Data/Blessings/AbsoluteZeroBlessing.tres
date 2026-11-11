@@ -17,4 +17,5 @@ script = ExtResource("1_r")
 type = 2
 display_name = "Absolute Zero"
 description = "Frost Tier II: freezing an enemy gives 2 Chill to enemies nearby."
+requires_schools_status_effect = true
 run_effects = Array[ExtResource("4_r")]([SubResource("Resource_1")])

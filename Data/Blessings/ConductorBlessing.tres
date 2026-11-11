@@ -18,4 +18,5 @@ type = 2
 display_name = "Conductor"
 description = "Kills Shock the 2 nearest enemies."
 school = 3
+applies_schools_status_effect = true
 run_effects = Array[ExtResource("4_r")]([SubResource("Resource_1")])

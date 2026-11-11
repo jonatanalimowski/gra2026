@@ -18,4 +18,5 @@ type = 2
 display_name = "Bloodthirst"
 description = "Bleeding enemies drop a blood mote on death that heals 3."
 school = 4
+requires_schools_status_effect = true
 run_effects = Array[ExtResource("4_r")]([SubResource("Resource_1")])

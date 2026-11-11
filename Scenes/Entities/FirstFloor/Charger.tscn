@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://bli2attvtjcur"]
+[gd_scene load_steps=31 format=3 uid="uid://bli2attvtjcur"]
 
 [ext_resource type="Script" uid="uid://cpdiqwgu4xekk" path="res://Scripts/Entities/EntityMisc/EntityBase.gd" id="1_shnyf"]
 [ext_resource type="Resource" uid="uid://st4ps7pi21r7" path="res://Scripts/Entities/EntityStats/ChargerStats.tres" id="2_5fsqs"]
@@ -8,11 +8,12 @@
 [ext_resource type="Texture2D" uid="uid://41e7xh01rjv8" path="res://assets/packs/tilesets/Anokolisa_PixelCrawler/Pixel Crawler - Free Pack 2.11/Pixel Crawler - Free Pack/Entities/Mobs/Skeleton Crew/Skeleton - Base/Idle/Idle-Sheet.png" id="6_gjesp"]
 [ext_resource type="Texture2D" uid="uid://dfero48kwwok0" path="res://assets/packs/tilesets/Anokolisa_PixelCrawler/Pixel Crawler - Free Pack 2.11/Pixel Crawler - Free Pack/Entities/Mobs/Skeleton Crew/Skeleton - Base/Run/Run-Sheet.png" id="7_bx4m0"]
 [ext_resource type="Script" uid="uid://dw038hkgnyld3" path="res://Scripts/Entities/EntityAIs/ChargerAI.gd" id="8_lasn7"]
+[ext_resource type="Theme" uid="uid://coasy0p7yrcvq" path="res://Data/UI/small_progress_bar.tres" id="9_l6y32"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s367j"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0dqb0"]
-radius = 13.333333
+radius = 12.0415945
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3w1vq"]
 atlas = ExtResource("5_5fsqs")
@@ -166,23 +167,23 @@ script = ExtResource("1_shnyf")
 base_stats = ExtResource("2_5fsqs")
 corpse_scene = ExtResource("3_gjesp")
 damage_number_scene = ExtResource("4_vuqrd")
-contact_damage_interval = null
 override_death_offset = true
 death_offset = Vector2(-16, -48)
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -14)
 shape = SubResource("CircleShape2D_s367j")
 debug_color = Color(0.7946726, 0.3546824, 0.6140199, 0.41960785)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -14)
 shape = SubResource("CircleShape2D_0dqb0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_r6fp3")
-animation = &"die"
-frame_progress = 0.37413633
+animation = &"idle"
 centered = false
 offset = Vector2(-16, -32)
 
@@ -208,3 +209,14 @@ scale = Vector2(0.05, 0.05)
 theme_override_font_sizes/font_size = 128
 text = "100/100"
 vertical_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = -8.0
+offset_top = -34.0
+offset_right = 8.0
+offset_bottom = -32.0
+theme = ExtResource("9_l6y32")
+value = 50.0
+show_percentage = false

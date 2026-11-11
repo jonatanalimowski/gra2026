@@ -17,5 +17,6 @@ script = ExtResource("1_r")
 display_name = "Blink Step"
 description = "Your dash is an instant teleport that leaves a Shock pulse where you started."
 school = 3
+applies_schools_status_effect = true
 run_effects = Array[ExtResource("4_r")]([SubResource("Resource_1")])
 flags = Array[StringName]([&"blink_dash"])

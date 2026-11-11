@@ -21,4 +21,5 @@ script = ExtResource("1_r")
 type = 2
 display_name = "Pyromancer"
 description = "Ember Tier I: Burning enemies explode on death."
+requires_schools_status_effect = true
 run_effects = Array[ExtResource("5_r")]([SubResource("Resource_1")])

@@ -10,11 +10,22 @@ const DEFAULT_VOLUMES: Dictionary[StringName, float] = {
 	&"UI": 0.7,
 }
 
+signal enemy_additional_healthbar_visibility_changed(is_visible: bool)
+signal player_additional_healthbar_visibility_changed(is_visible: bool)
+
 var show_health_above_enemies: bool = false
 var show_health_above_player: bool = false
 
 func _ready() -> void:
 	Load()
+
+func TogglePlayerBars(is_on: bool) -> void:
+	show_health_above_player = is_on
+	player_additional_healthbar_visibility_changed.emit(is_on)
+
+func ToggleEnemyBars(is_on: bool) -> void:
+	show_health_above_enemies = is_on
+	enemy_additional_healthbar_visibility_changed.emit(is_on)
 
 func GetVolume(bus: StringName) -> float:
 	var index = AudioServer.get_bus_index(bus)

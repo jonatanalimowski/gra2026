@@ -23,3 +23,4 @@ display_name = "Glacial Nova"
 description = "Your heavy becomes a nova around you: damage, 3 Chill and knockback to everything in range."
 heavy_override = SubResource("Resource_1")
 school = 2
+applies_schools_status_effect = true

@@ -18,4 +18,5 @@ script = ExtResource("1_r")
 display_name = "Crimson Step"
 description = "Enemies you dash through gain 2 Bleed, and you heal 1 HP per enemy."
 school = 4
+applies_schools_status_effect = true
 run_effects = Array[ExtResource("4_r")]([SubResource("Resource_1")])

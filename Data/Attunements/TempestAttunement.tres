@@ -1,12 +1,10 @@
-[gd_resource type="Resource" script_class="Attunement" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Attunement" load_steps=3 format=3 uid="uid://btcftjsx6umks"]
 
-[ext_resource type="Script" path="res://Scripts/Altars/Attunement.gd" id="1_r"]
-[ext_resource type="Resource" path="res://Data/Blessings/TempestBlessing.tres" id="2_r"]
+[ext_resource type="Script" uid="uid://bf386mx6yrha3" path="res://Scripts/Altars/Attunement.gd" id="1_r"]
+[ext_resource type="Resource" uid="uid://btfwkfkggkjxr" path="res://Data/Blessings/TempestBlessing.tres" id="2_r"]
 
 [resource]
 script = ExtResource("1_r")
 school = 3
-threshold = 4
-tier = 1
 display_name = "Tempest"
 blessing = ExtResource("2_r")

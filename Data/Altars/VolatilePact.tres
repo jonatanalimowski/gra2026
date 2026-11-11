@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://b6jp2atuorn85" path="res://Scripts/Altars/AltarPact.gd" id="1_r"]
 [ext_resource type="Resource" uid="uid://3xltxr16fiu" path="res://Data/Blessings/VolatileDeadBlessing.tres" id="2_r"]
-[ext_resource type="Resource" path="res://Data/Curses/KindlingCurse.tres" id="3_r"]
-[ext_resource type="Resource" path="res://Data/Blessings/VolatileIIBlessing.tres" id="r2_r"]
+[ext_resource type="Resource" uid="uid://dleqmv3kvvq84" path="res://Data/Curses/KindlingCurse.tres" id="3_r"]
+[ext_resource type="Resource" uid="uid://bu6jtcsx1fpp1" path="res://Data/Blessings/VolatileIIBlessing.tres" id="r2_r"]
 
 [resource]
 script = ExtResource("1_r")
