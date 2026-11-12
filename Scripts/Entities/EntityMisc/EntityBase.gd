@@ -128,6 +128,8 @@ func _ready() -> void:
 	add_to_group("enemy")
 	# outline + body effects and the icon bar above the head
 	Settings.enemy_additional_healthbar_visibility_changed.connect(ChangeAdditionalHealthbarVisibility)
+	if health_bar:
+		health_bar.visible = Settings.show_health_above_enemies
 	status_visuals = StatusVisuals.new()
 	add_child(status_visuals)
 	status_visuals.Setup(self)

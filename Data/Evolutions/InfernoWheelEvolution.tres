@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="WandEvolution" load_steps=14 format=3 uid="uid://8ihej2mog5hg"]
 
-[ext_resource type="Script" path="res://Scripts/Altars/WandEvolution.gd" id="1_r"]
+[ext_resource type="Script" uid="uid://cnwy32oge6igv" path="res://Scripts/Altars/WandEvolution.gd" id="1_r"]
 [ext_resource type="Resource" uid="uid://c8kiamrbrvn0g" path="res://Data/Wands/FlameShurikenWand.tres" id="2_r"]
 [ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="3_r"]
 [ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="4_r"]

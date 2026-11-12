@@ -69,6 +69,7 @@ func _ready() -> void:
 	RunState.half_removed.connect(RemoveHalf)
 	Signals.player_health_changed.connect(_on_player_health_changed)
 	Settings.player_additional_healthbar_visibility_changed.connect(ChangeAdditionalHealthbarVisiblility)
+	in_game_health_bar.visible = Settings.show_health_above_player
 
 	NodeReferences.player = self
 	Signals.player_ready.emit(self)

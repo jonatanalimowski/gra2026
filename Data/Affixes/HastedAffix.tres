@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Affix" load_steps=5 format=3 uid="uid://dvf42vp20cjx2"]
 
-[ext_resource type="Script" path="res://Scripts/Resources/Affix.gd" id="1_r"]
+[ext_resource type="Script" uid="uid://bdtu1mv8vqyx" path="res://Scripts/Resources/Affix.gd" id="1_r"]
 [ext_resource type="Texture2D" uid="uid://cybek2b1dok30" path="res://assets/icons/affix_hasted.png" id="2_r"]
 [ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="3_r"]
 
