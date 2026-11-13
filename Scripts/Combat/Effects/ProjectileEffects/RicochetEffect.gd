@@ -5,6 +5,7 @@ class_name RicochetEffect
 # TODO: redirect towards the nearest other enemy instead of straight back
 @export var ricochets: int = 1
 @export var max_ricochet_range: float = 600
+@export var after_ricochet_effects: Array[Effect]
 
 func OnProjectileSpawned(projectile: BaseProjectile) -> void:
 	# += so the same effect taken twice (stacked pact) adds its charges
@@ -20,6 +21,10 @@ func OnHitTarget(projectile: BaseProjectile, target: Node2D, _info: DamageInfo) 
 	
 	projectile.effect_state[self] -= 1
 	var new_direction = (next_target.global_position - projectile.global_position).normalized()
+	for e in after_ricochet_effects:
+		if e not in projectile.effects:
+			projectile.effects.append(e)
+	
 	projectile.SetDirection(new_direction)
 	projectile.age = 0.0
 	

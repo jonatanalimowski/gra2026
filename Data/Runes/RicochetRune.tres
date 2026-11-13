@@ -1,12 +1,19 @@
-[gd_resource type="Resource" script_class="RuneData" load_steps=6 format=3 uid="uid://g3whl3pf0we"]
+[gd_resource type="Resource" script_class="RuneData" load_steps=8 format=3 uid="uid://g3whl3pf0we"]
 
 [ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="1_588dj"]
 [ext_resource type="Script" uid="uid://bqmfbqnscq3kp" path="res://Scripts/Resources/Items/RuneData.gd" id="2_5as0h"]
+[ext_resource type="Script" uid="uid://bh6h3p8mhgnvm" path="res://Scripts/Combat/Effects/ProjectileEffects/DamageModEffect.gd" id="2_cswik"]
 [ext_resource type="Script" uid="uid://t2mjunmwmrua" path="res://Scripts/Combat/Effects/ProjectileEffects/RicochetEffect.gd" id="2_nqqo6"]
 [ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="3_nqqo6"]
 
+[sub_resource type="Resource" id="Resource_knjqv"]
+script = ExtResource("2_cswik")
+multiplier = 0.5
+metadata/_custom_type_script = "uid://bh6h3p8mhgnvm"
+
 [sub_resource type="Resource" id="Resource_cswik"]
 script = ExtResource("2_nqqo6")
+after_ricochet_effects = Array[ExtResource("1_588dj")]([SubResource("Resource_knjqv")])
 metadata/_custom_type_script = "uid://t2mjunmwmrua"
 
 [resource]

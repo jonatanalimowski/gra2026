@@ -7,6 +7,9 @@ const SAVE_PATH = "user://meta_progress.cfg"
 # extra pacts shown at every altar
 var altar_offer_bonus: int = 0
 var experience: int = 0
+var player_level: int = 1
+var skill_points: int = 0
+var unlocked_skills: Array[SkillData]
 
 func _ready() -> void:
 	Load()

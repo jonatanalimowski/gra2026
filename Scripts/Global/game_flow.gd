@@ -9,9 +9,13 @@ const LOADOUT_SCENE = preload("res://Scenes/UI/PreRunScreen.tscn")
 const RUN_SCENE = preload("res://Scenes/Misc/Main.tscn")
 const POST_RUN_SCENE = preload("res://Scenes/UI/PostRunScreen.tscn")
 const DEATH_SCENE = preload("res://Scenes/UI/DeathScreen.tscn")
+const SKILL_TREE_SCENE = preload("res://Scenes/UI/SkillTreeUI.tscn")
 
 func GoToMainMenu() -> void:
 	get_tree().change_scene_to_packed(MAIN_MENU_SCENE)
+
+func GoToSkillTree() -> void:
+	get_tree().change_scene_to_packed(SKILL_TREE_SCENE)
 
 func GoToLoadout() -> void:
 	get_tree().change_scene_to_packed(LOADOUT_SCENE)

@@ -1,13 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://d3cdkvwcg6df8"]
+[gd_scene load_steps=5 format=3 uid="uid://d3cdkvwcg6df8"]
 
 [ext_resource type="Texture2D" uid="uid://cw5jyrfnds2e8" path="res://assets/ui/menu_background.png" id="1_6wyvx"]
 [ext_resource type="Script" uid="uid://d0e744afx76eu" path="res://Scripts/UI/pre_run_screen.gd" id="1_etodu"]
 [ext_resource type="PackedScene" uid="uid://qaxenbbv1xph" path="res://Scenes/UI/ChoiceCard.tscn" id="2_ts5e7"]
-[ext_resource type="Resource" uid="uid://c8kiamrbrvn0g" path="res://Data/Wands/FlameShurikenWand.tres" id="4_FlameShurikenWand"]
-[ext_resource type="Resource" uid="uid://betivdmm3g1es" path="res://Data/Wands/PurpleBoltWand.tres" id="5_PurpleBoltWand"]
-[ext_resource type="Resource" uid="uid://c10lqnvq1axy6" path="res://Data/Wands/BlueBlinkerWand.tres" id="7_BlueBlinkerWand"]
 [ext_resource type="Theme" uid="uid://cjy3idkndmck7" path="res://Data/UI/alt_button.tres" id="8_8o263"]
-[ext_resource type="Script" uid="uid://jt1r0vubh4cb" path="res://Scripts/Resources/Items/WandData.gd" id="10_wanddata"]
 
 [node name="PreRunScreen" type="Control"]
 layout_mode = 3
@@ -18,7 +14,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_etodu")
 choice_card_scene = ExtResource("2_ts5e7")
-wands = Array[ExtResource("10_wanddata")]([ExtResource("4_FlameShurikenWand"), ExtResource("5_PurpleBoltWand"), ExtResource("7_BlueBlinkerWand")])
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1

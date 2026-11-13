@@ -1,6 +1,7 @@
 extends Control
 const SETTINGS_OVERLAY = preload("res://Scenes/UI/SettingsOverlay.tscn")
 @onready var start_button = %Start
+@onready var skill_tree_button = %SkillTreeButton
 @onready var quit_button = %Quit
 @onready var settings_button = %SettingsButton
 
@@ -11,6 +12,10 @@ func ConnectSignals():
 	start_button.pressed.connect(_on_start_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
 	settings_button.pressed.connect(_on_settings_pressed)
+	skill_tree_button.pressed.connect(_on_skill_tree_button_pressed)
+
+func _on_skill_tree_button_pressed():
+	GameFlow.GoToSkillTree()
 
 func _on_start_pressed():
 	GameFlow.GoToLoadout()
