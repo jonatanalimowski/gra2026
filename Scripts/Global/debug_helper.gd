@@ -1,6 +1,6 @@
 extends Node
 
-# Funkcja tworząca czerwony kwadrat
+# ancient ass code
 func draw_marker(pos: Vector2, color = Color.RED, size: float = 45.0, duration: float = 15.0):
 	var rect = ColorRect.new()
 	rect.color = color

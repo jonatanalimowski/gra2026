@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://djseojs2qt1nm"]
+[gd_scene load_steps=3 format=3 uid="uid://djseojs2qt1nm"]
 
 [ext_resource type="Script" uid="uid://cod72muiaap00" path="res://Scripts/UI/death_screen.gd" id="1_xkv6f"]
+[ext_resource type="PackedScene" uid="uid://dmmwrvq6k8i00" path="res://Scenes/UI/PostRunScreen.tscn" id="2_vbq58"]
 
 [node name="DeathScreen" type="Control"]
 layout_mode = 3
@@ -10,6 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xkv6f")
+next_scene = ExtResource("2_vbq58")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 unique_name_in_owner = true

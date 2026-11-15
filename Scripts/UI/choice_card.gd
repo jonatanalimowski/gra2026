@@ -38,7 +38,10 @@ func _on_button_pressed():
 # on the root, not the card: the card can be freed (ChoiceOverlay closing) while stats are open
 func _on_stats_button_pressed():
 	var overlay: StatsOverlay = STATS_OVERLAY.instantiate()
-	get_tree().root.add_child(overlay)
+	if RunState.is_run_active:
+		NodeReferences.in_game_ui.add_child(overlay)
+	else:
+		get_tree().root.add_child(overlay)
 	overlay.Open(content.display_name, [content])
 
 func SetName(text: String) -> void:

@@ -23,6 +23,10 @@ func _ready() -> void:
 	Signals.screen_shake.connect(AddTrauma)
 	Signals.boss_spawned.connect(_on_boss_spawned)
 	Signals.boss_defeated.connect(_on_boss_defeated)
+	Signals.player_damaged.connect(_on_player_damaged)
+
+func _on_player_damaged(_info: DamageInfo):
+	AddTrauma(0.5)
 
 func AddTrauma(amount: float) -> void:
 	trauma = minf(trauma + amount, 1.0)
@@ -49,7 +53,7 @@ func _on_boss_spawned(_hp_value: int):
 		camera_twink.kill()
 	
 	camera_twink = create_tween()
-	camera_twink.tween_property(self, "zoom", Vector2(1.5, 1.5), 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	camera_twink.tween_property(self, "zoom", Vector2(1, 1), 1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	last_player_zoom = zoom
 	can_zoom_camera = false
 

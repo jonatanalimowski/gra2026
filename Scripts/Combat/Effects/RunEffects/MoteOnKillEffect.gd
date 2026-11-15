@@ -7,4 +7,4 @@ class_name MoteOnKillEffect
 
 func OnEnemyKilled(enemy: Entity, _info: DamageInfo, _xp: int, _is_elite: bool) -> void:
 	if status == null or StatusEffectHolder.TargetHas(enemy, status):
-		ManaOrb.SpawnMote(enemy.get_tree().current_scene, enemy.global_position, heal)
+		ManaOrb.SpawnMote(RunState.world_scene, enemy.global_position, heal)

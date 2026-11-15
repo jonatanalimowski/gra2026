@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://d3cdkvwcg6df8"]
 
-[ext_resource type="Texture2D" uid="uid://cw5jyrfnds2e8" path="res://assets/ui/menu_background.png" id="1_6wyvx"]
 [ext_resource type="Script" uid="uid://d0e744afx76eu" path="res://Scripts/UI/pre_run_screen.gd" id="1_etodu"]
 [ext_resource type="PackedScene" uid="uid://qaxenbbv1xph" path="res://Scenes/UI/ChoiceCard.tscn" id="2_ts5e7"]
+[ext_resource type="Texture2D" uid="uid://b3wc6p06ektec" path="res://assets/ui/menu_background_main.jpg" id="3_d8kcp"]
 [ext_resource type="Theme" uid="uid://cjy3idkndmck7" path="res://Data/UI/alt_button.tres" id="8_8o263"]
 
 [node name="PreRunScreen" type="Control"]
@@ -16,13 +16,14 @@ script = ExtResource("1_etodu")
 choice_card_scene = ExtResource("2_ts5e7")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0.27450982, 0.27450982, 0.27450982, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_6wyvx")
+texture = ExtResource("3_d8kcp")
 expand_mode = 1
 stretch_mode = 6
 
@@ -41,12 +42,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -945.0
+offset_top = -463.0
+offset_right = -313.0
+offset_bottom = -145.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(3, 3)
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
@@ -69,9 +71,10 @@ layout_mode = 2
 [node name="BackButton" type="Button" parent="UI"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 2.0
-offset_top = 2.0
-offset_right = 96.0
-offset_bottom = 30.0
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 101.0
+offset_bottom = 35.0
+scale = Vector2(3, 3)
 theme = ExtResource("8_8o263")
 text = "Back"

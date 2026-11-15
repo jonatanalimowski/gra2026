@@ -49,7 +49,7 @@ func _on_landed() -> void:
 		projectile.speed_multiplier = elite_ring_speed
 		projectile.global_position = ParentEntity.global_position
 		projectile.SetDirection(Vector2.from_angle(offset + TAU * i / elite_ring_count))
-		get_tree().current_scene.add_child(projectile)
+		RunState.world_scene.add_child(projectile)
 
 func _process(delta: float) -> void:
 	if not ParentEntity or ParentEntity.IsStunned(): return

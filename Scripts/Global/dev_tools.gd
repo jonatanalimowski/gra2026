@@ -75,9 +75,12 @@ func OpenPactChoice() -> void:
 		return
 
 	var overlay = CHOICE_OVERLAY.instantiate()
-	get_tree().current_scene.add_child(overlay)
-	overlay.chosen.connect(func(pact): if pact: RunState.AddPact(pact))
-	overlay.Open("Altar of Pacts (dev)", offers, true)
+	if NodeReferences.in_game_ui:
+		NodeReferences.in_game_ui.add_child(overlay)
+		overlay.chosen.connect(func(pact): if pact: RunState.AddPact(pact))
+		overlay.Open("Altar of Pacts (dev)", offers, true)
+	else:
+		overlay.Close(null)
 
 # also called by Player.ApplyLoadout, the wand is rebuilt every floor/restart
 func ApplyDamageCheat(player: Player) -> void:

@@ -33,4 +33,4 @@ func OnEnemyKilled(enemy: Entity, info: DamageInfo, _xp: int, _is_elite: bool) -
 	explosion.hits_player = RunState.HasFlag(&"explosions_hit_player")
 	explosion.global_position = enemy.global_position
 	# Die() runs inside a physics callback, adding areas there is not allowed
-	enemy.get_tree().current_scene.add_child.call_deferred(explosion)
+	RunState.world_scene.add_child.call_deferred(explosion)

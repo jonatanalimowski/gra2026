@@ -189,7 +189,7 @@ func SpawnExplosion() -> void:
 	explosion.hits_enemies = false # would hurt the boss itself
 	explosion.telegraph_time = explosion_telegraph_time
 	explosion.global_position = pos
-	ParentEntity.get_tree().current_scene.add_child(explosion)
+	RunState.world_scene.add_child(explosion)
 
 func GetSpeedMultiplier() -> float:
 	return enraged_speed_multiplier if is_enraged else 1.0

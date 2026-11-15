@@ -4,4 +4,4 @@ signal skill_unlocked(skill: SkillData)
 
 func UnlockSkill(skill: SkillData):
 	skill.is_unlocked = true
-	skill_unlocked.emit(skill)
+	skill_unlocked.emit(skill) #received in InventoryManager for now

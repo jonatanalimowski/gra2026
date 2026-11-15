@@ -20,4 +20,4 @@ func Cast(caster: Node2D, stats: StatBlock, direction: Vector2, spawn_pos: Vecto
 	orb.source = caster
 	orb.status = status
 	orb.global_position = spawn_pos
-	caster.get_tree().current_scene.add_child(orb)
+	RunState.world_scene.add_child(orb)

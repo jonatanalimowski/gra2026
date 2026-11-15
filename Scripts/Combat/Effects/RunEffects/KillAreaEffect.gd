@@ -13,4 +13,4 @@ func OnEnemyKilled(enemy: Entity, _info: DamageInfo, _xp: int, _is_elite: bool) 
 	var area = area_scene.instantiate() as StatusArea
 	area.Setup(area_radius, null, strength)
 	area.global_position = enemy.global_position
-	enemy.get_tree().current_scene.add_child.call_deferred(area)
+	RunState.world_scene.add_child.call_deferred(area)

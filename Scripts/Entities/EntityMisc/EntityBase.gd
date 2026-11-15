@@ -276,7 +276,7 @@ func TakeDamage(info: DamageInfo) -> void:
 	# ticks: small number in the status color instead of a flash, none under 1 so DoTs don't spam zeros
 	if damage_number_scene and (not info.is_periodic or amount >= 1.0):
 		var dmg_num = damage_number_scene.instantiate()
-		get_tree().current_scene.add_child(dmg_num)
+		RunState.world_scene.add_child(dmg_num)
 		var color = info.status.color if info.status else Color.WHITE
 		dmg_num.display(amount, global_position, info.is_critical, color, info.is_periodic)
 	
@@ -330,7 +330,7 @@ func CheckThermalShock() -> void:
 	ring.radius = 28.0
 	ring.color = Color(1.0, 0.6, 0.9)
 	ring.global_position = global_position
-	get_tree().current_scene.add_child(ring)
+	RunState.world_scene.add_child(ring)
 
 # Chill stacks that freeze: max stacks, 1 less per Deep Cold glyph (never below 2)
 func GetFreezeThreshold() -> int:
@@ -446,7 +446,7 @@ func Die() -> void:
 	if is_instance_valid(parent) and is_instance_valid(corpse):
 		corpse.SpawnCorpse(parent.to_local(global_position), sprite, death_offset if override_death_offset else sprite.offset, scale)
 		parent.add_child.call_deferred(corpse)
-		ManaOrb.SpawnBurst(get_tree().current_scene, global_position, stats.GetStat(&"mana_drop"))
+		ManaOrb.SpawnBurst(RunState.world_scene, global_position, stats.GetStat(&"mana_drop"))
 	died.emit(self)
 	Signals.enemy_killed.emit(self, last_hit, base_stats.experience_drop, is_elite)
 	if is_boss:
@@ -460,7 +460,7 @@ func SpawnVolatileExplosion() -> void:
 	explosion.hits_player = true
 	explosion.hits_enemies = false
 	explosion.global_position = global_position
-	get_tree().current_scene.add_child.call_deferred(explosion)
+	RunState.world_scene.add_child.call_deferred(explosion)
 
 func RiseAgain() -> void:
 	var risen: Entity = load(SWARMER_SCENE_PATH).instantiate()

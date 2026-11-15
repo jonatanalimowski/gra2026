@@ -43,7 +43,7 @@ offset = Vector2(-16, -32)
 script = ExtResource("6_ih45n")
 walk_time = 1.8
 first_summon_delay = 2.0
-summon_radius = 5.0
+summon_radius = 15.0
 minion_health_multiplier = 0.4
 
 [node name="Control" type="Control" parent="."]

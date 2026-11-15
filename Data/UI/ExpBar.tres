@@ -1,0 +1,10 @@
+[gd_resource type="StyleBoxTexture" load_steps=3 format=3 uid="uid://ddsvawrka3nf1"]
+
+[ext_resource type="Texture2D" uid="uid://dmx6tmyvqs2ym" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-TileSheet.png" id="1_61tky"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vt0qp"]
+atlas = ExtResource("1_61tky")
+region = Rect2(293, 174, 86, 8)
+
+[resource]
+texture = SubResource("AtlasTexture_vt0qp")

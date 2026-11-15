@@ -69,7 +69,7 @@ func PickSpecial(rng: RandomNumberGenerator) -> ItemData:
 
 func OpenChoice() -> void:
 	var overlay = CHOICE_OVERLAY.instantiate()
-	add_child(overlay)
+	NodeReferences.in_game_ui.add_child(overlay)
 	overlay.chosen.connect(_on_overlay_chosen)
 	var title = "Boss Reward" if picks == 1 else "Flawless! Boss Reward (%d left)" % picks
 	overlay.Open(title, offers, true)

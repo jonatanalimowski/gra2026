@@ -68,6 +68,7 @@ func Explode() -> void:
 			body.ApplyStatus(status, source, 1.0, 1.0, status_stacks)
 
 	Sfx.Play(&"explosion/explosion", -10)
+	print("SZEJKUJ: SHAKE TRAUMA:", shake_trauma)
 	Signals.screen_shake.emit(shake_trauma)
 	vfx.visible = true
 	queue_redraw()

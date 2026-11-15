@@ -27,7 +27,7 @@ func OnDashStarted(player: Player, position: Vector2, _direction: Vector2) -> vo
 		ring.radius = start_radius
 		ring.color = start_color
 		ring.global_position = position
-		player.get_tree().current_scene.add_child(ring)
+		RunState.world_scene.add_child(ring)
 
 func OnDashedThrough(player: Player, enemy: Entity) -> void:
 	if through_status and is_instance_valid(enemy):
@@ -49,4 +49,4 @@ func SpawnArea(player: Player, scene: PackedScene, position: Vector2) -> void:
 	var area = scene.instantiate() as StatusArea
 	area.Setup(area_radius, player)
 	area.global_position = position
-	player.get_tree().current_scene.add_child.call_deferred(area)
+	RunState.world_scene.add_child.call_deferred(area)

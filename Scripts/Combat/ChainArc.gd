@@ -53,7 +53,7 @@ static func Discharge(from: Entity, hit_amount: float) -> void:
 			if RunState.HasFlag(&"stormcaller"):
 				target.ApplyStatus(SHOCK_STATUS, player)
 	# deferred: we may be inside a physics callback (projectile hit)
-	from.get_tree().current_scene.add_child.call_deferred(arc)
+	RunState.world_scene.add_child.call_deferred(arc)
 
 static func Jagged(a: Vector2, b: Vector2) -> PackedVector2Array:
 	var line = PackedVector2Array([a])

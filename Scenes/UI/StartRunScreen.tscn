@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbg4b885icexc"]
+
+[ext_resource type="Script" uid="uid://cod72muiaap00" path="res://Scripts/UI/death_screen.gd" id="1_1ban8"]
+[ext_resource type="PackedScene" uid="uid://33vtsvg72ngb" path="res://Scenes/Misc/Main.tscn" id="2_82clx"]
+
+[node name="DeathScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1ban8")
+next_scene = ExtResource("2_82clx")
+is_start = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="ColorRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = -5.0
+offset_right = 21.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+text = "Run: "
+horizontal_alignment = 1
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true

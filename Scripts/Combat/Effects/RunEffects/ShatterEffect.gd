@@ -26,4 +26,4 @@ func OnEnemyKilled(enemy: Entity, _damage_info: DamageInfo, _xp: int, _is_elite:
 		shard.SetDirection(Vector2.from_angle(offset + TAU * i / count))
 		# born inside the frozen enemy, don't hit it
 		shard.add_collision_exception_with(enemy)
-		enemy.get_tree().current_scene.add_child.call_deferred(shard)
+		RunState.world_scene.add_child.call_deferred(shard)

@@ -75,6 +75,7 @@ func _ready() -> void:
 
 	Build()
 	# deferred, so the HUD (ready after this node) is listening
+	RunState.world_scene = self
 	Signals.world_generated.emit.call_deferred(layout)
 
 func _on_room_cleared(_room: EnemyRoom) -> void:

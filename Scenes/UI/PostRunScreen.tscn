@@ -1,14 +1,28 @@
-[gd_scene load_steps=7 format=3 uid="uid://dmmwrvq6k8i00"]
+[gd_scene load_steps=9 format=3 uid="uid://dmmwrvq6k8i00"]
 
-[ext_resource type="Texture2D" uid="uid://cw5jyrfnds2e8" path="res://assets/ui/menu_background.png" id="1_3ltsi"]
 [ext_resource type="Theme" uid="uid://cixt07vew57f" path="res://Data/UI/main_theme.tres" id="1_nanjd"]
 [ext_resource type="Script" uid="uid://cvwy846fvyfam" path="res://Scripts/UI/post_run_screen.gd" id="2_0owsa"]
-[ext_resource type="Texture2D" uid="uid://bk1qf8hetnvtd" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-Tilesheet.png" id="2_ec4ss"]
+[ext_resource type="Texture2D" uid="uid://dmx6tmyvqs2ym" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-Tilesheet.png" id="2_ec4ss"]
+[ext_resource type="Texture2D" uid="uid://b3wc6p06ektec" path="res://assets/ui/menu_background_main.jpg" id="3_0owsa"]
 [ext_resource type="Theme" uid="uid://cjy3idkndmck7" path="res://Data/UI/alt_button.tres" id="5_0owsa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0owsa"]
 atlas = ExtResource("2_ec4ss")
 region = Rect2(210, 18, 60, 60)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0owsa"]
+bg_color = Color(0, 0, 0, 0.12156863)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kaeb8"]
+bg_color = Color(0.2419945, 0.38337517, 0.21331352, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [node name="PostRunScreen" type="Control"]
 layout_mode = 3
@@ -21,13 +35,16 @@ theme = ExtResource("1_nanjd")
 script = ExtResource("2_0owsa")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0.27450982, 0.27450982, 0.27450982, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_3ltsi")
+texture = ExtResource("3_0owsa")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
 layout_mode = 1
@@ -36,12 +53,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -120.0
-offset_top = -120.0
-offset_right = 120.0
-offset_bottom = 120.0
+offset_left = -359.0
+offset_top = -347.0
+offset_right = -119.0
+offset_bottom = -107.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(3, 3)
 texture = SubResource("AtlasTexture_0owsa")
 patch_margin_left = 32
 patch_margin_top = 32
@@ -101,3 +119,40 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/outline_size = 2
 text = "Floor reached:"
+
+[node name="XpBar" type="ProgressBar" parent="NinePatchRect"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 25.0
+offset_top = 165.0
+offset_right = 130.18842
+offset_bottom = 179.62166
+rotation = -1.5707964
+theme_override_styles/background = SubResource("StyleBoxFlat_0owsa")
+theme_override_styles/fill = SubResource("StyleBoxFlat_kaeb8")
+value = 50.0
+show_percentage = false
+
+[node name="XpBarLabel" type="Label" parent="NinePatchRect/XpBar"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -3.0000002
+offset_top = -18.31083
+offset_right = 40.0
+offset_bottom = -8.310829
+rotation = 1.5707964
+text = "XP 0/100"
+horizontal_alignment = 1
+
+[node name="LevelLabel" type="Label" parent="NinePatchRect/XpBar"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -13.999999
+offset_top = -11.000001
+offset_right = 26.0
+offset_bottom = -1.000001
+rotation = 1.5707964
+text = "Level: 1"

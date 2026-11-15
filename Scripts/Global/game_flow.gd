@@ -10,6 +10,7 @@ const RUN_SCENE = preload("res://Scenes/Misc/Main.tscn")
 const POST_RUN_SCENE = preload("res://Scenes/UI/PostRunScreen.tscn")
 const DEATH_SCENE = preload("res://Scenes/UI/DeathScreen.tscn")
 const SKILL_TREE_SCENE = preload("res://Scenes/UI/SkillTreeUI.tscn")
+const RUN_START_SCENE = preload("res://Scenes/UI/StartRunScreen.tscn")
 
 func GoToMainMenu() -> void:
 	get_tree().change_scene_to_packed(MAIN_MENU_SCENE)
@@ -23,9 +24,12 @@ func GoToLoadout() -> void:
 func GoToYouDied() -> void:
 	SceneTransition.transition_to(DEATH_SCENE)
 
+func GoToStartRun() -> void:
+	SceneTransition.transition_to(RUN_START_SCENE)
+
 func StartRun(loadout: Loadout, run_seed: int = 0) -> void:
 	RunState.Begin(loadout, run_seed)
-	get_tree().change_scene_to_packed(RUN_SCENE)
+	GoToStartRun()
 
 func GoToPostRunScene() -> void:
 	get_tree().change_scene_to_packed(POST_RUN_SCENE)

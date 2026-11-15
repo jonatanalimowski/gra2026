@@ -53,4 +53,4 @@ func SpawnExplosion(projectile: BaseProjectile) -> void:
 	explosion.hits_player = projectile.team == BaseProjectile.Team.ENEMY or RunState.HasFlag(&"explosions_hit_player")
 	explosion.global_position = projectile.global_position
 	# we're inside the projectile's physics step, add it after
-	projectile.get_tree().current_scene.add_child.call_deferred(explosion)
+	RunState.world_scene.add_child.call_deferred(explosion)

@@ -92,7 +92,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if GetOffers().is_empty():
 			return
 		var overlay = CHOICE_OVERLAY.instantiate()
-		add_child(overlay)
+		NodeReferences.in_game_ui.add_child(overlay)
 		overlay.chosen.connect(_on_overlay_chosen)
 		overlay.Open("Glyph", GetOffers(), true)
 

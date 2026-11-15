@@ -73,7 +73,7 @@ animations = [{
 [node name="Explosion" type="Area2D"]
 z_index = 1
 script = ExtResource("1_expl")
-shake_trauma = 0.3
+shake_trauma = 0.67
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_expl")

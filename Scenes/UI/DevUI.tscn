@@ -17,8 +17,10 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.268
 anchor_bottom = 1.0
-offset_right = 10.0
+offset_right = -343.22665
+offset_bottom = -720.0
 grow_vertical = 2
+scale = Vector2(3, 3)
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
 layout_mode = 2

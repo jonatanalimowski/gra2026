@@ -25,4 +25,4 @@ func Cast(caster: Node2D, stats: StatBlock, _direction: Vector2, _spawn_pos: Vec
 			# sqrt spreads them evenly over the disc, plain randf would bunch them in the middle
 			offset = Vector2.from_angle(randf() * TAU) * stats.GetStat(&"cloud_radius") * sqrt(randf())
 		area.global_position = center + offset
-		caster.get_tree().current_scene.add_child(area)
+		RunState.world_scene.add_child(area)

@@ -64,6 +64,8 @@ const OMENS: Array[FloorOmen] = [
 	preload("res://Data/Omens/RestlessDeadOmen.tres"),
 ]
 
+var world_scene: Node2D
+
 const DOUBLE_OMEN_FLOOR: int = 8
 var omens: Array[FloorOmen] = []
 const SCHOOL_WARD_GROUPS := { School.Kind.EMBER: &"ember", School.Kind.FROST: &"frost", School.Kind.STORM: &"storm", School.Kind.BLOOD: &"blood" }
@@ -391,6 +393,7 @@ func Begin(new_loadout: Loadout, seed_value: int = 0) -> void:
 	deepened_pacts.clear()
 	omens.clear()
 	is_run_active = true
+	MetaProgress.runs_started += 1
 
 # base comes from the altar, bonuses from wherever they live (meta now, run blessings later)
 func GetPactOfferCount(base: int) -> int:

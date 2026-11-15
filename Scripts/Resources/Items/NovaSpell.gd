@@ -34,5 +34,5 @@ func Cast(caster: Node2D, stats: StatBlock, _direction: Vector2, _spawn_pos: Vec
 	vfx.radius = nova_radius
 	vfx.color = ring_color
 	vfx.global_position = center
-	caster.get_tree().current_scene.add_child(vfx)
+	RunState.world_scene.add_child(vfx)
 	Signals.screen_shake.emit(0.25)

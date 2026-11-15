@@ -41,7 +41,7 @@ func Cast(caster: Node2D, stats: StatBlock, direction: Vector2, spawn_pos: Vecto
 		projectile.global_position = spawn_pos
 		projectile.SetDirection(direction.rotated(deg_to_rad(randf_range(-spread_deg, spread_deg))))
 		# projectiles belong to the current scene, so they get removed with it
-		caster.get_tree().current_scene.add_child(projectile)
+		RunState.world_scene.add_child(projectile)
 
 # projectile stats live on the projectile scene's root, so peek at a throwaway instance
 func GetProjectileStats() -> ProjectileStats:

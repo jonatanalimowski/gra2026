@@ -5,9 +5,11 @@ class_name RunScene
 # that starts the next floor (see BossRoom)
 const SETTINGS_OVERLAY = preload("res://Scenes/UI/SettingsOverlay.tscn")
 const CHARACTER_OVERLAY = preload("res://Scenes/UI/CharacterOverlay.tscn")
+@onready var canvas: CanvasLayer = %CanvasLayer
 
 func _ready() -> void:
 	Signals.player_died.connect(_on_player_died)
+	NodeReferences.in_game_ui = canvas
 
 # esc mid-run = settings, C = character screen. paused overlays (altar, stats, character)
 # handle esc/C themselves, and this node is paused under them so it never opens a second one
