@@ -9,3 +9,4 @@ enum RewardType { RUNE, UNLOCK_WEAPON, STAT_BOOST, PASSIVE }
 
 @export_category("Reward Data")
 @export var rune_reward: RuneData = null
+@export var stat_rewards: Array[StatModifier] = []

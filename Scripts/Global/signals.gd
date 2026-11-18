@@ -22,3 +22,6 @@ signal player_dashed_through(enemy: Entity) # once per enemy per dash
 signal orb_collected(orb: ManaOrb, mana: float)
 signal player_hit_blocked(info: DamageInfo) # a shield ate the hit
 signal player_shield_changed(charges: int)
+signal refresh_player_card
+signal skill_tree_changed
+signal meta_progress_changed

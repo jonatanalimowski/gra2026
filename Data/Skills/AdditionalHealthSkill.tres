@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="SkillData" load_steps=5 format=3 uid="uid://k7qkh1x4q3y8"]
+
+[ext_resource type="Texture2D" uid="uid://b0j5t1jnucfha" path="res://assets/packs/vfx/FreeGameAssets_Magic/free-pixel-magic-sprite-effects-pack/2 Icons/Icon_05.png" id="1_48agi"]
+[ext_resource type="Script" uid="uid://d3hd0ip5ilp0e" path="res://Scripts/Resources/Items/SkillData.gd" id="1_w7pl4"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_48agi"]
+
+[sub_resource type="Resource" id="Resource_48agi"]
+script = ExtResource("2_48agi")
+stat = &"max_health"
+flat = 50.0
+metadata/_custom_type_script = "uid://dagkcxgw77g4s"
+
+[resource]
+script = ExtResource("1_w7pl4")
+reward_type = 2
+stat_rewards = Array[ExtResource("2_48agi")]([SubResource("Resource_48agi")])
+id = &"health_skill"
+display_name = "Additional Health"
+description = "+50 max health."
+icon = ExtResource("1_48agi")
+is_unlocked = false
+metadata/_custom_type_script = "uid://d3hd0ip5ilp0e"

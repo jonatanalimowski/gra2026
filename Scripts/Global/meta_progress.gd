@@ -13,6 +13,7 @@ var level_threshold_growth: float = 1.5
 var skill_points: int = 0
 var unlocked_skills: Array[SkillData]
 var runs_started: int = 0
+var skills_additional_equipment: Dictionary = {} #skill_id: string, eq: EquipmentData
 
 signal player_leveled_up
 
@@ -20,11 +21,16 @@ func _ready() -> void:
 	Load()
 
 func ResetSaved() -> void:
-	var cfg = ConfigFile.new()
-	if cfg.load(SAVE_PATH) != OK:
-		return
+	for skill in unlocked_skills.duplicate():
+		if skill:
+			SkillManager.RollbackSkillReward(skill)
+			RefundSkill(skill)
+	unlocked_skills.clear()
 	
-	cfg.clear()
+	var cfg = ConfigFile.new()
+	if cfg.load(SAVE_PATH) == OK:
+		cfg.clear()
+	
 	SetDefaults()
 	player_leveled_up.emit()
 
@@ -35,7 +41,20 @@ func SetDefaults() -> void:
 	level_threshold = 100
 	skill_points = 0
 	runs_started = 0
+	unlocked_skills.clear()
 	Save()
+
+func UnlockSkill(skill: SkillData) -> void:
+	if skill and not unlocked_skills.has(skill):
+		skill.is_unlocked = true
+		unlocked_skills.append(skill)
+		Save()
+
+func RefundSkill(skill: SkillData) -> void:
+	if skill and unlocked_skills.has(skill):
+		skill.is_unlocked = false
+		unlocked_skills.erase(skill)
+		Save()
 
 func AddXP(amount: int) -> bool:
 	var leveled_up = false
@@ -63,6 +82,13 @@ func Save() -> void:
 	cfg.set_value("player_data", "skill_points", skill_points)
 	cfg.set_value("player_data", "level_threshold", level_threshold)
 	cfg.set_value("player_data", "runs", runs_started)
+	
+	var skill_paths: Array[String] = []
+	for skill in unlocked_skills:
+		if skill and skill.resource_path:
+			skill_paths.append(skill.resource_path)
+	cfg.set_value("skills", "unlocked_skills", skill_paths)
+	
 	cfg.save(SAVE_PATH)
 
 func Load() -> void:
@@ -75,6 +101,16 @@ func Load() -> void:
 	skill_points = cfg.get_value("player_data", "skill_points", skill_points)
 	level_threshold = cfg.get_value("player_data", "level_threshold", level_threshold)
 	runs_started = cfg.get_value("player_data", "runs", runs_started)
+	
+	unlocked_skills.clear()
+	var skill_paths = cfg.get_value("skills", "unlocked_skills", [])
+	for path in skill_paths:
+		if ResourceLoader.exists(path):
+			var skill = load(path) as SkillData
+			if skill:
+				skill.is_unlocked = true
+				unlocked_skills.append(skill)
+				SkillManager.ApplySkillReward(skill)
 
 func AddAltarOfferBonus(amount: int = 1) -> void:
 	altar_offer_bonus += amount

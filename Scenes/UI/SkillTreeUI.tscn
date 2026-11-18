@@ -1,12 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://bf727rsam58g4"]
+[gd_scene load_steps=13 format=3 uid="uid://bf727rsam58g4"]
 
 [ext_resource type="Script" uid="uid://bl0sakyosqx1q" path="res://Scripts/UI/skill_tree_ui.gd" id="1_chy15"]
 [ext_resource type="Script" uid="uid://dxc7f4d73vu1m" path="res://Scripts/Misc/skill_tree_camera.gd" id="2_hf7u3"]
 [ext_resource type="Texture2D" uid="uid://b3wc6p06ektec" path="res://assets/ui/menu_background_main.jpg" id="2_kd4vs"]
 [ext_resource type="PackedScene" uid="uid://cvnjs6sngi1g6" path="res://Scenes/UI/SkillNode.tscn" id="4_4u5ob"]
+[ext_resource type="Resource" uid="uid://k7qkh1x4q3y8" path="res://Data/Skills/AdditionalHealthSkill.tres" id="4_umcyl"]
 [ext_resource type="Resource" uid="uid://cv24o4qrea4nc" path="res://Data/Skills/RicochetSkillPurpleBolt.tres" id="5_ah3mh"]
 [ext_resource type="Theme" uid="uid://cjy3idkndmck7" path="res://Data/UI/alt_button.tres" id="6_kd4vs"]
-[ext_resource type="Texture2D" uid="uid://dmx6tmyvqs2ym" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-Tilesheet.png" id="7_u7m58"]
+[ext_resource type="Texture2D" uid="uid://dmx6tmyvqs2ym" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-TileSheet.png" id="7_u7m58"]
 [ext_resource type="Texture2D" uid="uid://bi8va0tan5ovh" path="res://assets/packs/characters/cyberrumor_Mage/Animated_Mage_Character.png" id="8_umcyl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_woavv"]
@@ -16,6 +17,10 @@ region = Rect2(210, 18, 60, 60)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ww04p"]
 atlas = ExtResource("8_umcyl")
 region = Rect2(0, 34, 16, 18)
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_umcyl"]
+width = 32
+height = 32
 
 [node name="SkillTreeUi" type="Control"]
 layout_mode = 3
@@ -37,22 +42,30 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Skill1" parent="SkillNodeContainer" instance=ExtResource("4_4u5ob")]
+[node name="SkillRicochet" parent="SkillNodeContainer" node_paths=PackedStringArray("prerequisites") instance=ExtResource("4_4u5ob")]
 layout_mode = 1
 offset_left = 307.0
 offset_top = 119.0
 offset_right = 307.0
 offset_bottom = 119.0
 skill_data = ExtResource("5_ah3mh")
+prerequisites = [NodePath("../SkillHealth")]
+
+[node name="SkillHealth" parent="SkillNodeContainer" instance=ExtResource("4_4u5ob")]
+layout_mode = 1
+offset_left = 766.12
+offset_top = 118.88
+offset_right = 766.12
+offset_bottom = 118.88
+skill_data = ExtResource("4_umcyl")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(320, 180)
 script = ExtResource("2_hf7u3")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = -1
 
-[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer"]
+[node name="PlayerCard" type="NinePatchRect" parent="CanvasLayer"]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -68,7 +81,7 @@ patch_margin_top = 32
 patch_margin_right = 32
 patch_margin_bottom = 32
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/NinePatchRect"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PlayerCard"]
 custom_minimum_size = Vector2(32, 36)
 layout_mode = 0
 offset_left = 14.0
@@ -78,7 +91,7 @@ offset_bottom = 49.0
 texture = SubResource("AtlasTexture_ww04p")
 flip_h = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/NinePatchRect/TextureRect"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PlayerCard/TextureRect"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.437
@@ -91,29 +104,32 @@ offset_right = 157.484
 offset_bottom = 51.996002
 grow_horizontal = 2
 
-[node name="LevelLabel" type="Label" parent="CanvasLayer/NinePatchRect/TextureRect/VBoxContainer"]
+[node name="LevelLabel" type="Label" parent="CanvasLayer/PlayerCard/TextureRect/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Level: 1"
 
-[node name="ExperienceLabel" type="Label" parent="CanvasLayer/NinePatchRect/TextureRect/VBoxContainer"]
+[node name="ExperienceLabel" type="Label" parent="CanvasLayer/PlayerCard/TextureRect/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Experience: 0"
 
-[node name="SkillPointsLabel" type="Label" parent="CanvasLayer/NinePatchRect/TextureRect/VBoxContainer"]
+[node name="SkillPointsLabel" type="Label" parent="CanvasLayer/PlayerCard/TextureRect/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Skill Points: 0"
 
-[node name="NinePatchRect2" type="NinePatchRect" parent="CanvasLayer"]
-anchors_preset = 11
+[node name="Details" type="NinePatchRect" parent="CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 6
 anchor_left = 1.0
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -509.0
-offset_right = -339.33337
-offset_bottom = -720.0
+anchor_bottom = 0.5
+offset_left = -574.0
+offset_top = -344.0
+offset_right = -404.33337
+offset_bottom = -115.0
 grow_horizontal = 0
 grow_vertical = 2
 scale = Vector2(3, 3)
@@ -122,6 +138,59 @@ patch_margin_left = 32
 patch_margin_top = 32
 patch_margin_right = 32
 patch_margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Details"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -62.5
+offset_top = -86.5
+offset_right = 62.5
+offset_bottom = 86.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icon" type="TextureRect" parent="CanvasLayer/Details/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = SubResource("NoiseTexture2D_umcyl")
+stretch_mode = 5
+
+[node name="SkillName" type="Label" parent="CanvasLayer/Details/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Skill Name"
+horizontal_alignment = 1
+
+[node name="Cost" type="Label" parent="CanvasLayer/Details/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Cost: 5 skill points"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Label" parent="CanvasLayer/Details/VBoxContainer"]
+layout_mode = 2
+
+[node name="Description" type="Label" parent="CanvasLayer/Details/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+text = "ipsum lorem ipsum ipsum lorem ipsum ipsum lorem ipsum ipsum lorem ipsum ipsum lorem ipsum"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Spacer2" type="Label" parent="CanvasLayer/Details/VBoxContainer"]
+layout_mode = 2
+
+[node name="UnlockSkillButton" type="Button" parent="CanvasLayer/Details/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("6_kd4vs")
+text = "Unlock"
 
 [node name="BackButton" type="Button" parent="CanvasLayer"]
 unique_name_in_owner = true
@@ -133,7 +202,10 @@ scale = Vector2(3, 3)
 theme = ExtResource("6_kd4vs")
 text = "Back"
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+[node name="BackgroundCanvas" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Background" type="TextureRect" parent="BackgroundCanvas"]
 modulate = Color(0.27450982, 0.27450982, 0.27450982, 1)
 z_index = -10
 anchors_preset = 15

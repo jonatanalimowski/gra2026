@@ -18,8 +18,9 @@ func ConnectSignals():
 	settings_button.pressed.connect(_on_settings_pressed)
 	skill_tree_button.pressed.connect(_on_skill_tree_button_pressed)
 	MetaProgress.player_leveled_up.connect(_on_player_leveled_up)
+	Signals.meta_progress_changed.connect(_on_player_leveled_up)
 
-func SetPlayerCardLabels(player_level: int, experience: int, skill_points: int) -> void:
+func SetPlayerCardLabels(player_level: int = MetaProgress.player_level, experience: int = MetaProgress.experience, skill_points: int = MetaProgress.skill_points) -> void:
 	level_label.text = "Level: %d" % player_level
 	experience_label.text = "Experience: %d" % experience
 	skill_points_label.text = "Skill points: %d" % skill_points

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://he38sam0rgl8" path="res://Scripts/UI/main_menu.gd" id="1_72sra"]
 [ext_resource type="Texture2D" uid="uid://b3wc6p06ektec" path="res://assets/ui/menu_background_main.jpg" id="2_72sra"]
 [ext_resource type="Theme" uid="uid://cjy3idkndmck7" path="res://Data/UI/alt_button.tres" id="3_72sra"]
-[ext_resource type="Texture2D" uid="uid://dmx6tmyvqs2ym" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-Tilesheet.png" id="4_k8um8"]
+[ext_resource type="Texture2D" uid="uid://dmx6tmyvqs2ym" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-TileSheet.png" id="4_k8um8"]
 [ext_resource type="Texture2D" uid="uid://bi8va0tan5ovh" path="res://assets/packs/characters/cyberrumor_Mage/Animated_Mage_Character.png" id="5_jex3y"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_744d7"]

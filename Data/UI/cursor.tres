@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://dgpd5g3wmrpe3"]
+
+[ext_resource type="Texture2D" uid="uid://dw45diltdivyb" path="res://assets/ui/InUse/dark_cursor_spritesheet.png" id="1_bpony"]
+
+[resource]
+atlas = ExtResource("1_bpony")
+region = Rect2(0, 0, 16, 16)

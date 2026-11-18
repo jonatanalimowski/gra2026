@@ -1,6 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cvnjs6sngi1g6"]
+[gd_scene load_steps=6 format=3 uid="uid://cvnjs6sngi1g6"]
 
 [ext_resource type="Script" uid="uid://cyw2ydg0bi235" path="res://Scripts/UI/skill_node.gd" id="1_d14uw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d14uw"]
+bg_color = Color(0.3779188, 0.3779189, 0.37791875, 1)
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_cowx8"]
 width = 32
@@ -12,17 +15,31 @@ height = 32
 Button/styles/focus = SubResource("StyleBoxEmpty_d14uw")
 
 [node name="SkillNode" type="Control"]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 3
-anchor_left = 0.014
-anchor_top = 0.014
-anchor_right = 0.014
-anchor_bottom = 0.014
-offset_left = 0.03999996
-offset_top = -0.03999996
-offset_right = 0.03999996
-offset_bottom = -0.03999996
+anchors_preset = 0
+offset_left = -16.0
+offset_top = -16.0
+offset_right = -16.0
+offset_bottom = -16.0
 scale = Vector2(3, 3)
+pivot_offset = Vector2(16, 16)
 script = ExtResource("1_d14uw")
+
+[node name="Border" type="Panel" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -18.333334
+offset_top = -18.333334
+offset_right = 17.666664
+offset_bottom = 17.666664
+theme_override_styles/panel = SubResource("StyleBoxFlat_d14uw")
 
 [node name="Icon" type="TextureRect" parent="."]
 unique_name_in_owner = true

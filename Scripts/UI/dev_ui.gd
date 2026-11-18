@@ -11,6 +11,7 @@ func _ready() -> void:
 	#AddActionButton(vbox, "Cleanse curses", _on_cleanse_curses_pressed)
 	AddActionButton(vbox, "Teleport to boss", _on_teleport_to_boss_pressed)
 	AddActionButton(vbox, "Add 1000 experience", _on_experience_added)
+	AddActionButton(vbox, "Add 5 skill points", _on_skill_points_added)
 	AddActionButton(vbox, "Finish Run", _on_run_finished)
 	AddActionButton(vbox, "Clear savefile", _on_savefile_cleared)
 	AddActionButton(vbox, "Altar offer (F7)", _on_altar_offer_pressed)
@@ -42,12 +43,19 @@ func _on_more_elites_toggled(on: bool) -> void:
 
 func _on_experience_added() -> void:
 	RunState.HandleExperience(1000)
+	Signals.meta_progress_changed.emit()
+
+func _on_skill_points_added() -> void:
+	MetaProgress.skill_points += 5
+	MetaProgress.Save()
+	Signals.meta_progress_changed.emit()
 
 func _on_run_finished() -> void:
 	GameFlow.EndRun(false)
 
 func _on_savefile_cleared() -> void:
 	MetaProgress.ResetSaved()
+	Signals.skill_tree_changed.emit()
 
 func _on_altar_offer_pressed() -> void:
 	if NodeReferences.player and not get_tree().paused:
