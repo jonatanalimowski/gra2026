@@ -35,7 +35,10 @@ func GetOffers() -> Array[AltarPact]:
 		offers_rolled = true
 		var rng = RandomNumberGenerator.new()
 		rng.seed = hash([RunState.GetFloorSeed(), "altar", global_position])
-		offers = RollOffers(pact_pool, RunState.GetPactOfferCount(offer_count), rng)
+		# filtered here, not in RollOffers, so the F7 dev offer still shows every school
+		var pool: Array[AltarPact] = []
+		pool.assign(pact_pool.filter(func(p): return p and RunState.IsSchoolAllowed(p.GetSchool())))
+		offers = RollOffers(pool, RunState.GetPactOfferCount(offer_count), rng)
 	# offers stay rolled, another altar may have used up a pact since
 	return offers.filter(RunState.CanTakePact)
 

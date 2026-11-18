@@ -188,8 +188,23 @@ func PickPool(rng: RandomNumberGenerator) -> EnemyPool:
 
 # summoned enemies register too, so the doors stay shut until they're dead
 func RegisterEnemy(enemy: Entity) -> void:
+	enemy.room_bounds = GetBounds()
 	enemy.died.connect(_on_enemy_died)
 	enemy.summoned.connect(RegisterEnemy)
 	enemies_left += 1
 	if enemy.is_elite:
 		elites_spawned += 1
+
+# where an enemy's center may be: the room footprint ("Area2D", walls included) minus the wall tile.
+# Entity.KeepInsideRoom pulls enemies back if anything pushes them past it
+const BOUNDS_WALL_MARGIN: float = 12.0
+func GetBounds() -> Array[Rect2]:
+	var bounds: Array[Rect2] = []
+	var area = get_node_or_null("Area2D")
+	if not area:
+		return bounds
+	for collision in area.get_children():
+		if collision is CollisionShape2D and collision.shape is RectangleShape2D:
+			var size: Vector2 = collision.shape.size
+			bounds.append(Rect2(collision.global_position - size / 2.0, size).grow(-BOUNDS_WALL_MARGIN))
+	return bounds

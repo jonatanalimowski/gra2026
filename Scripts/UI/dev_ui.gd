@@ -55,7 +55,6 @@ func _on_run_finished() -> void:
 
 func _on_savefile_cleared() -> void:
 	MetaProgress.ResetSaved()
-	Signals.skill_tree_changed.emit()
 
 func _on_altar_offer_pressed() -> void:
 	if NodeReferences.player and not get_tree().paused:

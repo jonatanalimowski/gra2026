@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cvnjs6sngi1g6"]
+[gd_scene load_steps=9 format=3 uid="uid://cvnjs6sngi1g6"]
 
 [ext_resource type="Script" uid="uid://cyw2ydg0bi235" path="res://Scripts/UI/skill_node.gd" id="1_d14uw"]
 
@@ -11,8 +11,20 @@ height = 32
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d14uw"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2rb2o"]
+bg_color = Color(0.74978, 0.74978, 0.7497799, 0.15686275)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bo5wq"]
+bg_color = Color(0.53333336, 0.53333336, 0.53333336, 0.20392157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u4q6n"]
+bg_color = Color(0.69135714, 0.6913567, 0.69135684, 0.078431375)
+
 [sub_resource type="Theme" id="Theme_2rb2o"]
 Button/styles/focus = SubResource("StyleBoxEmpty_d14uw")
+Button/styles/hover = SubResource("StyleBoxFlat_2rb2o")
+Button/styles/normal = SubResource("StyleBoxFlat_bo5wq")
+Button/styles/pressed = SubResource("StyleBoxFlat_u4q6n")
 
 [node name="SkillNode" type="Control"]
 custom_minimum_size = Vector2(32, 32)
@@ -41,11 +53,23 @@ offset_right = 17.666664
 offset_bottom = 17.666664
 theme_override_styles/panel = SubResource("StyleBoxFlat_d14uw")
 
-[node name="Icon" type="TextureRect" parent="."]
+[node name="IconMask" type="Panel" parent="."]
 unique_name_in_owner = true
+clip_children = 1
 layout_mode = 0
 offset_right = 32.0
 offset_bottom = 32.0
+mouse_filter = 2
+
+[node name="Icon" type="TextureRect" parent="IconMask"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 texture = SubResource("NoiseTexture2D_cowx8")
 
 [node name="NameLabel" type="Label" parent="."]

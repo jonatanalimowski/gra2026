@@ -16,6 +16,13 @@ class_name DashEffect
 @export var start_status: StatusEffect
 @export var start_radius: float = 50.0
 @export var start_color: Color = Color(1.0, 0.9, 0.3)
+# an Explosion where the dash ends (Afterimage)
+@export var end_explosion_scene: PackedScene
+@export var end_explosion_damage: float = 30.0
+@export var end_explosion_radius: float = 40.0
+@export var end_explosion_telegraph: float = 0.15
+# warning circle color, fully transparent = the Explosion scene's own (orange)
+@export var end_explosion_color: Color = Color(0, 0, 0, 0)
 
 func OnDashStarted(player: Player, position: Vector2, _direction: Vector2) -> void:
 	RunState.run_effect_state[self] = position
@@ -44,6 +51,16 @@ func OnDashEnded(player: Player, position: Vector2) -> void:
 			SpawnArea(player, trail_area_scene, start.lerp(position, float(i) / count))
 	if end_area_scene:
 		SpawnArea(player, end_area_scene, position)
+	if end_explosion_scene:
+		var explosion = end_explosion_scene.instantiate() as Explosion
+		explosion.Setup(end_explosion_damage, end_explosion_radius, player)
+		explosion.telegraph_time = end_explosion_telegraph
+		if end_explosion_color.a > 0:
+			explosion.telegraph_color = end_explosion_color
+		explosion.shake_trauma = 0.15 # every dash, keep it light
+		explosion.hits_player = RunState.HasFlag(&"explosions_hit_player")
+		explosion.global_position = position
+		RunState.world_scene.add_child.call_deferred(explosion)
 
 func SpawnArea(player: Player, scene: PackedScene, position: Vector2) -> void:
 	var area = scene.instantiate() as StatusArea

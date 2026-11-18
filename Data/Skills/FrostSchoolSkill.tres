@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="SkillData" load_steps=7 format=3 uid="uid://xdnhmrtn8xki"]
+
+[ext_resource type="Script" uid="uid://d3hd0ip5ilp0e" path="res://Scripts/Resources/Skills/SkillData.gd" id="1_36rcq"]
+[ext_resource type="Texture2D" uid="uid://dswmmar7gonw8" path="res://assets/icons/school_frost_32.png" id="1_h1x1y"]
+[ext_resource type="Script" uid="uid://8ebl6v7mcb1v" path="res://Scripts/Resources/Skills/SkillReward.gd" id="2_b5d7c"]
+[ext_resource type="Resource" uid="uid://k7qkh1x4q3y8" path="res://Data/Skills/AdditionalHealthSkill.tres" id="3_pos2q"]
+[ext_resource type="Script" uid="uid://berpeskown3a1" path="res://Scripts/Resources/Skills/SchoolUnlockReward.gd" id="4_pos2q"]
+
+[sub_resource type="Resource" id="Resource_iflek"]
+script = ExtResource("4_pos2q")
+school = 2
+metadata/_custom_type_script = "uid://berpeskown3a1"
+
+[resource]
+script = ExtResource("1_36rcq")
+prerequisites = Array[ExtResource("1_36rcq")]([ExtResource("3_pos2q")])
+rewards = Array[ExtResource("2_b5d7c")]([SubResource("Resource_iflek")])
+id = &"school_frost_skill"
+display_name = "Frost Magic"
+description = "Unlocks the school of frost"
+icon = ExtResource("1_h1x1y")
+metadata/_custom_type_script = "uid://d3hd0ip5ilp0e"

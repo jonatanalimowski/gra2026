@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AltarPact" format=3]
+
+[ext_resource type="Script" path="res://Scripts/Altars/AltarPact.gd" id="1_r"]
+[ext_resource type="Resource" path="res://Data/Blessings/WellspringBlessing.tres" id="2_r"]
+[ext_resource type="Resource" path="res://Data/Curses/BeaconCurse.tres" id="3_r"]
+
+[resource]
+script = ExtResource("1_r")
+blessing = ExtResource("2_r")
+curse = ExtResource("3_r")
+slot = 5
+id = &"pact_wellspring"
+display_name = "Wellspring"

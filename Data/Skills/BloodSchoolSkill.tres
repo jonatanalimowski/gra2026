@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="SkillData" load_steps=7 format=3 uid="uid://bb255sfjjd2cd"]
+
+[ext_resource type="Script" uid="uid://d3hd0ip5ilp0e" path="res://Scripts/Resources/Skills/SkillData.gd" id="1_81plc"]
+[ext_resource type="Texture2D" uid="uid://5duq5oxw0jcd" path="res://assets/icons/school_blood_32.png" id="1_g374n"]
+[ext_resource type="Script" uid="uid://8ebl6v7mcb1v" path="res://Scripts/Resources/Skills/SkillReward.gd" id="2_f5tkj"]
+[ext_resource type="Resource" uid="uid://k7qkh1x4q3y8" path="res://Data/Skills/AdditionalHealthSkill.tres" id="3_amtf1"]
+[ext_resource type="Script" uid="uid://berpeskown3a1" path="res://Scripts/Resources/Skills/SchoolUnlockReward.gd" id="3_f5tkj"]
+
+[sub_resource type="Resource" id="Resource_g374n"]
+script = ExtResource("3_f5tkj")
+school = 4
+metadata/_custom_type_script = "uid://berpeskown3a1"
+
+[resource]
+script = ExtResource("1_81plc")
+prerequisites = Array[ExtResource("1_81plc")]([ExtResource("3_amtf1")])
+rewards = Array[ExtResource("2_f5tkj")]([SubResource("Resource_g374n")])
+id = &"blood_school_skill"
+display_name = "Blood Magic"
+description = "Unlocks the school of blood"
+icon = ExtResource("1_g374n")
+metadata/_custom_type_script = "uid://d3hd0ip5ilp0e"

@@ -24,6 +24,7 @@ func SpawnBoss():
 	#var boss = possible_bosses.pick_random().instantiate() as Entity
 	boss.died.connect(_on_enemy_died)
 	boss.died.connect(_on_boss_died)
+	boss.room_bounds = GetBounds()
 	get_parent().add_child(boss)
 	boss.global_position = boss_spawn.global_position
 	boss.is_boss = true

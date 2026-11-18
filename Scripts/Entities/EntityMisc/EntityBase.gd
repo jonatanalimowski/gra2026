@@ -57,6 +57,9 @@ var is_elite: bool = false
 var affixes: Array[Affix] = []
 var ward_group: StringName = &"" # immune to statuses of this group (Warded affix, Kindled Halls omen)
 var is_risen: bool = false # Restless Dead: already came back once
+# the room's floor in global space (EnemyRoom.GetBounds), KeepInsideRoom pulls us back if we leave it
+var room_bounds: Array[Rect2] = []
+var last_safe_position: Vector2 = Vector2.INF
 var time_since_damaged: float = 999.0
 const REGEN_DELAY: float = 2.0
 const REGEN_SHARE_PER_SECOND: float = 0.03
@@ -152,6 +155,7 @@ func _physics_process(delta: float) -> void:
 	# frozen = stands still even if a brain timer sets move_velocity, but can still be pushed
 	velocity = (Vector2.ZERO if IsFrozen() else move_velocity) + knockback_velocity
 	move_and_slide()
+	KeepInsideRoom()
 	knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, knockback_friction * delta)
 	if not IsFrozen():
 		HandleContactDamage(delta)
@@ -201,31 +205,75 @@ func Shoot(direction: Vector2) -> bool:
 		Sfx.Play(&"enemy/shoot", -20.0)
 	return cast
 
-func SpawnMinion(minion: Entity, pos: Vector2, summon_radius: float) -> void:
+# false = no free spot, the minion is freed (the brain must not keep it)
+func SpawnMinion(minion: Entity, pos: Vector2, summon_radius: float) -> bool:
 	var found_pos = FindSpawnPosition(minion, pos, summon_radius)
-	if found_pos == Vector2.ZERO:
-		return
+	if found_pos == Vector2.INF:
+		minion.free()
+		return false
 	minion.global_position = found_pos
+	minion.room_bounds = room_bounds
 	get_parent().add_child(minion)
 	summoned.emit(minion)
+	return true
 
+# a free spot for `minion`: inside the room, not in a wall, not on top of another body
+# (overlapping bodies push each other apart, which can shove the summoner through a wall)
+# and with a clear line from us, so it can't land behind a wall. INF = no spot found
 func FindSpawnPosition(minion: Entity, target: Vector2, summon_radius: float) -> Vector2:
 	var shape_node: CollisionShape2D = minion.get_node_or_null("CollisionShape2D")
 	if not shape_node or not shape_node.shape:
-		return target
-	
+		return target if IsInsideRoom(target) else Vector2.INF
+
+	var space = get_world_2d().direct_space_state
 	var query = PhysicsShapeQueryParameters2D.new()
 	query.shape = shape_node.shape
-	query.collision_mask = BaseProjectile.LAYER_WORLD
+	query.collision_mask = BaseProjectile.LAYER_WORLD | BaseProjectile.LAYER_ENEMY | BaseProjectile.LAYER_PLAYER
+	query.exclude = [get_rid()] # RiseAgain spawns on our own (dying) body
 	var offset = shape_node.position * minion.scale
-	
-	for i in range(8):
-		var test_pos = target if i == 0 else global_position + Vector2.from_angle(randf() * TAU) * randf_range(0.2, 1.0) * summon_radius
+	# random tries start just outside our body, a big boss would otherwise reject every spot
+	var min_distance = GetBodyRadius(self) + GetBodyRadius(minion)
+
+	for i in range(12):
+		var test_pos = target if i == 0 else global_position + Vector2.from_angle(randf() * TAU) * (min_distance + randf() * summon_radius)
+		if not IsInsideRoom(test_pos):
+			continue
+		var ray = PhysicsRayQueryParameters2D.create(global_position, test_pos, BaseProjectile.LAYER_WORLD)
+		if test_pos != global_position and not space.intersect_ray(ray).is_empty():
+			continue
 		query.transform = Transform2D(0, minion.scale, 0, test_pos + offset)
-		if get_world_2d().direct_space_state.intersect_shape(query).is_empty():
+		if space.intersect_shape(query).is_empty():
 			return test_pos
-			
-	return Vector2.ZERO
+
+	return Vector2.INF
+
+static func GetBodyRadius(entity: Entity) -> float:
+	var shape_node: CollisionShape2D = entity.get_node_or_null("CollisionShape2D")
+	if not shape_node or not shape_node.shape:
+		return 0.0
+	var rect = shape_node.shape.get_rect()
+	return maxf(rect.size.x, rect.size.y) * 0.5 * maxf(entity.scale.x, entity.scale.y)
+
+# room leash, set by EnemyRoom/BossRoom. empty = no leash (enemy placed outside a room)
+func IsInsideRoom(pos: Vector2) -> bool:
+	if room_bounds.is_empty():
+		return true
+	for rect in room_bounds:
+		if rect.has_point(pos):
+			return true
+	return false
+
+# safety net: whatever pushed us past a wall (spawn overlap, knockback, a fast dash), go back
+# to the last spot that was inside the room
+func KeepInsideRoom() -> void:
+	if IsInsideRoom(global_position):
+		last_safe_position = global_position
+		return
+	knockback_velocity = Vector2.ZERO
+	if last_safe_position != Vector2.INF:
+		global_position = last_safe_position
+	else:
+		global_position = global_position.clamp(room_bounds[0].position, room_bounds[0].end)
 
 func CanShoot() -> bool:
 	return spell_caster != null and spell_caster.IsReady() and not is_dead and spawn_shoot_timer <= 0 and not IsFrozen()
@@ -470,7 +518,9 @@ func RiseAgain() -> void:
 	risen.modulate = Color(0.6, 0.7, 0.6)
 	# counted by the room right now (before our died signal), added to the scene next frame:
 	# a deferred call on us would be dropped, we're freed at the end of this frame
-	risen.global_position = FindSpawnPosition(risen, global_position, 0)
+	var spawn_pos = FindSpawnPosition(risen, global_position, 0)
+	risen.global_position = global_position if spawn_pos == Vector2.INF else spawn_pos
+	risen.room_bounds = room_bounds
 	get_parent().add_child.call_deferred(risen)
 	summoned.emit(risen)
 	# hp after its _ready (Health keeps the ratio)

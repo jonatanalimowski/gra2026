@@ -6,10 +6,10 @@ class_name Loadout
 @export var scroll: ScrollData # empty = default dash
 @export var armor: EquipmentData
 @export var accessories: Array[EquipmentData] = []
+# filled by SkillManager.CollectRewards at run start, never saved or edited by hand
 @export var skill_mods: EquipmentData
-
-func AddStatModFromSkill(stat_mod: StatModifier):
-	skill_mods.player_modifiers.append(stat_mod)
+@export var extra_runes: Array[RuneData] = [] # skill-tree runes on top of the wand's own
+@export var schools: Array[School.Kind] = [] # filled by CollectRewards: schools whose pacts can be offered
 
 func GetEquipment() -> Array[EquipmentData]:
 	var equipment: Array[EquipmentData] = []

@@ -10,6 +10,7 @@ class_name PlayerStats
 @export var mana_gain: float = 1.0 # multiplier on mana picked up from orbs
 @export var orb_heal_chance: float = 0.0 # per mana orb, 0.2 = 20% of orbs also heal
 @export var healing_received: float = 1.0 # multiplier on every heal (Thin Blood)
+@export var dash_cooldown: float = 1.0 # multiplier on the mobility cooldown (Afterimage curse)
 
-const STAT_IGNORE_IN_DISPLAY = ["friction", "acceleration", "max_health", "max_mana", "mana_gain", "orb_heal_chance", "healing_received"]
+const STAT_IGNORE_IN_DISPLAY = ["friction", "acceleration", "max_health", "max_mana", "mana_gain", "orb_heal_chance", "healing_received", "dash_cooldown"]
 const STAT_DETAILED = []

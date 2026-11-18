@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Blessing" load_steps=9 format=3 uid="uid://lxrjyobgkf6v"]
+
+[ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="1_b"]
+[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="1_kercq"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="2_vjvtx"]
+[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="3_re"]
+[ext_resource type="Script" path="res://Scripts/Combat/Effects/RunEffects/SplinterOnKillEffect.gd" id="4_s"]
+[ext_resource type="PackedScene" uid="uid://nx2msofl3li3" path="res://Scenes/ProjectileScenes/ProjectilePurpleBolt.tscn" id="5_p"]
+[ext_resource type="Script" uid="uid://cjp37m6rc8u6d" path="res://Scripts/Combat/StatusEffects/StatusTweak.gd" id="7_bpxqs"]
+
+[sub_resource type="Resource" id="Resource_1"]
+script = ExtResource("4_s")
+projectile_scene = ExtResource("5_p")
+
+[resource]
+script = ExtResource("1_b")
+type = 1
+display_name = "Splinter"
+description = "Kills fire 2 bolts at the nearest enemies for 50% of your primary damage."
+run_effects = Array[ExtResource("3_re")]([SubResource("Resource_1")])

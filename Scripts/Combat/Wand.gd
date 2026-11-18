@@ -7,13 +7,15 @@ var primary: SpellCaster # left click
 var heavy: SpellCaster # right click, null if the wand has no heavy spell
 var runes: Array[RuneData] = []
 
-func Setup(wand_data: WandData) -> void:
+# extra_runes = skill-tree runes, they don't take rune slots
+func Setup(wand_data: WandData, extra_runes: Array[RuneData] = []) -> void:
 	data = wand_data
 	runes = []
 	for i in min(data.runes.size(), data.rune_slots):
 		runes.append(data.runes[i])
 	if data.runes.size() > data.rune_slots:
 		push_warning(data.display_name + " has more runes than rune slots, extra runes are ignored")
+	runes.append_array(extra_runes)
 
 	if data.primary_spell:
 		primary = SpellCaster.new(data.primary_spell, runes)

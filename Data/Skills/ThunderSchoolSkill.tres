@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="SkillData" load_steps=7 format=3 uid="uid://ck70n1r4ka230"]
+
+[ext_resource type="Texture2D" uid="uid://ci7uitfqodhad" path="res://assets/icons/school_storm_32.png" id="1_no0hk"]
+[ext_resource type="Script" uid="uid://d3hd0ip5ilp0e" path="res://Scripts/Resources/Skills/SkillData.gd" id="1_tdmsj"]
+[ext_resource type="Script" uid="uid://8ebl6v7mcb1v" path="res://Scripts/Resources/Skills/SkillReward.gd" id="2_dxhyn"]
+[ext_resource type="Resource" uid="uid://k7qkh1x4q3y8" path="res://Data/Skills/AdditionalHealthSkill.tres" id="3_cqutm"]
+[ext_resource type="Script" uid="uid://berpeskown3a1" path="res://Scripts/Resources/Skills/SchoolUnlockReward.gd" id="3_dxhyn"]
+
+[sub_resource type="Resource" id="Resource_no0hk"]
+script = ExtResource("3_dxhyn")
+school = 3
+metadata/_custom_type_script = "uid://berpeskown3a1"
+
+[resource]
+script = ExtResource("1_tdmsj")
+prerequisites = Array[ExtResource("1_tdmsj")]([ExtResource("3_cqutm")])
+rewards = Array[ExtResource("2_dxhyn")]([SubResource("Resource_no0hk")])
+id = &"school_storm_skill"
+display_name = "Storm Magic"
+description = "Unlocks the school of storm"
+icon = ExtResource("1_no0hk")
+metadata/_custom_type_script = "uid://d3hd0ip5ilp0e"

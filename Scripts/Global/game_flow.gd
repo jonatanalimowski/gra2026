@@ -28,6 +28,7 @@ func GoToStartRun() -> void:
 	SceneTransition.transition_to(RUN_START_SCENE)
 
 func StartRun(loadout: Loadout, run_seed: int = 0) -> void:
+	SkillManager.CollectRewards(loadout)
 	RunState.Begin(loadout, run_seed)
 	GoToStartRun()
 

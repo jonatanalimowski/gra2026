@@ -325,6 +325,13 @@ func CanTakePact(pact: AltarPact) -> bool:
 	var is_limit_not_reached = GetStackCount(pact) < pact.GetMaxStacks()
 	return can_take and is_limit_not_reached
 
+# school pacts only show up once their school is unlocked in the skill tree. form/none always can.
+# no loadout = Main.tscn run directly, everything allowed
+func IsSchoolAllowed(school: School.Kind) -> bool:
+	if school == School.Kind.NONE or school == School.Kind.FORM:
+		return true
+	return loadout == null or school in loadout.schools
+
 # the half resource is the modifier source. a stacking half is added once per stack and every
 # half_added applies it again, so modifiers add up
 func AddHalf(half: PactHalf, can_stack: bool = false) -> void:

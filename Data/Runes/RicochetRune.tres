@@ -8,7 +8,7 @@
 
 [sub_resource type="Resource" id="Resource_knjqv"]
 script = ExtResource("2_cswik")
-multiplier = 0.5
+multiplier = 0.25
 metadata/_custom_type_script = "uid://bh6h3p8mhgnvm"
 
 [sub_resource type="Resource" id="Resource_cswik"]

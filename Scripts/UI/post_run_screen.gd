@@ -15,15 +15,13 @@ var run_experience: int
 
 var ui_experience: int
 var ui_level_threshold: int
-var ui_level_threshold_growth: float
 var ui_level: int
 var bar_tween: Tween
 
 func _ready() -> void:
 	run_experience = RunState.collected_experience
 	ui_experience = MetaProgress.experience
-	ui_level_threshold = MetaProgress.level_threshold
-	ui_level_threshold_growth = MetaProgress.level_threshold_growth
+	ui_level_threshold = MetaProgress.GetLevelThreshold()
 	ui_level = MetaProgress.player_level
 	
 	ok_button.pressed.connect(GoToMainMenu)
@@ -31,7 +29,7 @@ func _ready() -> void:
 	enemies_label.text = "Enemies slain: %d" % RunState.enemies_killed
 	floor_label.text = "Floor reached: %d" % RunState.floor_number
 	level_label.text = "Level: %d" % ui_level
-	xp_bar.max_value = MetaProgress.level_threshold
+	xp_bar.max_value = ui_level_threshold
 	xp_bar.value = 0
 	
 	MetaProgress.AddXP(RunState.collected_experience)
@@ -70,20 +68,19 @@ func _process(delta: float) -> void:
 func UIAddXP(amount: int) -> bool:
 	var leveled_up = false
 	ui_experience += amount
-	while ui_experience > ui_level_threshold:
+	while ui_experience >= ui_level_threshold:
 		leveled_up = true
 		UILevelUp()
 	return leveled_up
 
 func UILevelUp() -> void:
 	ui_experience = ui_experience - ui_level_threshold
-	@warning_ignore("narrowing_conversion")
-	ui_level_threshold *= ui_level_threshold_growth
 	ui_level += 1
+	ui_level_threshold = MetaProgress.GetThresholdForLevel(ui_level)
 	level_label.text = "Level: %d" % ui_level
 
 func _on_level_up() -> void:
-	UpdateXpBarLabel(0, MetaProgress.level_threshold)
+	UpdateXpBarLabel(0, MetaProgress.GetLevelThreshold())
 
 func GoToMainMenu() -> void:
 	GameFlow.GoToMainMenu()

@@ -93,7 +93,7 @@ func ApplyLoadout(loadout: Loadout) -> void:
 	wand = Wand.new()
 	wand.name = "Wand"
 	add_child(wand)
-	wand.Setup(loadout.wand if loadout.wand else fallback_wand)
+	wand.Setup(loadout.wand if loadout.wand else fallback_wand, loadout.extra_runes)
 	# a heavy pact owns the heavy, set it before the halves add their spell modifiers
 	wand.SetHeavy(GetHeavySpell())
 
@@ -279,7 +279,7 @@ func _physics_process(delta: float) -> void:
 func UseMobility() -> void:
 	can_dash = false
 	# Short Fuse curse
-	var cooldown = mobility.cooldown * (1.0 + 0.3 * RunState.CountFlag(&"short_fuse"))
+	var cooldown = mobility.cooldown * stats.GetStat(&"dash_cooldown") * (1.0 + 0.3 * RunState.CountFlag(&"short_fuse"))
 	get_tree().create_timer(cooldown).timeout.connect(func(): can_dash = true)
 	FinishDashEnd() # still sliding from the last dash
 	dashed_through.clear()

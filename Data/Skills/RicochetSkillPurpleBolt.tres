@@ -1,17 +1,21 @@
-[gd_resource type="Resource" script_class="SkillData" load_steps=5 format=3 uid="uid://cv24o4qrea4nc"]
+[gd_resource type="Resource" script_class="SkillData" load_steps=8 format=3 uid="uid://cv24o4qrea4nc"]
 
 [ext_resource type="Texture2D" uid="uid://t4uuy640ldod" path="res://assets/packs/vfx/FreeGameAssets_Magic/free-pixel-magic-sprite-effects-pack/2 Icons/Icon_06.png" id="1_5bq08"]
-[ext_resource type="Script" uid="uid://d3hd0ip5ilp0e" path="res://Scripts/Resources/Items/SkillData.gd" id="1_usax5"]
+[ext_resource type="Script" uid="uid://d3hd0ip5ilp0e" path="res://Scripts/Resources/Skills/SkillData.gd" id="1_usax5"]
 [ext_resource type="Resource" uid="uid://g3whl3pf0we" path="res://Data/Runes/RicochetRune.tres" id="2_t1w5x"]
 [ext_resource type="Resource" uid="uid://k7qkh1x4q3y8" path="res://Data/Skills/AdditionalHealthSkill.tres" id="3_p4i4k"]
+[ext_resource type="Script" uid="uid://8ebl6v7mcb1v" path="res://Scripts/Resources/Skills/SkillReward.gd" id="4_ek6oh"]
+[ext_resource type="Script" uid="uid://dvt1kqrnric8o" path="res://Scripts/Resources/Skills/RuneReward.gd" id="4_rune"]
+
+[sub_resource type="Resource" id="Reward_rune"]
+script = ExtResource("4_rune")
+rune = ExtResource("2_t1w5x")
 
 [resource]
 script = ExtResource("1_usax5")
 prerequisites = Array[ExtResource("1_usax5")]([ExtResource("3_p4i4k")])
-rune_reward = ExtResource("2_t1w5x")
+rewards = Array[ExtResource("4_ek6oh")]([SubResource("Reward_rune")])
 id = &"ricochet_skill"
 display_name = "Ricochet Skill"
-description = "Purple Bolt wand now ricochets for half damage"
+description = "Your wands now ricochet dealing 1/4 of the damage"
 icon = ExtResource("1_5bq08")
-is_unlocked = false
-metadata/_custom_type_script = "uid://d3hd0ip5ilp0e"

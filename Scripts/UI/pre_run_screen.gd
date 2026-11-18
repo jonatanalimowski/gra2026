@@ -34,10 +34,6 @@ func GenerateChoiceCards(items: Array):
 func _on_wand_chosen(wand: WandData):
 	var loadout = Loadout.new()
 	loadout.wand = wand
-	loadout.skill_mods = EquipmentData.new()
-	for skill_stat_mods: EquipmentData in MetaProgress.skills_additional_equipment.values():
-		loadout.skill_mods.player_modifiers.append_array(skill_stat_mods.player_modifiers)
-		loadout.skill_mods.effects.append_array(skill_stat_mods.effects)
 	GameFlow.StartRun(loadout)
 
 func _on_back_button_pressed() -> void:

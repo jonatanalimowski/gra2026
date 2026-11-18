@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Curse" format=3]
+
+[ext_resource type="Script" path="res://Scripts/Altars/Curse.gd" id="1_c"]
+
+[resource]
+script = ExtResource("1_c")
+display_name = "Beacon"
+description = "Elites are 10% more likely."
+elite_chance_multiplier = 1.1
