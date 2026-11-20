@@ -63,7 +63,7 @@ var rooms_left_to_clear: int = 0
 
 func _ready() -> void:
 	rng.seed = debug_seed if debug_seed != 0 else RunState.GetFloorSeed()
-	print("Floor seed: ", rng.seed)
+	#print("Floor seed: ", rng.seed)
 
 	var success = false
 	for attempt in max_attempts:
@@ -80,7 +80,7 @@ func _ready() -> void:
 
 func _on_room_cleared(_room: EnemyRoom) -> void:
 	rooms_left_to_clear -= 1
-	print("Rooms left: " + str(rooms_left_to_clear))
+	#print("Rooms left: " + str(rooms_left_to_clear))
 	if rooms_left_to_clear == 0:
 		Signals.all_rooms_cleared.emit()
 

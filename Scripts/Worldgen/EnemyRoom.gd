@@ -27,33 +27,81 @@ var had_kill: bool = false # empty rooms (no spawn markers) don't drop glyphs
 # phase F: threats unlocked by floor (BUILD_DESIGN.md §8.2)
 @export var affix_floor: int = 3 # elites get 1 affix from here
 @export var second_affix_floor: int = 6 # and 2 from here
-@export var second_wave_floor: int = 3
-@export var second_wave_chance: float = 0.4
 @export var champion_floor: int = 5
 @export var champion_chance: float = 0.25
 @export var champion_minions: int = 3
-var wave: int = 0
-var has_second_wave: bool = false
+# waves: every room has wave_count waves (+1 from extra_wave_floor, at extra_wave_chance).
+# the first spawns at once. the next starts trickling in once the room is down to next_wave_at_alive
+# enemies: trickle_group_size at a time every trickle_interval, markers farthest from the player first
+@export var wave_count: int = 2
+@export var extra_wave_floor: int = 3
+@export var extra_wave_chance: float = 0.4
+@export var next_wave_at_alive: int = 2
+@export var trickle_group_size: int = 2
+@export var trickle_interval: float = 1.5
+var wave: int = 0 # index of the wave spawning now
+var waves: Array = [] # one Array[Dictionary] of spawns per wave, all rolled on entry
+var pending: Array[Dictionary] = [] # spawns of the trickling wave not shown yet
+var spawning: int = 0 # spawns telegraphing right now (not alive yet, but count as alive)
+var room_has_ward: bool = false # Warded: max 1 per room, across waves
+var trickle_timer: Timer
 var pool: EnemyPool
 
 func _ready() -> void:
 	DisableDoors()
+	trickle_timer = Timer.new()
+	trickle_timer.wait_time = trickle_interval
+	add_child(trickle_timer)
 	ConnectSignals()
 
 func ConnectSignals() -> void:
 	player_detection_area.body_entered.connect(_on_body_entered)
+	trickle_timer.timeout.connect(_on_trickle_timer_timeout)
 
 func _on_enemy_died(enemy: Entity) -> void:
 	last_death_position = enemy.global_position
 	had_kill = true
 	enemies_left -= 1
-	if enemies_left <= 0:
-		# second wave: the doors stay shut, more come from the same markers
-		if has_second_wave and wave == 0:
-			wave = 1
-			SpawnEnemies()
-			return
+	CheckWaves()
+
+# called after every death: starts the next wave, keeps the trickle going, or clears the room
+func CheckWaves() -> void:
+	var alive = enemies_left + spawning
+	var has_next_wave = wave + 1 < waves.size()
+	if pending.is_empty() and has_next_wave and alive <= GetNextWaveThreshold():
+		wave += 1
+		pending.assign(waves[wave])
+		SpawnNextGroup()
+		trickle_timer.start()
+	elif not pending.is_empty() and alive == 0:
+		# everything's dead mid-trickle: no waiting for the timer
+		SpawnNextGroup()
+		trickle_timer.start()
+	elif alive <= 0 and pending.is_empty() and not has_next_wave:
 		_on_room_cleared()
+
+# a small wave shouldn't start the next one before anything died
+func GetNextWaveThreshold() -> int:
+	return maxi(mini(next_wave_at_alive, waves[wave].size() - 1), 0)
+
+func _on_trickle_timer_timeout() -> void:
+	if pending.is_empty():
+		trickle_timer.stop()
+		return
+	SpawnNextGroup()
+
+# the farthest pending spawns from the player, so new enemies don't pop up on top of them
+func SpawnNextGroup() -> void:
+	var player = NodeReferences.player
+	if is_instance_valid(player):
+		pending.sort_custom(func(a, b):
+			return a.position.distance_squared_to(player.global_position) > b.position.distance_squared_to(player.global_position))
+	var group: Array[Dictionary] = []
+	for i in mini(trickle_group_size, pending.size()):
+		group.append(pending.pop_front())
+	ShowSpawns(group)
+	if pending.is_empty():
+		trickle_timer.stop()
 
 func EnableDoors() -> void:
 	doors.collision_enabled = true
@@ -99,18 +147,33 @@ func RollGlyph() -> void:
 	parent.add_child.call_deferred(shrine)
 	#SpawnLoot()?
 
+# rolls every wave on entry, then spawns the first one at once (the rest come through CheckWaves)
 func SpawnEnemies() -> void:
-	# seeded by position like altars, so Ctrl+R gives the same fights
-	var rng = RandomNumberGenerator.new()
-	rng.seed = hash([RunState.GetFloorSeed(), "enemies", global_position, wave])
-	if wave == 0:
-		pool = PickPool(rng)
-		has_second_wave = RunState.floor_number >= second_wave_floor and rng.randf() < second_wave_chance
+	var wave_total = wave_count
+	for w in wave_total:
+		# seeded by position + wave like altars, so Ctrl+R gives the same fights
+		var rng = RandomNumberGenerator.new()
+		rng.seed = hash([RunState.GetFloorSeed(), "enemies", global_position, w])
+		if w == 0:
+			pool = PickPool(rng)
+			if RunState.floor_number >= extra_wave_floor and rng.randf() < extra_wave_chance:
+				wave_total += 1
+		var spawns = RollWave(rng, w)
+		if not spawns.is_empty():
+			waves.append(spawns)
+
+	# a room without spawn markers would otherwise stay locked forever
+	if waves.is_empty():
+		_on_room_cleared()
+		return
+	wave = 0
+	ShowSpawns(waves[0])
+
+func RollWave(rng: RandomNumberGenerator, wave_index: int) -> Array[Dictionary]:
 	var spawns: Array[Dictionary] = []
 	var floor_elite_chance := RunState.floor_modifier.GetEliteChance(RunState.floor_number, elite_chance)
 	floor_elite_chance = minf(floor_elite_chance * RunState.GetEliteChanceMultiplier(), 1.0) # pacts, omens
 	var count_multiplier = RunState.GetEnemyCountMultiplier() # Swarm omen
-	var room_has_ward := false
 
 	for spawnpoint in enemy_spawn_markers:
 		# Swarm: a 1.5 multiplier = a 50% chance of a 2nd enemy at each marker
@@ -130,7 +193,8 @@ func SpawnEnemies() -> void:
 			spawns.append(MakeSpawn(scene, spawn_pos, is_elite, affixes))
 
 	# champion pack: one elite + minions of the same kind sharing its affix
-	if RunState.floor_number >= champion_floor and wave == 0 and not spawns.is_empty() and rng.randf() < champion_chance:
+	# (first wave only, it spawns at once so the pack stays together)
+	if RunState.floor_number >= champion_floor and wave_index == 0 and not spawns.is_empty() and rng.randf() < champion_chance:
 		var leader = spawns[0]
 		leader.is_elite = true
 		if leader.affixes.is_empty():
@@ -138,17 +202,22 @@ func SpawnEnemies() -> void:
 		for i in champion_minions:
 			var offset = Vector2.from_angle(TAU * i / champion_minions) * 20.0
 			spawns.append(MakeSpawn(leader.scene, leader.position + offset, false, leader.affixes.duplicate()))
+	return spawns
 
-	# a room without spawn markers would otherwise stay locked forever
-	if spawns.is_empty():
-		_on_room_cleared()
-		return
-
+# blinking circles now, enemies spawn_telegraph_time later
+func ShowSpawns(spawns: Array[Dictionary]) -> void:
+	for spawn in spawns:
+		var telegraph = SpawnTelegraph.new()
+		add_child(telegraph)
+		telegraph.global_position = spawn.position
+		spawn.telegraph = telegraph
+	spawning += spawns.size()
 	# a timer connection instead of await, so nothing runs if the room is freed before it fires
 	get_tree().create_timer(spawn_telegraph_time, false).timeout.connect(FinishSpawning.bind(spawns))
 
 func FinishSpawning(spawns: Array[Dictionary]) -> void:
 	for spawn in spawns:
+		spawning -= 1
 		spawn.telegraph.queue_free()
 		var enemy: Entity = spawn.scene.instantiate()
 		enemy.global_position = spawn.position
@@ -160,11 +229,9 @@ func FinishSpawning(spawns: Array[Dictionary]) -> void:
 		get_parent().add_child(enemy)
 		RegisterEnemy(enemy)
 
+# just data: the telegraph is made in ShowSpawns, when this spawn's turn comes
 func MakeSpawn(scene: PackedScene, spawn_pos: Vector2, is_elite: bool, affixes: Array[Affix]) -> Dictionary:
-	var telegraph = SpawnTelegraph.new()
-	add_child(telegraph)
-	telegraph.global_position = spawn_pos
-	return { "scene": scene, "position": spawn_pos, "is_elite": is_elite, "affixes": affixes, "telegraph": telegraph }
+	return { "scene": scene, "position": spawn_pos, "is_elite": is_elite, "affixes": affixes, "telegraph": null }
 
 # 1 affix from affix_floor, 2 from second_affix_floor (or `count`). Warded only if the room has none yet
 # and the player owns a school to ward against
