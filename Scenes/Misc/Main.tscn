@@ -42,7 +42,8 @@ position_smoothing_enabled = true
 position_smoothing_speed = 20.0
 script = ExtResource("4_pbw6q")
 
-[node name="Control" parent="CanvasLayer" instance=ExtResource("4_rgh2o")]
+[node name="InGameUI" parent="CanvasLayer" instance=ExtResource("4_rgh2o")]
+unique_name_in_owner = true
 offset_left = 1.0
 offset_top = -2.0
 offset_right = 1.0

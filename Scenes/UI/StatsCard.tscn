@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://cixt07vew57f" path="res://Data/UI/main_theme.tres" id="1_dbmrh"]
 [ext_resource type="Script" uid="uid://bt2kmolav6km5" path="res://Scripts/UI/stats_card.gd" id="2_dbmrh"]
-[ext_resource type="Texture2D" uid="uid://bk1qf8hetnvtd" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-Tilesheet.png" id="3_xb6yb"]
+[ext_resource type="Texture2D" uid="uid://dmx6tmyvqs2ym" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-Tilesheet.png" id="3_xb6yb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_54dwx"]
 atlas = ExtResource("3_xb6yb")

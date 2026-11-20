@@ -33,7 +33,8 @@ func _ready() -> void:
 
 	# hidden while it tries layouts, containers need a frame to resize
 	modulate.a = 0.0
-	var max_height = get_viewport_rect().size.y - screen_margin
+	# in the card's own units: the overlay draws it scaled up
+	var max_height = get_viewport_rect().size.y / get_global_transform().get_scale().y - screen_margin
 	for column_count in range(1, max(blocks.size(), 1) + 1):
 		FillColumns(blocks, column_count)
 		await get_tree().process_frame
