@@ -1,8 +1,8 @@
 extends MarginContainer
 class_name StatsCard
 
-# item name, description, then its stat sections. the card sizes itself to the text;
-# when it would be taller than the screen, the sections are spread over more columns side by side
+# item name, description, then its stat sections. the card has a fixed size (set in the scene),
+# the name stays on top and everything under it scrolls
 @onready var name_label: Label = %Name
 @onready var description_label: RichTextLabel = %Description
 @onready var columns: HBoxContainer = %Columns
@@ -10,8 +10,8 @@ class_name StatsCard
 const SECTION_COLOR = Color("c8a96e")
 const GROUP_COLOR = Color("8f8a7e")
 
-# space kept free for the overlay's title + leave button
-@export var screen_margin: float = 50.0
+# stat sections are split over this many columns side by side
+@export var column_count: int = 1
 
 var content: ItemData # anything with GetDisplayStats(), items without stats only show their description
 
@@ -31,16 +31,7 @@ func _ready() -> void:
 	for section_title in sections:
 		blocks.append(BuildSectionText(section_title, sections[section_title]))
 
-	# hidden while it tries layouts, containers need a frame to resize
-	modulate.a = 0.0
-	var max_height = get_viewport_rect().size.y - screen_margin
-	for column_count in range(1, max(blocks.size(), 1) + 1):
-		FillColumns(blocks, column_count)
-		await get_tree().process_frame
-		await get_tree().process_frame
-		if get_combined_minimum_size().y <= max_height:
-			break
-	modulate.a = 1.0
+	FillColumns(blocks, column_count)
 
 # greedy split: blocks stay in order, a column takes blocks until it has ~1/column_count of all lines
 func FillColumns(blocks: Array[String], column_count: int) -> void:
@@ -71,12 +62,12 @@ func FillColumns(blocks: Array[String], column_count: int) -> void:
 	for text in texts:
 		columns.add_child(MakeColumn(text))
 
-# same look as the description, but no wrapping so the column is as wide as its longest line
+# same look as the description, columns share the card width (long lines wrap)
 func MakeColumn(text: String) -> RichTextLabel:
 	var column: RichTextLabel = description_label.duplicate()
 	column.unique_name_in_owner = false
 	column.visible = true
-	column.autowrap_mode = TextServer.AUTOWRAP_OFF
+	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	column.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	column.text = text
 	return column

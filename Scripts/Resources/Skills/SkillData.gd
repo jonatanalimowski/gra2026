@@ -6,3 +6,7 @@ class_name SkillData
 @export var cost: int = 1
 @export var prerequisites: Array[SkillData] = []
 @export var rewards: Array[SkillReward] = []
+
+# shown under the name by ItemDetails / ChoiceCard
+func GetSubtitle() -> String:
+	return "Cost: %d skill point%s" % [cost, "" if cost == 1 else "s"]

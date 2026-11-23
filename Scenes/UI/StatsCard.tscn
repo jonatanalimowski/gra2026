@@ -9,8 +9,9 @@ atlas = ExtResource("3_xb6yb")
 region = Rect2(0, 0, 96, 96)
 
 [node name="StatsCard" type="MarginContainer"]
-offset_right = 196.0
-offset_bottom = 120.0
+custom_minimum_size = Vector2(240, 290)
+offset_right = 240.0
+offset_bottom = 290.0
 theme = ExtResource("1_dbmrh")
 script = ExtResource("2_dbmrh")
 
@@ -44,7 +45,18 @@ theme_override_font_sizes/font_size = 20
 text = "Pomarancza Mocy"
 horizontal_alignment = 1
 
-[node name="Description" type="RichTextLabel" parent="Padding/Content"]
+[node name="Scroll" type="ScrollContainer" parent="Padding/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Body" type="VBoxContainer" parent="Padding/Content/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Description" type="RichTextLabel" parent="Padding/Content/Scroll/Body"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
@@ -58,7 +70,7 @@ fit_content = true
 scroll_active = false
 autowrap_mode = 2
 
-[node name="Columns" type="HBoxContainer" parent="Padding/Content"]
+[node name="Columns" type="HBoxContainer" parent="Padding/Content/Scroll/Body"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 16

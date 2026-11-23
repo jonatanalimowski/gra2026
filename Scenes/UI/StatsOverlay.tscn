@@ -11,11 +11,10 @@ stats_card_scene = ExtResource("2_s1ltu")
 
 [node name="Root" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
+scale = Vector2(3, 3)
 theme = ExtResource("3_s3i6r")
 
 [node name="Dim" type="ColorRect" parent="Root"]

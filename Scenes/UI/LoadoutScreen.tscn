@@ -1,0 +1,159 @@
+[gd_scene load_steps=11 format=3 uid="uid://br6eeqwv6rdgt"]
+
+[ext_resource type="Script" uid="uid://cjydk6kr0t5dv" path="res://Scripts/UI/loadout_screen.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b3wc6p06ektec" path="res://assets/ui/menu_background_main.jpg" id="2_bg"]
+[ext_resource type="Theme" uid="uid://cixt07vew57f" path="res://Data/UI/main_theme.tres" id="3_theme"]
+[ext_resource type="Theme" uid="uid://cjy3idkndmck7" path="res://Data/UI/alt_button.tres" id="4_button"]
+[ext_resource type="PackedScene" uid="uid://uplpw7bqdcgb" path="res://Scenes/UI/ItemSlotButton.tscn" id="5_slot"]
+[ext_resource type="PackedScene" uid="uid://vkqcjp0xlo0y" path="res://Scenes/UI/ItemPicker.tscn" id="6_picker"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/ItemDetails.tscn" id="7_details"]
+[ext_resource type="Texture2D" uid="uid://dmx6tmyvqs2ym" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-TileSheet.png" id="8_sheet"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_frame"]
+atlas = ExtResource("8_sheet")
+region = Rect2(210, 18, 60, 60)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_frame"]
+content_margin_left = 14.0
+content_margin_top = 14.0
+content_margin_right = 14.0
+content_margin_bottom = 14.0
+texture = SubResource("AtlasTexture_frame")
+texture_margin_left = 20.0
+texture_margin_top = 20.0
+texture_margin_right = 20.0
+texture_margin_bottom = 20.0
+
+[node name="LoadoutScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="TextureRect" parent="."]
+modulate = Color(0.27450982, 0.27450982, 0.27450982, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="UI" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
+scale = Vector2(3, 3)
+theme = ExtResource("3_theme")
+
+[node name="BackButton" type="Button" parent="UI"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 64.0
+offset_bottom = 24.0
+theme = ExtResource("4_button")
+text = "Back"
+
+[node name="TopRow" type="HBoxContainer" parent="UI"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 34.0
+offset_right = 620.0
+offset_bottom = 130.0
+theme_override_constants/separation = 80
+alignment = 1
+
+[node name="WandColumn" type="VBoxContainer" parent="UI/TopRow"]
+layout_mode = 2
+
+[node name="WandLabel" type="Label" parent="UI/TopRow/WandColumn"]
+layout_mode = 2
+text = "WAND"
+horizontal_alignment = 1
+
+[node name="WandSlot" parent="UI/TopRow/WandColumn" instance=ExtResource("5_slot")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+display_item_data = null
+slot_size = Vector2(48, 48)
+
+[node name="SchoolsColumn" type="VBoxContainer" parent="UI/TopRow"]
+layout_mode = 2
+
+[node name="SchoolsLabel" type="Label" parent="UI/TopRow/SchoolsColumn"]
+layout_mode = 2
+text = "SCHOOLS"
+horizontal_alignment = 1
+
+[node name="SchoolsHint" type="Label" parent="UI/TopRow/SchoolsColumn"]
+modulate = Color(0.6, 0.6, 0.65, 1)
+layout_mode = 2
+text = "unlocked in the
+skill tree"
+horizontal_alignment = 1
+
+[node name="KeystoneColumn" type="VBoxContainer" parent="UI/TopRow"]
+layout_mode = 2
+
+[node name="KeystoneLabel" type="Label" parent="UI/TopRow/KeystoneColumn"]
+layout_mode = 2
+text = "KEYSTONE"
+horizontal_alignment = 1
+
+[node name="KeystoneSlot" parent="UI/TopRow/KeystoneColumn" instance=ExtResource("5_slot")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+display_item_data = null
+slot_size = Vector2(48, 48)
+
+[node name="BottomRow" type="HBoxContainer" parent="UI"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 130.0
+offset_right = 620.0
+offset_bottom = 317.99976
+theme_override_constants/separation = 12
+
+[node name="PickerPanel" type="PanelContainer" parent="UI/BottomRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_frame")
+
+[node name="ItemPicker" parent="UI/BottomRow/PickerPanel" instance=ExtResource("6_picker")]
+unique_name_in_owner = true
+layout_mode = 2
+cell_size = Vector2(36, 36)
+columns = 8
+
+[node name="LoadoutDetails" parent="UI/BottomRow" instance=ExtResource("7_details")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+fixed_size = true
+
+[node name="StartRunButton" type="Button" parent="UI"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -24.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("4_button")
+text = "Start Run"

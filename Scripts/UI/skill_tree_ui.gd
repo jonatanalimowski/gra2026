@@ -13,6 +13,7 @@ class_name SkillTree
 @onready var skill_details_cost = %Cost
 @onready var skill_details_description = %Description
 @onready var skill_details_unlock_button = %UnlockSkillButton
+@onready var skill_details_refund_button = %RefundSkillButton
 
 # lines match the SkillNode state colors: gold = owned link, flowing cyan = next unlock, dim = locked
 @export_group("Lines")
@@ -40,6 +41,7 @@ func _ready() -> void:
 			node.node_picked.connect(_on_node_picked)
 	back_button.pressed.connect(_on_back_button_pressed)
 	skill_details_unlock_button.pressed.connect(_on_unlock_pressed)
+	skill_details_refund_button.pressed.connect(_on_refund_pressed)
 	Signals.meta_progress_changed.connect(Refresh)
 	details.visible = false
 	Refresh()
@@ -70,6 +72,7 @@ func ShowDetails(node: SkillNode) -> void:
 	skill_details_cost.text = "Cost: %d skill points" % data.cost
 	skill_details_description.text = data.description
 	SetUnlockButton(data)
+	SetRefundButton(data)
 
 func SetUnlockButton(skill: SkillData) -> void:
 	skill_details_unlock_button.disabled = not SkillManager.CanUnlock(skill)
@@ -82,9 +85,19 @@ func SetUnlockButton(skill: SkillData) -> void:
 	else:
 		skill_details_unlock_button.text = "Unlock"
 
+func SetRefundButton(skill: SkillData) -> void:
+	var is_unlocked = SkillManager.IsUnlocked(skill)
+	var can_refund = SkillManager.CanRefund(skill)
+	skill_details_refund_button.disabled = not is_unlocked
+	skill_details_refund_button.visible = is_unlocked and can_refund
+
 func _on_unlock_pressed() -> void:
 	if picked_skill_node:
 		SkillManager.UnlockSkill(picked_skill_node.skill_data) # emits meta_progress_changed -> Refresh
+
+func _on_refund_pressed() -> void:
+	if picked_skill_node:
+		SkillManager.RefundSkill(picked_skill_node.skill_data)
 
 func SetPlayerCardLabels() -> void:
 	level_label.text = "Level: %d" % MetaProgress.player_level

@@ -5,7 +5,7 @@ extends Node
 # TODO: put the Hub (NewMainUI) between MainMenu and Loadout once it has a script
 
 const MAIN_MENU_SCENE = preload("res://Scenes/UI/MainMenu.tscn")
-const LOADOUT_SCENE = preload("res://Scenes/UI/PreRunScreen.tscn")
+const LOADOUT_SCENE = preload("res://Scenes/UI/LoadoutScreen.tscn") # old pick-1-of-3 screen: PreRunScreen.tscn
 const RUN_SCENE = preload("res://Scenes/Misc/Main.tscn")
 const POST_RUN_SCENE = preload("res://Scenes/UI/PostRunScreen.tscn")
 const DEATH_SCENE = preload("res://Scenes/UI/DeathScreen.tscn")

@@ -1,0 +1,57 @@
+[gd_scene load_steps=3 format=3 uid="uid://uplpw7bqdcgb"]
+
+[ext_resource type="Script" uid="uid://bxn4t5h7pub51" path="res://Scripts/UI/item_slot_button.gd" id="1_ienw2"]
+[ext_resource type="Resource" uid="uid://c10lqnvq1axy6" path="res://Data/Wands/BlueBlinkerWand.tres" id="2_nbooi"]
+
+[node name="ItemSlotButton" type="Button"]
+custom_minimum_size = Vector2(32, 32)
+offset_right = 32.0
+offset_bottom = 32.0
+script = ExtResource("1_ienw2")
+display_item_data = ExtResource("2_nbooi")
+slot_size = Vector2(128, 128)
+corner_radius = 6
+
+[node name="Panel" type="Panel" parent="."]
+unique_name_in_owner = true
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="IconRect" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LockRect" type="TextureRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5

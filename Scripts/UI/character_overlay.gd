@@ -170,7 +170,7 @@ func HideHover() -> void:
 func MoveHoverPanel() -> void:
 	var mouse = hover_panel.get_viewport().get_mouse_position()
 	var screen = hover_panel.get_viewport_rect().size
-	var size = hover_panel.size
+	var size = hover_panel.size * hover_panel.scale # on-screen size, the panel is drawn scaled
 	var pos = mouse + HOVER_OFFSET
 	if pos.x + size.x > screen.x:
 		pos.x = mouse.x - HOVER_OFFSET.x - size.x
