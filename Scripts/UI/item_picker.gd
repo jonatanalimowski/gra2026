@@ -21,7 +21,8 @@ func _ready() -> void:
 	grid.columns = columns
 	empty_label.text = empty_text
 
-func SetItems(title: String, unlocked: Array, locked: Array = [], equipped: ItemData = null) -> void:
+# equipped is an array so multi-pick categories (schools) work the same as single ones
+func SetItems(title: String, unlocked: Array, locked: Array = [], equipped: Array = []) -> void:
 	Clear()
 	var total := unlocked.size() + locked.size()
 	title_label.text = "%s (%d/%d)" % [title, unlocked.size(), total] if total > 0 else title
@@ -50,9 +51,9 @@ func Clear() -> void:
 		slot.queue_free()
 	slots.clear()
 
-func SetEquipped(item: ItemData) -> void:
+func SetEquipped(items: Array) -> void:
 	for slot in slots:
-		slot.SetEquipped(item != null and slot.display_item_data == item)
+		slot.SetEquipped(slot.display_item_data in items)
 
 func _on_slot_pressed(slot: ItemSlotButton) -> void:
 	item_picked.emit(slot.display_item_data)

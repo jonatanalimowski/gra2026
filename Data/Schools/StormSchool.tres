@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SchoolData" load_steps=3 format=3]
+
+[ext_resource type="Script" uid="uid://cc2fivvroclr1" path="res://Scripts/Resources/Items/SchoolData.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dnosnlhiog3ag" path="res://assets/icons/school_storm.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_script")
+kind = 3
+id = &"storm"
+display_name = "Storm"
+description = "Shock and chain arcs. Its pacts can be offered at altars this run."
+icon = ExtResource("2_icon")

@@ -37,3 +37,13 @@ static func GetColor(school: Kind) -> Color:
 
 static func GetIcon(school: Kind) -> Texture2D:
 		return ICONS.get(school)
+
+# save id ("ember"): saves store this, not the enum int, so adding a school can't shuffle old saves
+static func GetId(school: Kind) -> String:
+		return GetName(school).to_lower()
+
+static func FromId(id: String) -> Kind:
+		for kind in NAMES:
+				if id != "" and GetId(kind) == id:
+						return kind
+		return Kind.NONE

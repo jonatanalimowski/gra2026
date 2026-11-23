@@ -13,9 +13,11 @@ What's already built (build systems included) is in `CLAUDE.md`.
 | **v0.14** | Meta progression II | The Forge: loot, crafting, new loadout options | 💭 |
 | **v0.15+** | Polish & content | Balancing, juice, more of everything | 💭 |
 
-## Where the project stands (2026-11-18)
+## Where the project stands (2026-11-24)
 
-The game feels good: replaying it doesn't get boring quickly, even against the same enemies. The build rework (A-F) is in: runs now pull toward a school, picks interact through statuses, and floors get stranger instead of just tankier. First playtests feel good. v0.13 has started: runs now pay out XP, levels give skill points, the post-run screen banks them, and the skill tree works with its first 2 nodes. Next is filling the tree.
+The game feels good: replaying it doesn't get boring quickly, even against the same enemies. The build rework (A-F) is in: runs now pull toward a school, picks interact through statuses, and floors get stranger instead of just tankier. First playtests feel good.
+
+v0.13 is past its plumbing: runs pay out XP, levels give skill points, the tree has 6 nodes (4 of them unlock a school), and the new `LoadoutScreen` (replaces the pick-1-of-3 `PreRunScreen`) picks a wand + 2-3 unlocked schools and remembers the last pick. Altars only offer pacts of the picked schools + Form. Every combat room now has 2 waves. Next: nodes that add content or change rules (see `SKILL_TREE_IDEAS.md`), then a playtest of a fresh save.
 
 - Stop polishing combat for its own sake. Hitstop and death bursts are side tasks for a quick win.
 - Replay after each meta step and check that runs still feel this good.
@@ -44,7 +46,7 @@ The game feels good: replaying it doesn't get boring quickly, even against the s
 - [x] C: glyphs + Sanctuary rework (14 glyphs, Tier II for Ember/Frost) - playtest pending
 - [x] D: Storm & Blood (10 slot pacts, 8 glyphs, Tier I/II) - playtest pending
 - [x] E: shrine payoffs (6 duos, 4 evolutions, rank II for all 20 slot pacts) - playtest pending
-- [x] F: enemy scaling (floor retune, elite behaviors, 4 affixes, waves, omens, champion packs) - playtest pending
+- [x] F: enemy scaling (floor retune, elite behaviors, 4 affixes, waves, omens, champion packs) - playtest pending. Waves changed 2026-11-21: every combat room has 2 (+1 from floor 3 at 40%), the next one trickles in when 2 enemies are left
 
 ## v0.13: Skill Tree 🔧
 
@@ -54,9 +56,12 @@ The game feels good: replaying it doesn't get boring quickly, even against the s
 - [x] Save data (`MetaProgress`: XP, level, points, runs, unlocked skills)
 - [x] Tree data and logic (`SkillData`, `SkillManager`, prerequisites, refund)
 - [x] Tree screen (`SkillTreeUI`, pan camera, details panel)
-- [ ] First 6-8 nodes (2 so far: Additional Health, Ricochet for Purple Bolt)
-- [ ] UNLOCK_WEAPON / PASSIVE reward types
-- [ ] Playtest
+- [x] Loadout screen (`LoadoutScreen`: wand, keystone and school slots, item picker + details, last loadout saved on every pick)
+- [x] Schools unlocked in the tree (`SchoolUnlockReward`, 4 root nodes) and picked in the loadout (2-3, `RunState.IsSchoolAllowed`)
+- [~] First 6-8 nodes: 6 exist (Additional Health, Ricochet for Purple Bolt, Ember/Frost/Storm/Blood roots), but only 2 do something in a run besides unlocking. Next ones from the First nodes list / `SKILL_TREE_IDEAS.md`
+- [ ] Reward types still missing: weapon unlock (needs owned wands in MetaProgress), pact/glyph unlock (adds to pools), keystones (loadout slot exists, no keystone data or reward yet)
+- [ ] Ctrl+R banks the run's XP (see Decisions)
+- [ ] Playtest, especially a fresh save: no schools unlocked = only the 7 Form pacts on offer
 
 **Order:** run summary + currency → save data → tree data and logic → tree screen → first 6-8 nodes → playtest. The Hub comes later; it's only a menu until the Forge exists.
 
@@ -73,7 +78,7 @@ The game feels good: replaying it doesn't get boring quickly, even against the s
 - **5 paths:** one per school (Ember, Frost, Storm, Blood) + one Misc path (altar offers, rerolls, Sanctuary, wands...).
 - **Schools are unlocked in the tree.** A school's root node unlocks it; the rest of its path upgrades it (new pacts/glyphs for that school, better attunements, school-specific runes).
 - **Future schools (Hex, ...) sit behind existing schools** in the tree (e.g. Hex needs a node deep in Blood).
-- **Schools are picked in the loadout:** before a run you choose which unlocked schools can appear. Altar/glyph/duo offers only roll from those. (Hint: needs a `RunState.allowed_schools` that `AltarRoom.RollOffers` / `GlyphShrine.RollOffers` / `UpgradeShrine.BuildOffers` filter on, and a `SchoolUnlockReward` = add a school id to `MetaProgress`. Decide a minimum, e.g. at least 2 schools, so offers don't run dry.)
+- **Schools are picked in the loadout:** before a run you choose which unlocked schools can appear. Done 2026-11-23: 2-3 schools (fewer if fewer are unlocked), `loadout.schools`, `AltarRoom.RollOffers` filters via `RunState.IsSchoolAllowed`. Glyphs and duos follow on their own, since they need a pact of that school. Unlocked schools are derived from unlocked skills (`SkillManager.GetUnlockedSchools`), not saved separately.
 
 **First nodes:** +1 altar offer, pact reroll, Sanctuary heal-or-cleanse, wand reroll, 2-3 "new pacts" nodes.
 
@@ -86,7 +91,7 @@ The game feels good: replaying it doesn't get boring quickly, even against the s
 - [x] Enemy scaling by *behavior*: elites with behaviors, affixes, waves, omens (new enemy types still missing)
 - [ ] Treasure rooms: greater altar (pick 1 of 4), full mana, heal, reroll token
 - [ ] HUD cooldowns for primary, heavy and dash
-- [x] More pacts: 22 in the pool (20 slot + 2 Form), plus 22 glyphs, 6 duos, 4 evolutions
+- [x] More pacts: 27 in the pool (20 school slot + 5 Form slot + 2 Form), plus 22 glyphs, 6 duos, 4 evolutions
 - [ ] More runes: Burn, Split, Chain Lightning
 - [ ] Reward for refusing an altar (small heal or mana)
 - [ ] More enemy roles (mortar/lobber, shielded tank, support healer, hazard layer) and a 3rd boss
@@ -135,7 +140,8 @@ The game feels good: replaying it doesn't get boring quickly, even against the s
 
 ## Open risks
 
-- **Pact pool depth.** 22 pacts + glyphs now, but only 5 enemy types: variety on the enemy side is the thinner one.
+- **Pact pool depth.** 27 pacts + glyphs now, but only 5 enemy types: variety on the enemy side is the thinner one. Picking 2-3 schools per run cuts what one run sees to ~10-15 pacts, so per-school depth (the "second pact per verb" nodes) matters more now.
+- **Fresh saves.** With no school unlocked, a run sees only Form pacts and no attunements, duos or evolutions. The first school node should be cheap and the first run short, or new players never meet the build system.
 - **Boss-fight mana.** CasterBoss has no adds, so a spent heavy stays spent. If that feels bad, drop orbs at HP thresholds; don't carry mana over.
 - **Saving mana for the boss** must not become "never use heavies on the floor". If it does, make elites drop more orbs.
 - **Refusing pacts must stay viable.** Boss upgrades alone should carry a skilled player a few floors.

@@ -94,7 +94,13 @@ layout_mode = 2
 text = "SCHOOLS"
 horizontal_alignment = 1
 
+[node name="SchoolSlots" type="HBoxContainer" parent="UI/TopRow/SchoolsColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
 [node name="SchoolsHint" type="Label" parent="UI/TopRow/SchoolsColumn"]
+unique_name_in_owner = true
 modulate = Color(0.6, 0.6, 0.65, 1)
 layout_mode = 2
 text = "unlocked in the

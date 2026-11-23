@@ -23,6 +23,7 @@ class_name CasterBossAI
 @export var ring_telegraph_color: Color = Color.MEDIUM_PURPLE
 @export_group("Snipe")
 @export var snipe_spell: SpellData = preload("res://Data/Spells/CasterBossSnipeSpell.tres")
+@export var spread_deg: float = 25.0
 @export var snipe_shots: int = 3
 @export var snipe_shots_enraged: int = 15
 @export var snipe_interval: float = 0.3
@@ -152,8 +153,8 @@ func AttackStep() -> void:
 			FireRing()
 			interval = ring_wave_interval
 		Attack.SNIPE:
-			Fire(snipe_caster, ParentEntity.global_position.direction_to(p.global_position))
-			Sfx.Play(&"enemy/shoot", -12.0)
+			Fire(snipe_caster, ParentEntity.global_position.direction_to(p.global_position).rotated(deg_to_rad(randf_range(-spread_deg, spread_deg))))
+			Sfx.Play(&"enemy/shoot", -14.0)
 			interval = snipe_interval
 		Attack.BOMBS:
 			SpawnExplosion()

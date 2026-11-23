@@ -56,11 +56,20 @@ func GetUnlockedSkills() -> Array[SkillData]:
 			unlocked.append(skill)
 	return unlocked
 
+func GetUnlockedSchools() -> Array[School.Kind]:
+	var schools: Array[School.Kind] = STARTING_SCHOOLS.duplicate()
+	for skill in GetUnlockedSkills():
+		for reward in skill.rewards:
+			if reward is SchoolUnlockReward and reward.school not in schools:
+				schools.append(reward.school)
+	return schools
+
 # fills the loadout's skill part from scratch, so calling it again (Ctrl+R restart) is safe
 func CollectRewards(loadout: Loadout) -> void:
 	loadout.skill_mods = EquipmentData.new()
 	loadout.extra_runes.clear()
-	loadout.schools.assign(STARTING_SCHOOLS)
+	var unlocked_schools := GetUnlockedSchools()
+	loadout.schools.assign(loadout.schools.filter(func(s): return s in unlocked_schools))
 	for skill in GetUnlockedSkills():
 		for reward in skill.rewards:
 			if reward:

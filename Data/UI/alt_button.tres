@@ -2,8 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://dmx6tmyvqs2ym" path="res://assets/packs/ui/DarkAgesUi_v1.0/32x32-TileSheet.png" id="1_14qfo"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_14qfo"]
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_k2d8r"]
 atlas = ExtResource("1_14qfo")
 region = Rect2(64, 104, 64, 19)
@@ -14,6 +12,8 @@ texture_margin_left = 9.0
 texture_margin_top = 9.0
 texture_margin_right = 9.0
 texture_margin_bottom = 9.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_14qfo"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8opdp"]
 atlas = ExtResource("1_14qfo")
@@ -38,6 +38,7 @@ texture_margin_right = 9.0
 texture_margin_bottom = 9.0
 
 [resource]
+Button/styles/disabled = SubResource("StyleBoxTexture_3orvf")
 Button/styles/focus = SubResource("StyleBoxEmpty_14qfo")
 Button/styles/hover = SubResource("StyleBoxTexture_3orvf")
 Button/styles/normal = SubResource("StyleBoxTexture_yvu31")
