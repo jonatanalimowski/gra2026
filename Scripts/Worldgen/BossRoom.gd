@@ -27,6 +27,7 @@ func SpawnBoss():
 	boss.room_bounds = GetBounds()
 	get_parent().add_child(boss)
 	boss.global_position = boss_spawn.global_position
+	boss.reset_physics_interpolation() # positioned after add_child
 	boss.is_boss = true
 	boss.always_visible = true
 	Signals.boss_spawned.emit(boss.health.maximum)
@@ -44,3 +45,4 @@ func SpawnReward() -> void:
 		reward.picks = flawless_picks
 	add_child(reward)
 	reward.global_position = boss_spawn.global_position
+	reward.reset_physics_interpolation()

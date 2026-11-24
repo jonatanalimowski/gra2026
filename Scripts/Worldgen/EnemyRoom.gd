@@ -210,6 +210,7 @@ func ShowSpawns(spawns: Array[Dictionary]) -> void:
 		var telegraph = SpawnTelegraph.new()
 		add_child(telegraph)
 		telegraph.global_position = spawn.position
+		telegraph.reset_physics_interpolation() # positioned after add_child
 		spawn.telegraph = telegraph
 	spawning += spawns.size()
 	# a timer connection instead of await, so nothing runs if the room is freed before it fires

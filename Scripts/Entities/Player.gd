@@ -291,6 +291,7 @@ func UseMobility() -> void:
 		if direction == Vector2.ZERO:
 			direction = global_position.direction_to(get_global_mouse_position())
 		move_and_collide(direction * BLINK_DISTANCE)
+		reset_physics_interpolation() # a teleport, don't slide there
 		MakeInvulnerable(0.15)
 		Signals.player_dash_ended.emit(global_position)
 	else:

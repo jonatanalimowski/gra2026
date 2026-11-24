@@ -25,6 +25,7 @@ const PREVIEW_SOUNDS: Dictionary[StringName, StringName] = {
 signal closed
 @onready var player_additional_healthbar_checkbutton: CheckButton = %PlayerAdditionalHealthbar
 @onready var enemy_additional_healthbar_checkbutton: CheckButton = %EnemyAdditionalHealthbar
+@onready var fog_of_war_checkbutton: CheckButton = %FogOfWarToggle
 
 var was_paused: bool = false # opened over another paused screen -> keep it paused
 
@@ -41,6 +42,8 @@ func _ready() -> void:
 	enemy_additional_healthbar_checkbutton.button_pressed = Settings.show_health_above_enemies
 	player_additional_healthbar_checkbutton.toggled.connect(func(is_on: bool): Settings.TogglePlayerBars(is_on))
 	enemy_additional_healthbar_checkbutton.toggled.connect(func(is_on: bool): Settings.ToggleEnemyBars(is_on))
+	fog_of_war_checkbutton.button_pressed = Settings.fog_of_war
+	fog_of_war_checkbutton.toggled.connect(func(is_on: bool): Settings.ToggleFogOfWar(is_on))
 	was_paused = get_tree().paused
 	get_tree().paused = true
 

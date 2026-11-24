@@ -1,9 +1,12 @@
-[gd_resource type="Resource" script_class="GlyphData" load_steps=7 format=3]
+[gd_resource type="Resource" script_class="GlyphData" load_steps=10 format=3 uid="uid://dsd0rjyv0gkeq"]
 
-[ext_resource type="Script" path="res://Scripts/Altars/GlyphData.gd" id="1_r"]
+[ext_resource type="Script" uid="uid://cben1sbwi083e" path="res://Scripts/Altars/GlyphData.gd" id="1_r"]
 [ext_resource type="Script" uid="uid://dkm2blmuoytre" path="res://Scripts/Altars/Blessing.gd" id="2_r"]
-[ext_resource type="Script" path="res://Scripts/Combat/Effects/ProjectileEffects/PlayerHealthDamageEffect.gd" id="3_r"]
+[ext_resource type="Script" uid="uid://cb6ikwk26wafx" path="res://Scripts/Combat/Effects/ProjectileEffects/PlayerHealthDamageEffect.gd" id="3_r"]
+[ext_resource type="Script" uid="uid://dagkcxgw77g4s" path="res://Scripts/Combat/StatModifier.gd" id="3_t71t5"]
 [ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="4_r"]
+[ext_resource type="Script" uid="uid://c3r68uu4fou7c" path="res://Scripts/Combat/Effects/RunEffects/RunEffect.gd" id="4_y5m6d"]
+[ext_resource type="Script" uid="uid://cjp37m6rc8u6d" path="res://Scripts/Combat/StatusEffects/StatusTweak.gd" id="6_8jyko"]
 
 [sub_resource type="Resource" id="Resource_2"]
 script = ExtResource("3_r")

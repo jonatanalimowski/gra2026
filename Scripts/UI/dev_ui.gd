@@ -71,6 +71,7 @@ func _on_teleport_to_boss_pressed() -> void:
 	if not player or not room:
 		return
 	player.global_position = room.boss_spawn.global_position + Vector2(0, 100)
+	player.reset_physics_interpolation()
 
 func FindBossRoom(node: Node) -> BossRoom:
 	if node is BossRoom:

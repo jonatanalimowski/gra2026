@@ -12,9 +12,12 @@ const DEFAULT_VOLUMES: Dictionary[StringName, float] = {
 
 signal enemy_additional_healthbar_visibility_changed(is_visible: bool)
 signal player_additional_healthbar_visibility_changed(is_visible: bool)
+signal fog_of_war_changed(is_on: bool)
 
 var show_health_above_enemies: bool = false
 var show_health_above_player: bool = false
+# darkness + player light (PlayerVision) and enemies fading out behind walls (Entity.UpdateVisibility)
+var fog_of_war: bool = true
 
 func _ready() -> void:
 	Load()
@@ -26,6 +29,10 @@ func TogglePlayerBars(is_on: bool) -> void:
 func ToggleEnemyBars(is_on: bool) -> void:
 	show_health_above_enemies = is_on
 	enemy_additional_healthbar_visibility_changed.emit(is_on)
+
+func ToggleFogOfWar(is_on: bool) -> void:
+	fog_of_war = is_on
+	fog_of_war_changed.emit(is_on)
 
 func GetVolume(bus: StringName) -> float:
 	var index = AudioServer.get_bus_index(bus)
@@ -46,6 +53,7 @@ func Save() -> void:
 	var cfg = ConfigFile.new()
 	for bus in DEFAULT_VOLUMES:
 		cfg.set_value("volume", bus, GetVolume(bus))
+	cfg.set_value("gameplay", "fog_of_war", fog_of_war)
 	cfg.save(SAVE_PATH)
 
 func Load() -> void:
@@ -53,3 +61,4 @@ func Load() -> void:
 	cfg.load(SAVE_PATH) # no save yet = every get_value falls back to the default
 	for bus in DEFAULT_VOLUMES:
 		SetVolume(bus, cfg.get_value("volume", bus, DEFAULT_VOLUMES[bus]))
+	fog_of_war = cfg.get_value("gameplay", "fog_of_war", true)

@@ -16,8 +16,7 @@ const KINDLING_SPEED: float = 1.15
 const CHILL_AURA_RADIUS: float = 70.0
 const CHILL_AURA_INTERVAL: float = 0.5
 const CHILL_AURA_MAX_STACKS: int = 2
-# fog of war (experimental): enemies behind walls fade out, unless always_visible
-static var fog_of_war: bool = true
+# fog of war (experimental, Settings.fog_of_war): enemies behind walls fade out, unless always_visible
 const VISION_CHECK_INTERVAL: float = 0.1
 const VISION_FADE_SPEED: float = 6.0 # alpha per second
 const VISION_EDGE_SHARE: float = 0.6 # side rays at this share of the body radius, so corners don't flicker
@@ -175,7 +174,7 @@ func _physics_process(delta: float) -> void:
 
 # only alpha: RiseAgain tints the rgb of modulate
 func UpdateVisibility(delta: float) -> void:
-	if not fog_of_war or always_visible:
+	if not Settings.fog_of_war or always_visible:
 		visible_to_player = true
 	else:
 		vision_timer -= delta
@@ -314,6 +313,7 @@ func KeepInsideRoom() -> void:
 		global_position = last_safe_position
 	else:
 		global_position = global_position.clamp(room_bounds[0].position, room_bounds[0].end)
+	reset_physics_interpolation()
 
 func CanShoot() -> bool:
 	return spell_caster != null and spell_caster.IsReady() and not is_dead and spawn_shoot_timer <= 0 and not IsFrozen()
