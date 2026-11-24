@@ -28,6 +28,7 @@ func SpawnBoss():
 	get_parent().add_child(boss)
 	boss.global_position = boss_spawn.global_position
 	boss.is_boss = true
+	boss.always_visible = true
 	Signals.boss_spawned.emit(boss.health.maximum)
 
 func _on_player_damaged(_info: DamageInfo) -> void:

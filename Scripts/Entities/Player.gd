@@ -65,6 +65,7 @@ func _ready() -> void:
 	health.overhealed.connect(_on_overhealed)
 	stats.stat_changed.connect(_on_stat_changed)
 	CreateDashArea()
+	add_child(PlayerVision.new()) # fog of war light + darkness
 	RunState.half_added.connect(ApplyHalf)
 	RunState.half_removed.connect(RemoveHalf)
 	Signals.player_health_changed.connect(_on_player_health_changed)

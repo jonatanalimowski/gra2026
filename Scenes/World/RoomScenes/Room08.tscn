@@ -5,7 +5,7 @@
 [ext_resource type="Resource" uid="uid://c81huffnso3ky" path="res://Data/EnemyPools/Jumpers.tres" id="3_vrg8c"]
 [ext_resource type="Resource" uid="uid://ddsxxjedvjq4a" path="res://Data/EnemyPools/JumpersSwarmers.tres" id="4_dr5vg"]
 [ext_resource type="Resource" uid="uid://dl3isvohrrb8a" path="res://Data/EnemyPools/Mixed.tres" id="5_k80w4"]
-[ext_resource type="TileSet" uid="uid://d0cbsuev84gt8" path="res://Scripts/Resources/TileMap.tres" id="6_mhqe4"]
+[ext_resource type="TileSet" uid="uid://d3am6mkmxoiye" path="res://Scripts/Resources/TileMap.tres" id="6_mhqe4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yvok5"]
 size = Vector2(446, 142)
