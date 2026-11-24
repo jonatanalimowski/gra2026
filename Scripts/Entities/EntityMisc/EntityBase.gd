@@ -16,6 +16,12 @@ const KINDLING_SPEED: float = 1.15
 const CHILL_AURA_RADIUS: float = 70.0
 const CHILL_AURA_INTERVAL: float = 0.5
 const CHILL_AURA_MAX_STACKS: int = 2
+# fog of war (experimental): enemies behind walls fade out, unless always_visible
+static var fog_of_war: bool = true
+const VISION_CHECK_INTERVAL: float = 0.1
+const VISION_FADE_SPEED: float = 6.0 # alpha per second
+const VISION_EDGE_SHARE: float = 0.6 # side rays at this share of the body radius, so corners don't flicker
+const VISION_MASK: int = 2 # walls only (BaseProjectile.LAYER_WORLD)
 
 signal died(entity: Entity)
 # a brain spawned another enemy (SpawnMinion), the room counts it too
@@ -50,6 +56,8 @@ signal landed
 @export var spawn_shoot_delay: float = 1.0
 # elite version: rolled by EnemyRoom, set before add_child so _ready applies it. empty = DEFAULT_ELITE
 @export var elite_data: EliteData
+# ignores fog of war, seen through walls (BossRoom sets it on every boss)
+@export var always_visible: bool = false
 
 
 var is_elite: bool = false
@@ -87,6 +95,8 @@ var kindling_mod: StatModifier
 var chill_aura_timer: float = 0.0
 var spawn_shoot_timer: float = 0.0
 var last_hit: DamageInfo
+var vision_timer: float = randf() * VISION_CHECK_INTERVAL # staggered so enemies don't all check on one frame
+var visible_to_player: bool = true
 var telegraph_mark: TelegraphMark
 var status_visuals: StatusVisuals
 var status_icon_bar: StatusIconBar
@@ -161,6 +171,36 @@ func _physics_process(delta: float) -> void:
 		HandleContactDamage(delta)
 	if is_elite:
 		HandleChillAura(delta)
+	UpdateVisibility(delta)
+
+# only alpha: RiseAgain tints the rgb of modulate
+func UpdateVisibility(delta: float) -> void:
+	if not fog_of_war or always_visible:
+		visible_to_player = true
+	else:
+		vision_timer -= delta
+		if vision_timer <= 0.0:
+			vision_timer = VISION_CHECK_INTERVAL
+			visible_to_player = IsVisibleToPlayer()
+	var target_alpha := 1.0 if visible_to_player else 0.0
+	modulate.a = move_toward(modulate.a, target_alpha, VISION_FADE_SPEED * delta)
+
+# visible if any of 3 rays (center + both sides of the body) reaches us without hitting a wall
+func IsVisibleToPlayer() -> bool:
+	var p = NodeReferences.player
+	if not is_instance_valid(p):
+		return true
+	var from: Vector2 = p.global_position
+	var to_us := global_position - from
+	if to_us.length_squared() < 1.0:
+		return true
+	var side := to_us.normalized().orthogonal() * GetBodyRadius(self) * VISION_EDGE_SHARE
+	var space_state = get_world_2d().direct_space_state
+	for offset in [Vector2.ZERO, side, -side]:
+		var query = PhysicsRayQueryParameters2D.create(from, global_position + offset, VISION_MASK)
+		if space_state.intersect_ray(query).is_empty():
+			return true
+	return false
 
 func HandleChillAura(delta: float) -> void:
 	chill_aura_timer -= delta
