@@ -11,6 +11,7 @@
 script = ExtResource("2_r")
 display_name = "Clotting"
 description = "Healing orbs heal 3 more."
+requires_schools_status_effect = true
 flags = Array[StringName]([&"clotting"])
 
 [resource]

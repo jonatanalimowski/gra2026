@@ -135,6 +135,20 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_u7ntk")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_4hjn4")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_dpr6s")
 
+[node name="FogOfWarRow" type="HBoxContainer" parent="Root/NinePatchRect/ScrollContainer/VBoxContainer/Gameplay"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Root/NinePatchRect/ScrollContainer/VBoxContainer/Gameplay/FogOfWarRow"]
+layout_mode = 2
+text = "Fog of war"
+
+[node name="FogOfWarToggle" type="CheckButton" parent="Root/NinePatchRect/ScrollContainer/VBoxContainer/Gameplay/FogOfWarRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_u7ntk")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_sjv1y")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_f7e8w")
+
 [node name="Divider" type="Label" parent="Root/NinePatchRect/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 

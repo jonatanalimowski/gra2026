@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://33vtsvg72ngb"]
+[gd_scene load_steps=7 format=3 uid="uid://33vtsvg72ngb"]
 
 [ext_resource type="Script" uid="uid://dmjx5kfmbp16o" path="res://Scripts/Worldgen/RunScene.gd" id="1_run"]
 [ext_resource type="PackedScene" uid="uid://c2ooxaoermteu" path="res://Scenes/Misc/Player.tscn" id="2_kln2b"]
 [ext_resource type="Script" uid="uid://bvn42en1efted" path="res://Scripts/Misc/game_camera.gd" id="4_pbw6q"]
 [ext_resource type="PackedScene" uid="uid://dtwdf4gml8oue" path="res://Scenes/UI/UI.tscn" id="4_rgh2o"]
 [ext_resource type="PackedScene" uid="uid://dd2dj60ofxu8y" path="res://Scenes/World/DungeonGenerator.tscn" id="7_jw32o"]
+[ext_resource type="Script" uid="uid://cabm35gi5p6pg" path="res://Scripts/Misc/pixel_viewport.gd" id="8_pixvp"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_run")
@@ -13,20 +14,19 @@ script = ExtResource("1_run")
 unique_name_in_owner = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-stretch = true
-stretch_shrink = 3
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 478.0
+offset_bottom = 268.0
+scale = Vector2(4, 4)
+script = ExtResource("8_pixvp")
 
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
 disable_3d = true
 handle_input_locally = false
 snap_2d_vertices_to_pixel = true
 canvas_item_default_texture_filter = 0
-size = Vector2i(640, 360)
+size = Vector2i(482, 272)
 render_target_update_mode = 4
 
 [node name="Node" parent="CanvasLayer/SubViewportContainer/SubViewport" instance=ExtResource("7_jw32o")]
@@ -36,10 +36,7 @@ z_index = -1
 position = Vector2(117, 66)
 
 [node name="Camera2D" type="Camera2D" parent="CanvasLayer/SubViewportContainer/SubViewport/Player"]
-zoom = Vector2(2, 2)
-process_callback = 0
-position_smoothing_enabled = true
-position_smoothing_speed = 20.0
+physics_interpolation_mode = 2
 script = ExtResource("4_pbw6q")
 
 [node name="Control" parent="CanvasLayer" instance=ExtResource("4_rgh2o")]

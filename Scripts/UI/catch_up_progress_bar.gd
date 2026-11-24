@@ -6,7 +6,7 @@ class_name catch_up_progress_bar
 
 @export var bar_texture_override: StyleBoxTexture
 
-var health_tween: Tween = null
+var tween: Tween = null
 
 func _ready() -> void:
 	if bar_texture_override:
@@ -29,28 +29,27 @@ func SetUp(max_val: float, val: float) -> void:
 	real_bar.value = val
 
 func UpdateValue(new_val: float, new_max: float = real_bar.max_value) -> void:
-	new_val = clamp(new_val, 0, real_bar.max_value)
-	
-	# max increase/decrease (+/- max hp)
 	if new_max != real_bar.max_value:
 		real_bar.max_value = new_max
 		catch_up_bar.max_value = new_max
-	
-	# value increase (heal)
-	if new_val > real_bar.value:
-		if health_tween and health_tween.is_running():
-			health_tween.kill()
-		real_bar.value = new_val
+	new_val = clamp(new_val, 0, new_max)
+
+	if is_equal_approx(new_val, real_bar.value):
+		return
+
+	real_bar.value = new_val
+
+	# gained
+	if catch_up_bar.value <= new_val:
+		if tween and tween.is_running():
+			tween.kill()
 		catch_up_bar.value = new_val
 		return
-	
-	# value decrease
-	real_bar.value = new_val
-	if health_tween and health_tween.is_running():
-		health_tween.kill()
-	
-	health_tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	health_tween.tween_interval(0.5)
-	health_tween.tween_property(catch_up_bar, "value", new_val, 0.5)\
-		.set_trans(Tween.TRANS_SINE)\
-		.set_ease(Tween.EASE_OUT)
+
+	# lost
+	if tween and tween.is_running():
+		tween.kill()
+	tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	tween.tween_interval(0.5)
+	tween.tween_property(catch_up_bar, "value", new_val, 0.5)\
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)

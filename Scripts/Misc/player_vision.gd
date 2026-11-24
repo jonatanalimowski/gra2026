@@ -3,16 +3,17 @@ class_name PlayerVision
 
 # fog of war look (experimental): the world is darkened by a CanvasModulate and the player carries
 # a shadow-casting light, so whatever walls hide stays dim. occluders live in TileMap.tres (occlusion layer 0)
-# off when Entity.fog_of_war is off. enemies hiding is separate (Entity.UpdateVisibility)
+# toggled live by Settings.fog_of_war (hiding this node turns off the CanvasModulate and the light).
+# enemies hiding is separate (Entity.UpdateVisibility)
 
 # how dark unseen areas get
-@export var ambient_color: Color = Color(0.567, 0.568, 0.691, 1.0)
+@export var ambient_color: Color = Color(0.577, 0.577, 0.577, 1.0)
 # radius of the lit circle in world pixels, fades out over the last edge_softness share
 @export var radius: float = 220.0
 @export var edge_softness: float = 0.3
-@export var light_color: Color = Color(1.0, 0.971, 0.914, 1.0)
+@export var light_color: Color = Color(1.0, 0.947, 0.842, 1.0)
 # blurs the shadow edges a bit, higher = softer
-@export var shadow_smooth: float = 1.25
+@export var shadow_smooth: float = 0
 
 const TEXTURE_SIZE: int = 256
 
@@ -20,8 +21,6 @@ var light: PointLight2D
 var darkness: CanvasModulate
 
 func _ready() -> void:
-	if not Entity.fog_of_war:
-		return
 	darkness = CanvasModulate.new()
 	darkness.color = ambient_color
 	add_child(darkness)
@@ -35,6 +34,11 @@ func _ready() -> void:
 	light.shadow_filter = Light2D.SHADOW_FILTER_PCF5
 	light.shadow_filter_smooth = shadow_smooth
 	add_child(light)
+	visible = Settings.fog_of_war
+	Settings.fog_of_war_changed.connect(_on_fog_of_war_changed)
+
+func _on_fog_of_war_changed(is_on: bool) -> void:
+	visible = is_on
 
 # radial white -> black, flat in the middle so the room around you is evenly lit
 func BuildLightTexture() -> GradientTexture2D:
