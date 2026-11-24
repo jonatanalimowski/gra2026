@@ -19,6 +19,12 @@ var hp_label: Label
 var mana_label: Label
 var player: Player
 var stats_visible: bool = false
+# boss bar phases (BossBrain): phase 1 shows the hp above the threshold, phase 2 the rest, refilled
+var boss_phase: int = 1
+var boss_threshold: float = 0.0 # 0 = no phases, plain bar
+var boss_hp: float = 0.0
+var boss_max_hp: float = 0.0
+var boss_refill_tween: Tween
 
 func _ready() -> void:
 	ConnectSignals()
@@ -49,6 +55,7 @@ func ConnectSignals() -> void:
 	Signals.boss_spawned.connect(_on_boss_spawned)
 	Signals.boss_health_changed.connect(UpdateBossHP)
 	Signals.boss_defeated.connect(_on_boss_deafeated)
+	Signals.boss_phase_changed.connect(_on_boss_phase_changed)
 	RunState.pact_added.connect(_on_pact_added)
 	RunState.curse_cleansed.connect(func(_curse): UpdatePacts())
 	RunState.attunement_reached.connect(_on_attunement_reached)
@@ -151,15 +158,44 @@ func UpdateMana(new_current: float, new_max: float) -> void:
 	UpdateHeavySlot()
 
 func UpdateBossHP(new_current, new_max):
-	boss_hp_bar.max_value = new_max
-	boss_hp_bar.value = new_current
-	boss_hp_text.text = str(new_current) + "/" + str(new_max)
+	boss_hp = new_current
+	boss_max_hp = new_max
+	RefreshBossBar()
 
 func _on_boss_spawned(hp_value):
 	boss_ui.visible = true
-	boss_hp_bar.max_value = hp_value
-	boss_hp_bar.value = hp_value
-	boss_hp_text.text = str(hp_value) + "/" + str(hp_value)
+	UpdateBossHP(hp_value, hp_value)
+
+# the bar only shows the current phase's slice of the hp
+func RefreshBossBar() -> void:
+	var split = boss_max_hp * boss_threshold
+	var bar_max = boss_max_hp
+	var bar_value = boss_hp
+	if boss_threshold > 0:
+		bar_max = boss_max_hp - split if boss_phase == 1 else split
+		bar_value = boss_hp - split if boss_phase == 1 else boss_hp
+	boss_hp_bar.max_value = max(bar_max, 1.0)
+	# the refill animation sets the value itself and syncs at the end
+	if not (boss_refill_tween and boss_refill_tween.is_running()):
+		boss_hp_bar.value = bar_value
+	boss_hp_text.text = "%d/%d" % [boss_hp, boss_max_hp]
+
+func _on_boss_phase_changed(phase: int, threshold: float) -> void:
+	boss_phase = phase
+	boss_threshold = threshold
+	if phase == 1:
+		boss_hp_bar.tint_progress = Color.WHITE
+		RefreshBossBar()
+		return
+	# phase 2: the bar sits empty for a beat, then refills in the enraged color
+	boss_hp_bar.value = 0
+	if boss_refill_tween:
+		boss_refill_tween.kill()
+	boss_refill_tween = create_tween()
+	boss_refill_tween.tween_interval(0.25)
+	boss_refill_tween.tween_property(boss_hp_bar, "value", boss_max_hp * threshold, 0.6).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	boss_refill_tween.finished.connect(RefreshBossBar)
+	RefreshBossBar()
 
 func _on_boss_deafeated():
 	boss_ui.visible = false

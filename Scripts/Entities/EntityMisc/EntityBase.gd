@@ -90,6 +90,9 @@ var hitstun_immunity_timer: float = 0.0
 var freeze_timer: float = 0.0
 var freeze_immunity_timer: float = 0.0
 var freeze_count: int = 0 # times frozen, Glacier's "first hit on a frozen enemy" checks it
+# boss phases (BossBrain): damage can't take hp below max * health_floor_ratio, invulnerable_timer > 0 ignores damage
+var health_floor_ratio: float = 0.0
+var invulnerable_timer: float = 0.0
 var kindling_mod: StatModifier
 var chill_aura_timer: float = 0.0
 var spawn_shoot_timer: float = 0.0
@@ -155,6 +158,7 @@ func _physics_process(delta: float) -> void:
 	hitstun_immunity_timer -= delta
 	freeze_timer -= delta
 	freeze_immunity_timer -= delta
+	invulnerable_timer -= delta
 	time_since_damaged += delta
 	if time_since_damaged > REGEN_DELAY and HasAffix(Affix.Kind.REGENERATING) and not is_dead:
 		health.Heal(health.maximum * REGEN_SHARE_PER_SECOND * delta, false)
@@ -337,11 +341,13 @@ func Stop():
 	sprite.play("idle")
 
 func TakeDamage(info: DamageInfo) -> void:
-	if is_dead:
+	if is_dead or invulnerable_timer > 0:
 		return
 
 	# Brittle etc. local copy, the same DamageInfo may be read again by on-hit effects
 	var amount = info.amount * stats.GetStat(&"damage_taken")
+	if health_floor_ratio > 0:
+		amount = min(amount, max(health.current - health.maximum * health_floor_ratio, 0.0))
 	# a real hit on a Shocked enemy discharges it (ticks and arcs don't)
 	var discharge = not info.is_periodic and not info.is_arc and status_holder.Has(SHOCK_STATUS)
 	# before Damage, a lethal hit calls Die() from inside it
@@ -452,6 +458,11 @@ func ShowTelegraphMark(duration: float) -> void:
 	telegraph_mark.position = Vector2(0, GetSpriteTop() - TELEGRAPH_MARK_MARGIN)
 	add_child(telegraph_mark)
 	telegraph_mark.Show(duration)
+
+# a windup got cancelled (boss enrage)
+func ClearTelegraphMark() -> void:
+	if is_instance_valid(telegraph_mark):
+		telegraph_mark.queue_free()
 
 # top of the visible pixels: frames differ in size per enemy and often have empty space above the art
 func GetSpriteTop() -> float:

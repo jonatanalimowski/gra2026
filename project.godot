@@ -38,7 +38,6 @@ window/size/viewport_height=1080
 window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/scale_mode="integer"
-window/vsync/vsync_mode=0
 mouse_cursor/custom_image="uid://cw0d6inynl1g2"
 
 [file_customization]

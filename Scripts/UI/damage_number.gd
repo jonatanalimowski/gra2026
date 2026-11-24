@@ -1,6 +1,11 @@
 extends Marker2D
 @onready var label = $Label
 
+# moved by tweens every frame, not in physics: interpolation would only lag it,
+# and it's positioned after add_child, so it'd streak in from the origin for a frame
+func _init() -> void:
+	physics_interpolation_mode = PHYSICS_INTERPOLATION_MODE_OFF
+
 # small = status tick: smaller, tinted, drifts less so it doesn't bury the hit numbers
 func display(value: int, target_position: Vector2, is_critical: bool = false, color: Color = Color.WHITE, small: bool = false):
 	label.text = str(value)

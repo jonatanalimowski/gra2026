@@ -23,6 +23,7 @@ corpse_scene = ExtResource("3_xqlde")
 damage_number_scene = ExtResource("4_g17nt")
 override_death_offset = true
 death_offset = Vector2(-32, -64)
+always_visible = true
 
 [node name="Area2D" type="Area2D" parent="."]
 

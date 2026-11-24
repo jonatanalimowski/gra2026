@@ -29,6 +29,7 @@ corpse_scene = ExtResource("3_sxp6b")
 damage_number_scene = ExtResource("4_vgsfc")
 override_death_offset = true
 death_offset = Vector2(-32, -64)
+always_visible = true
 
 [node name="Area2D" type="Area2D" parent="."]
 
@@ -54,9 +55,10 @@ rest_time = 3.5
 ring_waves = 10
 ring_wave_interval = 0.5
 ring_wave_interval_enraged = 1.7
-snipe_shots = 5
-snipe_shots_enraged = 40
-snipe_interval = 0.35
+spread_deg = 20.0
+snipe_shots = 10
+snipe_shots_enraged = 25
+snipe_interval_enraged = 0.075
 enraged_speed_multiplier = 0.7
 enrage_stat_modifiers = Array[ExtResource("7_uk14n")]([SubResource("Resource_nkync")])
 

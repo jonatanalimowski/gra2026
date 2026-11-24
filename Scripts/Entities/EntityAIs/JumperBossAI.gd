@@ -1,10 +1,10 @@
-extends Node
+extends BossBrain
 class_name JumperBossAI
 
 # hops at the player, every few hops a telegraphed super jump straight at them,
 # every so often stops to summon regular jumpers. below enrage_threshold hp it rests less,
-# jumps faster and super jumps more often. its minions die with it
-@onready var ParentEntity: Entity = get_parent()
+# jumps faster and super jumps more often. its minions die with it.
+# enraging (BossBrain) drops the current jump/telegraph and goes straight into a super jump
 @export_group("Jumping")
 @export var jump_duration: float = 0.5
 @export var rest_time: float = 0.5 # wait between actions
@@ -14,13 +14,11 @@ class_name JumperBossAI
 @export var super_jump_speed_multiplier: float = 2.5
 @export var super_telegraph_color: Color = Color(1, 0.65, 0)
 @export var super_telegraph_duration: float = 0.75
-@export_group("Enrage")
-@export_range(0.0, 1.0) var enrage_threshold: float = 0.5 # fraction of max hp
+@export_group("Enraged")
 @export var enraged_rest_multiplier: float = 0.4
 @export var enraged_speed_multiplier: float = 1.3
 @export var enraged_jumps_between_super: int = 1
 @export var enraged_telegraph_multiplier: float = 0.7
-@export var enrage_color: Color = Color(1, 0.3, 0.3)
 @export_group("Summoning")
 @export var minion_scene: PackedScene = preload("res://Scenes/Entities/FirstFloor/Jumper.tscn")
 @export var summon_count: int = 2
@@ -36,21 +34,16 @@ var state: State = State.REST
 var state_timer: float = 0.0
 var summon_timer: float = 0.0
 var jump_counter: int = 0
-var is_enraged: bool = false
 var minions: Array[Entity] = []
 
 func _ready() -> void:
-	# the entity's _ready runs after ours, health doesn't exist yet
-	ParentEntity.ready.connect(_on_parent_ready)
+	super()
 	ParentEntity.died.connect(_on_boss_died)
 	state_timer = rest_time
 	summon_timer = first_summon_delay
 
-func _on_parent_ready() -> void:
-	ParentEntity.health.changed.connect(_on_health_changed)
-
 func _process(delta: float) -> void:
-	if not ParentEntity or ParentEntity.is_dead or ParentEntity.IsStunned(): return
+	if IsBusy(): return
 
 	state_timer -= delta
 	summon_timer -= delta
@@ -139,13 +132,11 @@ func _on_boss_died(_boss: Entity) -> void:
 		if is_instance_valid(minion):
 			minion.Die()
 
-func _on_health_changed(current: float, maximum: float) -> void:
-	if is_enraged or current <= 0 or current > maximum * enrage_threshold:
-		return
-	is_enraged = true
-	GlobalMethods.FlashSprite(ParentEntity.sprite, 0.6, enrage_color)
-	# keep it tinted so the player can tell the phase changed
-	ParentEntity.sprite.self_modulate = enrage_color.lerp(Color.WHITE, 0.5)
+# whatever it was doing is dropped (BossBrain already stopped it), after the roar it super jumps
+func OnEnraged() -> void:
+	state = State.REST
+	state_timer = 0.0
+	jump_counter = GetJumpsBetweenSuper() # ChooseAction telegraphs a super jump next (or summons, if ready)
 
 func GetDirectionToPlayer() -> Vector2:
 	if not NodeReferences.player:

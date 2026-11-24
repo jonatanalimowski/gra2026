@@ -14,6 +14,7 @@ signal all_rooms_cleared
 signal boss_spawned(hp_value: int)
 signal boss_health_changed(new_current: int, new_max: int)
 signal boss_defeated
+signal boss_phase_changed(phase: int, threshold: float) # BossBrain: 1 on spawn, 2 on enrage, threshold = fraction of max hp
 signal player_damaged(info: DamageInfo)
 signal screen_shake(trauma: float) # 0-1, camera adds it up and decays it
 signal player_dash_started(position: Vector2, direction: Vector2)

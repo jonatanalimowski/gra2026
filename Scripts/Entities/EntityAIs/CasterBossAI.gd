@@ -1,11 +1,11 @@
-extends Node
+extends BossBrain
 class_name CasterBossAI
 
 # strafes around the player at a distance, then picks one of three attacks
 # (never the same twice in a row), telegraphs it with a colored flash and fires it in steps:
 # RING = bullet hell waves in every direction, SNIPE = fast aimed shots, BOMBS = explosions around the player.
-# below enrage_threshold hp everything is faster (rests, telegraphs, steps) and attacks get extra steps
-@onready var ParentEntity: Entity = get_parent()
+# below enrage_threshold hp everything is faster (rests, telegraphs, steps) and attacks get extra steps.
+# enraging (BossBrain) cancels the current telegraph/attack, it repositions briefly and starts fresh
 @export_group("Movement")
 @export var rest_time: float = 1.4 # repositioning between attacks
 @export var preferred_distance: float = 130.0
@@ -40,11 +40,10 @@ class_name CasterBossAI
 @export var bombs_telegraph_color: Color = Color(1, 0.85, 0.2)
 @export_group("Telegraph")
 @export var telegraph_duration: float = 0.7
-@export_group("Enrage")
-@export_range(0.0, 1.0) var enrage_threshold: float = 0.5 # fraction of max hp
+@export_group("Enraged")
 @export var enraged_speed_multiplier: float = 0.6 # on rest, telegraph and step intervals
 @export var enraged_extra_steps: int = 1 # +1 ring wave / snipe shot / explosion... per attack
-@export var enrage_color: Color = Color(1, 0.3, 0.3)
+@export var enraged_first_attack_delay: float = 0.3 # after the enrage transition
 @export var enrage_effects: Array[Effect] = []
 @export var enrage_stat_modifiers: Array[StatModifier] = []
 
@@ -57,18 +56,16 @@ var last_attack: int = -1
 var steps_left: int = 0
 var step_index: int = 0
 var strafe_direction: float = 1.0
-var is_enraged: bool = false
 var ring_caster: SpellCaster
 var snipe_caster: SpellCaster
 
 func _ready() -> void:
-	# the entity's _ready runs after ours, health/stats don't exist yet
-	ParentEntity.ready.connect(_on_parent_ready)
+	super()
 	strafe_direction = [-1.0, 1.0].pick_random()
 	state_timer = rest_time
 
-func _on_parent_ready() -> void:
-	ParentEntity.health.changed.connect(_on_health_changed)
+# the entity's _ready runs after ours, health/stats exist only now
+func OnBossReady() -> void:
 	ring_caster = SpellCaster.new(ring_spell, [])
 	snipe_caster = SpellCaster.new(snipe_spell, [])
 	# pact enemy modifiers (e.g. faster enemy shots) like Entity.ApplyRunHalf does for its own spell
@@ -84,7 +81,7 @@ func _on_parent_ready() -> void:
 				caster.stats.AddModifier(modifier, RunState)
 
 func _process(delta: float) -> void:
-	if not ParentEntity or ParentEntity.is_dead or ParentEntity.IsStunned(): return
+	if IsBusy(): return
 
 	state_timer -= delta
 	match state:
@@ -195,17 +192,14 @@ func SpawnExplosion() -> void:
 func GetSpeedMultiplier() -> float:
 	return enraged_speed_multiplier if is_enraged else 1.0
 
-func _on_health_changed(current: float, maximum: float) -> void:
-	if is_enraged or current <= 0 or current > maximum * enrage_threshold:
-		return
-	if is_enraged == false:
-		ApplyEnragedEffects()
-	is_enraged = true
-	GlobalMethods.FlashSprite(ParentEntity.sprite, 0.6, enrage_color)
-	# keep it tinted so the player can tell the phase changed
-	ParentEntity.sprite.self_modulate = enrage_color.lerp(Color.WHITE, 0.5)
+# drop the telegraph/attack in progress (bombs already placed still go off)
+func OnEnraged() -> void:
+	ApplyEnragedEffects()
+	steps_left = 0
+	state = State.REPOSITION
+	state_timer = enraged_first_attack_delay
 
-func ApplyEnragedEffects():
+func ApplyEnragedEffects() -> void:
 	for effect in enrage_effects:
 		ParentEntity.effects.append(effect)
 	
