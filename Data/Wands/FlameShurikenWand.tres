@@ -1,29 +1,10 @@
-[gd_resource type="Resource" script_class="WandData" load_steps=13 format=3 uid="uid://c8kiamrbrvn0g"]
+[gd_resource type="Resource" script_class="WandData" load_steps=7 format=3 uid="uid://c8kiamrbrvn0g"]
 
 [ext_resource type="Script" uid="uid://jt1r0vubh4cb" path="res://Scripts/Resources/Items/WandData.gd" id="1_wand"]
-[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="2_c07a3"]
 [ext_resource type="Script" uid="uid://bqwypd1uvt6ft" path="res://Scripts/Resources/Items/SpellData.gd" id="2_spell"]
 [ext_resource type="PackedScene" uid="uid://cpwe8wwql1nb4" path="res://Scenes/ProjectileScenes/ProjectileFlameShuriken.tscn" id="3_projectile"]
 [ext_resource type="Texture2D" uid="uid://bqfsopl255qmi" path="res://assets/items/Wands-original.png" id="4_tex"]
-[ext_resource type="Script" uid="uid://bqmfbqnscq3kp" path="res://Scripts/Resources/Items/RuneData.gd" id="5_ci2o6"]
-[ext_resource type="Script" uid="uid://cv6uto88actsr" path="res://Scripts/Combat/Effects/ProjectileEffects/ExplodingEffect.gd" id="6_exploding"]
-[ext_resource type="PackedScene" uid="uid://dhpf3x35g6lp7" path="res://Scenes/Combat/Explosion.tscn" id="7_explosion"]
-
-[sub_resource type="Resource" id="Resource_heavy_exploding"]
-script = ExtResource("6_exploding")
-chance = 1.0
-radius = 40.0
-explosion_scene = ExtResource("7_explosion")
-
-[sub_resource type="Resource" id="Resource_heavy_spell"]
-script = ExtResource("2_spell")
-projectile_scene = ExtResource("3_projectile")
-damage = 40.0
-cooldown = 1.0
-spread = 15.0
-projectile_speed = 0.8
-mana_cost = 100.0
-effects = Array[ExtResource("2_c07a3")]([SubResource("Resource_heavy_exploding")])
+[ext_resource type="Resource" path="res://Data/Spells/HasteSpell.tres" id="5_heavy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_icon"]
 atlas = ExtResource("4_tex")
@@ -39,11 +20,11 @@ crit_multiplier = 8.0
 [resource]
 script = ExtResource("1_wand")
 primary_spell = SubResource("Resource_primary_spell")
-heavy_spell = SubResource("Resource_heavy_spell")
+heavy_spell = ExtResource("5_heavy")
 school_affinity = 1
 id = &"flame_shuriken_wand"
 display_name = "Gamba Wand"
 description = "Primary spell: Low base damage projectiles, with huge crit multiplier, starts with 20% crit chance
 
-Secondary spell: Exploding shot"
+Secondary spell: Haste, cast twice as fast for 3s"
 icon = SubResource("AtlasTexture_icon")

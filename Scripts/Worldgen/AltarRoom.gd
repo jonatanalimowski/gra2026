@@ -16,6 +16,7 @@ const AFFINITY_WEIGHT = 1.5
 @onready var prompt: Label = %Prompt
 var offers: Array[AltarPact] = []
 var offers_rolled: bool = false
+var reroll_count: int = 0 # seeds each reroll, so Ctrl+R with the same seed rerolls the same way
 var is_used: bool = false
 var player_in_range: bool = false
 var bob_tween: Tween
@@ -33,14 +34,24 @@ func _ready() -> void:
 func GetOffers() -> Array[AltarPact]:
 	if not offers_rolled:
 		offers_rolled = true
-		var rng = RandomNumberGenerator.new()
-		rng.seed = hash([RunState.GetFloorSeed(), "altar", global_position])
-		# filtered here, not in RollOffers, so the F7 dev offer still shows every school
-		var pool: Array[AltarPact] = []
-		pool.assign(pact_pool.filter(func(p): return p and RunState.IsSchoolAllowed(p.GetSchool())))
-		offers = RollOffers(pool, RunState.GetPactOfferCount(offer_count), rng)
+		offers = _RollFromPool([])
 	# offers stay rolled, another altar may have used up a pact since
 	return offers.filter(RunState.CanTakePact)
+
+# filtered here, not in RollOffers, so the F7 dev offer still shows every school.
+# exclude = pacts to leave out (the ones a reroll replaces), ignored if nothing else is left
+func _RollFromPool(exclude: Array[AltarPact]) -> Array[AltarPact]:
+	var rng = RandomNumberGenerator.new()
+	rng.seed = hash([RunState.GetFloorSeed(), "altar", global_position, reroll_count])
+	var pool: Array[AltarPact] = []
+	pool.assign(pact_pool.filter(func(p): return p and RunState.IsSchoolAllowed(p.GetSchool())))
+	var fresh: Array[AltarPact] = []
+	fresh.assign(pool.filter(func(p): return p not in exclude))
+	var count = RunState.GetPactOfferCount(offer_count)
+	var result = RollOffers(fresh, count, rng)
+	if result.is_empty():
+		result = RollOffers(pool, count, rng)
+	return result
 
 # per offer: roll a rarity (PactRarity.CHANCES), then a weighted pick of that rarity without repeats,
 # skipping pacts at their stack limit (non-stacking = taken once) or too early for this floor.
@@ -118,7 +129,18 @@ func OpenOverlay() -> void:
 	var overlay = CHOICE_OVERLAY.instantiate()
 	NodeReferences.in_game_ui.add_child(overlay)
 	overlay.chosen.connect(_on_overlay_chosen)
+	overlay.rerolled.connect(_on_overlay_rerolled.bind(overlay))
 	overlay.Open("Altar of Pacts", GetOffers(), true)
+	overlay.SetRerolls(RunState.altar_rerolls_left)
+
+func _on_overlay_rerolled(overlay: ChoiceOverlay) -> void:
+	if RunState.altar_rerolls_left <= 0:
+		return
+	RunState.altar_rerolls_left -= 1
+	reroll_count += 1
+	offers = _RollFromPool(offers)
+	overlay.SetOptions(GetOffers())
+	overlay.SetRerolls(RunState.altar_rerolls_left)
 
 func _on_overlay_chosen(pact: ItemData) -> void:
 	if pact == null:

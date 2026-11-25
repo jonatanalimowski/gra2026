@@ -6,7 +6,7 @@ class_name NthHitCritEffect
 @export var crit_multiplier: float = 2.0
 
 func ModifyDamage(projectile: BaseProjectile, info: DamageInfo) -> void:
-	if not is_instance_valid(projectile.caster) or info.is_critical:
+	if not is_instance_valid(projectile.caster) or info.is_critical or not CritRules.CanForceCrit():
 		return
 	var key = StringName("crit_count_%d" % absi(get_instance_id()))
 	var hits: int = projectile.caster.get_meta(key, 0) + 1

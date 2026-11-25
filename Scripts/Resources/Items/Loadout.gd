@@ -6,9 +6,11 @@ class_name Loadout
 @export var scroll: ScrollData # empty = default dash
 @export var armor: EquipmentData
 @export var accessories: Array[EquipmentData] = []
+@export var keystones: Array[KeystoneData] = [] # picked on the loadout screen, up to SkillManager.GetKeystoneSlotCount()
 # filled by SkillManager.CollectRewards at run start, never saved or edited by hand
 @export var skill_mods: EquipmentData
 @export var extra_runes: Array[RuneData] = [] # skill-tree runes on top of the wand's own
+@export var altar_rerolls: int = 0 # copied into RunState.altar_rerolls_left by Begin
 @export var schools: Array[School.Kind] = [] # filled by CollectRewards: schools whose pacts can be offered
 
 func GetEquipment() -> Array[EquipmentData]:

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="SkillData" load_steps=8 format=3 uid="uid://cvgp6dfms5oy4"]
+
+[ext_resource type="Script" uid="uid://d3hd0ip5ilp0e" path="res://Scripts/Resources/Skills/SkillData.gd" id="1_44761"]
+[ext_resource type="Texture2D" uid="uid://d2g2s56ml6l73" path="res://assets/packs/vfx/FreeGameAssets_Magic/free-pixel-magic-sprite-effects-pack/2 Icons/Icon_03.png" id="1_mwcie"]
+[ext_resource type="Resource" uid="uid://ckmdtscpuv6uf" path="res://Data/Skills/AdditionalAltarRollSkill.tres" id="2_mwcie"]
+[ext_resource type="Script" uid="uid://8ebl6v7mcb1v" path="res://Scripts/Resources/Skills/SkillReward.gd" id="2_nlfjt"]
+[ext_resource type="Script" path="res://Scripts/Resources/Skills/KeystoneUnlockReward.gd" id="3_unlock"]
+[ext_resource type="Resource" path="res://Data/Keystones/SuddenStrikeKeystone.tres" id="4_keystone"]
+
+[sub_resource type="Resource" id="Resource_unlock"]
+script = ExtResource("3_unlock")
+keystone = ExtResource("4_keystone")
+
+[resource]
+script = ExtResource("1_44761")
+cost = 2
+prerequisites = Array[ExtResource("1_44761")]([ExtResource("2_mwcie")])
+rewards = Array[ExtResource("2_nlfjt")]([SubResource("Resource_unlock")])
+id = &"keystone_sudden_strike_skill"
+display_name = "Sudden Strike"
+description = "Your first hit against an enemy always crits, but you can't crit after that. Your critical strike chance converts to crit damage."
+icon = ExtResource("1_mwcie")
+metadata/_custom_type_script = "uid://d3hd0ip5ilp0e"

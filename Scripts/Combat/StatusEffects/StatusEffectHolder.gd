@@ -40,7 +40,7 @@ func Apply(effect: StatusEffect, source: Node2D, strength: float = 1.0, duration
 func Remove(status: ActiveStatusEffect) -> void:
 	if status not in active:
 		return
-	target.stats.RemoveModifiersFrom(status)
+	RemoveAllModifiers(status)
 	active.erase(status)
 	status_removed.emit(status)
 
@@ -49,12 +49,33 @@ func RemoveEffect(effect: StatusEffect) -> void:
 	if status:
 		Remove(status)
 
-# the status is the source, so a stack change can take back exactly its old modifiers
+# the status is the source, so a stack change can take back exactly its old modifiers.
+# a stat the target doesn't have goes to its wand casters instead (Haste: cooldown), like pact spell_modifiers
 func ApplyModifiers(status: ActiveStatusEffect) -> void:
-	target.stats.RemoveModifiersFrom(status)
+	RemoveAllModifiers(status)
+	var casters = GetCasterStats()
 	for modifier in status.BuildModifiers():
 		if target.stats.HasStat(modifier.stat):
 			target.stats.AddModifier(modifier, status)
+			continue
+		for caster_stats in casters:
+			if caster_stats.HasStat(modifier.stat):
+				caster_stats.AddModifier(modifier, status)
+
+func RemoveAllModifiers(status: ActiveStatusEffect) -> void:
+	target.stats.RemoveModifiersFrom(status)
+	for caster_stats in GetCasterStats():
+		caster_stats.RemoveModifiersFrom(status)
+
+# the player's primary + heavy StatBlocks, empty for enemies (their spells don't take statuses yet)
+func GetCasterStats() -> Array[StatBlock]:
+	var result: Array[StatBlock] = []
+	var wand = target.get("wand")
+	if wand == null:
+		return result
+	for caster in wand.GetCasters():
+		result.append(caster.stats)
+	return result
 
 # 0 = full HP, 0.7 = 70% missing (Bleed, Frenzy)
 static func GetPlayerMissingHealth() -> float:

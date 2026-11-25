@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="SkillData" load_steps=7 format=3 uid="uid://ckmdtscpuv6uf"]
+
+[ext_resource type="Script" uid="uid://d3hd0ip5ilp0e" path="res://Scripts/Resources/Skills/SkillData.gd" id="1_gclhx"]
+[ext_resource type="Texture2D" uid="uid://d3ldgomg4a3xx" path="res://assets/packs/vfx/FreeGameAssets_Magic/free-pixel-magic-sprite-effects-pack/2 Icons/Icon_08.png" id="1_ldce2"]
+[ext_resource type="Resource" uid="uid://k7qkh1x4q3y8" path="res://Data/Skills/AdditionalHealthSkill.tres" id="2_6j4st"]
+[ext_resource type="Script" uid="uid://8ebl6v7mcb1v" path="res://Scripts/Resources/Skills/SkillReward.gd" id="2_a2gup"]
+[ext_resource type="Script" path="res://Scripts/Resources/Skills/AltarRerollReward.gd" id="3_reroll"]
+
+[sub_resource type="Resource" id="Reward_reroll"]
+script = ExtResource("3_reroll")
+
+[resource]
+script = ExtResource("1_gclhx")
+prerequisites = Array[ExtResource("1_gclhx")]([ExtResource("2_6j4st")])
+rewards = Array[ExtResource("2_a2gup")]([SubResource("Reward_reroll")])
+id = &"altar_reroll_skill"
+display_name = "Altar Reroll"
+description = "Reroll the pacts offered at an altar once per altar."
+icon = ExtResource("1_ldce2")
+metadata/_custom_type_script = "uid://d3hd0ip5ilp0e"

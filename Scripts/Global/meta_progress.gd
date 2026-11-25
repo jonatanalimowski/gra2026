@@ -15,6 +15,7 @@ var unlocked_ids: Dictionary = {} # StringName skill id -> true
 var runs_started: int = 0
 var last_schools: Array[String] = [] # School ids picked in the last loadout
 var last_wand: String = "" # WandData id picked in the last loadout
+var last_keystones: Array[String] = [] # KeystoneData ids picked in the last loadout
 
 signal player_leveled_up
 
@@ -36,6 +37,7 @@ func ResetSaved() -> void:
 	unlocked_ids.clear()
 	last_schools.clear()
 	last_wand = ""
+	last_keystones.clear()
 	Save()
 	player_leveled_up.emit()
 	Signals.meta_progress_changed.emit()
@@ -68,6 +70,7 @@ func Save() -> void:
 	cfg.set_value("skills", "unlocked", ids)
 	cfg.set_value("loadout", "schools", last_schools)
 	cfg.set_value("loadout", "wand", last_wand)
+	cfg.set_value("loadout", "keystones", last_keystones)
 	cfg.save(SAVE_PATH)
 
 func Load() -> void:
@@ -81,6 +84,7 @@ func Load() -> void:
 	runs_started = cfg.get_value("player_data", "runs", runs_started)
 	last_schools.assign(cfg.get_value("loadout", "schools", []))
 	last_wand = cfg.get_value("loadout", "wand", "")
+	last_keystones.assign(cfg.get_value("loadout", "keystones", []))
 
 	unlocked_ids.clear()
 	for id in cfg.get_value("skills", "unlocked", []):
@@ -98,7 +102,8 @@ func AddAltarOfferBonus(amount: int = 1) -> void:
 	Save()
 
 # called on every loadout pick, so leaving the screen still remembers it
-func SetLastLoadout(wand_id: String, school_ids: Array) -> void:
+func SetLastLoadout(wand_id: String, school_ids: Array, keystone_ids: Array = []) -> void:
 	last_wand = wand_id
 	last_schools.assign(school_ids)
+	last_keystones.assign(keystone_ids)
 	Save()

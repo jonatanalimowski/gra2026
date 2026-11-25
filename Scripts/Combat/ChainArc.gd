@@ -43,7 +43,7 @@ static func Discharge(from: Entity, hit_amount: float) -> void:
 			crit = true
 		elif RunState.HasFlag(&"overload") and player and player.wand and player.wand.primary:
 			crit = randf() < player.wand.primary.stats.GetStat(&"crit_chance")
-		if crit:
+		if crit and CritRules.CanForceCrit():
 			info.is_critical = true
 			info.amount *= player.wand.primary.stats.GetStat(&"crit_multiplier") if player and player.wand and player.wand.primary else 2.0
 		target.TakeDamage(info)

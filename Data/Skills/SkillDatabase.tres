@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="SkillDatabase" load_steps=9 format=3 uid="uid://p1uq6xvcw4gb"]
+[gd_resource type="Resource" script_class="SkillDatabase" load_steps=11 format=3 uid="uid://p1uq6xvcw4gb"]
 
 [ext_resource type="Script" uid="uid://nrx3jx5lcxc6" path="res://Scripts/Resources/Skills/SkillDatabase.gd" id="1_db"]
 [ext_resource type="Script" uid="uid://d3hd0ip5ilp0e" path="res://Scripts/Resources/Skills/SkillData.gd" id="2_sd"]
@@ -8,7 +8,9 @@
 [ext_resource type="Resource" uid="uid://xdnhmrtn8xki" path="res://Data/Skills/FrostSchoolSkill.tres" id="6_frost"]
 [ext_resource type="Resource" uid="uid://ck70n1r4ka230" path="res://Data/Skills/ThunderSchoolSkill.tres" id="7_storm"]
 [ext_resource type="Resource" uid="uid://bb255sfjjd2cd" path="res://Data/Skills/BloodSchoolSkill.tres" id="8_blood"]
+[ext_resource type="Resource" uid="uid://ckmdtscpuv6uf" path="res://Data/Skills/AdditionalAltarRollSkill.tres" id="9_reroll"]
+[ext_resource type="Resource" uid="uid://cvgp6dfms5oy4" path="res://Data/Skills/KeystoneSuddenStrikeSkill.tres" id="10_sudden"]
 
 [resource]
 script = ExtResource("1_db")
-skills = Array[ExtResource("2_sd")]([ExtResource("3_hp"), ExtResource("4_ric"), ExtResource("5_ember"), ExtResource("6_frost"), ExtResource("7_storm"), ExtResource("8_blood")])
+skills = Array[ExtResource("2_sd")]([ExtResource("3_hp"), ExtResource("4_ric"), ExtResource("5_ember"), ExtResource("6_frost"), ExtResource("7_storm"), ExtResource("8_blood"), ExtResource("9_reroll"), ExtResource("10_sudden")])

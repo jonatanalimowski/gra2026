@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="KeystoneData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Resources/Items/KeystoneData.gd" id="1_key"]
+[ext_resource type="Script" uid="uid://w4lw1y0qrdbf" path="res://Scripts/Altars/PactHalf.gd" id="2_half"]
+[ext_resource type="Texture2D" uid="uid://d2g2s56ml6l73" path="res://assets/packs/vfx/FreeGameAssets_Magic/free-pixel-magic-sprite-effects-pack/2 Icons/Icon_03.png" id="3_icon"]
+
+[sub_resource type="Resource" id="Resource_blessing"]
+script = ExtResource("2_half")
+display_name = "Sudden Strike"
+description = "Your first hit on each enemy always crits. You can't crit otherwise. Crit chance adds crit damage instead."
+flags = Array[StringName]([&"first_strike"])
+
+[resource]
+script = ExtResource("1_key")
+blessing = SubResource("Resource_blessing")
+id = &"keystone_sudden_strike"
+display_name = "Sudden Strike"
+description = "Your first hit on each enemy always crits, but you can't crit after that. Every 1% crit chance adds +0.02x crit damage instead."
+icon = ExtResource("3_icon")

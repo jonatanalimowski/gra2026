@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SelfBuffSpell" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Resources/Items/SelfBuffSpell.gd" id="1_spell"]
+[ext_resource type="Resource" path="res://Data/Statuses/Haste.tres" id="2_status"]
+
+[resource]
+script = ExtResource("1_spell")
+status = ExtResource("2_status")
+damage = 0.0
+cooldown = 3.0
+spread = 0.0
+mana_cost = 50.0

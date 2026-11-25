@@ -23,9 +23,7 @@ func Cast(caster: Node2D, stats: StatBlock, _direction: Vector2, _spawn_pos: Vec
 		info.element = &"frost"
 		info.knockback = offset.normalized() * stats.GetStat(&"knockback")
 		info.target = body
-		if randf() < stats.GetStat(&"crit_chance"):
-			info.is_critical = true
-			info.amount *= stats.GetStat(&"crit_multiplier")
+		CritRules.ApplyHitCrit(info, body, stats.GetStat(&"crit_chance"), stats.GetStat(&"crit_multiplier"), group == "enemy")
 		body.TakeDamage(info)
 		if status and body.has_method("ApplyStatus"):
 			body.ApplyStatus(status, caster, 1.0, 1.0, status_stacks)

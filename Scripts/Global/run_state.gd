@@ -43,6 +43,7 @@ const GLYPH_POINTS: int = 1
 
 var glyphs: Array[GlyphData] = []
 var glyph_pity: float = 0.0
+var altar_rerolls_left: int = 0 # from skill-tree AltarRerollRewards, shared by every altar of the run
 signal glyph_added(glyph: GlyphData)
 
 var duos: Array[DuoData] = []
@@ -399,6 +400,12 @@ func Begin(new_loadout: Loadout, seed_value: int = 0) -> void:
 	evolution = null
 	deepened_pacts.clear()
 	omens.clear()
+	altar_rerolls_left = loadout.altar_rerolls if loadout else 0
+	# keystones are curse-free halves for the whole run (the player applies halves in ApplyLoadout)
+	if loadout:
+		for keystone in loadout.keystones:
+			if keystone and keystone.blessing:
+				AddHalf(keystone.blessing)
 	is_run_active = true
 	MetaProgress.runs_started += 1
 

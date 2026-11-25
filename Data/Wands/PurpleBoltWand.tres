@@ -1,18 +1,10 @@
-[gd_resource type="Resource" script_class="WandData" load_steps=10 format=3 uid="uid://betivdmm3g1es"]
+[gd_resource type="Resource" script_class="WandData" load_steps=7 format=3 uid="uid://betivdmm3g1es"]
 
 [ext_resource type="Script" uid="uid://jt1r0vubh4cb" path="res://Scripts/Resources/Items/WandData.gd" id="1_wand"]
-[ext_resource type="Script" uid="uid://bbx5tslr6o0ho" path="res://Scripts/Combat/Effects/ProjectileEffects/Effect.gd" id="2_cvitr"]
 [ext_resource type="Script" uid="uid://bqwypd1uvt6ft" path="res://Scripts/Resources/Items/SpellData.gd" id="2_spell"]
 [ext_resource type="PackedScene" uid="uid://nx2msofl3li3" path="res://Scenes/ProjectileScenes/ProjectilePurpleBolt.tscn" id="3_projectile"]
 [ext_resource type="Texture2D" uid="uid://cckenj4w3la12" path="res://assets/items/wands_alternative.png" id="4_tex"]
-[ext_resource type="Script" uid="uid://bqmfbqnscq3kp" path="res://Scripts/Resources/Items/RuneData.gd" id="5_3tu32"]
-
-[sub_resource type="Resource" id="Resource_4s28o"]
-script = ExtResource("2_spell")
-projectile_scene = ExtResource("3_projectile")
-damage = 50.0
-mana_cost = 100.0
-metadata/_custom_type_script = "uid://bqwypd1uvt6ft"
+[ext_resource type="Resource" path="res://Data/Spells/HasteSpell.tres" id="5_heavy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_icon"]
 atlas = ExtResource("4_tex")
@@ -29,11 +21,11 @@ spread = 25.0
 [resource]
 script = ExtResource("1_wand")
 primary_spell = SubResource("Resource_primary_spell")
-heavy_spell = SubResource("Resource_4s28o")
+heavy_spell = ExtResource("5_heavy")
 school_affinity = 3
 id = &"purple_bolt_wand"
 display_name = "Split bolt Wand"
 description = "Primary spell: Shoots 2 projectiles at a low cooldown.
 
-Secondary spell: Shoots a wall bouncing projectile with piercing effect"
+Secondary spell: Haste, cast twice as fast for 3s"
 icon = SubResource("AtlasTexture_icon")

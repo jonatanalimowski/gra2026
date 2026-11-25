@@ -26,7 +26,6 @@ const SCHOOL_SLOT_SIZE = Vector2(36, 36)
 @onready var back_button: Button = %BackButton
 
 var loadout := Loadout.new()
-var keystone: ItemData
 var active_category: Category = Category.WAND
 var slots_by_category: Dictionary = {} # Category -> Array of ItemSlotButton
 var unlocked_schools: Array[School.Kind] = []
@@ -37,7 +36,7 @@ func _ready() -> void:
 	unlocked_schools = SkillManager.GetUnlockedSchools()
 	slots_by_category = {
 		Category.WAND: [wand_slot],
-		Category.KEYSTONE: [keystone_slot],
+		Category.KEYSTONE: BuildKeystoneSlots(),
 		Category.SCHOOL: BuildSchoolSlots(),
 	}
 	for category in slots_by_category:
@@ -54,6 +53,7 @@ func _ready() -> void:
 
 	loadout.wand = GetStartingWand()
 	loadout.schools.assign(GetStartingSchools())
+	loadout.keystones.assign(GetStartingKeystones())
 	RefreshSlots()
 	SelectCategory(Category.WAND)
 
@@ -71,6 +71,23 @@ func BuildSchoolSlots() -> Array:
 		school_slots_box.add_child(slot)
 		slots.append(slot)
 	schools_hint.visible = count == 0
+	return slots
+
+# the scene's KeystoneSlot is the first one. more slots (KeystoneSlotReward) go in a row next to it
+func BuildKeystoneSlots() -> Array:
+	var slots := [keystone_slot]
+	var count := SkillManager.GetKeystoneSlotCount()
+	if count <= 1:
+		return slots
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	keystone_slot.get_parent().add_child(row)
+	keystone_slot.reparent(row)
+	for i in count - 1:
+		var slot: ItemSlotButton = SLOT_SCENE.instantiate()
+		slot.slot_size = keystone_slot.slot_size
+		row.add_child(slot)
+		slots.append(slot)
 	return slots
 
 # last picked wand if it's still unlocked, else the first one
@@ -96,6 +113,15 @@ func GetStartingSchools() -> Array[School.Kind]:
 				schools.append(kind)
 	return schools
 
+# last picked keystones that are still unlocked, up to the slot count. none picked = empty slots
+func GetStartingKeystones() -> Array[KeystoneData]:
+	var keystones: Array[KeystoneData] = []
+	var max_count := SkillManager.GetKeystoneSlotCount()
+	for keystone: KeystoneData in GetUnlocked(Category.KEYSTONE):
+		if String(keystone.id) in MetaProgress.last_keystones and keystones.size() < max_count:
+			keystones.append(keystone)
+	return keystones
+
 # a save with fewer schools unlocked than the minimum can still start (Form pacts fill in)
 func GetMinSchools() -> int:
 	return mini(MIN_SCHOOLS, unlocked_schools.size())
@@ -109,13 +135,16 @@ func GetUnlocked(category: Category) -> Array:
 		Category.WAND:
 			return InventoryManager.GetWands() # TODO: only owned wands once MetaProgress tracks them
 		Category.KEYSTONE:
-			return [] # TODO: Once keystones are made
+			return SkillManager.GetUnlockedKeystones()
 		Category.SCHOOL:
 			return InventoryManager.GetSchools().filter(func(s): return s.kind in unlocked_schools)
 	return []
 
 func GetLocked(category: Category) -> Array:
 	match category:
+		Category.KEYSTONE:
+			var unlocked := SkillManager.GetUnlockedKeystones()
+			return SkillManager.GetAllKeystones().filter(func(k): return k not in unlocked)
 		Category.SCHOOL:
 			return InventoryManager.GetSchools().filter(func(s): return s.kind not in unlocked_schools)
 	return [] # TODO: the rest of the database minus GetUnlocked, drawn as silhouettes
@@ -126,7 +155,7 @@ func GetEquipped(category: Category) -> Array:
 		Category.WAND:
 			return [loadout.wand] if loadout.wand else []
 		Category.KEYSTONE:
-			return [keystone] if keystone else []
+			return loadout.keystones.duplicate()
 		Category.SCHOOL:
 			return loadout.schools.map(InventoryManager.GetSchoolData).filter(func(s): return s != null)
 	return []
@@ -136,7 +165,7 @@ func Equip(category: Category, item: ItemData) -> void:
 		Category.WAND:
 			loadout.wand = item as WandData
 		Category.KEYSTONE:
-			keystone = item
+			ToggleKeystone(item as KeystoneData)
 		Category.SCHOOL:
 			ToggleSchool((item as SchoolData).kind)
 
@@ -148,6 +177,15 @@ func ToggleSchool(kind: School.Kind) -> void:
 	if loadout.schools.size() >= MAX_SCHOOLS:
 		loadout.schools.remove_at(0)
 	loadout.schools.append(kind)
+
+# same rules as schools: a taken one drops, a new one while full replaces the oldest
+func ToggleKeystone(keystone: KeystoneData) -> void:
+	if keystone in loadout.keystones:
+		loadout.keystones.erase(keystone)
+		return
+	if loadout.keystones.size() >= SkillManager.GetKeystoneSlotCount():
+		loadout.keystones.remove_at(0)
+	loadout.keystones.append(keystone)
 
 # --- flow ---
 
@@ -207,10 +245,10 @@ func _on_item_picked(item: ItemData) -> void:
 	ShowDetails(item)
 	SaveLoadout()
 
-# TODO: keystone too, once they exist
 func SaveLoadout() -> void:
 	var wand_id := String(loadout.wand.id) if loadout.wand else ""
-	MetaProgress.SetLastLoadout(wand_id, loadout.schools.map(School.GetId))
+	var keystone_ids := loadout.keystones.map(func(k): return String(k.id))
+	MetaProgress.SetLastLoadout(wand_id, loadout.schools.map(School.GetId), keystone_ids)
 
 func _on_stats_pressed() -> void:
 	if not shown_item:

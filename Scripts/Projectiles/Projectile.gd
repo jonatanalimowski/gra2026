@@ -92,9 +92,7 @@ func HandleCollision(collision: KinematicCollision2D) -> void:
 		info.knockback = direction * stats.knockback_force
 		info.target = body
 		# crit before the effects, so they see the final hit (vampirism heals off it)
-		if randf() < crit_chance:
-			info.is_critical = true
-			info.amount *= crit_multiplier
+		CritRules.ApplyHitCrit(info, body, crit_chance, crit_multiplier, team == Team.PLAYER)
 		for effect in effects:
 			effect.ModifyDamage(self, info)
 		body.TakeDamage(info)

@@ -55,9 +55,19 @@ layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="LeaveButton" type="Button" parent="Root/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Root/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="LeaveButton" type="Button" parent="Root/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 focus_mode = 0
 text = "Leave"
+
+[node name="RerollButton" type="Button" parent="Root/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Reroll"

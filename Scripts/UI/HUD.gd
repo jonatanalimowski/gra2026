@@ -10,9 +10,10 @@ const GRAY: Color = Color(0.3, 0.3, 0.3, 1.0)
 @onready var boss_ui = %BossBar
 @onready var floor_label: Label = %FloorLabel
 @onready var experience_label: Label = %ExperienceLabel
+# above the hp/mana panel, bottom-anchored so it grows upwards as statuses come in
+@onready var status_list: VBoxContainer = %PlayerStatusList
 
 var pact_list: VBoxContainer
-var status_list: VBoxContainer
 var status_rows: Dictionary = {} # ActiveStatusEffect -> its time label
 var tab_hint: Label
 var hp_label: Label
@@ -44,9 +45,9 @@ func _ready() -> void:
 	pact_list = VBoxContainer.new()
 	UpdatePacts()
 	_on_experience_changed(RunState.collected_experience)
-	status_list = VBoxContainer.new()
-	mana_bar.get_parent().add_child(status_list)
-	mana_bar.get_parent().move_child(status_list, 0)
+	# the player sits before the UI in Main.tscn, so its player_ready fired before we connected
+	if is_instance_valid(NodeReferences.player) and NodeReferences.player.is_inside_tree():
+		_on_player_ready(NodeReferences.player)
 
 func ConnectSignals() -> void:
 	Signals.player_ready.connect(_on_player_ready)
@@ -85,9 +86,14 @@ func _on_attunement_reached(attunement: Attunement) -> void:
 	tween.tween_callback(label.queue_free)
 
 func _on_player_ready(new_player: Player):
+	if player == new_player:
+		return
 	player = new_player
 	player.status_holder.status_added.connect(_on_status_added)
 	player.status_holder.status_removed.connect(_on_status_removed)
+	# same story for the first bar values, they were emitted before we listened
+	UpdateHealth(player.health.current, player.health.maximum)
+	UpdateMana(player.mana, player.stats.GetStat(&"max_mana"))
 
 	var wand = player.wand
 	primary_spell_slot.texture = wand.data.icon
@@ -96,12 +102,13 @@ func _on_player_ready(new_player: Player):
 	heavy_spell_slot.texture = wand.data.icon
 	UpdateHeavySlot()
 
-# one row per status under the bars: icon (if it has one) + name + time left
+# one row per status above the bars: icon (if it has one) + name + stacks + time left
 func _on_status_added(status: ActiveStatusEffect) -> void:
 	var row = HBoxContainer.new()
 	if status.effect.icon:
 		var icon = TextureRect.new()
 		icon.texture = status.effect.icon
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
 		row.add_child(icon)
 	var label = Label.new()
 	label.modulate = status.effect.color
@@ -115,7 +122,8 @@ func _on_status_removed(status: ActiveStatusEffect) -> void:
 
 func _process(_delta: float) -> void:
 	for status in status_rows:
-		status_rows[status].text = "%s %.1fs" % [status.effect.name, maxf(status.time_left, 0.0)]
+		var stacks = " x%d" % status.stacks if status.stacks > 1 else ""
+		status_rows[status].text = "%s%s %.1fs" % [status.effect.name, stacks, maxf(status.time_left, 0.0)]
 
 # grayed out while the wand has no heavy spell or the player can't pay for it
 func UpdateHeavySlot() -> void:

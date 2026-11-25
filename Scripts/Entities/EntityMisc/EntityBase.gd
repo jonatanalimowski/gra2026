@@ -64,6 +64,7 @@ var is_elite: bool = false
 var affixes: Array[Affix] = []
 var ward_group: StringName = &"" # immune to statuses of this group (Warded affix, Kindled Halls omen)
 var is_risen: bool = false # Restless Dead: already came back once
+var struck_by_player: bool = false # Sudden Strike keystone: took its guaranteed first crit (CritRules)
 # the room's floor in global space (EnemyRoom.GetBounds), KeepInsideRoom pulls us back if we leave it
 var room_bounds: Array[Rect2] = []
 var last_safe_position: Vector2 = Vector2.INF
